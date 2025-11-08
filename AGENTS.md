@@ -5,6 +5,7 @@
 This repository contains extracted and cleaned API documentation for **both Affinity API v1 and v2**. Both versions will be maintained in this repository.
 
 **Affinity API Versions:**
+
 - **v1**: Legacy API documented at https://api-docs.affinity.co/
   - Currently being worked on - main file: `docs/v1/affinity_api_docs.md`
 - **v2**: New API with different approach/terminology, documented at https://developer.affinity.co/
@@ -12,6 +13,7 @@ This repository contains extracted and cleaned API documentation for **both Affi
   - v2 is **not** a superset of v1 - they are separate APIs with different designs
 
 The current v1 documentation file is located at `docs/v1/affinity_api_docs.md` and contains:
+
 - Complete API endpoint documentation
 - Request/response formats
 - Parameter descriptions
@@ -23,15 +25,17 @@ The current v1 documentation file is located at `docs/v1/affinity_api_docs.md` a
 ## Current Status
 
 The markdown file has been:
+
 - ✅ Extracted from the live documentation site
 - ✅ Fixed encoding issues and typos
 - ✅ Corrected formatting inconsistencies
 - ✅ Standardized markdown syntax
 - ✅ Fixed table formatting
 - ✅ Corrected outline/TOC structure
+- ✅ Automated updates via GitHub Actions
+- ✅ Last updated timestamp (automatically maintained)
 - ⚠️ **Missing**: Code examples (cURL, Ruby, Python, Node.js) for API endpoints
 - ⚠️ **Missing**: Request/response JSON examples
-- ⚠️ **Missing**: Last updated timestamp
 
 ## Project Structure
 
@@ -39,24 +43,46 @@ The markdown file has been:
 affinity-api-docs/
 ├── AGENTS.md (this file)
 ├── README.md (project README)
+├── REPOSITORY_STRUCTURE.md (structure documentation)
+├── requirements-ci.txt (CI/CD dependencies)
+├── pytest.ini (pytest configuration)
+├── pyproject.toml (Python tooling config)
+├── .pre-commit-config.yaml (pre-commit hooks)
+├── .markdownlint.json (markdown linting rules)
+├── .yamllint.yml (YAML linting rules)
 ├── .gitignore (gitignore rules)
+├── .github/
+│   ├── workflows/ (GitHub Actions workflows)
+│   │   ├── check-docs-updates.yml
+│   │   ├── pre-commit.yml
+│   │   └── tests.yml
+│   ├── scripts/ (CI/CD automation scripts)
+│   │   ├── check_and_update_docs.py
+│   │   └── validate_docs_structure.py
+│   ├── docs-version-v1.json (version tracking)
+│   └── docs-version-v2.json (version tracking)
 ├── docs/
 │   ├── v1/
-│   │   └── affinity_api_docs.md (v1 documentation - in progress)
-│   └── v2/ (v2 documentation - planned for future)
-├── scripts/ (temporary extraction/processing scripts - gitignored)
-│   ├── extract_code_examples.py
-│   ├── parse_and_add_examples.py
-│   └── *.py (all scripts are temporary/throwaway)
-├── tmp/ (temporary outputs - gitignored)
-│   ├── api_docs_raw.html (fetched HTML)
-│   ├── code_blocks.json (extracted code blocks)
-│   └── extracted_*.json (other extracted data)
-└── .dev/ (development notes - gitignored)
-    └── notes.md (development notes)
+│   │   └── affinity_api_docs.md (v1 documentation)
+│   ├── v2/ (v2 documentation - planned)
+│   └── development/ (development documentation)
+│       ├── TESTING.md
+│       ├── TEST_RESULTS.md
+│       └── PRE_COMMIT.md
+├── tests/ (test suite)
+│   ├── README.md
+│   ├── conftest.py
+│   ├── test_documentation_updates.py (pytest tests)
+│   ├── test-local.sh (legacy)
+│   ├── test-edge-cases.sh (legacy)
+│   ├── test-production-scenarios.sh (legacy)
+│   └── test-realistic-scenarios.py (legacy)
+├── scripts/ (temporary - gitignored)
+└── tmp/ (temporary outputs - gitignored)
 ```
 
 **Key Points:**
+
 - `docs/` - All documentation files (committed to git)
 - `scripts/` - **All scripts are temporary/throwaway** (gitignored)
   - These are one-off extraction/processing scripts for this iterative project
@@ -84,12 +110,14 @@ The live API documentation site includes code examples in multiple languages (cU
 4. Include a `json` code block with example response data
 
 Example structure:
+
 - `#### Example Request` section with language-specific code blocks
 - `#### Example Response` section with JSON example
 
 ### 2. Extract Code Examples from Live Site
 
 The HTML from https://api-docs.affinity.co/ has been fetched and saved. Code examples need to be:
+
 - Parsed from the HTML
 - Matched to their corresponding endpoints
 - Cleaned of HTML entities and formatting
@@ -129,10 +157,12 @@ The live site includes a "Last updated" timestamp that should be added to the do
 ## Authentication
 
 **Affinity API v1** (this documentation) uses:
+
 - **HTTP Basic Auth**: Provide API key as basic auth password (no username needed)
 - **HTTP Bearer Auth**: Also supported - provide API key as bearer token
 
 **Affinity API v2** (separate API, not yet documented here) uses:
+
 - **HTTP Bearer Auth only**: Provide API key as bearer token
 
 All examples in this v1 documentation should use `YOUR_API_KEY` or `$APIKEY` as placeholder.
@@ -157,4 +187,3 @@ All examples in this v1 documentation should use `YOUR_API_KEY` or `$APIKEY` as 
 - **v1**: Legacy API, uses Basic Auth (no username) or Bearer Auth
 - **v2**: New API, uses Bearer Auth only, different terminology and approach
 - v2 is **not** a superset of v1 - they are separate APIs with different designs
-
