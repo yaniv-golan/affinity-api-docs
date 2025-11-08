@@ -1,7 +1,41 @@
-# Affinity API Documentation
+# Affinity API v1 Documentation (Markdown Copy)
 
-> This documentation was extracted from the Affinity API reference page.
-> Source: https://api-docs.affinity.co/
+## ⚠️ Important Disclaimer
+
+**This is an UNOFFICIAL markdown copy of the Affinity API v1 documentation.** The official and authoritative documentation is maintained by Affinity at:
+
+**📚 Official Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
+
+**Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
+
+## About This Document
+
+This markdown version of the Affinity API v1 documentation was created to provide:
+
+- **Better compatibility with AI coding assistants** - Static markdown format is easier for AI tools to parse and reference
+- **Offline access** - Work with the documentation without an internet connection
+- **Text-based search** - Easier to search and navigate compared to interactive websites
+- **Version control** - Track changes and updates over time
+
+**Source:** Extracted from the live Affinity API documentation at https://api-docs.affinity.co/
+
+## Use at Your Own Risk
+
+While every effort is made to ensure accuracy and keep this documentation synchronized with the official Affinity documentation, this is an **unofficial copy** and may contain:
+
+- Errors or omissions
+- Outdated information
+- Formatting differences from the original
+
+**For production use or critical implementations, always verify against the [official Affinity API documentation](https://api-docs.affinity.co/).**
+
+## Contact & Support
+
+For API support or questions about the Affinity API itself, contact Affinity directly:
+
+- **Affinity Support:** support@affinity.co
+- **Official v1 Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
+- **Official v2 Documentation:** [https://developer.affinity.co/](https://developer.affinity.co/)
 
 ---
 
