@@ -21,20 +21,8 @@ repos:
         args: [--fix=lf]
 
   # Python code formatting and linting
-  - repo: https://github.com/psf/black
-    rev: 25.9.0
-    hooks:
-      - id: black
-        files: ^\.github/scripts/.*\.py$
-
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        args: [--profile=black]
-        files: ^\.github/scripts/.*\.py$
-        stages: [pre-commit]  # Override deprecated stage names from repository
-
+  # Note: Using ruff-format instead of black (ruff-format is a drop-in replacement)
+  # Using ruff for both linting and formatting avoids conflicts between formatters
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.9
     hooks:
