@@ -607,11 +607,11 @@ GET /lists/{list_id}/list-entries Response:
 
 ```
 
-3. For each list entry, query [`GET /organizationss/{organization_id}`](#organization-organization_id) to get all list people associated with the organization. Store the `person_ids` associated with each organization
+3. For each list entry, query [`GET /organizations/{organization_id}`](#organization-organization_id) to get all list people associated with the organization. Store the `person_ids` associated with each organization
 
 ```
 
-GET /organizationss/7133202 Response:
+GET /organizations/7133202 Response:
 {
   "id": 7133202,
   "name": "Affinity",
@@ -942,7 +942,7 @@ Let us consider two examples:
 
 By default, Affinity provides all teams with a few default global fields: For people, the global fields include Location, Job Title, and Industries. For organizations, the global fields include Stage, Website, and more.
 
-- Global field IDs for people are returned from GET /personss/fields
+- Global field IDs for people are returned from GET /persons/fields
 
 #### Example Request
 
@@ -964,9 +964,9 @@ curl "https://api.affinity.co/lists/450/list-entries/56517" \
 }
 ```
 
-## GET /personss/fields
+## GET /persons/fields
 
-- Global field IDs for organizations are returned from GET /organizationss/fields
+- Global field IDs for organizations are returned from GET /organizations/fields
 
 #### Example Request
 
@@ -982,7 +982,7 @@ curl "https://api.affinity.co/persons/fields" -u :$APIKEY
 }
 ```
 
-## GET /organizationss/fields
+## GET /organizations/fields
 
 - List-specific field IDs are also returned from GET /list/{list_id}
 
@@ -1359,7 +1359,7 @@ An array of all the field values associated with the supplied person, organizati
 > - If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for these entities.
 
 > **Note**
-> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /personss/{person_id} or GET /organizationss/{organization_id} endpoint.
+> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /persons/{person_id} or GET /organizations/{organization_id} endpoint.
 
 > **Note**
 > Field value endpoint does return Crunchbase fields, but with null values.
@@ -1587,11 +1587,11 @@ An object with two fields: person and next_page_token. person maps to an array o
 #### Example Request
 
 ```bash
-GET /personss/{person_id}
+GET /persons/{person_id}
 ```
 
 ```bash
-GET /personss/{person_id}
+GET /persons/{person_id}
 ```
 
 ```bash
@@ -1603,7 +1603,7 @@ GET /personss/{person_id}
 ```
 
 ```bash
-GET /personss
+GET /persons
 ```
 
 ```bash
@@ -1651,7 +1651,7 @@ curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current
 ```
 
 ```bash
-GET /personss/{person_id}
+GET /persons/{person_id}
 ```
 
 ```bash
@@ -1714,7 +1714,7 @@ DELETE /persons/{person_id}
 }
 ```
 
-## GET /personss/{person_id}
+## GET /persons/{person_id}
 
 Fetch a person with a specified person_id.
 
@@ -1843,7 +1843,7 @@ curl "https://api.affinity.co/persons/860197" \
 }
 ```
 
-## GET /personss/fields
+## GET /persons/fields
 
 Fetch an array of all the global fields that exist on people. If you aren't sure about what fields are, please read the Field section first.
 
@@ -1914,11 +1914,11 @@ interaction objects An object with seven fields nested underneath. Each field co
 #### Example Request
 
 ```bash
-GET /organizationss/{organization_id}
+GET /organizations/{organization_id}
 ```
 
 ```bash
-GET /organizationss/7133202 Response:
+GET /organizations/7133202 Response:
 {
 "id": 7133202,
 "name": "Affinity",
@@ -1942,23 +1942,23 @@ GET /organizationss/7133202 Response:
 ```
 
 ```bash
-GET /organizationss/{organization_id}
+GET /organizations/{organization_id}
 ```
 
 ```bash
-GET /organizationss/{organization_id}
+GET /organizations/{organization_id}
 ```
 
 ```bash
-GET /organizationss
+GET /organizations
 ```
 
 ```bash
-GET /organizationss/{organization_id}
+GET /organizations/{organization_id}
 ```
 
 ```bash
-GET /organizationss
+GET /organizations
 ```
 
 ```bash
@@ -2008,7 +2008,7 @@ curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
 ```
 
 ```bash
-GET /organizationss/{organization_id}
+GET /organizations/{organization_id}
 ```
 
 ```bash
@@ -2092,7 +2092,7 @@ An object with two fields: organization and next_page_token. organization maps t
 
 #### Get a Specific Organization
 
-## GET /organizationss/{organization_id}
+## GET /organizations/{organization_id}
 
 Fetch an organization with a specified organization_id.
 
@@ -2278,7 +2278,7 @@ DELETE /opportunities/{opportunity_id}
 }
 ```
 
-## GET /organizationss/fields
+## GET /organizations/fields
 
 Fetch an array of all the global fields that exist on organizations. If you aren't sure about what fields are, please read the Field section first.
 
