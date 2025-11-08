@@ -1,0 +1,48 @@
+# Affinity API Documentation
+
+> llms.txt format - Index of API documentation for Large Language Models and AI agents.
+>
+> This file provides links to comprehensive API documentation in markdown format.
+> For more information about the llms.txt format, see: https://langchain-ai.github.io/langgraph/llms-txt-overview/
+
+---
+
+## Documentation Files
+
+### API v1 Documentation (Legacy)
+- [Affinity API v1 Documentation](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs.md): Complete API documentation for Affinity API v1. Includes authentication (Basic Auth and Bearer Token), all endpoints (List, Person, Organization, Opportunity, Interaction, Note, Webhook, etc.), request/response formats, rate limits, common use cases, and code examples.
+
+### API v2 Documentation (Current)
+- Coming soon - Planned for future implementation
+
+---
+
+## Repository Information
+
+- **Repository**: https://github.com/yaniv-golan/affinity-api-docs
+- **Official v1 Documentation**: https://api-docs.affinity.co/
+- **Official v2 Documentation**: https://developer.affinity.co/
+- **Last Updated**: 2025-11-08
+
+---
+
+## Important Notes
+
+⚠️ **This is an UNOFFICIAL markdown copy of the Affinity API documentation.**
+
+The official and authoritative documentation is maintained by Affinity. Always refer to the official documentation for the most up-to-date and accurate information.
+
+---
+
+## Usage
+
+For AI coding assistants and LLMs:
+- Follow the links above to access the full documentation
+- The markdown format is optimized for AI parsing
+- All content is available via raw GitHub URLs
+
+For IDEs (Cursor, Windsurf, Claude):
+- Add this file as custom documentation
+- The IDE will automatically fetch linked content
+- Supports RAG and chunking strategies
+- Can be used with MCP servers like [mcpdoc](https://github.com/langchain-ai/mcpdoc)
