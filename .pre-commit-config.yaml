@@ -1,0 +1,87 @@
+# Pre-commit hooks configuration
+# See https://pre-commit.com for more information
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]  # Allow custom YAML tags
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1000]  # Warn on files > 1MB
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-toml
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  # Python code formatting and linting
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        files: ^\.github/scripts/.*\.py$
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black]
+        files: ^\.github/scripts/.*\.py$
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^\.github/scripts/.*\.py$
+      - id: ruff-format
+        files: ^\.github/scripts/.*\.py$
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args: [--fix, --config=.markdownlint.json]
+        files: ^(docs/|README\.md|AGENTS\.md|.*\.md)$
+        exclude: ^docs/v1/affinity_api_docs\.md$  # Exclude large API docs - too many false positives
+
+  # YAML linting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        args: [-c=.yamllint.yml]
+        files: \.(yaml|yml)$
+
+  # Custom repository-specific checks
+  - repo: local
+    hooks:
+      - id: validate-docs-structure
+        name: Validate documentation structure
+        entry: python3 .github/scripts/validate_docs_structure.py
+        language: system
+        types: [file]
+        files: ^(docs/|\.github/docs-version-.*\.json)$
+        pass_filenames: false
+        always_run: true
+
+      - id: validate-version-metadata
+        name: Validate version metadata JSON
+        entry: python3 -c "import json, sys; [json.load(open(f)) for f in sys.argv[1:]]"
+        language: system
+        types: [file]
+        files: ^\.github/docs-version-.*\.json$
+
+      - id: check-workflow-paths
+        name: Check workflow file paths
+        entry: bash -c 'grep -r "requirements-ci.txt\|\.github/scripts" .github/workflows/*.yml || exit 0'
+        language: system
+        types: [file]
+        files: ^\.github/workflows/.*\.yml$
