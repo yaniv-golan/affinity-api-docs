@@ -48,17 +48,17 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
   - [Authentication](#authentication)
-  - [Request & Response](#request--response)
-- [Rate Limit](#rate-limit)
+  - [Requests & Responses](#requests--responses)
+- [Rate Limits](#rate-limits)
   - [API Rate Limit](#api-rate-limit)
   - [Webhook Subscription Limit](#webhook-subscription-limit)
   - [Rate Limit Header](#rate-limit-header)
 - [Data Model](#data-model)
   - [Overview](#overview)
-  - [Default Field](#default-field)
-- [Common Use Case](#common-use-case)
+  - [Default Fields](#default-fields)
+- [Common Use Cases](#common-use-cases)
   - [Getting Field Value for All List Entries on a List](#getting-field-value-for-all-list-entries-on-a-list)
-  - [Getting Field Value Change for Status Field](#getting-field-value-change-for-status-field)
+  - [Getting Field Value Changes for Status Fields](#getting-field-value-changes-for-status-fields)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
 - [Useful Resources](#useful-resources)
 - [Partner With Us](#partner-with-us)
@@ -161,9 +161,9 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 
 Welcome to the Affinity API! This API provides a RESTful interface for performing operations on the different objects that make up Affinity. If you are trying to accomplish an action through this API and are not sure on what endpoints to use, or if you have ideas on more endpoints we could create to make your workflow easier, please do not hesitate to contact us at [support@affinity.co](mailto:support@affinity.co).
 
-## Getting Started
+# Getting Started
 
-### Authentication
+## Authentication
 
 Authentication using HTTP Basic Auth.
 
@@ -191,7 +191,7 @@ Currently, we support one key per user on your team. Once you have generated a k
 > **Note**  
 > Changes made through the API will be attributed to the person the API key is assigned to.
 
-### Request & Response
+## Requests & Responses
 
 This is a full-featured RESTful API. We provide reading & writing functionality for each object type in Affinity. All requests use the base URL of https://api.affinity.co/.
 
@@ -202,7 +202,7 @@ Here is a list of all the error codes the Affinity API returns in case something
 | Error Code | Meaning |
 |------------|---------|
 | 401 | Unauthorized -- Your API key is invalid. |
-| 403 | Forbidden -- Insufficient rights to a resource. |
+| 403 | Forbidden --  Insufficient rights to a resource. |
 | 404 | Not Found -- Requested resource does not exist. |
 | 422 | Unprocessable Entity -- Malformed parameters supplied. This can also happen in cases the parameters supplied logically cannot complete the request. In this case, an appropriate error message is delivered. |
 | 429 | Too Many Requests -- You have exceed the rate limit. |
@@ -272,9 +272,9 @@ Each external API call will include headers with information about monthly and p
 
 See the [/rate-limit](#rate-limit) endpoint for more details.
 
-## Data Model
+# Data Model
 
-### Overview
+## Overview
 
 The three top-level objects in Affinity are Persons, Organizations, and Opportunities, and everything in the product is centered around these three resources. We refer to a data model that is a person, organization, or opportunity as an "Entity".
 
@@ -299,11 +299,41 @@ The data in each cell is represented by a "Field Value". There are both regular 
 > Although Smart Fields show up as a column in the List, they **do not** exist in the API in the same way **Global Fields** and **List-specific Fields** ones do.  
 > To retrieve **Smart Field Values**, see the [Retrieving Field Values](#retrieving-field-values) section.
 
-### Default Field
+## Default Fields
 
 By default, Affinity creates some fields for you automatically. Below are the fields created by type:
 
-## Common Use Cases
+### Global Fields
+
+- Location
+- Industry
+- Job Titles
+- LinkedIn URL
+- Phone Number
+- Connections
+- Source of Introduction
+- Lists
+- Crunchbase Data
+- Affinity Data
+- Pitchbook Data
+
+### Smart Fields
+
+- First Email
+- Last Email
+- First Event (First Meeting)
+- Next Event (Next Meeting)
+- Last Event (Last Meeting)
+- Last Interaction
+- Date Added
+
+### List-specific Fields
+
+- Status
+- Owners
+- Amount
+
+# Common Use Cases
 
 Use the common use cases below to learn how Affinity API endpoints work.
 
@@ -626,7 +656,7 @@ GET /relationships-strengths Response:
 
 If you're a developer interested in building an integration with Affinity's relationship intelligence platform for your customers, please [get in touch here](https://53mt2d9of77.typeform.com/to/LhEs2tzU).
 
-#### List
+# Lists
 
 Lists are the primary data structure that you can interact with in Affinity. Each list manages a collection of either people, organizations, or opportunities. We call people, organizations, and opportunities "entities".
 
@@ -744,9 +774,9 @@ additional_permission object[] false A list of additional internal persons and t
 
 The list resource that was just created through this request.
 
-#### List Entries
+# List Entries
 
-#### The List Entry Resource
+## The List Entry Resource
 
 Each list comprises a number of entries. Each list entry has a creator, a list that it belongs to, and the underlying entity it represents depending on the type of the list (people, organizations, or opportunities).
 
@@ -895,7 +925,7 @@ The JSON object {"success": true}.
 > **Note**
 > If the list entry belongs to an Opportunity list, then the opportunity that the list entry is associated with will also be deleted.
 
-#### Field
+# Fields
 
 As discussed in the previous section, fields as a data model represent the "columns" in a spreadsheet. A field can be specific to a given list, or it can be global. List-specific fields appear as columns only in that particular list, while global fields appear as columns in all lists.
 
@@ -1065,7 +1095,7 @@ Delete a field with the specified id.
 
 {"success": true}
 
-#### Field Value
+# Field Values
 
 Field values are displayed in Affinity as the data in the cells of an Affinity spreadsheet.
 
@@ -1077,7 +1107,7 @@ As an example for how a field value is created:
 - A value, 50,000, is entered in the cell corresponding to person X in the Deal Size column.
 - 50,000 is now a field value tied to the list entry corresponding to person X, and the "Deal Size" field.
 > **Note**
-> By default, Affinity creates some fields for you automatically. These include Location, Industry, Job Title, and more. See the Default Field section for more information.
+> By default, Affinity creates some fields for you automatically. These include Location, Industry, Job Title, and more. See the Default Fields section for more information.
 
 > **Note**
 > Opportunities cannot have global field values.
@@ -4185,3 +4215,7 @@ GET /rate-limit
   "id": 123
 }
 ```
+
+---
+
+Last updated 11/06/2025 18:49:04
