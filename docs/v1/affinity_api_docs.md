@@ -267,11 +267,12 @@ Each external API call will include headers with information about monthly and p
 
 | Header Name | Description |
 |-------------|-------------|
-| X-Affinity-RateLimit-Limit | The total number of requests allowed per month for your account. |
-| X-Affinity-RateLimit-Remaining | The number of requests remaining in the current monthly period. |
-| X-Affinity-RateLimit-Reset | The timestamp (Unix epoch) when the monthly rate limit resets. |
-| X-Affinity-RateLimit-PerMinute-Limit | The maximum number of requests allowed per minute per user (typically 900). |
-| X-Affinity-RateLimit-PerMinute-Remaining | The number of requests remaining in the current minute window. |
+| X-Ratelimit-Limit-User | Number of requests allowed per minute for the user. |
+| X-Ratelimit-Limit-User-Remaining | Number of requests remaining for the user. |
+| X-Ratelimit-Limit-User-Reset | Time in seconds before the limit resets for the user. |
+| X-Ratelimit-Limit-Org | Number of requests allowed per month for the organization. |
+| X-Ratelimit-Limit-Org-Remaining | Number of requests remaining for the organization. |
+| X-Ratelimit-Limit-Org-Reset | Time in seconds before the limit resets for the organization. |
 
 See the [/rate-limit](#rate-limit) endpoint for more details.
 
@@ -469,7 +470,7 @@ GET /fields Response:
 3. Query [`GET /field-value-changes`](#field-value-change) passing in the `id` from Step 2
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -515,7 +516,7 @@ GET /field-values-changes Response:
 4. Filter results of [`GET /field-value-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -606,11 +607,11 @@ GET /lists/{list_id}/list-entries Response:
 
 ```
 
-3. For each list entry, query [`GET /organizations/{organization_id}`](#organization-organization_id) to get all list people associated with the organization. Store the `person_ids` associated with each organization
+3. For each list entry, query [`GET /organizationss/{organization_id}`](#organization-organization_id) to get all list people associated with the organization. Store the `person_ids` associated with each organization
 
 ```
 
-GET /organizations/7133202 Response:
+GET /organizationss/7133202 Response:
 {
   "id": 7133202,
   "name": "Affinity",
@@ -941,7 +942,7 @@ Let us consider two examples:
 
 By default, Affinity provides all teams with a few default global fields: For people, the global fields include Location, Job Title, and Industries. For organizations, the global fields include Stage, Website, and more.
 
-- Global field IDs for people are returned from GET /person/field
+- Global field IDs for people are returned from GET /personss/fields
 
 #### Example Request
 
@@ -963,9 +964,9 @@ curl "https://api.affinity.co/lists/450/list-entries/56517" \
 }
 ```
 
-## GET /person/field
+## GET /personss/fields
 
-- Global field IDs for organizations are returned from GET /organization/field
+- Global field IDs for organizations are returned from GET /organizationss/fields
 
 #### Example Request
 
@@ -981,7 +982,7 @@ curl "https://api.affinity.co/persons/fields" -u :$APIKEY
 }
 ```
 
-## GET /organization/field
+## GET /organizationss/fields
 
 - List-specific field IDs are also returned from GET /list/{list_id}
 
@@ -1163,11 +1164,11 @@ GET /field-values Response:
 ```
 
 ```bash
-GET /field-values-changes
+GET /field-value-changes
 ```
 
 ```bash
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
 {
 "id": 7,
@@ -1211,11 +1212,11 @@ GET /field-values-changes Response:
 ```
 
 ```bash
-GET /field-values-changes
+GET /field-value-changes
 ```
 
 ```bash
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
 {
 "id": 7,
@@ -1358,7 +1359,7 @@ An array of all the field values associated with the supplied person, organizati
 > - If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for these entities.
 
 > **Note**
-> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /person/{person_id} or GET /organization/{organization_id} endpoint.
+> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /personss/{person_id} or GET /organizationss/{organization_id} endpoint.
 
 > **Note**
 > Field value endpoint does return Crunchbase fields, but with null values.
@@ -1526,7 +1527,7 @@ The person resource organization_id is a collection of unique identifiers to the
 >
 > The person resource type indicate whether a person is internal or external to your team. Every internal person is a user of Affinity on your team, and all other people are external.
 >
-> Dates of the most recent and upcoming interactions with a person are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /person endpoint.
+> Dates of the most recent and upcoming interactions with a person are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /persons endpoint.
 >
 > id integer The unique identifier of the person object.
 >
@@ -1567,7 +1568,7 @@ The person resource organization_id is a collection of unique identifiers to the
 
 #### Search for Person
 
-## GET /person
+## GET /persons
 
 Search your team's data and fetch all the people that meet the search criteria. The search term can be part of an email address, a first name or a last name.
 
@@ -1586,11 +1587,11 @@ An object with two fields: person and next_page_token. person maps to an array o
 #### Example Request
 
 ```bash
-GET /persons/{person_id}
+GET /personss/{person_id}
 ```
 
 ```bash
-GET /persons/{person_id}
+GET /personss/{person_id}
 ```
 
 ```bash
@@ -1602,7 +1603,7 @@ GET /persons/{person_id}
 ```
 
 ```bash
-GET /persons
+GET /personss
 ```
 
 ```bash
@@ -1650,7 +1651,7 @@ curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current
 ```
 
 ```bash
-GET /persons/{person_id}
+GET /personss/{person_id}
 ```
 
 ```bash
@@ -1713,7 +1714,7 @@ DELETE /persons/{person_id}
 }
 ```
 
-## GET /person/{person_id}
+## GET /personss/{person_id}
 
 Fetch a person with a specified person_id.
 
@@ -1744,7 +1745,7 @@ curl "https://api.affinity.co/persons/860197" \
 }
 ```
 
-## POST /person
+## POST /persons
 
 Create a new person with the supplied parameters.
 
@@ -1776,7 +1777,7 @@ curl -X POST "https://api.affinity.co/persons" \
 }
 ```
 
-## PUT /person/{person_id}
+## PUT /persons/{person_id}
 
 Update an existing person with person_id with the supplied parameters. Only attributes that need to be changed must be passed in.
 
@@ -1808,7 +1809,7 @@ curl -X PUT "https://api.affinity.co/persons/860197" \
 }
 ```
 
-## DELETE /person/{person_id}
+## DELETE /persons/{person_id}
 
 Delete a person with a specified person_id.
 
@@ -1842,7 +1843,7 @@ curl "https://api.affinity.co/persons/860197" \
 }
 ```
 
-## GET /person/field
+## GET /personss/fields
 
 Fetch an array of all the global fields that exist on people. If you aren't sure about what fields are, please read the Field section first.
 
@@ -1877,9 +1878,9 @@ Each organization also has a flag determining whether it's global or not. As men
 >
 > Of course, if an organization is manually created by your team, all fields can be modified and the organization can be deleted.
 >
-> Dates of the most recent and upcoming interactions with an organization are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /organization endpoint.
+> Dates of the most recent and upcoming interactions with an organization are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /organizations endpoint.
 
-## GET /organization
+## GET /organizations
 
 id integer The unique identifier of the organization object.
 
@@ -1913,11 +1914,11 @@ interaction objects An object with seven fields nested underneath. Each field co
 #### Example Request
 
 ```bash
-GET /organizations/{organization_id}
+GET /organizationss/{organization_id}
 ```
 
 ```bash
-GET /organizations/7133202 Response:
+GET /organizationss/7133202 Response:
 {
 "id": 7133202,
 "name": "Affinity",
@@ -1941,23 +1942,23 @@ GET /organizations/7133202 Response:
 ```
 
 ```bash
-GET /organizations/{organization_id}
+GET /organizationss/{organization_id}
 ```
 
 ```bash
-GET /organizations/{organization_id}
+GET /organizationss/{organization_id}
 ```
 
 ```bash
-GET /organizations
+GET /organizationss
 ```
 
 ```bash
-GET /organizations/{organization_id}
+GET /organizationss/{organization_id}
 ```
 
 ```bash
-GET /organizations
+GET /organizationss
 ```
 
 ```bash
@@ -2007,7 +2008,7 @@ curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
 ```
 
 ```bash
-GET /organizations/{organization_id}
+GET /organizationss/{organization_id}
 ```
 
 ```bash
@@ -2070,7 +2071,7 @@ DELETE /organizations/{organization_id}
 }
 ```
 
-## GET /organization
+## GET /organizations
 
 Search your team's data and fetch all the organizations that meet the search criteria. The search term can be a part of an organization's name or domain.
 
@@ -2091,7 +2092,7 @@ An object with two fields: organization and next_page_token. organization maps t
 
 #### Get a Specific Organization
 
-## GET /organization/{organization_id}
+## GET /organizationss/{organization_id}
 
 Fetch an organization with a specified organization_id.
 
@@ -2101,7 +2102,7 @@ The organization object corresponding to the organization_id.
 
 #### Create a New Organization
 
-## POST /organization
+## POST /organizations
 
 Create a new organization with the supplied parameters.
 
@@ -2130,7 +2131,7 @@ curl -X POST "https://api.affinity.co/organizations" \
 }
 ```
 
-## PUT /organization/{organization_id}
+## PUT /organizations/{organization_id}
 
 Update an existing organization with organization_id with the supplied parameters.
 
@@ -2162,7 +2163,7 @@ curl -X PUT "https://api.affinity.co/organizations/120611418" \
 }
 ```
 
-## DELETE /organization/{organization_id}
+## DELETE /organizations/{organization_id}
 
 Delete an organization with a specified organization_id.
 
@@ -2277,7 +2278,7 @@ DELETE /opportunities/{opportunity_id}
 }
 ```
 
-## GET /organization/field
+## GET /organizationss/fields
 
 Fetch an array of all the global fields that exist on organizations. If you aren't sure about what fields are, please read the Field section first.
 
@@ -2628,7 +2629,7 @@ DELETE /interactions/{id}
 }
 ```
 
-## GET /interaction/{id}
+## GET /interactions/{id}
 
 Get the detail for a specific interaction given the existing ID and type.
 
@@ -2659,7 +2660,7 @@ curl "https://api.affinity.co/interactions/22984?type=0" \
 }
 ```
 
-## POST /interaction
+## POST /interactions
 
 Create a new interaction with the supplied parameters.
 
@@ -2702,7 +2703,7 @@ curl -X POST "https://api.affinity.co/interactions" \
 }
 ```
 
-## PUT /interaction/{id}
+## PUT /interactions/{id}
 
 Update the content of an existing interaction with the supplied parameters.
 
@@ -2741,7 +2742,7 @@ curl -X PUT "https://api.affinity.co/interactions/3007" \
 }
 ```
 
-## DELETE /interaction/{id}
+## DELETE /interactions/{id}
 
 Delete the interaction with the specified id.
 
@@ -3304,7 +3305,7 @@ POST /entity-files
 }
 ```
 
-## GET /entity-file/{entity_file_id}
+## GET /entity-files/{entity_file_id}
 
 Fetch an entity file with a specified entity_file_id.
 
@@ -3328,7 +3329,7 @@ curl "https://api.affinity.co/entity-files" -u :$APIKEY
 }
 ```
 
-## GET /entity-file/download/{entity_file_id}
+## GET /entity-files/download/{entity_file_id}
 
 Download an entity file with a specified entity_file_id.
 
@@ -3358,7 +3359,7 @@ curl "https://api.affinity.co/entity-files/download/12345" \
 }
 ```
 
-## POST /entity-file
+## POST /entity-files
 
 Upload file attached to the entity with the given id.
 
@@ -3519,7 +3520,7 @@ DELETE /reminders/{reminder_id}
 }
 ```
 
-## GET /reminder/{reminder_id}
+## GET /reminders/{reminder_id}
 
 Get the details for a specific reminder given the existing reminder id.
 
@@ -3550,7 +3551,7 @@ curl "https://api.affinity.co/reminders/22984" \
 }
 ```
 
-## POST /reminder
+## POST /reminders
 
 Create a new reminder with the supplied parameters.
 
@@ -3579,9 +3580,9 @@ opportunity_id integer false A unique identifier that represents an Opportunity 
 due_date string false A string (formatted according to ISO 8601) representing the due date of the reminder to be created. Required when type == 0.
 
 | due_date | string | false | A string (formatted according to ISO 8601) representing the due date of the reminder to be created. Required when type == 0. |
-reminder_day integer false When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1.
+reminder_days integer false When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1.
 
-| reminder_day | integer | false | When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1. |
+| reminder_days | integer | false | When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1. |
 is_completed integer false Indicator if the reminder has been completed.
 
 | is_completed | integer | false | Indicator if the reminder has been completed. |
@@ -3615,7 +3616,7 @@ curl -X POST "https://api.affinity.co/reminders" \
 }
 ```
 
-## PUT /reminder/{reminder_id}
+## PUT /reminders/{reminder_id}
 
 Update the content of an existing reminder with reminder_id with the supplied parameters.
 
@@ -3628,7 +3629,7 @@ Update the content of an existing reminder with reminder_id with the supplied pa
 | type | integer | false | The type of reminder to be updated. |
 | reset_type | integer | false | The reset type of reminder to be updated. Required when type == 1. |
 | due_date | string | false | A string (formatted according to ISO 8601) representing the due date of the reminder to be updated. Required when type == 0. |
-| reminder_day | integer | false | When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1. |
+| reminder_days | integer | false | When a recurring reminder is completed or reset, the number of days before the reminder is due again. Required when type == 1. |
 | is_completed | integer | false | Indicator if the reminder has been completed. |
 
 #### Return
@@ -3654,7 +3655,7 @@ curl -X PUT "https://api.affinity.co/reminders/15385" \
 }
 ```
 
-## DELETE /reminder/{reminder_id}
+## DELETE /reminders/{reminder_id}
 
 Delete the reminder with the specified reminder_id.
 
@@ -3668,14 +3669,14 @@ Webhooks allow you to be notified of events that happen on your Affinity instanc
 
 #### The Webhook Subscription Resource
 
-Each webhook subscription object has a unique id. It also has a webhook_url and subscription associated with it.
+Each webhook subscription object has a unique id. It also has a webhook_url and subscriptions associated with it.
 
 | id | integer | The unique identifier of the webhook subscription object. | webhook_url | string | The URL to which the webhooks are sent. |
 webhook_url string The URL to which the webhooks are sent.
 
-subscription string[] An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See below for the complete list of supported webhook events.
+subscriptions string[] An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See below for the complete list of supported webhook events.
 
-| subscription | "string[]" | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [below](#supported-webhook-event) for the complete list of supported webhook events. | disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
+| subscriptions | "string[]" | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [below](#supported-webhook-event) for the complete list of supported webhook events. | disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
 disabled boolean If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it.
 
 created_by integer The unique identifier of the user who created the webhook subscription.
@@ -3690,7 +3691,7 @@ created_by integer The unique identifier of the user who created the webhook sub
 > **Note**
 > The Field Value webhook events do not include enrichment events; updates to enrichment field values are not supported.
 >
-> - Example of our webhook response can be found in the [Help Center](https://help.affinity.co).
+> - Examples of our webhook responses can be found in the [Help Center](https://support.affinity.co/s/article/Types-of-webhooks-available-with-Affinity-s-API).
 > - Field webhooks are not fired for Crunchbase fields.
 > - Field value webhooks are fired with `null` value for Crunchbase fields.
 
@@ -3869,7 +3870,7 @@ Create a new webhook subscription with the supplied parameters. If the endpoint 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | webhook_url | string | true | The URL to which the webhook will be sent. |
-| subscription | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
+| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
 
 #### Return
 
@@ -3905,7 +3906,7 @@ Update webhook subscription with the supplied parameters. A webhook subscription
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | webhook_url | string | false | The URL to which the webhook will be sent. |
-| subscription | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
+| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
 
 #### Return
 
@@ -4009,23 +4010,26 @@ JSON body of data including tenant, user, and grant information.
 curl "https://api.affinity.co/auth/whoami" -u :$API_KEY
 ```
 
-```bash
-curl "https://api.affinity.co/auth/whoami" -u :$API_KEY
-```
-
-```bash
-GET /auth/whoami
-```
-
-```bash
-/auth/whoami
-```
-
 #### Example Response
 
 ```json
 {
-  "id": 123
+    "tenant": {
+        "id": 1,
+        "name": "Affinity",
+        "subdomain": "affinity"
+    },
+    "user": {
+        "id": 2,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john@affinity.co"
+    },
+    "grant": {
+        "type": "api_key",
+        "scope": "external_api",
+        "createdAt": "2020-12-14T09:00:00.000-05:00"
+    }
 }
 ```
 
