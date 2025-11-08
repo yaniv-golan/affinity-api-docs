@@ -22,7 +22,7 @@
   - [Getting Field Value for All List Entries on a List](#getting-field-value-for-all-list-entries-on-a-list)
   - [Getting Field Value Change for Status Field](#getting-field-value-change-for-status-field)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
-- [Useful Resource](#useful-resource)
+- [Useful Resources](#useful-resources)
 - [Partner With Us](#partner-with-us)
 - [List](#list)
   - [The List Resource](#the-list-resource)
@@ -570,19 +570,15 @@ GET /relationships-strengths Response:
 
 ```
 
-## Useful Resource
+## Useful Resources
 
-- Postman Collection (Right-click and save as JSON then import into Postman)
+- [Postman Collection](/postman/collection.json) (Right-click and save as JSON then import into [Postman](https://www.postman.com/))
+- [Affinity Zapier Integrations](https://zapier.com/apps/affinity/integrations)
+- [Affinity Tray Connectors](https://tray.io/documentation/connectors/service/affinity)
 
-- Affinity Zapier Integration
+# Partner With Us
 
-- Affinity Tray Connector
-
-#### Partner With Us
-
-If you're a developer interested in building an integration with Affinity's relationship intelligence platform for your customers, please get in touch here.
-
-get in touch here
+If you're a developer interested in building an integration with Affinity's relationship intelligence platform for your customers, please [get in touch here](https://53mt2d9of77.typeform.com/to/LhEs2tzU).
 
 #### List
 
