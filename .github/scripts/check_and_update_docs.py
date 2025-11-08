@@ -8,6 +8,7 @@ This script:
 3. Creates a PR with updated documentation if changes are detected
 4. Adds a notice section to the documentation about the update
 """
+
 from __future__ import annotations
 
 import argparse
@@ -450,9 +451,9 @@ def check_and_update_docs(
         print(f"Skipping {api_version} - not yet enabled")
         return False
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Checking {api_version.upper()} documentation")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Load version metadata
     version_metadata = load_version_metadata(config["version_file"])
@@ -611,8 +612,8 @@ def check_and_update_docs(
 
 This PR was automatically created by the documentation update workflow.
 
-**Source**: [{api_version.upper()} API Documentation]({config['url']})
-**Detected Update**: {timestamp or 'Unknown timestamp'}
+**Source**: [{api_version.upper()} API Documentation]({config["url"]})
+**Detected Update**: {timestamp or "Unknown timestamp"}
 **Changes**: {diff_summary}
 
 ### What Changed
@@ -726,9 +727,9 @@ def main():
             results[version] = False
 
     # Summary
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Summary")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     for version, updated in results.items():
         status = "Updated" if updated else "No changes"
         print(f"{version.upper()}: {status}")
