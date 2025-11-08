@@ -55,7 +55,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 - [Rate Limits](#rate-limits)
   - [API Rate Limit](#api-rate-limit)
   - [Webhook Subscription Limit](#webhook-subscription-limit)
-  - [Rate Limit Header](#rate-limit-header)
+  - [Rate Limit Headers](#rate-limit-headers)
 - [Data Model](#data-model)
   - [Overview](#overview)
   - [Default Fields](#default-fields)
@@ -67,7 +67,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 - [Partner With Us](#partner-with-us)
 - [List](#list)
   - [The List Resource](#the-list-resource)
-  - [Get All List](#get-all-list)
+  - [Get All Lists](#get-all-lists)
   - [Get a Specific List](#get-a-specific-list)
   - [Create a New List](#create-a-new-list)
 - [List Entries](#list-entries)
@@ -90,23 +90,23 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 - [Field Value Change](#field-value-change)
   - [Supported field types](#supported-field-types)
   - [The Field Value Change Resource](#the-field-value-change-resource)
-  - [Get Field Value Change](#get-field-value-change)
+  - [Get Field Values Changes](#get-field-values-changes)
 - [Person](#person)
   - [The Person Resource](#the-person-resource)
-  - [Search for Person](#search-for-person)
+  - [Search for Persons](#search-for-persons)
   - [Get a Specific Person](#get-a-specific-person)
   - [Create a New Person](#create-a-new-person)
   - [Update a person](#update-a-person)
   - [Delete a Person](#delete-a-person)
-  - [Get Global Person Field](#get-global-person-field)
+  - [Get Global Person Fields](#get-global-person-fields)
 - [Organization](#organization)
   - [The Organization Resource](#the-organization-resource)
-  - [Search for Organization](#search-for-organization)
+  - [Search for Organizations](#search-for-organizations)
   - [Get a Specific Organization](#get-a-specific-organization)
   - [Create a New Organization](#create-a-new-organization)
   - [Update an Organization](#update-an-organization)
   - [Delete an Organization](#delete-an-organization)
-  - [Get Global Organization Field](#get-global-organization-field)
+  - [Get Global Organizations Fields](#get-global-organizations-fields)
 - [Opportunities](#opportunities)
   - [The Opportunity Resource](#the-opportunity-resource)
   - [Search for Opportunities](#search-for-opportunities)
@@ -121,7 +121,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Create a New Interaction](#create-a-new-interaction)
   - [Update an Interaction](#update-an-interaction)
   - [Delete an Interaction](#delete-an-interaction)
-- [Relationship Strength](#relationship-strength)
+- [Relationship Strengths](#relationship-strengths)
   - [The Relationship Strength Resource](#the-relationship-strength-resource)
   - [Get Relationship Strength](#get-relationship-strength)
 - [Note](#note)
@@ -131,12 +131,12 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Create a New Note](#create-a-new-note)
   - [Update a Note](#update-a-note)
   - [Delete a Note](#delete-a-note)
-- [Entity File](#entity-file)
+- [Entity Files](#entity-files)
   - [The Entity File Resource](#the-entity-file-resource)
   - [Get All Entity Files](#get-all-entity-files)
   - [Get a Specific File](#get-a-specific-file)
   - [Download File](#download-file)
-  - [Upload File](#upload-file)
+  - [Upload Files](#upload-files)
 - [Reminder](#reminder)
   - [The Reminder Resource](#the-reminder-resource)
   - [Get All Reminders](#get-all-reminders)
@@ -261,7 +261,7 @@ To protect our system and manage availability across customers, we set a reasona
 
 There is a limit of three webhook subscriptions per Affinity instance.
 
-## Rate Limit Header
+## Rate Limit Headers
 
 Each external API call will include headers with information about monthly and per-minute limits. This is a convenient way to retrieve your rate limits and usage without needing to hit the /rate-limit endpoint.
 
@@ -692,7 +692,7 @@ This list would have 25 "list entries". Each list entry would be associated with
 
 See here for details on the permissions held by the role.
 
-#### Get All List
+#### Get All Lists
 
 Returns a collection of all the lists visible to you.
 
@@ -790,7 +790,7 @@ Operations like adding and removing entities from a list can be accomplished usi
 > **Note**  
 > Although list entries correspond to rows in an Affinity spreadsheet, the values associated with the entity are not stored inside the list entry resource. If you are trying to update, create, or delete field values, see the [Field Value](#field-value) section.
 
-#### Get All List Entries
+#### Get All Lists Entries
 
 #### Example Request
 
@@ -1162,185 +1162,6 @@ GET /field-values Response:
 ]
 ```
 
-```bash
-GET /field-values-changes
-```
-
-```bash
-GET /field-values-changes Response:
-[
-{
-"id": 7,
-"entity_attribute_id": 106,
-"changer": {
-"id": 2,
-"type": 1,
-"first_name": "Alice",
-"last_name": "Doe",
-"primary_email": "alice@affinity.co",
-"emails": [
-"alice@affinity.co"
-]
-},
-"changed_at": "2021-09-17T10:43:12.781-04:00",
-"action_type": 2,
-"list_entry_id": 15709964,
-"person": {
-"id": 2,
-"type": 1,
-"first_name": "John",
-"last_name": "Doe",
-"primary_email": "jdoe@alumni.stanford.edu",
-"emails": [
-"jdoe@alumni.stanford.edu"
-]
-},
-"company": null,
-"opp": null,
-"value": {
-"id": 30,
-"text": "In Progress",
-"rank": 1,
-"color": 3
-},
-"entity_id": 38706,
-"field_id": 61223
-}
-...
-]
-```
-
-```bash
-GET /field-values-changes
-```
-
-```bash
-GET /field-values-changes Response:
-[
-{
-"id": 7,
-"entity_attribute_id": 106,
-"changer": {
-"id": 2,
-"type": 1,
-"first_name": "Alice",
-"last_name": "Doe",
-"primary_email": "alice@affinity.co",
-"emails": [
-"alice@affinity.co"
-]
-},
-"changed_at": "2021-09-17T10:43:12.781-04:00",
-"action_type": 2,
-"list_entry_id": 15709964,
-"person": {
-"id": 2,
-"type": 1,
-"first_name": "John",
-"last_name": "Doe",
-"primary_email": "jdoe@alumni.stanford.edu",
-"emails": [
-"jdoe@alumni.stanford.edu"
-]
-},
-"company": null,
-"opp": null,
-"value": {
-"id": 30,
-"text": "In Progress",
-"rank": 1,
-"color": 3
-},
-"entity_id": 38706,
-"field_id": 61223
-}
-...
-]
-```
-
-```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
-```
-
-```bash
-GET /field-values
-```
-
-```bash
-curl -X POST "https://api.affinity.co/field-values" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"field_id": 1284, "value": "Architecture", "entity_id": 38706}'
-```
-
-```bash
-curl -X POST "https://api.affinity.co/field-values" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"field_id": 1284, "value": "Architecture", "entity_id": 38706}'
-```
-
-```bash
-POST /field-values
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/field-values/20406836" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"value": "Healthcare"}'
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/field-values/20406836" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"value": "Healthcare"}'
-```
-
-```bash
-PUT /field-values/{field_value_id}
-```
-
-```bash
-curl "https://api.affinity.co/field-values/20406836" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-curl "https://api.affinity.co/field-values/20406836" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /field-values/{field_value_id}
-```
-
-```bash
-curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
-```
-
-```bash
-GET /field-values-changes
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
 
 ## GET /field-values
 
@@ -1358,10 +1179,32 @@ An array of all the field values associated with the supplied person, organizati
 > - If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for these entities.
 
 > **Note**
-> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /persons/{person_id} or GET /organizations/{organization_id} endpoint.
+> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_dates parameter on the GET /persons/{person_id} or GET /organizations/{organization_id} endpoint.
 
 > **Note**
 > Field value endpoint does return Crunchbase fields, but with null values.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+[
+  {
+    "id": 2448594830,
+    "field_id": 61223,
+    "list_entry_id": 37605676,
+    "entity_type": 0,
+    "value_type": 3,
+    "entity_id": 7133202,
+    "value": 5000.0
+  }
+]
+```
 
 #### Create a New Field Value
 
@@ -1385,12 +1228,13 @@ list_entry_id integer false The unique identifier of the list entry (list row) t
 
 The field value resource that was just created through this request.
 
-#### Update a Field Value
-
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+curl -X POST "https://api.affinity.co/field-values" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"field_id": 1284, "value": "Architecture", "entity_id": 38706}'
 ```
 
 #### Example Response
@@ -1401,7 +1245,9 @@ curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 }
 ```
 
-## PUT /field-value/{field_value_id}
+#### Update a Field Value
+
+## PUT /field-values/{field_value_id}
 
 Update the existing field value with field_value_id with the supplied parameters.
 
@@ -1417,12 +1263,13 @@ The field value object that was just updated through this request.
 > **Note**
 > When updating a specific field value, make sure to use the field_value_id and not the field_id.
 
-#### Delete a Field Value
-
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+curl -X PUT "https://api.affinity.co/field-values/20406836" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"value": "Healthcare"}'
 ```
 
 #### Example Response
@@ -1433,9 +1280,25 @@ curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 }
 ```
 
+#### Delete a Field Value
+
 ## DELETE /field-values/{field_value_id}
 
 Delete a field value with the specified field_value_id.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values/20406836" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{"success": true}
+```
 
 #### Return
 
@@ -1475,25 +1338,68 @@ The action types specified below correspond to the action_type of a field value 
 > **Note**
 > There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
 
-#### Get Field Value Change
+#### Get Field Values Changes
+
+## GET /field-values-changes
+
+Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| field_id | integer | true | A unique ID that represents a field object whose field value changes are to be retrieved. |
+| action_type | integer | false | An integer that filters field value changes that were created with this specific action type. |
+| person_id | integer | custom* | A unique ID that represents a person object whose field value changes are to be retrieved. |
+| organization_id | integer | custom* | A unique ID that represents an organization object whose field value changes are to be retrieved. |
+| opportunity_id | integer | custom* | A unique ID that represents an opportunity object whose field value changes are to be retrieved. |
+| list_entry_id | integer | custom* | A unique ID that represents a list entry object whose field value changes are to be retrieved. |
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+curl "https://api.affinity.co/field-values-changes?field_id=236333" -u :$APIKEY
 ```
 
 #### Example Response
 
 ```json
-{
-  "id": 123
-}
+[
+  {
+    "id": 7,
+    "entity_attribute_id": 106,
+    "changer": {
+      "id": 2,
+      "type": 1,
+      "first_name": "Alice",
+      "last_name": "Doe",
+      "primary_email": "alice@affinity.co",
+      "emails": ["alice@affinity.co"]
+    },
+    "changed_at": "2021-09-17T10:43:12.781-04:00",
+    "action_type": 2,
+    "list_entry_id": 15709964,
+    "person": {
+      "id": 2,
+      "type": 1,
+      "first_name": "John",
+      "last_name": "Doe",
+      "primary_email": "jdoe@alumni.stanford.edu",
+      "emails": ["jdoe@alumni.stanford.edu"]
+    },
+    "company": null,
+    "opp": null,
+    "value": {
+      "id": 30,
+      "text": "In Progress",
+      "rank": 1,
+      "color": 3
+    },
+    "entity_id": 38706,
+    "field_id": 61223
+  }
+]
 ```
-
-## GET /field-values-changes
-
-Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
 
 #### Return
 
@@ -1526,7 +1432,7 @@ The person resource organization_id is a collection of unique identifiers to the
 >
 > The person resource type indicate whether a person is internal or external to your team. Every internal person is a user of Affinity on your team, and all other people are external.
 >
-> Dates of the most recent and upcoming interactions with a person are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /persons endpoint.
+> Dates of the most recent and upcoming interactions with a person are available in the interaction_dates field. This data is only included when passing with_interaction_dates=true as a query parameter to the GET /persons endpoint.
 >
 > id integer The unique identifier of the person object.
 >
@@ -1565,7 +1471,7 @@ The person resource organization_id is a collection of unique identifiers to the
 
 #### Person type
 
-#### Search for Person
+#### Search for Persons
 
 ## GET /persons
 
@@ -1782,7 +1688,7 @@ Delete a person with a specified person_id.
 > **Note**
 > This will also delete all the field values, if any, associated with the person. Such field values exist linked to either global or list-specific fields.
 
-#### Get Global Person Field
+#### Get Global Person Fields
 
 #### Example Request
 
@@ -1840,7 +1746,7 @@ Each organization also has a flag determining whether it's global or not. As men
 >
 > Of course, if an organization is manually created by your team, all fields can be modified and the organization can be deleted.
 >
-> Dates of the most recent and upcoming interactions with an organization are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /organizations endpoint.
+> Dates of the most recent and upcoming interactions with an organization are available in the interaction_dates field. This data is only included when passing with_interaction_dates=true as a query parameter to the GET /organizations endpoint.
 
 ## GET /organizations
 
@@ -1871,7 +1777,7 @@ interaction_date objects An object with seven string date fields representing th
 | An array of list entry resources associated with the organization, only returned as part of the Get a Specific Organization endpoint. | interaction_date | objects | An object with seven string date fields representing the most recent and upcoming interactions with this organization: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. |
 interaction objects An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction.
 
-#### Search for Organization
+#### Search for Organizations
 
 #### Example Request
 
@@ -2253,107 +2159,7 @@ Delete an organization with a specified organization_id.
 >
 > This will also delete all the field values, if any, associated with the organization. Such field values exist linked to either global or list-specific fields.
 
-#### Get Global Organization Field
-
-#### Example Request
-
-```bash
-POST /opportunities
-```
-
-```bash
-GET /opportunities
-```
-
-```bash
-curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
-```
-
-```bash
-GET /opportunities/{opportunity_id}
-```
-
-```bash
-curl -X POST "https://api.affinity.co/opportunities" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
-```
-
-```bash
-curl -X POST "https://api.affinity.co/opportunities" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
-```
-
-```bash
-POST /opportunities
-```
-
-```bash
-curl -X POST "https://api.affinity.co/opportunities/120611418" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
-```
-
-```bash
-curl -X POST "https://api.affinity.co/opportunities/120611418" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
-```
-
-```bash
-PUT /opportunities/{opportunity_id}
-```
-
-```bash
-curl "https://api.affinity.co/opportunities/120611418" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-curl "https://api.affinity.co/opportunities/120611418" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /opportunities/{opportunity_id}
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
+#### Get Global Organizations Fields
 
 ## GET /organizations/fields
 
@@ -2456,6 +2262,23 @@ curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
 ## POST /opportunities
 
 Create a new opportunity with the supplied parameters.
+
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 #### Return
 
@@ -2822,7 +2645,7 @@ curl "https://api.affinity.co/interactions/22984?type=0" \
 
 `{"success": true}` if the interaction was successfully deleted.
 
-#### Relationship Strength
+#### Relationship Strengths
 
 Affinity calculates relationship strength between internal and external people based on previous interactions (emails, logged calls, calendar events).
 
@@ -3243,7 +3066,7 @@ Delete a note with a specified note_id.
 > **Note**
 > An appropriate error will be returned if you are not the creator of the note you are trying to delete.
 
-#### Entity File
+#### Entity Files
 
 Entity files are files uploaded to a relevant entity. Possible files, for example, would be a pitch deck for an opportunity or a physical mail correspondence for a person.
 
@@ -3416,7 +3239,7 @@ The actual entity file corresponding to the entity_file_id.
 > **Note**
 > The download location of entity files is provided via a redirect from our endpoint and requires the -L flag.
 
-#### Upload File
+#### Upload Files
 
 #### Example Request
 
@@ -4000,46 +3823,33 @@ Update webhook subscription with the supplied parameters. A webhook subscription
 |-----------|------|----------|-------------|
 | webhook_url | string | false | The URL to which the webhook will be sent. |
 | subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Events](#supported-webhook-events) section. |
-
-#### Return
-
-The webhook subscription object that was just updated through this request.
-
 | disabled | boolean | false | Change the status of a subscription. To enable a subscription, provide the value as false. Otherwise, provide the value as true. |
-
-#### Return
-
-The webhook subscription object that was just updated from this successful request.
-
-#### Delete a Specific Webhook Subscription
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
+curl -X PUT "https://api.affinity.co/webhook/1234" \
   -u :$APIKEY \
-  -d webhook_url="https://hooks.example.com/webhook" \
-  -d disabled=true \
-  -X "PUT"
-```
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
-  -u :$APIKEY \
-  -X "DELETE"
+  -H "Content-Type: application/json" \
+  -d '{"webhook_url": "https://hooks.example.com/webhook", "disabled": true}'
 ```
 
 #### Example Response
 
 ```json
 {
-  "id": 123
+  "id": 1234,
+  "webhook_url": "https://hooks.example.com/webhook",
+  "subscriptions": ["person.created", "person.updated"],
+  "disabled": true
 }
 ```
+
+#### Return
+
+The webhook subscription object that was just updated through this request.
+
+#### Delete a Specific Webhook Subscription
 
 ## DELETE /webhook/{webhook_subscription_id}
 
@@ -4058,34 +3868,6 @@ The Whoami API gives the user metadata about the user's authentication and Affin
 Querying the Whoami endpoint will give information about the user, Affinity instance, and authentication method.
 
 #### Get Whoami
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
-  -u :$APIKEY \
-  -d webhook_url="https://hooks.example.com/webhook" \
-  -d disabled=true \
-  -X "PUT"
-```
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
 
 ## GET /auth/whoami
 
