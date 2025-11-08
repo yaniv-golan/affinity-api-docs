@@ -1,12 +1,14 @@
 # Affinity API v1 Documentation (Markdown Copy)
 
-## ⚠️ Important Disclaimer
+> **⚠️ IMPORTANT DISCLAIMER**
+>
+> **This is an UNOFFICIAL markdown copy of the Affinity API v1 documentation.** The official and authoritative documentation is maintained by Affinity at:
+>
+> **📚 Official Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
+>
+> **Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
 
-**This is an UNOFFICIAL markdown copy of the Affinity API v1 documentation.** The official and authoritative documentation is maintained by Affinity at:
-
-**📚 Official Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
-
-**Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
+---
 
 ## About This Document
 
@@ -19,15 +21,17 @@ This markdown version of the Affinity API v1 documentation was created to provid
 
 **Source:** Extracted from the live Affinity API documentation at https://api-docs.affinity.co/
 
-## Use at Your Own Risk
+**Documentation Version:** This copy is based on the official documentation as it appeared on **November 6, 2025 at 18:49:04** (Last updated: 11/06/2025 18:49:04). The official documentation may have been updated since this copy was created.
 
-While every effort is made to ensure accuracy and keep this documentation synchronized with the official Affinity documentation, this is an **unofficial copy** and may contain:
-
-- Errors or omissions
-- Outdated information
-- Formatting differences from the original
-
-**For production use or critical implementations, always verify against the [official Affinity API documentation](https://api-docs.affinity.co/).**
+> **⚠️ Use at Your Own Risk**
+>
+> While every effort is made to ensure accuracy and keep this documentation synchronized with the official Affinity documentation, this is an **unofficial copy** and may contain:
+>
+> - Errors or omissions
+> - Outdated information
+> - Formatting differences from the original
+>
+> **For production use or critical implementations, always verify against the [official Affinity API documentation](https://api-docs.affinity.co/).**
 
 ## Contact & Support
 
