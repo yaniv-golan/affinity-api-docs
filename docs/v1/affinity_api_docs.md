@@ -467,10 +467,10 @@ GET /fields Response:
 ]
 ```
 
-3. Query [`GET /field-value-changes`](#field-value-change) passing in the `id` from Step 2
+3. Query [`GET /field-values-changes`](#field-value-change) passing in the `id` from Step 2
 
 ```
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
   {
     "id": 7,
@@ -513,10 +513,10 @@ GET /field-value-changes Response:
 ]
 ```
 
-4. Filter results of [`GET /field-value-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-values-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
   {
     "id": 7,
@@ -1012,7 +1012,9 @@ All the types listed below can be referenced by looking at the Affinity web app 
 > **Note**
 > The API currently does not support updating and modifying fields. This must be done through the web product.
 
-#### Get Field
+#### Get Fields
+
+## GET /fields
 
 Returns all fields based on the parameters provided.
 
@@ -1040,7 +1042,7 @@ An array of all the fields requested.
 
 #### Create Field
 
-## POST /field
+## POST /fields
 
 Create a new field with the supplied parameters.
 
@@ -1161,11 +1163,11 @@ GET /field-values Response:
 ```
 
 ```bash
-GET /field-value-changes
+GET /field-values-changes
 ```
 
 ```bash
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
 {
 "id": 7,
@@ -1209,11 +1211,11 @@ GET /field-value-changes Response:
 ```
 
 ```bash
-GET /field-value-changes
+GET /field-values-changes
 ```
 
 ```bash
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
 {
 "id": 7,
@@ -1329,7 +1331,7 @@ curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
 ```
 
 ```bash
-GET /field-value-changes
+GET /field-values-changes
 ```
 
 #### Example Response
@@ -1340,7 +1342,7 @@ GET /field-value-changes
 }
 ```
 
-## GET /field-value
+## GET /field-values
 
 Returns all field values attached to a person, organization, opportunity, or list_entry.
 
@@ -1363,7 +1365,7 @@ An array of all the field values associated with the supplied person, organizati
 
 #### Create a New Field Value
 
-## POST /field-value
+## POST /field-values
 
 Create a new field value with the supplied parameters.
 
@@ -1431,7 +1433,7 @@ curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 }
 ```
 
-## DELETE /field-value/{field_value_id}
+## DELETE /field-values/{field_value_id}
 
 Delete a field value with the specified field_value_id.
 
@@ -1489,7 +1491,7 @@ curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 }
 ```
 
-## GET /field-value-change
+## GET /field-values-changes
 
 Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
 
@@ -1567,180 +1569,143 @@ The person resource organization_id is a collection of unique identifiers to the
 
 ## GET /persons
 
-Search your team's data and fetch all the people that meet the search criteria. The search term can be part of an email address, a first name or a last name.
+Searches your team's data and fetches all the persons that meet the search criteria. The search term can be part of an email address, a first name or a last name.
 
-This result is paginated. An initial request returns an object with two fields: person and next_page_token. person contains an array of person resources. The value of next_page_token should be sent as a query parameter in subsequent requests to get the next page of results.
+This result is paginated. An initial request returns an object with two fields: `persons` and `next_page_token`. `persons` contains an array of person resources. The value of `next_page_token` should be sent as the query parameter `page_token` in another request to retrieve the next page of results. While paginating through results, each request must have identical query parameters other than the changing `page_token`. Otherwise, an `Invalid page_token variable` error will be returned.
 
-The absence of a next_page_token indicates that all the records have been fetched, though its presence does not necessarily indicate that there are more resources to be fetched. The next page may be empty.
+The absence of a `next_page_token` indicates that all the records have been fetched, though its presence does not necessarily indicate that there are *more* resources to be fetched. The next page may be empty (but then `next_page_token` would be `null` to confirm that there are no more resources).
 
-Pass with_interaction_date=true as a query parameter to include dates of the most recent and upcoming interactions with people. When this parameter is included, people with no interactions will not be returned.
+Pass `with_interaction_dates=true` as a query parameter to include dates of the most recent and upcoming interactions with persons. When this parameter is included, persons with no interactions will not be returned in the response. Pass `with_interaction_persons=true` as a query parameter if `with_interaction_dates=true` to also get the internal persons associated with the interaction.
 
-You can filter by interaction date by providing additional query parameters like min_last_email_date or max_next_event_date. The value of these query parameters should be ISO 8601 formatted date strings.
+You can filter by interaction dates by providing additional query parameters like `min_last_email_date` or `max_next_event_date`. The value of these query parameters should be ISO 8601 formatted date strings.
 
-#### Return
+#### Query Parameters
 
-An object with two fields: person and next_page_token. person maps to an array of all the person resources that match the search criteria. Does not include the associated organization_id or list_entries.
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| term | string | false | A string used to search all the persons in your team's address book. This could be an email address, a first name or a last name. |
+| with_interaction_dates | boolean | false | When true, interaction dates will be present on the returned resources. Only persons that have interactions will be returned. |
+| with_interaction_persons | boolean | false | When true, persons for each interaction will be returned. Used in conjunction with `with_interaction_dates`. |
+| with_opportunities | boolean | false | When true, opportunity IDs will be returned for each person. |
+| with_current_organizations | boolean | false | When true, the organization IDs of each person's current organizations (according to the Affinity Data: Current Organizations column) will be returned. |
+| min_{interaction type}_date | string | false | Only returns persons with the given interaction type above the given value. `interaction type` can be one of `first_email`, `last_email`, `last_interaction`, `last_event`, `first_event`, or `next_event`. This would be used with max interaction. |
+| max_{interaction type}_date | string | false | Only returns persons with the given interaction type below the given value. `interaction type` can be one of `first_email`, `last_email`, `last_interaction`, `last_event`, `first_event`, or `next_event`. This would be used with min interaction. |
+| page_size | number | false | How many results to return per page. (Default is the maximum value of 500.) |
+| page_token | string | false | The `next_page_token` from the previous response required to retrieve the next page of results. |
 
 #### Example Request
 
 ```bash
-GET /persons/{person_id}
-```
-
-```bash
-GET /persons/{person_id}
-```
-
-```bash
-/persons
-```
-
-```bash
-/persons/{person_id}
-```
-
-```bash
-GET /persons
-```
-
-```bash
 curl "https://api.affinity.co/persons?term=doe" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/persons?term=doe" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-```bash
-# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
-curl "https://api.affinity.co/persons" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
-```
-
-```bash
-# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
-curl "https://api.affinity.co/persons" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
-```
-
-```bash
-curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
--u :$APIKEY \
-```
-
-```bash
-curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
--u :$APIKEY \
-```
-
-```bash
-GET /persons/{person_id}
-```
-
-```bash
-curl -X POST "https://api.affinity.co/persons" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"first_name": "Alice", "last_name": "Doe", "emails": ["alice@affinity.co"], "organization_ids": [1687449]}'
-```
-
-```bash
-curl -X POST "https://api.affinity.co/persons" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"first_name": "Alice", "last_name": "Doe", "emails": ["alice@affinity.co"], "organization_ids": [1687449]}'
-```
-
-```bash
-POST /persons
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/persons/860197" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"first_name": "Allison", "emails": ["allison@affinity.co", "allison@gmail.com"]}'
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/persons/860197" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"first_name": "Allison", "emails": ["allison@affinity.co", "allison@gmail.com"]}'
-```
-
-```bash
-PUT /persons/{person_id}
-```
-
-```bash
-curl "https://api.affinity.co/persons/860197" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-curl "https://api.affinity.co/persons/860197" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /persons/{person_id}
 ```
 
 #### Example Response
 
 ```json
 {
-  "id": 123
+  "persons": [
+    {
+      "id": 38706,
+      "type": 0,
+      "first_name": "John",
+      "last_name": "Doe",
+      "primary_email": "john@affinity.co",
+      "emails": [
+        "john@affinity.co",
+        "jdoe@alumni.stanford.edu",
+        "johnjdoe@gmail.com"
+      ]
+    },
+    {
+      "id": 624289,
+      "type": 1,
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "primary_email": "jane@gmail.com",
+      "emails": [
+        "jane@gmail.com"
+      ]
+    }
+  ],
+  "next_page_token": "eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9"
 }
 ```
+
+#### Example Pagination
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+#### Example with Interaction Date
+
+```bash
+# To get the results between min_last_email_date and max_last_email_date, issue the following query:
+curl "https://api.affinity.co/persons" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
+
+#### Return
+
+An object with two fields: `persons` and `next_page_token`. `persons` maps to an array of all the person resources that match the search criteria. Does not include the associated `organization_ids` or `list_entries`. `next_page_token` includes a token to be sent along with the next request as the `page_token` parameter to fetch the next page of results. When `with_interaction_dates` is passed in the returned resources will have `interaction_dates` fields.
 
 ## GET /persons/{person_id}
 
 Fetch a person with a specified person_id.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| person_id | integer | true | The identifier of the person object to be retrieved. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| with_opportunities | boolean | false | When true, opportunity IDs will be returned for the person. |
+| with_current_organizations | boolean | false | When true, the organization IDs of the person's current organizations (according to the Affinity Data: Current Organizations column) will be returned. |
+| with_interaction_dates | boolean | false | When true, interaction dates will be present on the returned resource. |
+| with_interaction_persons | boolean | false | When true, persons for each interaction will be returned. Used in conjunction with `with_interaction_dates`. |
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
+  -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 38706,
+  "type": 0,
+  "first_name": "John",
+  "last_name": "Doe",
+  "primary_email": "john@affinity.co",
+  "emails": [
+    "john@affinity.co",
+    "jdoe@alumni.stanford.edu",
+    "johndoe@gmail.com"
+  ],
+  "organization_ids": [1687449],
+  "opportunity_ids": [
+    4,
+    11
+  ],
+  "current_organization_ids": [1687449]
+}
+```
 
 #### Return
 
 The person resource corresponding to the person_id.
 
 #### Create a New Person
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
-  -u :$APIKEY \
-```
-
-```bash
-curl "https://api.affinity.co/persons/860197" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
 
 ## POST /persons
 
@@ -2070,19 +2035,81 @@ DELETE /organizations/{organization_id}
 
 ## GET /organizations
 
-Search your team's data and fetch all the organizations that meet the search criteria. The search term can be a part of an organization's name or domain.
+Searches your team's data and fetches all the organizations that meet the search criteria. The search term can be a part of an organization's name or domain.
 
-This result is paginated. An initial request returns an object with two fields: organization and next_page_token. organization contains an array of organization resources. The value of next_page_token should be sent as a query parameter in subsequent requests to get the next page of results.
+This result is paginated. An initial request returns an object with two fields: `organizations` and `next_page_token`. `organizations` contains an array of organization resources. The value of `next_page_token` should be sent as the query parameter `page_token` in another request to retrieve the next page of results. While paginating through results, each request must have identical query parameters other than the changing `page_token`. Otherwise, an `Invalid page_token variable` error will be returned.
 
-The absence of a next_page_token indicates that all the records have been fetched, though its presence does not necessarily indicate that there are more resources to be fetched. The next page may be empty.
+The absence of a `next_page_token` indicates that all the records have been fetched, though its presence does not necessarily indicate that there are *more* resources to be fetched. The next page may be empty (but then `next_page_token` would be `null` to confirm that there are no more resources).
 
-Pass with_interaction_date=true as a query parameter to include dates of the most recent and upcoming interactions with organizations. When this parameter is included, organizations with no interactions will not be returned.
+Pass `with_interaction_dates=true` as a query parameter to include dates of the most recent and upcoming interactions with organizations. When this parameter is included, organizations with no interactions will not be returned in the response. Pass `with_interaction_persons=true` as a query parameter if `with_interaction_dates=true` to also get the internal persons associated with the interaction.
 
-You can filter by interaction date by providing additional query parameters like min_last_email_date or max_next_event_date. The value of these query parameters should be ISO 8601 formatted date strings.
+You can filter by interaction dates by providing additional query parameters like `min_last_email_date` or `max_next_event_date`. The value of these query parameters should be ISO 8601 formatted date strings. The interaction dates are stored with timestamps, so the `{min,max}_{interaction}_date` parameter can include or exclude timestamps to explicitly filter the dataset. If a timestamp is not provided, the system will use the default value of `00:00:00`.
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| term | string | false | A string used to search all the organizations in your team's address book. This could be a name or a domain name. |
+| with_interaction_dates | boolean | false | When true, interaction dates will be present on the returned resources. Only organizations that have interactions will be returned. |
+| with_interaction_persons | boolean | false | When true, persons for each interaction will be returned. Used in conjunction with `with_interaction_dates`. |
+| with_opportunities | boolean | false | When true, opportunity IDs associated with this organization will be returned. |
+| min_{interaction type}_date | string | false | Only returns organizations with the given interaction type above the given value. `interaction type` can be one of `first_email`, `last_email`, `last_interaction`, `last_event`, `first_event`, or `next_event`. This would be used with max interaction. |
+| max_{interaction type}_date | string | false | Only returns organizations with the given interaction type below the given value. `interaction type` can be one of `first_email`, `last_email`, `last_interaction`, `last_event`, `first_event`, or `next_event`. This would be used with min interaction. |
+| page_size | number | false | How many results to return per page. (Default is the maximum value of 500.) |
+| page_token | string | false | The `next_page_token` from the previous response required to retrieve the next page of results. |
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations?term=affinity" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "organizations": [
+    {
+      "id": 64779194,
+      "name": "Affinity",
+      "domain": "affinity.co",
+      "domains": ["affinity.co"],
+      "global": false
+    },
+    {
+      "id": 1513682,
+      "name": "Brand Affinity Technologies",
+      "domain": "brandaffinity.net",
+      "domains": ["brandaffinity.net"],
+      "global": true
+    }
+  ],
+  "next_page_token": "eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9"
+}
+```
+
+#### Example Pagination
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/organizations" \
+  -u :$APIKEY \
+  -d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
+```
+
+#### Example with Interaction Date
+
+```bash
+# To get the results between min_last_email_date and max_last_email_date, issue the following query:
+curl "https://api.affinity.co/organizations" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
 
 #### Return
 
-An object with two fields: organization and next_page_token. organization maps to an array of all the organization resources that match the search criteria. next_page_token includes a token to be sent as a query parameter in subsequent requests to get the next page of results.
+An object with two fields: `organizations` and `next_page_token`. `organizations` maps to an array of all the organization resources that match the search criteria. `next_page_token` includes a token to be sent along with the next request as the `page_token` parameter to fetch the next page of results. When `with_interaction_dates` is passed in the returned resources will have `interaction_dates` fields.
 
 > **Note**
 > When only a search term is supplied, Affinity will search organization resources that are also outside of your instance.
@@ -2092,6 +2119,59 @@ An object with two fields: organization and next_page_token. organization maps t
 ## GET /organizations/{organization_id}
 
 Fetch an organization with a specified organization_id.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| organization_id | integer | true | The identifier of the organization object to be retrieved. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| with_opportunities | boolean | false | When true, opportunity IDs associated with this organization will be returned. |
+| with_interaction_dates | boolean | false | When true, interaction dates will be present on the returned resource. |
+| with_interaction_persons | boolean | false | When true, persons for each interaction will be returned. Used in conjunction with `with_interaction_dates`. |
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 64779194,
+  "name": "Affinity",
+  "domain": "affinity.co",
+  "domains": ["affinity.co"],
+  "global": false,
+  "person_ids": [
+    89734,
+    117270,
+    138123,
+    274492,
+    304848
+  ],
+  "opportunity_ids": [
+    4,
+    11
+  ],
+  "list_entries": [
+    {
+      "id": 389,
+      "list_id": 26,
+      "creator_id": 38603,
+      "entity_id": 64779194,
+      "entity_type": 0,
+      "created_at": "2020-12-11T02:26:56.537-08:00"
+    }
+  ]
+}
+```
 
 #### Return
 
@@ -2453,11 +2533,31 @@ Different types of interactions have different interaction resources.
 > **Note**
 > The combination of ID and type for an interaction is unique.
 
-#### Interaction Type
+#### Interaction Types
 
-#### Direction Type
+| Type | Value | Description |
+|------|-------|-------------|
+| Meeting | 0 | Type specifying a meeting interaction. |
+| Call | 1 | Type specifying a call interaction. |
+| Chat message | 2 | Type specifying a chat message interaction. |
+| Email | 3 | Type specifying an email interaction. |
 
-#### Logging Type
+#### Direction Types
+
+| Type | Value | Description |
+|------|-------|-------------|
+| Sent | 0 | The interaction is sent by an internal person. |
+| Received | 1 | The interaction is sent by an external person. |
+
+> **Note**
+> Direction only applies to chat messages (`type == 2`) and emails (`type == 3`).
+
+#### Logging Types
+
+| Type | Value | Description |
+|------|-------|-------------|
+| All | 0 | Type specifying both automatically logged interactions and manually logged interactions. |
+| Manual | 1 | Type specifying only manually logged interactions. |
 
 #### Get All Interactions
 
@@ -2482,19 +2582,24 @@ curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_
         "type": 1,
         "first_name": "John",
         "last_name": "Doe",
-        "primary_email": "john@example.com"
+        "primary_email": "john@affinity.co",
+        "emails": ["john@affinity.co"]
       },
       "to": [
         {
-          "id": 444,
-          "type": 1,
+          "id": 2021,
+          "type": 0,
           "first_name": "Alice",
-          "last_name": "Smith",
-          "primary_email": "alice@example.com"
+          "last_name": "Yen",
+          "primary_email": "yen@alice.com",
+          "emails": ["yen@alice.com"]
         }
-      ]
+      ],
+      "cc": [],
+      "direction": 0
     }
-  ]
+  ],
+  "next_page_token": "eyJwYXJhbXMiOnsiY29tcGxldGVyX2lkIjpudWxsLCJvd25lcl9pZCI6bnVsbCwiY3JlYXRvcl9"
 }
 ```
 
@@ -2502,37 +2607,21 @@ curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_
 
 Return all interactions that meet the query parameters.
 
-#### type integer true The type of interaction to be retrieved
+#### Query Parameters
 
-logging_type integer false The logging type of interaction to be retrieved.
-
-| interaction | objects | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction. | type | integer | The type of interaction to be retrieved. | logging_type | integer | The logging type of interaction to be retrieved. |
-person_id integer custom* A unique identifier that represents an external Person that was involved in the interaction.
-
-| The logging type of interaction to be retrieved. | person_id | integer | A unique identifier that represents an external Person that was involved in the interaction. |
-organization_id integer custom* A unique identifier that represents an Organization that was involved in the interaction.
-
-opportunity_id integer custom* A unique identifier that represents an Opportunity that was involved in the interaction.
-
-| organization_id | integer | A unique identifier that represents an Organization that was involved in the interaction. | opportunity_id | integer | A unique identifier that represents an Opportunity that was involved in the interaction. |
-internal_person_id integer false A unique identifier that represents an internal person that was involved in the interaction. This parameter cannot be used to find all of an internal person's interactions. It only filters down the set of interactions returned.
-
-| A unique identifier that represents an Opportunity that was involved in the interaction. | internal_person_id | integer | A unique identifier that represents an internal person that was involved in the interaction. This parameter cannot be used to find all of an internal person's interactions. It only filters down the set of interactions returned. |
-direction integer false The direction of the interaction. Only applies to chat messages and emails.
-
-start_time string true A string (formatted according to ISO 8601) representing the start of the time range for the interaction to be retrieved. Must be before end_time. Date range must not exceed one year.
-
-| direction | integer | The direction of the interaction. Only applies to chat messages and emails. | start_time | string | A string (formatted according to ISO 8601) representing the start of the time range for the interaction to be retrieved. Must be before end_time. Date range must not exceed one year. |
-ISO 8601
-
-end_time string true A string (formatted according to ISO 8601) representing the end of the time range for the interaction to be retrieved. Must be after start_time. Date range must not exceed one year.
-
-ISO 8601
-
-page_size number false How many results to return per page. (Default is the maximum value of 100.)
-
-| end_time | string | A string (formatted according to ISO 8601) representing the end of the time range for the interaction to be retrieved. Must be after start_time. Date range must not exceed one year. | page_size | number | How many results to return per page. (Default is the maximum value of 100.) |
-page_token string false The next_page_token from the previous response required to retrieve the next page of result.
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| type | integer | true | The type of interaction to be retrieved. |
+| logging_type | integer | false | The logging type of interaction to be retrieved. |
+| person_id | integer | custom* | A unique identifier that represents an external Person that was involved in the interaction. |
+| organization_id | integer | custom* | A unique identifier that represents an Organization that was involved in the interaction. |
+| opportunity_id | integer | custom* | A unique identifier that represents an Opportunity that was involved in the interaction. |
+| internal_person_id | integer | false | A unique identifier that represents an internal person that was involved in the interaction. This parameter cannot be used to find all of an internal person's interactions. It only filters down the set of interactions returned. |
+| direction | integer | false | The direction of the interaction. Only applies to chat messages and emails. |
+| start_time | string | true | A string (formatted according to ISO 8601) representing the start of the time range for the interaction to be retrieved. Must be before end_time. Date range must not exceed one year. |
+| end_time | string | true | A string (formatted according to ISO 8601) representing the end of the time range for the interaction to be retrieved. Must be after start_time. Date range must not exceed one year. |
+| page_size | number | false | How many results to return per page. (Default is the maximum value of 100.) |
+| page_token | string | false | The next_page_token from the previous response required to retrieve the next page of results. |
 
 #### One person_id, organization_id or opportunity_id must be specified per request
 
@@ -2547,109 +2636,47 @@ An array of all the interactions filtered by query parameters. next_page_token i
 
 #### Get a Specific Interaction
 
+Get the detail for a specific interaction given the existing ID and type.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | integer | true | The identifier of the interaction object to be retrieved. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| type | integer | true | The type of interaction to be retrieved. |
+
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_time=2021-01-01T07:00:00Z&end_time=2021-02-25T21:00:00Z&" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_time=2021-01-01T07:00:00Z&end_time=2021-02-25T21:00:00Z&" -u :$APIKEY
-```
-
-```bash
-GET /interactions
-```
-
-```bash
-# Returns the interactions with the specified `id`
 curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
-```
-
-```bash
-# Returns the interactions with the specified `id`
-curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
-```
-
-```bash
-GET /interactions/{id}
-```
-
-```bash
-curl -X POST "https://api.affinity.co/interactions" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
-```
-
-```bash
-curl -X POST "https://api.affinity.co/interactions" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
-```
-
-```bash
-POST /interactions
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/interactions/3007" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/interactions/3007" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
-```
-
-```bash
-PUT /interactions/{id}
-```
-
-```bash
-curl "https://api.affinity.co/interactions/22984?type=0" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-curl "https://api.affinity.co/interactions/22984?type=0" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /interactions/{id}
-```
-
-```bash
-/interactions
-```
-
-```bash
-/interactions
-```
-
-```bash
-/interactions
 ```
 
 #### Example Response
 
 ```json
 {
-  "id": 123
+  "id": 7267,
+  "date": "2022-02-22T11:50:20.126-08:00",
+  "direction": 0,
+  "manual_creator_id": 443,
+  "persons": [
+    {
+      "id": 443,
+      "type": 1,
+      "first_name": "John",
+      "last_name": "Doe",
+      "primary_email": "john@affinity.co"
+    }
+  ],
+  "type": 2,
+  "notes": [7462534]
 }
 ```
-
-## GET /interactions/{id}
-
-Get the detail for a specific interaction given the existing ID and type.
 
 #### Return
 
@@ -2682,19 +2709,18 @@ curl "https://api.affinity.co/interactions/22984?type=0" \
 
 Create a new interaction with the supplied parameters.
 
+> **Note**
+> Only meetings (`type == 0`), calls (`type == 1`), and chat messages (`type == 2`) are supported. Email interactions (`type == 3`) cannot be created through the API.
+
 #### Parameter
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| type | integer | true | The type of interaction to be created. Only meeting (type == 0), calls (type == 1) and chat messages (type == 2) are supported. |
-
-| person_id | integer[] | true | The list of person IDs that are associated with the event. At least one internal person ID must be included (see [Person Resource](#person) for more details on internal persons). |
-
+| type | integer | true | The type of interaction to be created. Only meetings (`type == 0`), calls (`type == 1`), and chat messages (`type == 2`) are supported. |
+| person_ids | integer[] | true | The list of person IDs that are associated with the event. At least one internal person ID must be included (see [Person Resource](#person) for more details on internal persons). |
 | content | string | true | The string containing the content of the new interaction. |
-| direction | integer | false | The direction of the chat message to be created. Only applies to chat messages (type == 2). |
-
+| direction | integer | false | The direction of the chat message to be created. Only applies to chat messages (`type == 2`). |
 | date | string | true | A string (formatted according to ISO 8601) representing the date time the interaction occurred. |
-ISO 8601
 
 #### Return
 
@@ -2704,44 +2730,27 @@ The interaction created through this request.
 
 #### Update an Interaction
 
-#### Example Request
-
-```bash
-curl -X POST "https://api.affinity.co/interactions" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
 ## PUT /interactions/{id}
 
-Update the content of an existing interaction with the supplied parameters.
+Updates the content of an existing interaction with the supplied parameters.
 
 > **Note**
 > Updating the content of an interaction using the API is not supported when mentioned IDs are in the content.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | integer | true | The identifier of the interaction object to be updated. |
 
 #### Parameter
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | type | integer | true | The type of interaction to be updated. |
-| person_id | integer[] | true | The list of person IDs that are associated with the event. |
+| person_ids | integer[] | false | The list of person IDs that are associated with the event. |
 | content | string | false | The string containing the content of the interaction. |
 | date | string | false | A string (formatted according to ISO 8601) representing the date time the interaction occurred. |
-
-#### Return
-
-The interaction object that was just updated through this request.
-
-#### Delete an Interaction
 
 #### Example Request
 
@@ -2756,13 +2765,62 @@ curl -X PUT "https://api.affinity.co/interactions/3007" \
 
 ```json
 {
-  "id": 123
+  "id": 3007,
+  "type": 0,
+  "date": "2022-02-07T10:56:29.546-08:00",
+  "content": "Update interaction from external API.",
+  "persons": [
+    {
+      "id": 443,
+      "type": 1,
+      "first_name": "John",
+      "last_name": "Doe"
+    }
+  ]
 }
 ```
+
+#### Return
+
+The interaction object that was just updated through this request.
+
+#### Delete an Interaction
 
 ## DELETE /interactions/{id}
 
 Delete the interaction with the specified id.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | integer | true | The identifier of the interaction object to be deleted. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| type | integer | true | The type of interaction to be deleted. |
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/interactions/22984?type=0" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "success": true
+}
+```
+
+#### Return
+
+`{"success": true}` if the interaction was successfully deleted.
 
 #### Relationship Strength
 
@@ -2782,28 +2840,35 @@ There may be at most one resource for every (internal, external) pair. If an int
 
 #### Get Relationship Strength
 
+## GET /relationships-strengths
+
+Returns an array of relationship strengths matching the criteria.
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| external_id | integer | true | The external person associated with this relationship strength. |
+| internal_id | integer | false | The internal person associated with this relationship strength. |
+
 #### Example Request
 
 ```bash
-# Returns the interactions with the specified `id`
-curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/interactions/22984?type=0" \
-  -u :$APIKEY \
-  -X "DELETE"
+# Returns an array of relationship strengths matching the criteria.
+curl "https://api.affinity.co/relationships-strengths?external_id=1234&internal_id=2345" -u :$APIKEY
 ```
 
 #### Example Response
 
 ```json
-{
-  "id": 123
-}
+[
+  {
+    "internal_id": 1234,
+    "external_id": 2345,
+    "strength": 0.5
+  }
+]
 ```
-
-## GET /relationship-strength
 
 #### Return
 
@@ -3029,7 +3094,7 @@ DELETE /notes/{note_id}
 }
 ```
 
-## GET /notess/{note_id}
+## GET /notes/{note_id}
 
 Get the details for a specific note given the existing note id.
 
@@ -3393,11 +3458,28 @@ The reminder API allows you to manage reminders.
 
 A reminder object contains content, which is a string containing the reminder content. In addition, a person, organization or opportunity can be tagged to the reminder.
 
-#### Reminder Type
+#### Reminder Types
 
-#### Reminder Reset Type
+| Type | Value | Description |
+|------|-------|-------------|
+| One-time | 0 | Type specifying a one-time reminder. |
+| Recurring | 1 | Type specifying a recurring reminder. |
 
-#### Reminder Status Type
+#### Reminder Reset Types
+
+| Type | Value | Description |
+|------|-------|-------------|
+| Interaction | 0 | Recurring reminder that can be reset by email or meeting. |
+| Email | 1 | Recurring reminder that can be reset by an email. |
+| Meeting | 2 | Recurring reminder that can be reset by a meeting. |
+
+#### Reminder Status Types
+
+| Type | Value | Description |
+|------|-------|-------------|
+| Completed | 0 | Reminder that has been marked as completed. |
+| Active | 1 | Reminder that has not been completed and is not past due. |
+| Overdue | 2 | Reminder that has not been completed and is past due. |
 
 #### Get All Reminders
 
@@ -4064,6 +4146,33 @@ Querying the rate limit endpoint will yield information about account (AKA organ
 #### Return
 
 The rate limit resource, a JSON body of data including limit, calls remaining, seconds until reset and calls count.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/rate-limit" -u :$API_KEY
+```
+
+#### Example Response
+
+```json
+{
+    "rate": {
+        "org_monthly": {
+            "limit": 40000,
+            "remaining": 39993,
+            "reset": 2124845,
+            "used": 7
+        },
+        "api_key_per_minute": {
+            "limit": 900,
+            "remaining": 900,
+            "reset": 0,
+            "used": 0
+        }
+    }
+}
+```
 
 #### Changelog
 
