@@ -242,11 +242,11 @@ The data in each cell is represented by a "Field Value". There are both regular 
 
 **Legend:**
 
-- <span style="background-color: #FF8C00; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">List Entry</span> (orange)
-- <span style="background-color: #0066CC; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Global Field</span> (blue)
-- <span style="background-color: #CC0000; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">List-specific Field</span> (red)
-- <span style="background-color: #9933CC; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Field Value</span> (purple)
-- <span style="background-color: #00CC66; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Smart Field Value</span> (green)
+- ![List Entry](https://img.shields.io/badge/List%20Entry-orange) (orange)
+- ![Global Field](https://img.shields.io/badge/Global%20Field-blue) (blue)
+- ![List-specific Field](https://img.shields.io/badge/List--specific%20Field-red) (red)
+- ![Field Value](https://img.shields.io/badge/Field%20Value-purple) (purple)
+- ![Smart Field Value](https://img.shields.io/badge/Smart%20Field%20Value-green) (green)
 
 > **Note**  
 > When working with Affinity's API, it is important to understand the differences between how data is organized in the CRM versus the API.  
