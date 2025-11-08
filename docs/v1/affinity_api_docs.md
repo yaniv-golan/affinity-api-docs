@@ -1222,18 +1222,41 @@ As an example for how a field value is created:
 
 Each field value object has a unique id.
 
-A field value also has field_id, entity_id, and list_entry_id attributes that give it the appropriate associations, as noted in the example above.
+A field value resource has the following attributes:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the field value object. |
+| field_id | integer | The unique identifier of the field (column) that this value belongs to. |
+| entity_id | integer | The unique identifier of the entity (person, organization, or opportunity) that this value is associated with. |
+| list_entry_id | integer | The unique identifier of the list entry (row) that this value is associated with. This is null for global field values. |
+| entity_type | integer | The type of entity (0=Person, 1=Organization, 8=Opportunity). |
+| value_type | integer | The type of value stored. See [Field Value Value Type](#field-value-value-type) below. |
+| value | varies | The actual value stored. The format depends on the value_type. See [Field Value Value Type](#field-value-value-type) below. |
+| created_at | string | The timestamp when the field value was created. |
+| updated_at | string | The timestamp when the field value was last updated. |
 
 Use the created_at and updated_at timestamps on field values to determine when the value(s) for a given field have last been added or changed. Please note that what might amount to an "update" in production may actually be a delete followed by a create in the API.
 
-A field value can take on many different kinds of values, depending on the field value type (see Field section).
-
-Field
+A field value can take on many different kinds of values, depending on the field value type (see [Field section](#field)).
 
 > **Note**
 > When retrieving Field Values from a specific cell in your Affinity list, it may be helpful to think about it as an XY coordinate system. The X coordinate is the List Entry or Entity and the Y coordinate is the Field.
 
 #### Field Value Value Type
+
+The value types below determine the format of the `value` attribute in a field value:
+
+| Value Type | Description | Value Format |
+|------------|-------------|--------------|
+| Dropdown (2) | Dropdown option | Object with `id`, `text`, `rank`, `color` |
+| Number (3) | Numeric value | Number (integer or float) |
+| Person (0) | Person entity | Object with `id`, `type`, `first_name`, `last_name`, `primary_email`, `emails` |
+| Organization (1) | Organization entity | Object with `id`, `name`, `domain`, `domains` |
+| Location (5) | Location | String |
+| Date (4) | Date | ISO 8601 formatted date string |
+| Text (6) | Text string | String |
+| Ranked Dropdown (7) | Ranked dropdown option | Object with `id`, `text`, `rank`, `color` |
 
 The Field Types specified below correspond to the value_type of a field.
 
@@ -1266,7 +1289,14 @@ GET /field-values Response:
 
 Returns all field values attached to a person, organization, opportunity, or list_entry.
 
-#### Query Parameter
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| person_id | integer | custom* | The unique identifier of the person object. Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified. |
+| organization_id | integer | custom* | The unique identifier of the organization object. Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified. |
+| opportunity_id | integer | custom* | The unique identifier of the opportunity object. Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified. |
+| list_entry_id | integer | custom* | The unique identifier of the list entry object. Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified. |
 
 #### Return
 
@@ -1311,17 +1341,14 @@ curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 
 Create a new field value with the supplied parameters.
 
-field_id integer true The unique identifier of the field (column) that the field value is associated with.
+#### Payload Parameters
 
-entity_id integer true The unique identifier of the entity (person, organization, or opportunity) that the field value is associated with.
-
-| This determine whether the fields objects is required. | field_id | The unique identifier of the fields (column) that the field value is associated with. | entity_id |
-value custom true See the Field Value Resource section for all value type. The value specified must correspond to the value_type of the supplied fields. For ranked dropdowns fields like the default Sta
-
-| The unique identifier of the entity (person, organization, or opportunity) that the field value is associated with. | value | custom | See the Field Value Resource section for all value type. The value specified must correspond to the value_type of the supplied fields. For ranked dropdowns fields like the default Status field, you must |
-Field Value Resource
-
-list_entry_id integer false The unique identifier of the list entry (list row) that the field value is associated with. Only specify the list_entry_id if the field that the field value is associated with is list-specific.
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| field_id | integer | true | The unique identifier of the field (column) that the field value is associated with. |
+| entity_id | integer | true | The unique identifier of the entity (person, organization, or opportunity) that the field value is associated with. |
+| value | custom | true | The value to store. The format must correspond to the value_type of the field. For ranked dropdown fields (like the default Status field), you must provide the dropdown option ID. See [Field Value Resource](#the-field-value-resource) section for value formats by type. |
+| list_entry_id | integer | false | The unique identifier of the list entry (list row) that the field value is associated with. Only specify the list_entry_id if the field that the field value is associated with is list-specific. |
 
 #### Return
 
@@ -1350,10 +1377,18 @@ curl -X POST "https://api.affinity.co/field-values" \
 
 Update the existing field value with field_value_id with the supplied parameters.
 
-#### value custom true See the Field Value Resource section for all value type. The value specified must correspond to the value_type of the supplied fields. For ranked dropdowns fields like the default Sta
+#### Path Parameters
 
-| list_entry_id | The unique identifier of the list entry (lists row) that the field value is associated with. Only specify the list_entry_id if the fields that the field value is associated with is lists specific. | value | custom |
-Field Value Resource
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| field_value_id | integer | true | The unique identifier of the field value object to update. |
+
+#### Payload Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| value | custom | true | The new value to store. The format must correspond to the value_type of the field. For ranked dropdown fields (like the default Status field), you must provide the dropdown option ID. See [Field Value Resource](#the-field-value-resource) section for value formats by type. |
+| list_entry_id | integer | false | The unique identifier of the list entry (list row) that the field value is associated with. Only specify the list_entry_id if the field that the field value is associated with is list-specific. |
 
 #### Return
 
@@ -1385,6 +1420,12 @@ curl -X PUT "https://api.affinity.co/field-values/20406836" \
 
 Delete a field value with the specified field_value_id.
 
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| field_value_id | integer | true | The unique identifier of the field value object to delete. |
+
 #### Example Request
 
 ```bash
@@ -1415,14 +1456,14 @@ Fields that are automatically created and "enriched" by Affinity do not support 
 
 Among fields that are not enriched, only the ones with the following data types support change tracking:
 
-#### Multi-valued Field
-
-#### Single-valued field
+- **Multi-valued fields**: Fields where `allows_multiple` is `true` and the field has `track_changes` set to `true`
+- **Single-valued fields**: Fields where `allows_multiple` is `false` and the field has `track_changes` set to `true`
 
 > **Note**
-> You can also see if a field does so by looking at the track_change attribute in the Field Resource. The API will return an appropriate error if the field doesn't support historical tracking.
->
-> Field Resource
+> Ranked dropdown fields (like Status fields) typically support change tracking.
+
+> **Note**
+> You can also see if a field supports change tracking by looking at the `track_changes` attribute in the [Field Resource](#the-field-resource). The API will return an appropriate error if the field doesn't support historical tracking.
 
 #### The Field Value Change Resource
 
