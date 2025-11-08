@@ -57,7 +57,7 @@ NOTICE_TEMPLATE = """---
 
 def fetch_latest_docs(
     url: str, max_retries: int = 3, retry_delay: int = 5
-) -> Optional[str]:
+) -> str | None:
     """
     Fetch HTML content from the Affinity website with retries and error handling.
 
@@ -93,7 +93,7 @@ def fetch_latest_docs(
     return None
 
 
-def extract_timestamp(html: str, api_version: str) -> Optional[str]:
+def extract_timestamp(html: str, api_version: str) -> str | None:
     """
     Extract "last updated" timestamp from the HTML.
 
@@ -201,7 +201,7 @@ def save_version_metadata(version_file: str, metadata: dict) -> None:
 
 def compare_versions(
     current_content: str, latest_content: str, version_metadata: dict
-) -> tuple[bool, Optional[str]]:
+) -> tuple[bool, str | None]:
     """
     Compare current and latest versions.
 
@@ -224,7 +224,7 @@ def compare_versions(
     return False, None
 
 
-def check_existing_prs(api_version: str) -> Optional[int]:
+def check_existing_prs(api_version: str) -> int | None:
     """
     Check if a PR already exists for this API version.
 
@@ -386,7 +386,7 @@ def update_docs_with_notice(
 
 def create_pr(
     api_version: str, branch_name: str, pr_title: str, pr_body: str
-) -> Optional[dict]:
+) -> dict | None:
     """
     Create a PR using GitHub CLI.
 
