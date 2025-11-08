@@ -127,26 +127,31 @@ Welcome to the Affinity API! This API provides a RESTful interface for performin
 
 ### Authentication
 
-To use the API, you will need to generate an API secret key. This can be done easily through the Settings Panel that is accessible through the left sidebar on the Affinity web app. For more support, visit
+Authentication using HTTP Basic Auth.
 
-How to obtain your API Key
+```bash
+curl "https://api.affinity.co/api_endpoint" -u :$APIKEY
+```
+
+Authentication using HTTP Bearer Auth.
+
+```bash
+curl "https://api.affinity.co/api_endpoint" -H "Authorization: Bearer ${APIKEY}"
+```
+
+To use the API, you will need to generate an API secret key. This can be done easily through the Settings Panel that is accessible through the left sidebar on the Affinity web app. For more support, visit the [How to obtain your API Key](https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key) article in our Help Center.
 
 Requests are authenticated using one of the following:
 
-HTTP Basic Auth Provide your API key as the basic auth password. You do not need to provide a username.
+| Authentication Type | Details |
+|-------------------|---------|
+| [HTTP Basic Auth](http://en.wikipedia.org/wiki/Basic_access_authentication) | Provide your API key as the basic auth password. You do not need to provide a username. |
+| [HTTP Bearer Auth](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/) | Provide your API key as the bearer token. |
 
-HTTP Basic Auth
+Currently, we support one key per user on your team. Once you have generated a key, you will need to pass in the key with every API request for us to process it successfully. Otherwise, an error with a code of 401 will be returned.
 
-HTTP Bearer Auth Provide your API key as the bearer token.
-
-HTTP Bearer Auth
-
-| HTTP Basic Auth | Provide your API key as the basic auth password. You do not need to provide a username. | HTTP Bearer Auth | Provide your API key as the bearer token. |
-Currently, we support one key per user on your team. Once you have generated a key, you will need to pass in the key with every API request for us to process it successfully. Otherwise, an error with a corresponding error code will be returned.
-
-#### Note
-
-Changes made through the API will be attributed to the person the API key is assigned to.
+> **Note**  
+> Changes made through the API will be attributed to the person the API key is assigned to.
 
 ### Request & Response
 
@@ -165,9 +170,8 @@ Here is a list of all the error codes the Affinity API returns in case something
 | 429 | Too Many Requests - Rate limit exceeded. |
 | 500 | Internal Server Error - An error occurred on the server. |
 
-#### Note
-
-Requests must be sent over HTTPS. Requests sent over HTTP will not return any data in order to ensure your sensitive information remains secure.
+> **Note**  
+> Requests must be sent over HTTPS. Requests sent over HTTP will not return any data in order to ensure your sensitive information remains secure.
 
 ## Rate Limit
 
@@ -226,21 +230,20 @@ See the [/rate-limit](#rate-limit) endpoint for more details.
 
 ### Overview
 
-The three top-level objects in Affinity are Person, Organization, and Opportunities, and everything in the product is centered around these three resources. We refer to a data model that is a person, organization, or opportunity as an "entity".
+The three top-level objects in Affinity are Persons, Organizations, and Opportunities, and everything in the product is centered around these three resources. We refer to a data model that is a person, organization, or opportunity as an "Entity".
 
-The data stored in Affinity can be easily understood as a spreadsheet, with many rows, columns, and cells. For each part of a spreadsheet, there are directly equivalent data models in Affinity.
+The data stored in Affinity can be easily understood as a spreadsheet, with many rows, columns and cells. For each part of a spreadsheet, there are directly equivalent data models in Affinity.
 
-The List view in Affinity represents the spreadsheet itself. A List is a collection of many rows, and the Affinity equivalent of a row is a List Entry. Each column in a spreadsheet is represented by a Field.
+The List view in Affinity represents the spreadsheet itself. A List is a collection of many rows, and the Affinity equivalent of a row is a **List Entry**. Each column in a spreadsheet is represented by a "Field". There are three types of Fields in Affinity: **Global Fields**, **List-specific Fields** and Smart Fields.
 
-The data in each cell is represented by a "Field Value". There are both regular Field Values and Smart Field Values.
+The data in each cell is represented by a "Field Value". There are both regular **Field Values** and **Smart Field Values**.
 
-#### When working with Affinity's API, it is important to understand the difference between how data is organized in the CRM versus the API.
+![Data Model Overview](https://api-docs.affinity.co/images/crm-field-mappings-47b2c3ba.png)
 
-Although Smart Fields show up as columns in the List, they do not exist in the API in the same way Global Fields and List-specific Fields do.
-
-To retrieve Smart Field Values, see the Retrieving Field Value section.
-
-Retrieving Field Value
+> **Note**  
+> When working with Affinity's API, it is important to understand the differences between how data is organized in the CRM versus the API.  
+> Although Smart Fields show up as a column in the List, they **do not** exist in the API in the same way **Global Fields** and **List-specific Fields** ones do.  
+> To retrieve **Smart Field Values**, see the [Retrieving Field Values](#retrieving-field-values) section.
 
 ### Default Field
 
@@ -254,7 +257,9 @@ Use the common use cases below to learn how Affinity API endpoints work.
 
 - To reduce API calls, create any initial backfill with the REST API then use Webhooks to keep data synced. You may want to schedule occasional syncs via the REST API to fix any inconsistencies.
 
-- Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the fields in question and inspect the request payload for the field_id.
+- Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId`
+
+![Request Payload Example](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
 - The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list: affinity.affinity.co/list/[list_id] and for a company profile: affinity.affinity.co/companies/[organization_id]
 - For large lists, use page_size and page_token parameters in the GET /list/{list_id}/list-entries endpoint to improve performance.
 ## GET /list/{list_id}/list-entries
@@ -609,26 +614,16 @@ This list would have 25 "list entries". Each list entry would be associated with
 
 #### The List Resource
 
-id integer The unique identifier of the list object.
-
-type integer The type of the entities (people, organizations, or opportunities) contained within the list. Each list only supports one entity type.
-
-| id | integer | The unique identifier of the list object. | type | integer | The type of the entities (people, organizations, or opportunities) contained within the list. Each list only supports one entity type. |
-name string The title of the list that is displayed in Affinity.
-
-| name | string | The title of the list that is displayed in Affinity. | public | boolean | When true, the list is publicly accessible to all users in your Affinity account. When false, the list is private to the list's owner and (explicitly set) additional users. |
-public boolean When true, the list is publicly accessible to all users in your Affinity account. When false, the list is private to the list's owner and (explicitly set) additional users.
-
-owner_id integer The unique ID of the internal person who owns the list. See here for permissions held by a list's owner.
-
-creator_id integer The unique ID of the internal person who created the list. If the list was created via API, this is the internal person corresponding to the API key that was used.
-
-| owner_id | integer | The unique ID of the internal person who owns the list. See [here](#list-level-role) for permissions held by a list's owner. | creator_id | integer | The unique ID of the internal person who created the list. If the list was created via API, this is the internal person corresponding to the API key that was used. |
-list_size integer The number of list entries contained within the list.
-
-additional_permission object[] The list of additional internal persons with permissions on the list. Should be a list of objects with internal_person_id and role_id, where role_id comes from the list-level role table below.
-
-| list_size | integer | The number of list entries contained within the list. | additional_permission | "object[]" | The list of additional internal persons with permissions on the list. Should be a list of objects with internal_person_id and role_id, where role_id comes from the [list-level role](#list-level-role) table below. |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the list object. |
+| type | integer | The type of the entities (people, organizations, or opportunities) contained within the list. Each list only supports one entity type. |
+| name | string | The title of the list that is displayed in Affinity. |
+| public | boolean | When true, the list is publicly accessible to all users in your Affinity account. When false, the list is private to the list's owner and (explicitly set) additional users. |
+| owner_id | integer | The unique ID of the internal person who owns the list. See [here](#list-level-role) for permissions held by a list's owner. |
+| creator_id | integer | The unique ID of the internal person who created the list. If the list was created via API, this is the internal person corresponding to the API key that was used. |
+| list_size | integer | The number of list entries contained within the list. |
+| additional_permissions | object[] | The list of additional internal persons with permissions on the list. Should be a list of objects with `internal_person_id` and `role_id`, where `role_id` comes from the [list-level role](#list-level-role) table below. |
 
 #### List Type
 
@@ -731,11 +726,8 @@ Each list comprises a number of entries. Each list entry has a creator, a list t
 
 Operations like adding and removing entities from a list can be accomplished using the list entry abstraction.
 
-#### Note
-
-Although list entries correspond to rows in an Affinity spreadsheet, the values associated with the entity are not stored inside the list entry resource. If you are trying to update, create, or delete field values, see the Field Value section.
-
-Field Value
+> **Note**  
+> Although list entries correspond to rows in an Affinity spreadsheet, the values associated with the entity are not stored inside the list entry resource. If you are trying to update, create, or delete field values, see the [Field Value](#field-value) section.
 
 #### Get All List Entries
 
@@ -810,9 +802,8 @@ Create a new list entry in the list with the supplied list id.
 
 #### Payload Parameter
 
-#### Note
-
-Opportunities cannot be created using this endpoint. Instead, use the POST /opportunities endpoint.
+> **Note**
+> Opportunities cannot be created using this endpoint. Instead, use the POST /opportunities endpoint.
 
 #### Example Request
 
@@ -833,9 +824,9 @@ curl -X POST “https://api.affinity.co/lists/450/list-entries” \
 
 ## POST /opportunities
 
-#### Note
+> **Note**
+> Person and company lists can contain the same entity multiple times. Depending on your use case, before you add an entry, you may want to verify whether or not it exists in the list already.
 
-Person and company lists can contain the same entity multiple times. Depending on your use case, before you add an entry, you may want to verify whether or not it exists in the list already.
 #### The list entry resource that was just created through this request.
 
 #### Delete a Specific List Entry
@@ -872,13 +863,12 @@ Delete a list entry with a specified list_entry_id.
 
 The JSON object {"success": true}.
 
-#### Note
+> **Note**
+> This will also delete all the field values, if any, associated with the list entry. Such field values will only exist in fields specific to this list.
 
-This will also delete all the field values, if any, associated with the list entry. Such field values will only exist in fields specific to this list.
+> **Note**
+> If the list entry belongs to an Opportunity list, then the opportunity that the list entry is associated with will also be deleted.
 
-#### Note
-
-If the list entry belongs to an Opportunity list, then the opportunity that the list entry is associated with will also be deleted.
 #### Field
 
 As discussed in the previous section, fields as a data model represent the "columns" in a spreadsheet. A field can be specific to a given list, or it can be global. List-specific fields appear as columns only in that particular list, while global fields appear as columns in all lists.
@@ -959,9 +949,8 @@ Affinity is extremely flexible and customizable, and a lot of that power comes f
 
 All the types listed below can be referenced by looking at the Affinity web app as well.
 
-#### Note
-
-The API currently does not support updating and modifying fields. This must be done through the web product.
+> **Note**
+> The API currently does not support updating and modifying fields. This must be done through the web product.
 
 #### Get Field
 
@@ -983,13 +972,12 @@ Pass the exclude_dropdown_option flag to exclude dropdown options from the respo
 
 An array of all the fields requested.
 
-#### Note
+> **Note**
+> Results returned with list_id: null mean they do not belong to a specific list and thus are global fields.
 
-Results returned with list_id: null mean they do not belong to a specific list and thus are global fields.
+> **Note**
+> Field endpoint does not return any Crunchbase fields.
 
-#### Note
-
-Field endpoint does not return any Crunchbase fields.
 #### Create Field
 
 ## POST /field
@@ -1062,13 +1050,12 @@ As an example for how a field value is created:
 - A person X is added to this list. This action creates a list entry for this person.
 - A value, 50,000, is entered in the cell corresponding to person X in the Deal Size column.
 - 50,000 is now a field value tied to the list entry corresponding to person X, and the "Deal Size" field.
-#### Note
+> **Note**
+> By default, Affinity creates some fields for you automatically. These include Location, Industry, Job Title, and more. See the Default Field section for more information.
 
-By default, Affinity creates some fields for you automatically. These include Location, Industry, Job Title, and more. See the Default Field section for more information.
+> **Note**
+> Opportunities cannot have global field values.
 
-#### Note
-
-Opportunities cannot have global field values.
 #### The Field Value Resource
 
 Each field value object has a unique id.
@@ -1081,9 +1068,8 @@ A field value can take on many different kinds of values, depending on the field
 
 Field
 
-#### Note
-
-When retrieving Field Values from a specific cell in your Affinity list, it may be helpful to think about it as an XY coordinate system. The X coordinate is the List Entry or Entity and the Y coordinate is the Field.
+> **Note**
+> When retrieving Field Values from a specific cell in your Affinity list, it may be helpful to think about it as an XY coordinate system. The X coordinate is the List Entry or Entity and the Y coordinate is the Field.
 
 #### Field Value Value Type
 
@@ -1303,18 +1289,17 @@ Returns all field values attached to a person, organization, opportunity, or lis
 
 An array of all the field values associated with the supplied person, organization, opportunity, or list_entry.
 
-#### Note
+> **Note**
+> Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified to the endpoint.
+>
+> - If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for these entities.
 
-Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified to the endpoint.
+> **Note**
+> Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /person/{person_id} or GET /organization/{organization_id} endpoint.
 
-- If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for these entities.
-#### Note
+> **Note**
+> Field value endpoint does return Crunchbase fields, but with null values.
 
-Smart fields cannot be retrieved using the field value endpoint. Smart field values can be retrieved using the with_interaction_date parameter on the GET /person/{person_id} or GET /organization/{organization_id} endpoint.
-
-#### Note
-
-Field value endpoint does return Crunchbase fields, but with null values.
 #### Create a New Field Value
 
 ## POST /field-value
@@ -1366,9 +1351,8 @@ Field Value Resource
 
 The field value object that was just updated through this request.
 
-#### Note
-
-When updating a specific field value, make sure to use the field_value_id and not the field_id.
+> **Note**
+> When updating a specific field value, make sure to use the field_value_id and not the field_id.
 
 #### Delete a Field Value
 
@@ -1410,11 +1394,10 @@ Among fields that are not enriched, only the ones with the following data types 
 
 #### Single-valued field
 
-#### Note
-
-You can also see if a field does so by looking at the track_change attribute in the Field Resource. The API will return an appropriate error if the field doesn't support historical tracking.
-
-Field Resource
+> **Note**
+> You can also see if a field does so by looking at the track_change attribute in the Field Resource. The API will return an appropriate error if the field doesn't support historical tracking.
+>
+> Field Resource
 
 #### The Field Value Change Resource
 
@@ -1426,9 +1409,8 @@ A field value change also has field_id, entity_id, list_entry_id attributes that
 
 The action types specified below correspond to the action_type of a field value change. This attribute filters the field value changes that are returned. For example, when an action_type of 0 is specified, only created actions will be returned.
 
-#### Note
-
-There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
+> **Note**
+> There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
 
 #### Get Field Value Change
 
@@ -1454,12 +1436,12 @@ Returns all field value changes attached to a specific field. Field value change
 
 An array of all the field value changes associated with the supplied field and person, organization, opportunity or list_entry if specified.
 
-#### Note
+> **Note**
+> Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified to the endpoint.
+>
+> - If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field value changes tied to these entities.
+> - If a list_entry_id is specified, the result is filtered by the person_id, organization_id or opportunity_id which is tied to the specified list_entry_id.
 
-Exactly one of person_id, organization_id, opportunity_id, or list_entry_id must be specified to the endpoint.
-
-- If a person_id, organization_id, or opportunity_id is specified, the endpoint returns all field value changes tied to these entities.
-- If a list_entry_id is specified, the result is filtered by the person_id, organization_id or opportunity_id which is tied to the specified list_entry_id.
 #### Person
 
 The person API allows you to manage all the contacts of your organization. These people include anyone your team has ever been in email communication or meeting with, and all the people that your team has added to Affinity.
@@ -1475,48 +1457,48 @@ Each person resource is assigned a unique id and stores the name, type, and emai
 
 The person resource organization_id is a collection of unique identifiers to the person's associated organizations.
 
-#### Note
+> **Note**
+> A person can be associated with multiple organizations. For example, say you have a person who works at Company A, and later moves to Company B. That person would be associated with both organizations.
+>
+> The person resource type indicate whether a person is internal or external to your team. Every internal person is a user of Affinity on your team, and all other people are external.
+>
+> Dates of the most recent and upcoming interactions with a person are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /person endpoint.
+>
+> id integer The unique identifier of the person object.
+>
+> type integer The type of person ( see below).
+>
+> | id | integer | The unique identifier of the person object. | type | integer | The type of person (see below). |
+> first_name string The first name of the person.
+>
+> last_name string The last name of the person.
+>
+> | The type of person ( see below). | first_name | The first name of the person. | last_name |
+> email string[] The email addresses of the person.
+>
+> | The last name of the person. | email | "string[]" | The email addresses of the person. |
+> primary_email string The email (automatically computed) that is most likely to be the current active email address of the person.
+>
+> organization_id integer[] An array of unique identifiers of organizations that the person is associated with.
+>
+> | primary_email | string | The email (automatically computed) that is most likely to be the current active email address of the person. | organization_id | "integer[]" | An array of unique identifiers of organizations that the person is associated with. |
+> opportunity_id integer[] An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true.
+>
+> | An array of unique identifiers of organizations that the person is associated with. | opportunity_id | "integer[]" | An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true. |
+> current_organization_id integer[] An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true.
+>
+> list_entries ListEntry[] An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint.
+>
+> | current_organization_id | "integer[]" | An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true. | list_entries | "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. |
+> Get a Specific Person
+>
+> interaction_date objects An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date.
+>
+> | "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. | interaction_date | objects | An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. |
+> interaction objects An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction.
+>
+> | An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. | interaction | objects | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction. |
 
-A person can be associated with multiple organizations. For example, say you have a person who works at Company A, and later moves to Company B. That person would be associated with both organizations.
-
-The person resource type indicate whether a person is internal or external to your team. Every internal person is a user of Affinity on your team, and all other people are external.
-
-Dates of the most recent and upcoming interactions with a person are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /person endpoint.
-
-id integer The unique identifier of the person object.
-
-type integer The type of person ( see below).
-
-| id | integer | The unique identifier of the person object. | type | integer | The type of person (see below). |
-first_name string The first name of the person.
-
-last_name string The last name of the person.
-
-| The type of person ( see below). | first_name | The first name of the person. | last_name |
-email string[] The email addresses of the person.
-
-| The last name of the person. | email | "string[]" | The email addresses of the person. |
-primary_email string The email (automatically computed) that is most likely to be the current active email address of the person.
-
-organization_id integer[] An array of unique identifiers of organizations that the person is associated with.
-
-| primary_email | string | The email (automatically computed) that is most likely to be the current active email address of the person. | organization_id | "integer[]" | An array of unique identifiers of organizations that the person is associated with. |
-opportunity_id integer[] An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true.
-
-| An array of unique identifiers of organizations that the person is associated with. | opportunity_id | "integer[]" | An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true. |
-current_organization_id integer[] An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true.
-
-list_entries ListEntry[] An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint.
-
-| current_organization_id | "integer[]" | An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true. | list_entries | "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. |
-Get a Specific Person
-
-interaction_date objects An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date.
-
-| "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. | interaction_date | objects | An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. |
-interaction objects An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction.
-
-| An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. | interaction | objects | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction. |
 #### Person type
 
 #### Search for Person
@@ -1706,11 +1688,11 @@ Create a new person with the supplied parameters.
 
 The person resource that was newly created from this successful request.
 
-#### Note
+> **Note**
+> If one of the supplied email addresses conflicts with another person object, this request will fail and an appropriate error will be returned.
+>
+> - If you are looking to add an existing person to a list, please check the List Entries section of the API.
 
-If one of the supplied email addresses conflicts with another person object, this request will fail and an appropriate error will be returned.
-
-- If you are looking to add an existing person to a list, please check the List Entries section of the API.
 #### Update a person
 
 #### Example Request
@@ -1740,9 +1722,9 @@ The person object that was just updated through this request.
 
 #### If you are looking to add an existing person to a list, please check the List Entries section of the API.
 
-#### Note
+> **Note**
+> If you are trying to add a new email or organization to a person, the existing values for email and organization_id must also be supplied as parameters.
 
-If you are trying to add a new email or organization to a person, the existing values for email and organization_id must also be supplied as parameters.
 #### Delete a Person
 
 #### Example Request
@@ -1770,9 +1752,8 @@ Delete a person with a specified person_id.
 
 {"success": true}
 
-#### Note
-
-This will also delete all the field values, if any, associated with the person. Such field values exist linked to either global or list-specific fields.
+> **Note**
+> This will also delete all the field values, if any, associated with the person. Such field values exist linked to either global or list-specific fields.
 
 #### Get Global Person Field
 
@@ -1826,13 +1807,12 @@ Each organization object has a unique id. It also has a name, domain (the websit
 
 Each organization also has a flag determining whether it's global or not. As mentioned above, Affinity maintains its own database of global organizations that each customer has access to.
 
-#### Note
-
-You cannot modify or delete global organizations. If you need to modify data for a global organization, you should create a new organization instead.
-
-Of course, if an organization is manually created by your team, all fields can be modified and the organization can be deleted.
-
-Dates of the most recent and upcoming interactions with an organization are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /organization endpoint.
+> **Note**
+> You cannot modify or delete global organizations. If you need to modify data for a global organization, you should create a new organization instead.
+>
+> Of course, if an organization is manually created by your team, all fields can be modified and the organization can be deleted.
+>
+> Dates of the most recent and upcoming interactions with an organization are available in the interaction_date field. This data is only included when passing with_interaction_date=true as a query parameter to the GET /organization endpoint.
 
 ## GET /organization
 
@@ -2041,9 +2021,8 @@ You can filter by interaction date by providing additional query parameters like
 
 An object with two fields: organization and next_page_token. organization maps to an array of all the organization resources that match the search criteria. next_page_token includes a token to be sent as a query parameter in subsequent requests to get the next page of results.
 
-#### Note
-
-When only a search term is supplied, Affinity will search organization resources that are also outside of your instance.
+> **Note**
+> When only a search term is supplied, Affinity will search organization resources that are also outside of your instance.
 
 #### Get a Specific Organization
 
@@ -2096,9 +2075,9 @@ The organization resource that was just updated through a successful request.
 
 #### If you are looking to add an existing organization to a list, please check the List Entries section of the API.
 
-#### Note
+> **Note**
+> If you are trying to add a person to an organization, the existing values for person_id must also be passed into the endpoint.
 
-If you are trying to add a person to an organization, the existing values for person_id must also be passed into the endpoint.
 #### Delete an Organization
 
 #### Example Request
@@ -2126,11 +2105,11 @@ Delete an organization with a specified organization_id.
 
 {"success": true}
 
-#### Note
+> **Note**
+> An appropriate error will be returned if you are trying to delete a global organization.
+>
+> This will also delete all the field values, if any, associated with the organization. Such field values exist linked to either global or list-specific fields.
 
-An appropriate error will be returned if you are trying to delete a global organization.
-
-This will also delete all the field values, if any, associated with the organization. Such field values exist linked to either global or list-specific fields.
 #### Get Global Organization Field
 
 #### Example Request
@@ -2251,11 +2230,11 @@ An opportunity in Affinity represents a potential future sale or deal for your t
 
 Unlike people and organizations, an opportunity can only belong to a single list and, thus, does not have global fields. This list must be provided at the creation of the opportunity. If the list or list-specific fields are deleted, the opportunity will also be deleted.
 
-#### Note
+> **Note**
+> If you are looking to remove an opportunity from a list, note that deleting an opportunity is the same as removing an opportunity from a list because an opportunity can only exist on a single list within Affinity.
+>
+> - If you are looking to modify a field value (one of the cells on Affinity' spreadsheet), please check out the Field Value section of the API.
 
-If you are looking to remove an opportunity from a list, note that deleting an opportunity is the same as removing an opportunity from a list because an opportunity can only exist on a single list within Affinity.
-
-- If you are looking to modify a field value (one of the cells on Affinity' spreadsheet), please check out the Field Value section of the API.
 #### The Opportunity Resource
 
 Each opportunity object has a unique id. It also has a name, person_id and organization_id associated with it, and an array of list_entries. An important attribute to note is list_entries. Because an opportunity can only belong to a single list, the list_entries array will always contain exactly one entry.
@@ -2349,11 +2328,10 @@ Update an existing opportunity with opportunity_id with the supplied parameters.
 
 The opportunity resource that was just updated through a successful request.
 
-#### Note
-
-If you are trying to add a person to an opportunity, the existing values for person_id must also be passed into the endpoint.
-
-If you are trying to add an organization to an opportunity, the existing values for organization_id must also be passed into the endpoint.
+> **Note**
+> If you are trying to add a person to an opportunity, the existing values for person_id must also be passed into the endpoint.
+>
+> If you are trying to add an organization to an opportunity, the existing values for organization_id must also be passed into the endpoint.
 
 #### Example Request
 
@@ -2398,9 +2376,8 @@ curl "https://api.affinity.co/opportunities/120611418" \
 
 {"success": true}
 
-#### Note
-
-This will also delete all the field values, if any, associated with the opportunity.
+> **Note**
+> This will also delete all the field values, if any, associated with the opportunity.
 
 #### Interaction
 
@@ -2410,9 +2387,8 @@ The interaction API allows you to manage interactions.
 
 Different types of interactions have different interaction resources.
 
-#### Note
-
-The combination of ID and type for an interaction is unique.
+> **Note**
+> The combination of ID and type for an interaction is unique.
 
 #### Interaction Type
 
@@ -2664,9 +2640,8 @@ curl -X POST "https://api.affinity.co/interactions" \
 
 Update the content of an existing interaction with the supplied parameters.
 
-#### Note
-
-Updating the content of an interaction using the API is not supported when mentioned IDs are in the content.
+> **Note**
+> Updating the content of an interaction using the API is not supported when mentioned IDs are in the content.
 
 #### Parameter
 
@@ -2753,9 +2728,8 @@ If an internal_id is given, returns the relationship strength between the given 
 
 If no internal_id is given, returns the relationship strength between all internal people and the given external person. The results are not guaranteed to be sorted in any way.
 
-#### Note
-
-Just like field values, notes are used to keep track of state on an entity. They could be notes manually taken from due diligence, a meeting, or a call. Or, notes could be used to store logged activities.
+> **Note**
+> Just like field values, notes are used to keep track of state on an entity. They could be notes manually taken from due diligence, a meeting, or a call. Or, notes could be used to store logged activities.
 
 #### The Note Resource
 
@@ -2790,25 +2764,23 @@ opportunity_id integer[] An array of unique identifiers of opportunity objects t
 
 parent_id integer The unique identifier of the note that this note is a reply to. If this field is null, the note is not a reply.
 
-#### Note
+> **Note**
+> Replies will never have values for opportunity_id, person_id, and organization_id.
+>
+> content string The string containing the content of the note.
+>
+> | opportunity_id | "integer[]" | An array of unique identifiers of opportunity objects that are associated with the note. | parent_id | integer | The unique identifier of the note that this note is a reply to. If this field is null, the note is not a reply. | content | string | The string containing the content of the note. |
+> type integer The type of the note. The supported types for new note creation via API are 0 and 2, which represent plain text and HTML note, respectively.
 
-Replies will never have values for opportunity_id, person_id, and organization_id.
-
-content string The string containing the content of the note.
-
-| opportunity_id | "integer[]" | An array of unique identifiers of opportunity objects that are associated with the note. | parent_id | integer | The unique identifier of the note that this note is a reply to. If this field is null, the note is not a reply. | content | string | The string containing the content of the note. |
-type integer The type of the note. The supported types for new note creation via API are 0 and 2, which represent plain text and HTML note, respectively.
-
-#### Note
-
-Notes with type 3 are AI meeting summaries generated by Affinity Notetaker.
-
-created_at datetime The string representing the time when the note was created.
-
-| type | integer | The type of the note. The supported types for new note creation via API are 0 and 2, which represent plain text and HTML note, respectively. | created_at | datetime | The string representing the time when the note was created. |
-updated_at datetime The string representing the last time the note was updated.
-
-| updated_at | datetime | The string representing the last time the note was updated. |
+> **Note**
+> Notes with type 3 are AI meeting summaries generated by Affinity Notetaker.
+>
+> created_at datetime The string representing the time when the note was created.
+>
+> | type | integer | The type of the note. The supported types for new note creation via API are 0 and 2, which represent plain text and HTML note, respectively. | created_at | datetime | The string representing the time when the note was created. |
+> updated_at datetime The string representing the last time the note was updated.
+>
+> | updated_at | datetime | The string representing the last time the note was updated. |
 
 #### Formatting content as HTML
 
@@ -3026,13 +2998,12 @@ It is possible to create a reply to an existing note by setting parent_id. The p
 
 The note resource created through this request.
 
-#### Note
-
-At least one person_id, organization_id, opportunity_id, or parent_id must be specified to the endpoint.
-
-When creating a note using the API, the user corresponding to the API token will be the creator by default.
-
-To ensure that content gets encoded properly, it is recommended to submit either application/json or application/x-www-form-urlencoded instead of query parameters.
+> **Note**
+> At least one person_id, organization_id, opportunity_id, or parent_id must be specified to the endpoint.
+>
+> When creating a note using the API, the user corresponding to the API token will be the creator by default.
+>
+> To ensure that content gets encoded properly, it is recommended to submit either application/json or application/x-www-form-urlencoded instead of query parameters.
 
 #### Update a Note
 
@@ -3089,9 +3060,8 @@ Update the content of an existing note with note_id with the supplied content pa
 
 The note object that was just updated through this request.
 
-#### Note
-
-You cannot update the content of a note that has mentions. You also cannot update the content of a note associated with an email. You cannot update the type of a note.
+> **Note**
+> You cannot update the content of a note that has mentions. You also cannot update the content of a note associated with an email. You cannot update the type of a note.
 
 #### Delete a Note
 
@@ -3120,9 +3090,8 @@ Delete a note with a specified note_id.
 
 {"success": true}
 
-#### Note
-
-An appropriate error will be returned if you are not the creator of the note you are trying to delete.
+> **Note**
+> An appropriate error will be returned if you are not the creator of the note you are trying to delete.
 
 #### Entity File
 
@@ -3301,9 +3270,8 @@ Download an entity file with a specified entity_file_id.
 
 The actual entity file corresponding to the entity_file_id.
 
-#### Note
-
-The download location of entity files is provided via a redirect from our endpoint and requires the -L flag.
+> **Note**
+> The download location of entity files is provided via a redirect from our endpoint and requires the -L flag.
 
 #### Upload File
 
@@ -3334,11 +3302,11 @@ The file will display on the entity's profile, provided that the entity is not a
 
 {"success": true}
 
-#### Note
+> **Note**
+> File must be attached to a single entity, specified using one of the three entity ID parameters (person_id, organization_id, and opportunity_id).
+>
+> At least one file must be uploaded using the file parameter.
 
-File must be attached to a single entity, specified using one of the three entity ID parameters (person_id, organization_id, and opportunity_id).
-
-At least one file must be uploaded using the file parameter.
 #### Reminder
 
 The reminder API allows you to manage reminders.
@@ -3552,17 +3520,15 @@ is_completed integer false Indicator if the reminder has been completed.
 
 | is_completed | integer | false | Indicator if the reminder has been completed. |
 
-#### Note
-
-At most one of person_id, organization_id or opportunity_id can be specified.
+> **Note**
+> At most one of person_id, organization_id or opportunity_id can be specified.
 
 #### Return
 
 The reminder created through this request.
 
-#### Note
-
-When creating a reminder using the API, the user corresponding to the API token will be the creator by default.
+> **Note**
+> When creating a reminder using the API, the user corresponding to the API token will be the creator by default.
 
 #### Update a Reminder
 
@@ -3650,19 +3616,18 @@ created_by integer The unique identifier of the user who created the webhook sub
 
 | created_by | integer | The unique identifier of the user who created the webhook subscription. |
 
-#### Note
-
-If webhooks cannot be delivered as a result of a timeout or a connectivity issue with the webhook URL, Affinity will retry the delivery with an exponential backoff for up to 10 hours. If Affinity is still unable to deliver the webhook after this time, the webhook subscription will be automatically disabled.
+> **Note**
+> If webhooks cannot be delivered as a result of a timeout or a connectivity issue with the webhook URL, Affinity will retry the delivery with an exponential backoff for up to 10 hours. If Affinity is still unable to deliver the webhook after this time, the webhook subscription will be automatically disabled.
 
 #### Supported Webhook Event
 
-#### Note
+> **Note**
+> The Field Value webhook events do not include enrichment events; updates to enrichment field values are not supported.
+>
+> - Example of our webhook response can be found in the [Help Center](https://help.affinity.co).
+> - Field webhooks are not fired for Crunchbase fields.
+> - Field value webhooks are fired with `null` value for Crunchbase fields.
 
-The Field Value webhook events do not include enrichment events; updates to enrichment field values are not supported.
-
-- Example of our webhook response can be found in the [Help Center](https://help.affinity.co).
-- Field webhooks are not fired for Crunchbase fields.
-- Field value webhooks are fired with `null` value for Crunchbase fields.
 #### Get All Webhook Subscription
 
 #### Example Request
@@ -3844,9 +3809,8 @@ Create a new webhook subscription with the supplied parameters. If the endpoint 
 
 The webhook subscription object that was just created from this successful request per organization.
 
-#### Note
-
-There is a limit of three webhook subscriptions per Affinity instance.
+> **Note**
+> There is a limit of three webhook subscriptions per Affinity instance.
 
 #### Update a Webhook Subscription
 
@@ -4007,9 +3971,8 @@ The rate limit endpoint allows you to see your monthly account-level and per min
 
 The rate limit resource includes information about account (AKA organization)-level and API key-level rate limits and usage.
 
-#### Note
-
-/rate-limit and /auth/whoami endpoints are exempt from organization-level monthly rate limit.
+> **Note**
+> /rate-limit and /auth/whoami endpoints are exempt from organization-level monthly rate limit.
 
 ## Get Rate Limit Information
 
