@@ -1,0 +1,41 @@
+# All scripts are temporary/throwaway for this iterative project
+/scripts/
+
+# Temporary development files
+/tmp/
+/.tmp/
+*.tmp
+/.dev/
+
+# Extracted HTML and parsed data
+/api_docs_raw.html
+/code_blocks.json
+/extracted_*.json
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+/browser-logs/
+
+# Output files from extraction/processing
+/output/
+/build/
+
