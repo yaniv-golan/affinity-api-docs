@@ -257,344 +257,320 @@ The data in each cell is represented by a "Field Value". There are both regular 
 
 By default, Affinity creates some fields for you automatically. Below are the fields created by type:
 
-## Common Use Case
+## Common Use Cases
 
 Use the common use cases below to learn how Affinity API endpoints work.
 
-### Helpful Tip
+> **Helpful Tips**
+>
+> - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhook) to keep data synced. You may want to schedule occasional syncs via the REST API to fixed any inconsistencies
+> - Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId`
+>
+> ![Request Payload Example](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
+>
+> - The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list `affinity.affinity.co/lists/[**list_id**]` and for a company profile `affinity.affinity.co/companies/[**company_id**]`
+> - For large lists, use `page_size` and `page_token` parameters in the [`GET /lists/{list_id}/list-entries`](#list-entries) endpoint to improve performance
+## Getting Field Values for All List Entries on a List
 
-- To reduce API calls, create any initial backfill with the REST API then use Webhooks to keep data synced. You may want to schedule occasional syncs via the REST API to fix any inconsistencies.
+1. Query [`GET /lists`](#list) to get all lists and filter results by list name to get the appropriate list ID
 
-- Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId`
-
-![Request Payload Example](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
-- The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list: affinity.affinity.co/list/[list_id] and for a company profile: affinity.affinity.co/companies/[organization_id]
-- For large lists, use page_size and page_token parameters in the GET /list/{list_id}/list-entries endpoint to improve performance.
-## GET /list/{list_id}/list-entries
-
-#### Getting Field Value for All List Entries on a List
-
-- 1. Query GET /list to get all lists and filter results by list name to get the appropriate list ID
-#### 1. Query GET /list to get all lists and filter results by list name to get the appropriate list ID
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries" -u :$APIKEY
 ```
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries/56517" \
-   -u :$APIKEY \
-   -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-## GET /list
-
-- "2. Query GET /list /12058/list-entries to get all list entries. Store the entity_id associated with each list entry ID GET /list /{list_id}/list-entries Response: [ { \"id\": 37605676, \"list_id\""
-#### 2. Query GET /list/{list_id}/list-entries to get all list entries. Store the entity_id associated with each list entry ID
-
-#### Example Request
-
-```bash
-# Returns an array of all lists that you have access to.
-curl "https://api.affinity.co/lists" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-## GET /list/{list_id}/list-entries
-
-- 3. For each list entry, query GET /field-value with the entity_id from the previous step. Make sure you are passing entity_id through the appropriate parameter (e.g. person_id)
-#### 3. For each list entry, query GET /field-value with the entity_id from the previous step. Make sure you are passing entity_id through the appropriate parameter (e.g. person_id)
-
-## GET /field-value
-
-- 4. Locate field values for a given set of fields (optional). Query GET /field to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results.
-#### 4. Locate field values for a given set of fields (optional)
-
-- Query GET /field to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results.
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-## GET /field
-
-- Filter results of GET /field by field name to get the appropriate field ID
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/fields/1234" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-## GET /field
-
-- Cross-reference the field_id from Step 3 with the field ID from Step 4
-#### Getting Field Value Change for Status Field
-
-- 1. Query GET /list and filter results to get the appropriate list ID
-#### 1. Query GET /list and filter results to get the appropriate list ID
-
-## GET /list
-
-- 2. Locate the appropriate status field: Query GET /field to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results.
-#### 2. Locate the appropriate status field:
-
-- Query GET /field to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results.
-## GET /field
-
-- Filter results of GET /field by field name and cross-reference the list_id with the appropriate list ID from Step 1 to confirm you have the appropriate status field
-- 3. Query GET /field-value-change passing in the id from Step 2
-#### 3. Query GET /field-value-change passing in the id from Step 2
-
-#### Example Request
-
-```bash
-GET /fields
-```
-
-```bash
-GET /fields
-```
-
-```bash
-GET /fields Response:
+GET /lists Response:
 [
-{
-"id": 61223,
-"name": "Amount",
-"list_id": 12058,
-"value_type": 3,
-"allows_multiple": false,
-"track_changes": true,
-}
-...
+  {
+    "id": 12058,
+    "type": 0,
+    "name": "Current Prospects",
+    "public": true,
+    "owner_id": 477400,
+    "list_size": 150
+  }
+  ...
 ]
 ```
 
-```bash
-GET /fields
-```
+2. Query [`GET /lists/{list_id}/list-entries`](#list-entries) to get all list entries. Store the `entity_id` associated with each list entry ID
 
-```bash
-GET /fields
 ```
-
-```bash
-GET /fields Response:
+GET /lists/{list_id}/list-entries Response:
 [
-{
-"id": 61223,
-"name": "Amount",
-"list_id": 12058,
-"value_type": 3,
-"allows_multiple": false,
-"track_changes": true,
-},
-...
+  {
+    "id": 37605676,
+    "list_id": 113859,
+    "creator_id": 63842761,
+    "entity_id": 7133202,
+    "entity_type": 8,
+    "created_at": "2021-09-12T16:29:15.962-07:00",
+    "entity": {
+      "id": 7133202,
+      "name": "Affinity Opportunity"
+    }
+  }
+  ...
 ]
 ```
 
-```bash
-GET /persons/fields
+3. For each list entry, query [`GET /field-values`](#field-value) with the `entity_id` from the previous step. Make sure you are passing `entity_id` through the appropriate parameter (e.g person_id)
+
+```
+GET /field-values Response:
+[
+  {
+    "id": 2448594830,
+    "field_id": 61223,
+    "list_entry_id": 37605676,
+    "entity_type": 0,
+    "value_type": 3,
+    "entity_id": 7133202,
+    "value": 5000.0
+  }
+  ...
+]
 ```
 
-```bash
-GET /organizations/fields
+4. Locate field values for a given set of fields (optional)
+   1. Query [`GET /fields`](#field) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the `list_id` parameter to prefilter the results
+   2. Filter results of [`GET /fields`](#field) by field name to get the appropriate field ID
+   3. Cross-reference the `field_id` from Step 3 with the field ID
+
+```
+GET /fields Response:
+[
+  {
+    "id": 61223,
+    "name": "Amount",
+    "list_id": 12058,
+    "value_type": 3,
+    "allows_multiple": false,
+    "track_changes": true
+  }
+  ...
+]
 ```
 
-```bash
-curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+## Getting Field Value Changes for Status Fields
+
+1. Query [`GET /lists`](#list) and filter results to get the appropriate list ID
+
+```
+GET /lists Response:
+[
+  {
+    "id": 12058,
+    "type": 0,
+    "name": "Current Prospects",
+    "public": true,
+    "owner_id": 477400,
+    "list_size": 150
+  }
+  ...
+]
 ```
 
-```bash
-curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+2. Locate the appropriate status field:
+   1. Query [`GET /fields`](#field) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results
+   2. Filter results of [`GET /fields`](#field) by field name and cross-reference the `list_id` with the appropriate list ID from Step 1 to confirm you have the appropriate status field
+
+```
+GET /fields Response:
+[
+  {
+    "id": 61223,
+    "name": "Amount",
+    "list_id": 12058,
+    "value_type": 3,
+    "allows_multiple": false,
+    "track_changes": true
+  }
+  ...
+]
 ```
 
-```bash
-GET /fields
+3. Query [`GET /field-value-changes`](#field-value-change) passing in the `id` from Step 2
+
+```
+GET /field-values-changes Response:
+[
+  {
+    "id": 7,
+    "entity_attribute_id": 106,
+    "changer": {
+        "id": 2,
+        "type": 1,
+        "first_name": "Alice",
+        "last_name": "Doe",
+        "primary_email": "alice@affinity.co",
+        "emails": [
+            "alice@affinity.co"
+        ]
+    },
+    "changed_at": "2021-09-17T10:43:12.781-04:00",
+    "action_type": 2,
+    "list_entry_id": 15709964,
+    "person": {
+        "id": 2,
+        "type": 1,
+        "first_name": "John",
+        "last_name": "Doe",
+        "primary_email": "jdoe@alumni.stanford.edu",
+        "emails": [
+            "jdoe@alumni.stanford.edu"
+        ]
+    },
+    "company": null,
+    "opp": null,
+    "value": {
+        "id": 30,
+        "text": "In Progress",
+        "rank": 1,
+        "color": 3
+    },
+    "entity_id": 38706,
+    "field_id": 61223
+  }
+  ...
+]
 ```
 
-```bash
-curl -X POST "https://api.affinity.co/fields" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
+4. Filter results of [`GET /field-value-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+
+```
+GET /field-values-changes Response:
+[
+  {
+    "id": 7,
+    "entity_attribute_id": 106,
+    "changer": {
+        "id": 2,
+        "type": 1,
+        "first_name": "Alice",
+        "last_name": "Doe",
+        "primary_email": "alice@affinity.co",
+        "emails": [
+            "alice@affinity.co"
+        ]
+    },
+    "changed_at": "2021-09-17T10:43:12.781-04:00",
+    "action_type": 2,
+    "list_entry_id": 15709964,
+    "person": {
+        "id": 2,
+        "type": 1,
+        "first_name": "John",
+        "last_name": "Doe",
+        "primary_email": "jdoe@alumni.stanford.edu",
+        "emails": [
+            "jdoe@alumni.stanford.edu"
+        ]
+    },
+    "company": null,
+    "opp": null,
+    "value": {
+        "id": 30,
+        "text": "In Progress",
+        "rank": 1,
+        "color": 3
+    },
+    "entity_id": 38706,
+    "field_id": 61223
+  }
+  ...
+]
 ```
 
-```bash
-curl -X POST "https://api.affinity.co/fields" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
+## Getting the Strongest Relationship Strength Connection to an Organization on a List
+
+1. Query [`GET /lists`](#list) to get all lists and filter results to get the appropriate list ID
+
+```
+GET /lists Response:
+[
+  {
+    "id": 12058,
+    "type": 0,
+    "name": "Current Prospects",
+    "public": true,
+    "owner_id": 477400,
+    "list_size": 150
+  }
+  ...
+]
+
 ```
 
-```bash
-POST /fields
+2. Query [`GET /lists/{list_id}/list-entries`](#list-entries) to get all list entries. Store the `entity_id` associated with each list entry ID
+
+```
+GET /lists/{list_id}/list-entries Response:
+[
+  {
+    "id": 37605676,
+    "list_id": 12058,
+    "creator_id": 63842761,
+    "entity_id": 7133202,
+    "entity_type": 8,
+    "created_at": "2021-09-12T16:29:15.962-07:00",
+    "entity": {
+      "id": 7133202,
+      "name": "Affinity",
+      "domain": "affinity.co",
+      "domains": [
+        "affinity.co"
+      ],
+      "crunchbase_uuid": null,
+      "global": false
+    }
+  }
+  ...
+]
+
 ```
 
-```bash
-curl "https://api.affinity.co/fields/1234" \
--u :$APIKEY \
--X "DELETE"
+3. For each list entry, query [`GET /organizations/{organization_id}`](#organization-organization_id) to get all list people associated with the organization. Store the `person_ids` associated with each organization
+
 ```
 
-```bash
-curl "https://api.affinity.co/fields/1234" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /fields/{id}
-```
-
-```bash
-GET /fields
-```
-
-```bash
-GET /fields
-```
-
-```bash
-GET /persons/fields
-```
-
-```bash
-curl "https://api.affinity.co/persons/fields" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/persons/fields" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
-```
-
-```bash
-GET /organizations/fields
-```
-
-#### Example Response
-
-```json
+GET /organizations/7133202 Response:
 {
-  "id": 123
+  "id": 7133202,
+  "name": "Affinity",
+  "domain": "affinity.co",
+  "domains": ["affinity.co"],
+  "crunchbase_uuid": null,
+  "global": false,
+  "person_ids": [89734, 117270, 138123, 274492, 304848, ...],
+  "list_entries": [
+    {
+      "id": 389,
+      "list_id": 26,
+      "creator_id": 38603,
+      "entity_id": 7133202,
+      "entity_type": 0,
+      "created_at": "2020-12-11T02:26:56.537-08:00",
+    }
+    ...
+  ]
 }
+
 ```
 
-## GET /field-value-change
+4. For each person ID from Step 3, query [`GET /relationships-strengths`](#relationship-strength) passing in the person ID. Once all person IDs have been looped through, filter for the highest `strength`
 
-- 4. Filter results of GET /field-value-change (e.g.: If you only want status field changes for a specific organization in your list, search by the list_entry_id).
-#### 4. Filter results of GET /field-value-change (e.g.: If you only want status field changes for a specific organization in your list, search by the list_entry_id).
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
 ```
 
-#### Example Response
+GET /relationships-strengths Response:
+[
+  {
+    "internal_id": 26317,
+    "external_id": 89734,
+    "strength": 0.5
+  }
+  ...
+]
 
-```json
-{
-  "id": 123
-}
 ```
 
-## GET /field-value-change
-
-#### Getting the Strongest Relationship Strength Connection to an Organization on a List
-
-- 1. Query GET /list to get all lists and filter results to get the appropriate list ID
-#### 1. Query GET /list to get all lists and filter results to get the appropriate list ID
-
-## GET /list
-
-- "2. Query GET /list /12058/list-entries to get all list entries. Store the entity_id associated with each list entry ID GET /list /{list_id}/list-entries Response: [ { \"id\": 37605676, \"list_id\""
-#### 2. Query GET /list/{list_id}/list-entries to get all list entries. Store the entity_id associated with each list entry ID
-
-## GET /list/{list_id}/list-entries
-
-- 3. For each list entry, query GET /organization/{organization_id} to get all people associated with the organization. Store the person_id associated with each organization
-#### 3. For each list entry, query GET /organization/{organization_id} to get all people associated with the organization. Store the person_id associated with each organization
-
-## GET /organization/{organization_id}
-
-- 4. For each person ID from Step 3, query GET /relationship-strength passing in the person ID. Once all person IDs have been looped through, filter for the highest strength
-#### 4. For each person ID from Step 3, query GET /relationship-strength passing in the person ID. Once all person IDs have been looped through, filter for the highest strength
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/organizations/120611418" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-## GET /relationship-strength
-
-#### Useful Resource
+## Useful Resource
 
 - Postman Collection (Right-click and save as JSON then import into Postman)
 
