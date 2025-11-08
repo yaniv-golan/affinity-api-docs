@@ -88,7 +88,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Update a Field Value](#update-a-field-value)
   - [Delete a Field Value](#delete-a-field-value)
 - [Field Value Change](#field-value-change)
-  - [Supported fields type](#supported-fields-type)
+  - [Supported field types](#supported-field-types)
   - [The Field Value Change Resource](#the-field-value-change-resource)
   - [Get Field Value Change](#get-field-value-change)
 - [Person](#person)
@@ -116,7 +116,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Delete an Opportunity](#delete-an-opportunity)
 - [Interaction](#interaction)
   - [The Interaction Resource](#the-interaction-resource)
-  - [Get All Interaction](#get-all-interaction)
+  - [Get All Interactions](#get-all-interactions)
   - [Get a Specific Interaction](#get-a-specific-interaction)
   - [Create a New Interaction](#create-a-new-interaction)
   - [Update an Interaction](#update-an-interaction)
@@ -126,28 +126,28 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Get Relationship Strength](#get-relationship-strength)
 - [Note](#note)
   - [The Note Resource](#the-note-resource)
-  - [Get All Note](#get-all-note)
+  - [Get All Notes](#get-all-notes)
   - [Get a Specific Note](#get-a-specific-note)
   - [Create a New Note](#create-a-new-note)
   - [Update a Note](#update-a-note)
   - [Delete a Note](#delete-a-note)
 - [Entity File](#entity-file)
   - [The Entity File Resource](#the-entity-file-resource)
-  - [Get All File](#get-all-file)
+  - [Get All Entity Files](#get-all-entity-files)
   - [Get a Specific File](#get-a-specific-file)
   - [Download File](#download-file)
   - [Upload File](#upload-file)
 - [Reminder](#reminder)
   - [The Reminder Resource](#the-reminder-resource)
-  - [Get All Reminder](#get-all-reminder)
+  - [Get All Reminders](#get-all-reminders)
   - [Get a Specific Reminder](#get-a-specific-reminder)
   - [Create a New Reminder](#create-a-new-reminder)
   - [Update a Reminder](#update-a-reminder)
   - [Delete a Reminder](#delete-a-reminder)
 - [Webhook](#webhook)
   - [The Webhook Subscription Resource](#the-webhook-subscription-resource)
-  - [Supported Webhook Event](#supported-webhook-event)
-  - [Get All Webhook Subscription](#get-all-webhook-subscription)
+  - [Supported Webhook Events](#supported-webhook-events)
+  - [Get All Webhook Subscriptions](#get-all-webhook-subscriptions)
   - [Get a Specific Webhook Subscription](#get-a-specific-webhook-subscription)
   - [Create a New Webhook Subscription](#create-a-new-webhook-subscription)
   - [Update a Webhook Subscription](#update-a-webhook-subscription)
@@ -726,7 +726,7 @@ curl "https://api.affinity.co/relationships-strengths?external_id=1234" -u :$API
 }
 ```
 
-## GET /list/{list_id}
+## GET /lists/{list_id}
 
 Get the details for a specific list given the existing list id.
 
@@ -753,7 +753,7 @@ curl "https://api.affinity.co/lists/450" -u :$APIKEY
 }
 ```
 
-## POST /list
+## POST /lists
 
 Create a new list with the supplied parameters.
 
@@ -795,10 +795,7 @@ Operations like adding and removing entities from a list can be accomplished usi
 #### Example Request
 
 ```bash
-curl -X POST “https://api.affinity.co/lists” \
-   -u :$APIKEY \
-   -H "Content-Type: application/json" \
-   -d '{ "name": "My List of Organizations", "type": 1, "is_public": true, "owner_id": 38706, "additional_permissions": [ {"internal_person_id": 38701, "role_id": 0}, {"internal_person_id": 38703, "role_id": 1}, {"internal_person_id": 38900, "role_id": 0} ]}'
+curl "https://api.affinity.co/lists/450/list-entries" -u :$APIKEY
 ```
 
 #### Example Response
@@ -809,7 +806,7 @@ curl -X POST “https://api.affinity.co/lists” \
 }
 ```
 
-## GET /list/{list_id}/list-entries
+## GET /lists/{list_id}/list-entries
 
 If no page size is specified, fetch all the list entries in the list with the supplied list id. If a page size is specified, fetch up to that number of list entries in the list with the supplied list id.
 
@@ -825,7 +822,7 @@ List Entry Resource
 
 #### Get a Specific List Entry
 
-## GET /list/{list_id}/list-entries/{list_entry_id}
+## GET /lists/{list_id}/list-entries/{list_entry_id}
 
 Fetch a list entry with a specified id.
 
@@ -857,7 +854,7 @@ curl "https://api.affinity.co/lists/450/list-entries/56517" \
 }
 ```
 
-## POST /list/{list_id}/list-entries
+## POST /lists/{list_id}/list-entries
 
 Create a new list entry in the list with the supplied list id.
 
@@ -916,7 +913,7 @@ curl -X POST "https://api.affinity.co/opportunities/120611418" \
 }
 ```
 
-## DELETE /list/{list_id}/list-entries/{list_entry_id}
+## DELETE /lists/{list_id}/list-entries/{list_entry_id}
 
 Delete a list entry with a specified list_entry_id.
 
@@ -984,7 +981,7 @@ curl "https://api.affinity.co/persons/fields" -u :$APIKEY
 
 ## GET /organizations/fields
 
-- List-specific field IDs are also returned from GET /list/{list_id}
+- List-specific field IDs are also returned from GET /lists/{list_id}
 
 #### Example Request
 
@@ -1000,7 +997,7 @@ curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
 }
 ```
 
-## GET /list/{list_id}
+## GET /lists/{list_id}
 
 #### The Field Resource
 
@@ -2462,25 +2459,46 @@ Different types of interactions have different interaction resources.
 
 #### Logging Type
 
-#### Get All Interaction
+#### Get All Interactions
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/opportunities/120611418" \
-  -u :$APIKEY \
-  -X "DELETE"
+curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_time=2021-01-01T07:00:00Z&end_time=2021-02-25T21:00:00Z&" -u :$APIKEY
 ```
 
 #### Example Response
 
 ```json
 {
-  "id": 123
+  "emails": [
+    {
+      "date": "2021-02-04T09:43:39.717-08:00",
+      "id": 417,
+      "subject": "John <-> Alice",
+      "type": 3,
+      "from": {
+        "id": 443,
+        "type": 1,
+        "first_name": "John",
+        "last_name": "Doe",
+        "primary_email": "john@example.com"
+      },
+      "to": [
+        {
+          "id": 444,
+          "type": 1,
+          "first_name": "Alice",
+          "last_name": "Smith",
+          "primary_email": "alice@example.com"
+        }
+      ]
+    }
+  ]
 }
 ```
 
-## GET /interaction
+## GET /interactions
 
 Return all interactions that meet the query parameters.
 
@@ -2855,9 +2873,9 @@ If you would like to format your note, create them with type equal to 2, as desc
 
 Create a New Note
 
-#### Get All Note
+#### Get All Notes
 
-## GET /note
+## GET /notes
 
 Return all notes attached to a person, organization, or opportunity.
 
@@ -2878,7 +2896,7 @@ curl "https://api.affinity.co/notes" -u :$APIKEY
 ```
 
 ```bash
-GET /notes
+GET /notess
 ```
 
 ```bash
@@ -2892,7 +2910,7 @@ curl "https://api.affinity.co/notes/22984" -u :$APIKEY
 ```
 
 ```bash
-GET /notes/{note_id}
+GET /notess/{note_id}
 ```
 
 ```bash
@@ -2984,7 +3002,7 @@ curl -X PUT "https://api.affinity.co/notes/22984" \
 ```
 
 ```bash
-PUT /notes/{notes_id}
+PUT /notes/{note_id}
 ```
 
 ```bash
@@ -3011,7 +3029,7 @@ DELETE /notes/{note_id}
 }
 ```
 
-## GET /note/{note_id}
+## GET /notess/{note_id}
 
 Get the details for a specific note given the existing note id.
 
@@ -3040,7 +3058,7 @@ curl "https://api.affinity.co/notes/22984" \
 }
 ```
 
-## POST /note
+## POST /notes
 
 Create a new note with the supplied parameters.
 
@@ -3119,7 +3137,7 @@ curl -X POST "https://api.affinity.co/notes" \
 }
 ```
 
-## PUT /note/{note_id}
+## PUT /notes/{note_id}
 
 Update the content of an existing note with note_id with the supplied content parameter.
 
@@ -3149,7 +3167,7 @@ curl -X PUT "https://api.affinity.co/notes/22984" \
 }
 ```
 
-## DELETE /note/{note_id}
+## DELETE /notes/{note_id}
 
 Delete a note with a specified note_id.
 
@@ -3166,19 +3184,12 @@ Entity files are files uploaded to a relevant entity. Possible files, for exampl
 
 #### The Entity File Resource
 
-#### Get All File
+#### Get All Entity Files
 
 #### Example Request
 
 ```bash
-# Returns the note with the specified `note_id`
-curl "https://api.affinity.co/notes/22984" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/notes/22984" \
-  -u :$APIKEY \
-  -X "DELETE"
+curl "https://api.affinity.co/entity-files" -u :$APIKEY
 ```
 
 #### Example Response
@@ -3189,15 +3200,15 @@ curl "https://api.affinity.co/notes/22984" \
 }
 ```
 
-## GET /entity-file
+## GET /entity-files
 
-Return all entity files within your organization. This result will be an object with two fields: entity_file and next_page_token. entity_file maps to an array of all the entity file resources. The value of next_page_token should be sent as a query parameter in subsequent requests to get the next page of results.
+Return all entity files within your organization. This result will be an object with two fields: entity_files and next_page_token. entity_files maps to an array of all the entity file resources. The value of next_page_token should be sent as a query parameter in subsequent requests to get the next page of results.
 
 Can optionally be filtered to return only entity files associated with a specific person, organization, or opportunity.
 
 #### Return
 
-An object with two fields: entity_file and next_page_token. entity_file maps to an array of all the entity file resources. See description for more details on pagination.
+An object with two fields: entity_files and next_page_token. entity_files maps to an array of all the entity file resources. See description for more details on pagination.
 
 #### Get a Specific File
 
@@ -3388,12 +3399,12 @@ A reminder object contains content, which is a string containing the reminder co
 
 #### Reminder Status Type
 
-#### Get All Reminder
+#### Get All Reminders
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/entity-files" -u :$APIKEY
+curl "https://api.affinity.co/reminders" -u :$APIKEY
 ```
 
 #### Example Response
@@ -3676,7 +3687,7 @@ webhook_url string The URL to which the webhooks are sent.
 
 subscriptions string[] An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See below for the complete list of supported webhook events.
 
-| subscriptions | "string[]" | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [below](#supported-webhook-event) for the complete list of supported webhook events. | disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
+| subscriptions | "string[]" | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [below](#supported-webhook-events) for the complete list of supported webhook events. | disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
 disabled boolean If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it.
 
 created_by integer The unique identifier of the user who created the webhook subscription.
@@ -3686,7 +3697,22 @@ created_by integer The unique identifier of the user who created the webhook sub
 > **Note**
 > If webhooks cannot be delivered as a result of a timeout or a connectivity issue with the webhook URL, Affinity will retry the delivery with an exponential backoff for up to 10 hours. If Affinity is still unable to deliver the webhook after this time, the webhook subscription will be automatically disabled.
 
-#### Supported Webhook Event
+#### Supported Webhook Events
+
+The following table lists all supported webhook events:
+
+| Object Type | Events |
+|-------------|--------|
+| List | `list.created`, `list.updated`, `list.deleted` |
+| List Entry | `list_entry.created`, `list_entry.deleted` |
+| Note | `note.created`, `note.updated`, `note.deleted` |
+| Field | `field.created`, `field.updated`, `field.deleted` |
+| Field Value | `field_value.created`, `field_value.updated`, `field_value.deleted` |
+| Person | `person.created`, `person.updated`, `person.deleted` |
+| Organization | `organization.created`, `organization.updated`, `organization.deleted`, `organization.merged` |
+| Opportunity | `opportunity.created`, `opportunity.updated`, `opportunity.deleted` |
+| Entity File | `file.created`, `file.deleted` |
+| Reminder | `reminder.created`, `reminder.updated`, `reminder.deleted` |
 
 > **Note**
 > The Field Value webhook events do not include enrichment events; updates to enrichment field values are not supported.
@@ -3695,27 +3721,12 @@ created_by integer The unique identifier of the user who created the webhook sub
 > - Field webhooks are not fired for Crunchbase fields.
 > - Field value webhooks are fired with `null` value for Crunchbase fields.
 
-#### Get All Webhook Subscription
+#### Get All Webhook Subscriptions
 
 #### Example Request
 
 ```bash
-# Returns the reminder with the specified `reminder_id`
-curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/reminders/22984" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
+curl "https://api.affinity.co/webhook" -u :$APIKEY
 ```
 
 ## GET /webhook
@@ -3870,7 +3881,7 @@ Create a new webhook subscription with the supplied parameters. If the endpoint 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | webhook_url | string | true | The URL to which the webhook will be sent. |
-| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
+| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Events](#supported-webhook-events) section. |
 
 #### Return
 
@@ -3906,7 +3917,7 @@ Update webhook subscription with the supplied parameters. A webhook subscription
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | webhook_url | string | false | The URL to which the webhook will be sent. |
-| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Event](#supported-webhook-event) section. |
+| subscriptions | string[] | false | An array of webhook events that will be enabled for that endpoint. Leave out this parameter or pass an empty array to subscribe to all webhook events. You can find the complete list of supported webhook events in the [Supported Webhook Events](#supported-webhook-events) section. |
 
 #### Return
 
@@ -4089,7 +4100,7 @@ creating a note
 
 #### 2023-06-13
 
-- The created_at parameter on the POST endpoint for notes no longer accepts timestamps in the future. See [POST /note](#post-note) for more details.
+- The created_at parameter on the POST endpoint for notes no longer accepts timestamps in the future. See [POST /notes](#post-note) for more details.
 
 #### 2023-05-17
 
