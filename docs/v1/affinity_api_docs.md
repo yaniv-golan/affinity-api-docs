@@ -159,7 +159,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 
 # Introduction
 
-Welcome to the Affinity API! This API provides a RESTful interface for performing operations on the different objects that make up Affinity. If you are trying to accomplish an action through this API and need help, please contact us at [support@affinity.co](mailto:support@affinity.co).
+Welcome to the Affinity API! This API provides a RESTful interface for performing operations on the different objects that make up Affinity. If you are trying to accomplish an action through this API and are not sure on what endpoints to use, or if you have ideas on more endpoints we could create to make your workflow easier, please do not hesitate to contact us at [support@affinity.co](mailto:support@affinity.co).
 
 ## Getting Started
 
@@ -199,48 +199,56 @@ Responses to each request are provided as a JSON object. The response is either 
 
 Here is a list of all the error codes the Affinity API returns in case something does not go as expected:
 
-| Status Code | Description |
-|-------------|-------------|
-| 400 | Bad Request - The request was invalid or cannot be served. |
-| 401 | Unauthorized - Authentication required or has failed. |
-| 403 | Forbidden - The request is understood, but it has been refused or access is not allowed. |
-| 404 | Not Found - The requested resource could not be found. |
-| 429 | Too Many Requests - Rate limit exceeded. |
-| 500 | Internal Server Error - An error occurred on the server. |
+| Error Code | Meaning |
+|------------|---------|
+| 401 | Unauthorized -- Your API key is invalid. |
+| 403 | Forbidden -- Insufficient rights to a resource. |
+| 404 | Not Found -- Requested resource does not exist. |
+| 422 | Unprocessable Entity -- Malformed parameters supplied. This can also happen in cases the parameters supplied logically cannot complete the request. In this case, an appropriate error message is delivered. |
+| 429 | Too Many Requests -- You have exceed the rate limit. |
+| 500 | Internal Server Error -- We had a problem with our server. Try again later. |
+| 503 | Service Unavailable -- This shouldn't generally happen. Either a deploy is in process, or Affinity services are down. |
 
 > **Note**  
 > Requests must be sent over HTTPS. Requests sent over HTTP will not return any data in order to ensure your sensitive information remains secure.
 
-## Rate Limit
+# Rate Limits
 
-## API Rate Limit
+## API Rate Limits
 
-The Affinity API sets a limit on the number of calls that a user can make per minute, and that all the users on an account can make per month. It also sets a reasonable limit on the number of concurrent requests.
+The Affinity API sets a limit on the number of calls that a user can make per minute, and that all the users on an account can make per month. It also sets a reasonable limit on the number of concurrent requests it will support from an account at one time.
 
-Requests to both Affinity API versions will count toward the one pool of requests allowed for a user or account. Once a per-minute, monthly, or concurrent rate limit is hit, subsequent requests will return an error.
+Requests to both Affinity API versions will count toward the one pool of requests allowed for a user or account. Once a per-minute, monthly, or concurrent rate limit is hit, subsequent requests will return an error code of 429. We highly recommend designing your application to handle 429 errors.
 
-### Monthly Limit (Account-Level)
+### Monthly Limits (Account-Level)
 
-Your account plan tier will limit the overall number of requests you can make per month. Current rate limits by plan tier are:
+Your account plan tier will limit the overall number of requests you can make per month.
+Current rate limits by plan tier are:
 
-| Plan Tier | Monthly Limit |
-|-----------|---------------|
-| Starter | 10,000 requests/month |
-| Plus | 50,000 requests/month |
-| Professional | 200,000 requests/month |
-| Enterprise | Custom limits |
+| Plan Tier | Calls per month |
+|-----------|-----------------|
+| Essentials | None |
+| Scale | 100,000 |
+| Advanced | 100,000 |
+| Enterprise | Unlimited* |
+| Professional (Legacy) | None* |
+| Premium (Legacy) | 100,000 |
+| Enterprise (Legacy) | Unlimited* |
 
-#### Per-minute and concurrent request limits still apply to Enterprise-tier customers.
+> **Note**  
+> Per-minute and concurrent request limits still apply to Enterprise-tier customers.
 
-#### Professional tier customers who signed up for Affinity before July 5, 2023 are allotted 40,000 calls per month.
+> **Note**  
+> Professional tier customers who signed up for Affinity before July 5, 2023 are alotted 40,000 calls per month.
 
 This monthly account-level limit resets at the end of each calendar month.
 
-#### Per Minute Limit (User-Level)
+### Per Minute Limits (User-Level)
 
 All API requests will be halted at 900 per user, per minute. We may also lower this limit on a temporary basis to manage API availability.
 
-#### Once a rate limit is hit, all further requests will return an error code of 429.
+> **Note**  
+> Once a rate limit is hit, all further requests will return an error code of 429.
 
 ### Concurrent Request Limit (Account-Level)
 
