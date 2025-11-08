@@ -33,6 +33,7 @@ repos:
       - id: isort
         args: [--profile=black]
         files: ^\.github/scripts/.*\.py$
+        stages: [pre-commit]  # Override deprecated stage names from repository
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.9

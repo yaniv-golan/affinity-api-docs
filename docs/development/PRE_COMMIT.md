@@ -107,6 +107,18 @@ git commit --no-verify -m "message"
 
 ## Troubleshooting
 
+### Deprecation Warnings
+
+If you see warnings about deprecated stage names, they have been addressed in our configuration by explicitly setting `stages: [pre-commit]` for hooks that have this issue. This overrides the deprecated stage names defined in the hook repositories themselves.
+
+If you still see warnings after updating hooks, run:
+
+```bash
+pre-commit autoupdate --repo https://github.com/pycqa/isort
+```
+
+This will update to the latest version that may have fixed the issue.
+
 ### Hooks are slow
 
 - First run downloads tools (one-time)
