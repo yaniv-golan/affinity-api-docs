@@ -467,10 +467,10 @@ GET /fields Response:
 ]
 ```
 
-3. Query [`GET /field-values-changes`](#field-value-change) passing in the `id` from Step 2
+3. Query [`GET /field-value-changes`](#field-value-change) passing in the `id` from Step 2
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -513,10 +513,10 @@ GET /field-values-changes Response:
 ]
 ```
 
-4. Filter results of [`GET /field-values-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-value-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -1279,19 +1279,9 @@ curl -X POST "https://api.affinity.co/fields" \
 }
 ```
 
-```bash
-curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
-```
+---
 
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
-`GET /lists/{list_id}`
+# Fields
 
 #### The Field Resource
 
@@ -1955,7 +1945,7 @@ The action types specified below correspond to the action_type of a field value 
 
 #### Get Field Values Changes
 
-`GET /field-values-changes`
+`GET /field-value-changes`
 
 Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
 
@@ -4367,38 +4357,17 @@ curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
 
 `GET /entity-files/{entity_file_id}`
 
-Fetch an entity file with a specified entity_file_id.
+Fetches an entity with a specified `entity_file_id`.
 
 #### Path Parameters
 
-
-#### Example Request
-
-```bash
-curl -X POST "https://api.affinity.co/webhook/subscribe" \
-  -u :$APIKEY \
-  -d webhook_url="https://hooks.example.com/webhook"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 1234,
-  "webhook_url": "https://hooks.example.com/webhook",
-  "subscriptions": [],
-  "disabled": false,
-  "created_by": 5678
-}
-```
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| entity_file_id | integer | true | The unique identifier of the entity file object. |
+| entity_file_id | integer | true | The unique ID of the entity file that needs to be retrieved. |
 
-#### Return
+#### Returns
 
-The entity file resource corresponding to the entity_file_id.
+The entity file resource corresponding to the `entity_file_id`.
 
 #### Example Request
 
@@ -4411,35 +4380,13 @@ curl "https://api.affinity.co/entity-files/43212" -u :$APIKEY
 ```json
 {
   "id": 43212,
-  "name": "example.pdf",
-  "size": 1024,
-  "person_id": 38706,
-  "organization_id": null,
+  "name": "GoogleFriends.csv",
+  "size": 993,
+  "person_id": null,
+  "organization_id": 10,
   "opportunity_id": null,
-  "created_at": "2021-03-01T12:00:00Z"
-}
-```
-
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
-  -u :$APIKEY \
-  -d webhook_url="https://hooks.example.com/webhook" \
-  -d disabled=true \
-  -X "PUT"
-```
-
-#### Example Response
-
-```json
-{
-  "id": 1234,
-  "webhook_url": "https://hooks.example.com/webhook",
-  "subscriptions": [],
-  "disabled": true,
-  "created_by": 5678
+  "created_at": "2011-01-25T09:59:35.288-08:00",
+  "uploader_id": 10
 }
 ```
 
