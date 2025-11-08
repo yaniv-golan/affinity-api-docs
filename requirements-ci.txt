@@ -1,0 +1,12 @@
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pre-commit>=3.5.0
+black>=24.1.0
+isort>=5.13.0
+ruff>=0.1.9
+yamllint>=1.33.0
+# Note: markdownlint-cli is installed via pre-commit hooks (Node.js tool)
