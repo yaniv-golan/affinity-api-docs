@@ -3771,17 +3771,15 @@ Webhooks allow you to be notified of events that happen on your Affinity instanc
 
 Each webhook subscription object has a unique id. It also has a webhook_url and subscriptions associated with it.
 
-| id | integer | The unique identifier of the webhook subscription object. | webhook_url | string | The URL to which the webhooks are sent. |
-webhook_url string The URL to which the webhooks are sent.
+A webhook subscription resource has the following attributes:
 
-subscriptions string[] An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See below for the complete list of supported webhook events.
-
-| subscriptions | "string[]" | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [below](#supported-webhook-events) for the complete list of supported webhook events. | disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
-disabled boolean If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it.
-
-created_by integer The unique identifier of the user who created the webhook subscription.
-
-| created_by | integer | The unique identifier of the user who created the webhook subscription. |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the webhook subscription object. |
+| webhook_url | string | The URL to which the webhooks are sent. |
+| subscriptions | string[] | An array of webhook events that are enabled for that endpoint. An empty array indicates subscription to all webhook events. See [Supported Webhook Events](#supported-webhook-events) below for the complete list. |
+| disabled | boolean | If the subscription is disabled, this is true. Otherwise, this is false by default. A subscription may be disabled manually via API or automatically if we are not able to process it. |
+| created_by | integer | The unique identifier of the internal person who created the webhook subscription. |
 
 > **Note**
 > If webhooks cannot be delivered as a result of a timeout or a connectivity issue with the webhook URL, Affinity will retry the delivery with an exponential backoff for up to 10 hours. If Affinity is still unable to deliver the webhook after this time, the webhook subscription will be automatically disabled.
@@ -3809,6 +3807,33 @@ The following table lists all supported webhook events:
 > - Examples of our webhook responses can be found in the [Help Center](https://support.affinity.co/s/article/Types-of-webhooks-available-with-Affinity-s-API).
 > - Field webhooks are not fired for Crunchbase fields.
 > - Field value webhooks are fired with `null` value for Crunchbase fields.
+
+#### Webhook Payload Structure
+
+When a webhook event occurs, Affinity sends a POST request to your webhook URL with a JSON payload. The payload structure varies by event type, but generally includes:
+
+- `event`: The event name (e.g., `person.created`, `list.updated`)
+- `data`: The resource data associated with the event (e.g., person object, list object)
+- `timestamp`: The timestamp when the event occurred
+
+Example webhook payload for `person.created`:
+
+```json
+{
+  "event": "person.created",
+  "data": {
+    "id": 12345,
+    "first_name": "John",
+    "last_name": "Doe",
+    "primary_email": "john@example.com",
+    "emails": ["john@example.com"],
+    "organization_ids": [67890]
+  },
+  "timestamp": "2021-11-15T10:30:00.000Z"
+}
+```
+
+For detailed examples of webhook payloads for each event type, see the [Help Center article](https://support.affinity.co/s/article/Types-of-webhooks-available-with-Affinity-s-API).
 
 #### Get All Webhook Subscriptions
 
@@ -3927,6 +3952,12 @@ DELETE /webhook/{webhook_subscription_id}
 
 Get the details for a specific webhook subscription given the specified webhook_subscription_id.
 
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| webhook_subscription_id | integer | true | The unique identifier of the webhook subscription object. |
+
 #### Return
 
 The webhook subscription object corresponding to the webhook_subscription_id.
@@ -3965,7 +3996,7 @@ curl "https://api.affinity.co/webhook/1234" \
 
 Create a new webhook subscription with the supplied parameters. If the endpoint returns an invalid response, the webhook creation will fail.
 
-#### Parameter
+#### Payload Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -4001,7 +4032,13 @@ curl -X POST "https://api.affinity.co/webhook/subscribe" \
 
 Update webhook subscription with the supplied parameters. A webhook subscription can only be updated by its creator. If the endpoint returns an invalid response, the webhook update will fail.
 
-#### Parameter
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| webhook_subscription_id | integer | true | The unique identifier of the webhook subscription object to update. |
+
+#### Payload Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -4038,6 +4075,12 @@ The webhook subscription object that was just updated through this request.
 ## DELETE /webhook/{webhook_subscription_id}
 
 Delete a webhook subscription with a specified webhook_subscription_id. A webhook subscription can only be deleted by its creator, or an admin.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| webhook_subscription_id | integer | true | The unique identifier of the webhook subscription object to delete. |
 
 #### Return
 
@@ -4100,8 +4143,24 @@ The rate limit endpoint allows you to see your monthly account-level and per min
 
 The rate limit resource includes information about account (AKA organization)-level and API key-level rate limits and usage.
 
+A rate limit resource has the following structure:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| rate | object | An object containing rate limit information for different scopes. |
+| rate.org_monthly | object | Organization-level monthly rate limit information. |
+| rate.org_monthly.limit | integer | The monthly call limit for the organization. |
+| rate.org_monthly.remaining | integer | The number of calls remaining in the current month. |
+| rate.org_monthly.reset | integer | The number of seconds until the monthly limit resets. |
+| rate.org_monthly.used | integer | The number of calls used in the current month. |
+| rate.api_key_per_minute | object | API key-level per-minute rate limit information. |
+| rate.api_key_per_minute.limit | integer | The per-minute call limit for the API key. |
+| rate.api_key_per_minute.remaining | integer | The number of calls remaining in the current minute window. |
+| rate.api_key_per_minute.reset | integer | The number of seconds until the per-minute limit resets. |
+| rate.api_key_per_minute.used | integer | The number of calls used in the current minute window. |
+
 > **Note**
-> /rate-limit and /auth/whoami endpoints are exempt from organization-level monthly rate limit.
+> `/rate-limit` and `/auth/whoami` endpoints are exempt from organization-level monthly rate limit.
 
 ## Get Rate Limit Information
 
@@ -4111,7 +4170,7 @@ Querying the rate limit endpoint will yield information about account (AKA organ
 
 #### Return
 
-The rate limit resource, a JSON body of data including limit, calls remaining, seconds until reset and calls count.
+The rate limit resource, a JSON body of data including limit, calls remaining, seconds until reset and calls count for both organization-level monthly limits and API key-level per-minute limits.
 
 #### Example Request
 
