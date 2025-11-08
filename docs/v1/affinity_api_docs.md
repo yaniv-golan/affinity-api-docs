@@ -264,10 +264,49 @@ Use the common use cases below to learn how Affinity API endpoints work.
 - 1. Query GET /list to get all lists and filter results by list name to get the appropriate list ID
 #### 1. Query GET /list to get all lists and filter results by list name to get the appropriate list ID
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/56517" \
+   -u :$APIKEY \
+   -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /list
 
 - "2. Query GET /list /12058/list-entries to get all list entries. Store the entity_id associated with each list entry ID GET /list /{list_id}/list-entries Response: [ { \"id\": 37605676, \"list_id\""
 #### 2. Query GET /list/{list_id}/list-entries to get all list entries. Store the entity_id associated with each list entry ID
+
+#### Example Request
+
+```bash
+# Returns an array of all lists that you have access to.
+curl "https://api.affinity.co/lists" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /list/{list_id}/list-entries
 
@@ -280,9 +319,43 @@ Use the common use cases below to learn how Affinity API endpoints work.
 #### 4. Locate field values for a given set of fields (optional)
 
 - Query GET /field to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results.
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /field
 
 - Filter results of GET /field by field name to get the appropriate field ID
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/fields/1234" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /field
 
 - Cross-reference the field_id from Step 3 with the field ID from Step 4
@@ -303,10 +376,166 @@ Use the common use cases below to learn how Affinity API endpoints work.
 - 3. Query GET /field-value-change passing in the id from Step 2
 #### 3. Query GET /field-value-change passing in the id from Step 2
 
+#### Example Request
+
+```bash
+GET /fields
+```
+
+```bash
+GET /fields
+```
+
+```bash
+GET /fields Response:
+[
+{
+"id": 61223,
+"name": "Amount",
+"list_id": 12058,
+"value_type": 3,
+"allows_multiple": false,
+"track_changes": true,
+}
+...
+]
+```
+
+```bash
+GET /fields
+```
+
+```bash
+GET /fields
+```
+
+```bash
+GET /fields Response:
+[
+{
+"id": 61223,
+"name": "Amount",
+"list_id": 12058,
+"value_type": 3,
+"allows_multiple": false,
+"track_changes": true,
+},
+...
+]
+```
+
+```bash
+GET /persons/fields
+```
+
+```bash
+GET /organizations/fields
+```
+
+```bash
+curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+```
+
+```bash
+GET /fields
+```
+
+```bash
+curl -X POST "https://api.affinity.co/fields" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/fields" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
+```
+
+```bash
+POST /fields
+```
+
+```bash
+curl "https://api.affinity.co/fields/1234" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/fields/1234" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /fields/{id}
+```
+
+```bash
+GET /fields
+```
+
+```bash
+GET /fields
+```
+
+```bash
+GET /persons/fields
+```
+
+```bash
+curl "https://api.affinity.co/persons/fields" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/persons/fields" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
+```
+
+```bash
+GET /organizations/fields
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /field-value-change
 
 - 4. Filter results of GET /field-value-change (e.g.: If you only want status field changes for a specific organization in your list, search by the list_entry_id).
 #### 4. Filter results of GET /field-value-change (e.g.: If you only want status field changes for a specific organization in your list, search by the list_entry_id).
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /field-value-change
 
@@ -329,6 +558,26 @@ Use the common use cases below to learn how Affinity API endpoints work.
 
 - 4. For each person ID from Step 3, query GET /relationship-strength passing in the person ID. Once all person IDs have been looped through, filter for the highest strength
 #### 4. For each person ID from Step 3, query GET /relationship-strength passing in the person ID. Once all person IDs have been looped through, filter for the highest strength
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/organizations/120611418" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /relationship-strength
 
@@ -401,6 +650,26 @@ An array of all the list resources for lists visible to you. Each list resource 
 
 #### Get a Specific List
 
+#### Example Request
+
+```bash
+# Returns an array relationship strengths matching the criteria.
+curl "https://api.affinity.co/relationships-strengths?external_id=1234&internal_id=2345" -u :$APIKEY
+```
+
+```bash
+# Returns an array relationship strengths matching the criteria.
+curl "https://api.affinity.co/relationships-strengths?external_id=1234" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /list/{list_id}
 
 Get the details for a specific list given the existing list id.
@@ -412,6 +681,21 @@ Get the details for a specific list given the existing list id.
 The details of the list resource corresponding to the list ID specified in the path parameter. These details include an array of the fields that are specific to this list. An appropriate error is returned if the list is not found or you do not have permission to access it.
 
 #### Create a New List
+
+#### Example Request
+
+```bash
+# Returns the list with the specified `list_id`
+curl "https://api.affinity.co/lists/450" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /list
 
@@ -455,6 +739,23 @@ Field Value
 
 #### Get All List Entries
 
+#### Example Request
+
+```bash
+curl -X POST “https://api.affinity.co/lists” \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{ "name": "My List of Organizations", "type": 1, "is_public": true, "owner_id": 38706, "additional_permissions": [ {"internal_person_id": 38701, "role_id": 0}, {"internal_person_id": 38703, "role_id": 1}, {"internal_person_id": 38900, "role_id": 0} ]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /list/{list_id}/list-entries
 
 If no page size is specified, fetch all the list entries in the list with the supplied list id. If a page size is specified, fetch up to that number of list entries in the list with the supplied list id.
@@ -483,6 +784,26 @@ The list entry object corresponding to the list_entry_id.
 
 #### Create a New List Entry
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/56517" \
+   -u :$APIKEY \
+   -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## POST /list/{list_id}/list-entries
 
 Create a new list entry in the list with the supplied list id.
@@ -493,6 +814,23 @@ Create a new list entry in the list with the supplied list id.
 
 Opportunities cannot be created using this endpoint. Instead, use the POST /opportunities endpoint.
 
+#### Example Request
+
+```bash
+curl -X POST “https://api.affinity.co/lists/450/list-entries” \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"entity_id": 38706}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## POST /opportunities
 
 #### Note
@@ -501,6 +839,30 @@ Person and company lists can contain the same entity multiple times. Depending o
 #### The list entry resource that was just created through this request.
 
 #### Delete a Specific List Entry
+
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities/120611418" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## DELETE /list/{list_id}/list-entries/{list_entry_id}
 
@@ -531,12 +893,60 @@ By default, Affinity provides all teams with a few default global fields: For pe
 
 - Global field IDs for people are returned from GET /person/field
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries/56517" \
+   -u :$APIKEY \
+   -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /person/field
 
 - Global field IDs for organizations are returned from GET /organization/field
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/persons/fields" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /organization/field
 
 - List-specific field IDs are also returned from GET /list/{list_id}
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /list/{list_id}
 
 #### The Field Resource
@@ -616,6 +1026,23 @@ The field resource that was just created through this request.
 
 #### Delete a Field
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/fields" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## DELETE /fields/{id}
 
 Delete a field with the specified id.
@@ -664,6 +1091,208 @@ The Field Types specified below correspond to the value_type of a field.
 
 #### Get Field Value
 
+#### Example Request
+
+```bash
+GET /field-values
+```
+
+```bash
+GET /field-values Response:
+[
+{
+"id": 2448594830,
+"field_id": 61223,
+"list_entry_id": 37605676,
+"entity_type": 0,
+"value_type": 3,
+"entity_id": 7133202,
+"value": 5000.0
+}
+...
+]
+```
+
+```bash
+GET /field-values-changes
+```
+
+```bash
+GET /field-values-changes Response:
+[
+{
+"id": 7,
+"entity_attribute_id": 106,
+"changer": {
+"id": 2,
+"type": 1,
+"first_name": "Alice",
+"last_name": "Doe",
+"primary_email": "alice@affinity.co",
+"emails": [
+"alice@affinity.co"
+]
+},
+"changed_at": "2021-09-17T10:43:12.781-04:00",
+"action_type": 2,
+"list_entry_id": 15709964,
+"person": {
+"id": 2,
+"type": 1,
+"first_name": "John",
+"last_name": "Doe",
+"primary_email": "jdoe@alumni.stanford.edu",
+"emails": [
+"jdoe@alumni.stanford.edu"
+]
+},
+"company": null,
+"opp": null,
+"value": {
+"id": 30,
+"text": "In Progress",
+"rank": 1,
+"color": 3
+},
+"entity_id": 38706,
+"field_id": 61223
+}
+...
+]
+```
+
+```bash
+GET /field-values-changes
+```
+
+```bash
+GET /field-values-changes Response:
+[
+{
+"id": 7,
+"entity_attribute_id": 106,
+"changer": {
+"id": 2,
+"type": 1,
+"first_name": "Alice",
+"last_name": "Doe",
+"primary_email": "alice@affinity.co",
+"emails": [
+"alice@affinity.co"
+]
+},
+"changed_at": "2021-09-17T10:43:12.781-04:00",
+"action_type": 2,
+"list_entry_id": 15709964,
+"person": {
+"id": 2,
+"type": 1,
+"first_name": "John",
+"last_name": "Doe",
+"primary_email": "jdoe@alumni.stanford.edu",
+"emails": [
+"jdoe@alumni.stanford.edu"
+]
+},
+"company": null,
+"opp": null,
+"value": {
+"id": 30,
+"text": "In Progress",
+"rank": 1,
+"color": 3
+},
+"entity_id": 38706,
+"field_id": 61223
+}
+...
+]
+```
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+```bash
+GET /field-values
+```
+
+```bash
+curl -X POST "https://api.affinity.co/field-values" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"field_id": 1284, "value": "Architecture", "entity_id": 38706}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/field-values" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"field_id": 1284, "value": "Architecture", "entity_id": 38706}'
+```
+
+```bash
+POST /field-values
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/field-values/20406836" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"value": "Healthcare"}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/field-values/20406836" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"value": "Healthcare"}'
+```
+
+```bash
+PUT /field-values/{field_value_id}
+```
+
+```bash
+curl "https://api.affinity.co/field-values/20406836" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/field-values/20406836" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /field-values/{field_value_id}
+```
+
+```bash
+curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
+```
+
+```bash
+GET /field-value-changes
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /field-value
 
 Returns all field values attached to a person, organization, opportunity, or list_entry.
@@ -710,6 +1339,20 @@ The field value resource that was just created through this request.
 
 #### Update a Field Value
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /field-value/{field_value_id}
 
 Update the existing field value with field_value_id with the supplied parameters.
@@ -728,6 +1371,20 @@ The field value object that was just updated through this request.
 When updating a specific field value, make sure to use the field_value_id and not the field_id.
 
 #### Delete a Field Value
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## DELETE /field-value/{field_value_id}
 
@@ -774,6 +1431,20 @@ The action types specified below correspond to the action_type of a field value 
 There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
 
 #### Get Field Value Change
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /field-value-change
 
@@ -866,6 +1537,136 @@ You can filter by interaction date by providing additional query parameters like
 
 An object with two fields: person and next_page_token. person maps to an array of all the person resources that match the search criteria. Does not include the associated organization_id or list_entries.
 
+#### Example Request
+
+```bash
+GET /persons/{person_id}
+```
+
+```bash
+GET /persons/{person_id}
+```
+
+```bash
+/persons
+```
+
+```bash
+/persons/{person_id}
+```
+
+```bash
+GET /persons
+```
+
+```bash
+curl "https://api.affinity.co/persons?term=doe" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/persons?term=doe" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
+curl "https://api.affinity.co/persons" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
+
+```bash
+# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
+curl "https://api.affinity.co/persons" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
+
+```bash
+curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
+-u :$APIKEY \
+```
+
+```bash
+curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
+-u :$APIKEY \
+```
+
+```bash
+GET /persons/{person_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/persons" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"first_name": "Alice", "last_name": "Doe", "emails": ["alice@affinity.co"], "organization_ids": [1687449]}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/persons" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"first_name": "Alice", "last_name": "Doe", "emails": ["alice@affinity.co"], "organization_ids": [1687449]}'
+```
+
+```bash
+POST /persons
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/persons/860197" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"first_name": "Allison", "emails": ["allison@affinity.co", "allison@gmail.com"]}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/persons/860197" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"first_name": "Allison", "emails": ["allison@affinity.co", "allison@gmail.com"]}'
+```
+
+```bash
+PUT /persons/{person_id}
+```
+
+```bash
+curl "https://api.affinity.co/persons/860197" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/persons/860197" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /persons/{person_id}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /person/{person_id}
 
 Fetch a person with a specified person_id.
@@ -875,6 +1676,27 @@ Fetch a person with a specified person_id.
 The person resource corresponding to the person_id.
 
 #### Create a New Person
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
+  -u :$APIKEY \
+```
+
+```bash
+curl "https://api.affinity.co/persons/860197" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /person
 
@@ -891,6 +1713,23 @@ If one of the supplied email addresses conflicts with another person object, thi
 - If you are looking to add an existing person to a list, please check the List Entries section of the API.
 #### Update a person
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/persons" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"first_name": "Alice", "last_name": "Doe", "emails": ["alice@affinity.co"], "organization_ids": [1687449]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /person/{person_id}
 
 Update an existing person with person_id with the supplied parameters. Only attributes that need to be changed must be passed in.
@@ -906,6 +1745,23 @@ The person object that was just updated through this request.
 If you are trying to add a new email or organization to a person, the existing values for email and organization_id must also be supplied as parameters.
 #### Delete a Person
 
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/persons/860197" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"first_name": "Allison", "emails": ["allison@affinity.co", "allison@gmail.com"]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## DELETE /person/{person_id}
 
 Delete a person with a specified person_id.
@@ -919,6 +1775,27 @@ Delete a person with a specified person_id.
 This will also delete all the field values, if any, associated with the person. Such field values exist linked to either global or list-specific fields.
 
 #### Get Global Person Field
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/persons/38706?with_opportunities=true&with_current_organizations=true" \
+  -u :$APIKEY \
+```
+
+```bash
+curl "https://api.affinity.co/persons/860197" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /person/field
 
@@ -988,6 +1865,166 @@ interaction objects An object with seven fields nested underneath. Each field co
 
 #### Search for Organization
 
+#### Example Request
+
+```bash
+GET /organizations/{organization_id}
+```
+
+```bash
+GET /organizations/7133202 Response:
+{
+"id": 7133202,
+"name": "Affinity",
+"domain": "affinity.co",
+"domains": ["affinity.co"],
+"crunchbase_uuid": null,
+"global": false,
+"person_ids": [89734, 117270, 138123, 274492, 304848, ...],
+"list_entries": [
+{
+"id": 389,
+"list_id": 26,
+"creator_id": 38603,
+"entity_id": 7133202,
+"entity_type": 0,
+"created_at": "2020-12-11T02:26:56.537-08:00",
+}
+...
+]
+}
+```
+
+```bash
+GET /organizations/{organization_id}
+```
+
+```bash
+GET /organizations/{organization_id}
+```
+
+```bash
+GET /organizations
+```
+
+```bash
+GET /organizations/{organization_id}
+```
+
+```bash
+GET /organizations
+```
+
+```bash
+curl "https://api.affinity.co/organizations?term=affinity" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/organizations?term=affinity" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
+```
+
+```bash
+# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
+curl "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
+
+```bash
+# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
+curl "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
+
+```bash
+curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
+```
+
+```bash
+GET /organizations/{organization_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/organizations" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
+```
+
+```bash
+POST /organizations
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/organizations/120611418" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/organizations/120611418" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
+```
+
+```bash
+PUT /organizations/{organization_id}
+```
+
+```bash
+curl "https://api.affinity.co/organizations/120611418" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/organizations/120611418" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /organizations/{organization_id}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /organization
 
 Search your team's data and fetch all the organizations that meet the search criteria. The search term can be a part of an organization's name or domain.
@@ -1032,6 +2069,23 @@ The organization resource that was just created by a successful request.
 
 #### Update an Organization
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/organizations" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /organization/{organization_id}
 
 Update an existing organization with organization_id with the supplied parameters.
@@ -1047,6 +2101,23 @@ The organization resource that was just updated through a successful request.
 If you are trying to add a person to an organization, the existing values for person_id must also be passed into the endpoint.
 #### Delete an Organization
 
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/organizations/120611418" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## DELETE /organization/{organization_id}
 
 Delete an organization with a specified organization_id.
@@ -1061,6 +2132,106 @@ An appropriate error will be returned if you are trying to delete a global organ
 
 This will also delete all the field values, if any, associated with the organization. Such field values exist linked to either global or list-specific fields.
 #### Get Global Organization Field
+
+#### Example Request
+
+```bash
+POST /opportunities
+```
+
+```bash
+GET /opportunities
+```
+
+```bash
+curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
+```
+
+```bash
+GET /opportunities/{opportunity_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
+```
+
+```bash
+POST /opportunities
+```
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities/120611418" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities/120611418" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
+```
+
+```bash
+PUT /opportunities/{opportunity_id}
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/120611418" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/120611418" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /opportunities/{opportunity_id}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /organization/field
 
@@ -1107,6 +2278,35 @@ An object with two fields: opportunities and next_page_token. opportunities maps
 
 #### Get a Specific Opportunity
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/opportunities/120611418" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /opportunities/{opportunity_id}
 
 Fetch an opportunity with a specified opportunity_id.
@@ -1116,6 +2316,20 @@ Fetch an opportunity with a specified opportunity_id.
 The opportunity object corresponding to the opportunity_id.
 
 #### Create a New Opportunity
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /opportunities
 
@@ -1140,11 +2354,45 @@ The opportunity resource that was just updated through a successful request.
 If you are trying to add a person to an opportunity, the existing values for person_id must also be passed into the endpoint.
 
 If you are trying to add an organization to an opportunity, the existing values for organization_id must also be passed into the endpoint.
+
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/opportunities/120611418" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 #### Delete an Opportunity
 
 ## DELETE /opportunities/{opportunity_id}
 
 Delete an opportunity with a specified opportunity_id.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/opportunities/120611418" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "success": true
+}
+```
 
 #### Return
 
@@ -1173,6 +2421,22 @@ The combination of ID and type for an interaction is unique.
 #### Logging Type
 
 #### Get All Interaction
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/opportunities/120611418" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /interaction
 
@@ -1222,6 +2486,106 @@ An array of all the interactions filtered by query parameters. next_page_token i
 
 #### Get a Specific Interaction
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_time=2021-01-01T07:00:00Z&end_time=2021-02-25T21:00:00Z&" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/interactions?organization_id=1609909&type=3&start_time=2021-01-01T07:00:00Z&end_time=2021-02-25T21:00:00Z&" -u :$APIKEY
+```
+
+```bash
+GET /interactions
+```
+
+```bash
+# Returns the interactions with the specified `id`
+curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
+```
+
+```bash
+# Returns the interactions with the specified `id`
+curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
+```
+
+```bash
+GET /interactions/{id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/interactions" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/interactions" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
+```
+
+```bash
+POST /interactions
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/interactions/3007" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/interactions/3007" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
+```
+
+```bash
+PUT /interactions/{id}
+```
+
+```bash
+curl "https://api.affinity.co/interactions/22984?type=0" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/interactions/22984?type=0" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /interactions/{id}
+```
+
+```bash
+/interactions
+```
+
+```bash
+/interactions
+```
+
+```bash
+/interactions
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /interaction/{id}
 
 Get the detail for a specific interaction given the existing ID and type.
@@ -1231,6 +2595,27 @@ Get the detail for a specific interaction given the existing ID and type.
 The details of the interaction corresponding to the ID and type specified in the path parameters. An appropriate error is returned if an invalid ID and type are supplied.
 
 #### Create a New Interaction
+
+#### Example Request
+
+```bash
+# Returns the interactions with the specified `id`
+curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/interactions/22984?type=0" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /interaction
 
@@ -1258,6 +2643,23 @@ The interaction created through this request.
 
 #### Update an Interaction
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/interactions" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /interaction/{id}
 
 Update the content of an existing interaction with the supplied parameters.
@@ -1281,6 +2683,23 @@ The interaction object that was just updated through this request.
 
 #### Delete an Interaction
 
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/interactions/3007" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## DELETE /interaction/{id}
 
 Delete the interaction with the specified id.
@@ -1302,6 +2721,27 @@ Person
 There may be at most one resource for every (internal, external) pair. If an internal and external person have no previous interaction, there may be no relationship strength resource for the pair.
 
 #### Get Relationship Strength
+
+#### Example Request
+
+```bash
+# Returns the interactions with the specified `id`
+curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/interactions/22984?type=0" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /relationship-strength
 
@@ -1388,6 +2828,150 @@ An array of all the note resources available to you.
 
 #### Get a Specific Note
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/notes" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/notes" -u :$APIKEY
+```
+
+```bash
+GET /notes
+```
+
+```bash
+# Returns the note with the specified `note_id`
+curl "https://api.affinity.co/notes/22984" -u :$APIKEY
+```
+
+```bash
+# Returns the note with the specified `note_id`
+curl "https://api.affinity.co/notes/22984" -u :$APIKEY
+```
+
+```bash
+GET /notes/{note_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "content": "Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "content": "Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&content=Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&content=Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "type": 2, "content": "Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "type": 2, "content": "Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&type=2&content=Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&type=2&content=Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706], "organization_ids": [120611418], "parent_id": 22984, "content": "This is a <strong> reply </strong>to the previous note.", "type":2}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"person_ids": [38706], "organization_ids": [120611418], "parent_id": 22984, "content": "This is a <strong> reply </strong>to the previous note.", "type":2}'
+```
+
+```bash
+POST /notes
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/notes/22984" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"content": "Had another meeting with Jane and John today"}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/notes/22984" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"content": "Had another meeting with Jane and John today"}'
+```
+
+```bash
+PUT /notes/{notes_id}
+```
+
+```bash
+curl "https://api.affinity.co/notes/22984" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/notes/22984" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /notes/{note_id}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /note/{note_id}
 
 Get the details for a specific note given the existing note id.
@@ -1395,6 +2979,27 @@ Get the details for a specific note given the existing note id.
 #### Return
 
 The details of the note resource corresponding to the note ID specified in the path parameter. An appropriate error is returned if an invalid note is supplied.
+
+#### Example Request
+
+```bash
+# Returns the note with the specified `note_id`
+curl "https://api.affinity.co/notes/22984" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/notes/22984" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /note
 
@@ -1431,6 +3036,51 @@ To ensure that content gets encoded properly, it is recommended to submit either
 
 #### Update a Note
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "content": "Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&content=Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "type": 2, "content": "Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&type=2&content=Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."
+```
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706], "organization_ids": [120611418], "parent_id": 22984, "content": "This is a <strong> reply </strong>to the previous note.", "type":2}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /note/{note_id}
 
 Update the content of an existing note with note_id with the supplied content parameter.
@@ -1444,6 +3094,23 @@ The note object that was just updated through this request.
 You cannot update the content of a note that has mentions. You also cannot update the content of a note associated with an email. You cannot update the type of a note.
 
 #### Delete a Note
+
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/notes/22984" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"content": "Had another meeting with Jane and John today"}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## DELETE /note/{note_id}
 
@@ -1465,6 +3132,27 @@ Entity files are files uploaded to a relevant entity. Possible files, for exampl
 
 #### Get All File
 
+#### Example Request
+
+```bash
+# Returns the note with the specified `note_id`
+curl "https://api.affinity.co/notes/22984" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/notes/22984" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /entity-file
 
 Return all entity files within your organization. This result will be an object with two fields: entity_file and next_page_token. entity_file maps to an array of all the entity file resources. The value of next_page_token should be sent as a query parameter in subsequent requests to get the next page of results.
@@ -1477,6 +3165,110 @@ An object with two fields: entity_file and next_page_token. entity_file maps to 
 
 #### Get a Specific File
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/entity-files" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/entity-files" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/entity-files?page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/entity-files?page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
+```
+
+```bash
+GET /entity-files
+```
+
+```bash
+curl "https://api.affinity.co/entity-files/43212" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/entity-files/43212" -u :$APIKEY
+```
+
+```bash
+GET /entity-files/{entity_file_id}
+```
+
+```bash
+curl "https://api.affinity.co/entity-files/download/12345" \
+-u :$APIKEY \
+-L \
+-o Downloads/file.png
+```
+
+```bash
+curl "https://api.affinity.co/entity-files/download/12345" \
+-u :$APIKEY \
+-L \
+-o Downloads/file.png
+```
+
+```bash
+GET /entity-files/download/{entity_file_id}
+```
+
+```bash
+# Single file upload
+curl -X POST "https://api.affinity.co/entity-files" \
+-u :$APIKEY \
+-H 'Content-Type: multipart/form-data' \
+-F file=@file.txt \
+-F person_id=1
+```
+
+```bash
+# Single file upload
+curl -X POST "https://api.affinity.co/entity-files" \
+-u :$APIKEY \
+-H 'Content-Type: multipart/form-data' \
+-F file=@file.txt \
+-F person_id=1
+```
+
+```bash
+# Multi file upload
+curl -X POST "https://api.affinity.co/entity-files" \
+-u :$APIKEY \
+-H 'Content-Type: multipart/form-data' \
+-F 'files[]=@file1.txt' \
+-F 'files[]=@file2.txt' \
+-F person_id=1
+```
+
+```bash
+# Multi file upload
+curl -X POST "https://api.affinity.co/entity-files" \
+-u :$APIKEY \
+-H 'Content-Type: multipart/form-data' \
+-F 'files[]=@file1.txt' \
+-F 'files[]=@file2.txt' \
+-F person_id=1
+```
+
+```bash
+POST /entity-files
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /entity-file/{entity_file_id}
 
 Fetch an entity file with a specified entity_file_id.
@@ -1486,6 +3278,20 @@ Fetch an entity file with a specified entity_file_id.
 The entity file resource corresponding to the entity_file_id.
 
 #### Download File
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/entity-files" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## GET /entity-file/download/{entity_file_id}
 
@@ -1500,6 +3306,23 @@ The actual entity file corresponding to the entity_file_id.
 The download location of entity files is provided via a redirect from our endpoint and requires the -L flag.
 
 #### Upload File
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/entity-files/download/12345" \
+  -u :$APIKEY \
+  -L \
+  -o Downloads/file.png
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /entity-file
 
@@ -1532,6 +3355,20 @@ A reminder object contains content, which is a string containing the reminder co
 
 #### Get All Reminder
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/entity-files" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /reminder
 
 Return all reminders that meet the query parameters.
@@ -1560,6 +3397,94 @@ An array of all the reminders filtered by query parameters. next_page_token incl
 
 #### Get a Specific Reminder
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/reminders?page_size=2&status=2" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/reminders?page_size=2&status=2" -u :$APIKEY
+```
+
+```bash
+GET /reminders
+```
+
+```bash
+# Returns the reminder with the specified `reminder_id`
+curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
+```
+
+```bash
+# Returns the reminder with the specified `reminder_id`
+curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
+```
+
+```bash
+GET /reminders/{reminder_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/reminders" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"owner_id": 443, "person_id": 2021, "type": 0, "due_date": "2021-11-30", "content": "Create reminder from external API."}'
+```
+
+```bash
+curl -X POST "https://api.affinity.co/reminders" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"owner_id": 443, "person_id": 2021, "type": 0, "due_date": "2021-11-30", "content": "Create reminder from external API."}'
+```
+
+```bash
+POST /reminders
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/reminders/15385" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"type": 1, "reset_type": 0, "reminder_days": 30}'
+```
+
+```bash
+curl -X PUT "https://api.affinity.co/reminders/15385" \
+-u :$APIKEY \
+-H "Content-Type: application/json" \
+-d '{"type": 1, "reset_type": 0, "reminder_days": 30}'
+```
+
+```bash
+PUT /reminders/{reminder_id}
+```
+
+```bash
+curl "https://api.affinity.co/reminders/22984" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/reminders/22984" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /reminders/{reminder_id}
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /reminder/{reminder_id}
 
 Get the details for a specific reminder given the existing reminder id.
@@ -1569,6 +3494,27 @@ Get the details for a specific reminder given the existing reminder id.
 The details of the reminder corresponding to the reminder ID specified in the path parameter. An appropriate error is returned if an invalid reminder ID is supplied.
 
 #### Create a New Reminder
+
+#### Example Request
+
+```bash
+# Returns the reminder with the specified `reminder_id`
+curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/reminders/22984" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /reminder
 
@@ -1620,6 +3566,23 @@ When creating a reminder using the API, the user corresponding to the API token 
 
 #### Update a Reminder
 
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/reminders" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"owner_id": 443, "person_id": 2021, "type": 0, "due_date": "2021-11-30", "content": "Create reminder from external API."}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## PUT /reminder/{reminder_id}
 
 Update the content of an existing reminder with reminder_id with the supplied parameters.
@@ -1641,6 +3604,23 @@ Update the content of an existing reminder with reminder_id with the supplied pa
 The reminder object that was just updated through this request.
 
 #### Delete a Reminder
+
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/reminders/15385" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"type": 1, "reset_type": 0, "reminder_days": 30}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## DELETE /reminder/{reminder_id}
 
@@ -1685,6 +3665,27 @@ The Field Value webhook events do not include enrichment events; updates to enri
 - Field value webhooks are fired with `null` value for Crunchbase fields.
 #### Get All Webhook Subscription
 
+#### Example Request
+
+```bash
+# Returns the reminder with the specified `reminder_id`
+curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/reminders/22984" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /webhook
 
 Return all of your organization's webhook subscriptions.
@@ -1695,6 +3696,101 @@ An array of all the webhook subscription resources.
 
 #### Get a Specific Webhook Subscription
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/webhook" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/webhook" -u :$APIKEY
+```
+
+```bash
+GET /webhook
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
+```
+
+```bash
+GET /webhook/{webhook_subscription_id}
+```
+
+```bash
+curl -X POST "https://api.affinity.co/webhook/subscribe" \
+-u :$APIKEY \
+-d webhook_url="https://hooks.example.com/webhook"
+```
+
+```bash
+curl -X POST "https://api.affinity.co/webhook/subscribe" \
+-u :$APIKEY \
+-d webhook_url="https://hooks.example.com/webhook"
+```
+
+```bash
+POST /webhook/subscribe
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+-u :$APIKEY \
+-d webhook_url="https://hooks.example.com/webhook" \
+-d disabled=true \
+-X "PUT"
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+-u :$APIKEY \
+-d webhook_url="https://hooks.example.com/webhook" \
+-d disabled=true \
+-X "PUT"
+```
+
+```bash
+PUT /webhook/{webhook_subscription_id}
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+-u :$APIKEY \
+-X "DELETE"
+```
+
+```bash
+DELETE /webhook/{webhook_subscription_id}
+```
+
+#### Example Response
+
+```json
+{
+"id": 1234,
+"webhook_url": "https://hooks.example.com/webhook",
+"subscriptions": [
+"list.created",
+"person.created",
+"organization.created",
+"opportunity.created"
+],
+"disabled": false,
+"created_by": 5678
+}
+```
+
 ## GET /webhook/{webhook_subscription_id}
 
 Get the details for a specific webhook subscription given the specified webhook_subscription_id.
@@ -1704,6 +3800,34 @@ Get the details for a specific webhook subscription given the specified webhook_
 The webhook subscription object corresponding to the webhook_subscription_id.
 
 #### Create a New Webhook Subscription
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -d webhook_url="https://hooks.example.com/webhook" \
+  -d disabled=true \
+  -X "PUT"
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## POST /webhook/subscribe
 
@@ -1725,6 +3849,22 @@ The webhook subscription object that was just created from this successful reque
 There is a limit of three webhook subscriptions per Affinity instance.
 
 #### Update a Webhook Subscription
+
+#### Example Request
+
+```bash
+curl -X POST "https://api.affinity.co/webhook/subscribe" \
+-u :$APIKEY \
+-d webhook_url="https://hooks.example.com/webhook"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## PUT /webhook/{webhook_subscription_id}
 
@@ -1749,6 +3889,34 @@ The webhook subscription object that was just updated from this successful reque
 
 #### Delete a Specific Webhook Subscription
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -d webhook_url="https://hooks.example.com/webhook" \
+  -d disabled=true \
+  -X "PUT"
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## DELETE /webhook/{webhook_subscription_id}
 
 Delete a webhook subscription with a specified webhook_subscription_id. A webhook subscription can only be deleted by its creator, or an admin.
@@ -1767,6 +3935,34 @@ Querying the Whoami endpoint will give information about the user, Affinity inst
 
 #### Get Whoami
 
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -d webhook_url="https://hooks.example.com/webhook" \
+  -d disabled=true \
+  -X "PUT"
+```
+
+```bash
+curl "https://api.affinity.co/webhook/1234" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
+
 ## GET /auth/whoami
 
 Get information about the user sending the request, and their affiliated company.
@@ -1776,6 +3972,32 @@ There are no query or path parameters for this method. The information needed is
 #### Return
 
 JSON body of data including tenant, user, and grant information.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/auth/whoami" -u :$API_KEY
+```
+
+```bash
+curl "https://api.affinity.co/auth/whoami" -u :$API_KEY
+```
+
+```bash
+GET /auth/whoami
+```
+
+```bash
+/auth/whoami
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
 
 ## Rate Limit Endpoint
 
@@ -1944,3 +4166,33 @@ Common Use Case
 #### 2021-05-05
 
 - Updated API rate limit information.
+
+#### Example Request
+
+```bash
+/rate-limit
+```
+
+```bash
+/rate-limit
+```
+
+```bash
+curl "https://api.affinity.co/rate-limit" -u :$API_KEY
+```
+
+```bash
+curl "https://api.affinity.co/rate-limit" -u :$API_KEY
+```
+
+```bash
+GET /rate-limit
+```
+
+#### Example Response
+
+```json
+{
+  "id": 123
+}
+```
