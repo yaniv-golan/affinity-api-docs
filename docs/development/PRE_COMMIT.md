@@ -107,6 +107,49 @@ git commit --no-verify -m "message"
 
 ## Troubleshooting
 
+### Files Keep Getting Reformatted
+
+If black or ruff-format keep modifying files even after you've formatted them, this is usually due to a **version mismatch**:
+
+**Problem:**
+
+- Your local black/ruff version differs from the pre-commit hook version
+- Pre-commit hooks use pinned versions (see `.pre-commit-config.yaml`)
+- Local tools might be using different versions
+
+**Solution:**
+
+1. **Check your local versions:**
+
+   ```bash
+   python3 -m black --version
+   python3 -m ruff --version
+   ```
+
+2. **Ensure pre-commit hooks match:**
+   - Pre-commit hooks download their own versions
+   - Check `.pre-commit-config.yaml` for pinned versions
+   - Update if needed: `pre-commit autoupdate`
+
+3. **Run pre-commit before committing:**
+
+   ```bash
+   pre-commit run --all-files
+   ```
+
+   This formats files using the same versions as CI, preventing reformatting issues.
+
+4. **Don't bypass hooks:**
+   - Avoid `git commit --no-verify`
+   - Let hooks format files before commit
+   - Review changes after hooks run
+
+**Why this happens:**
+
+- Pre-commit hooks run with isolated environments
+- They use specific versions defined in `.pre-commit-config.yaml`
+- If you format files manually with a different version, they'll be reformatted again
+
 ### Deprecation Warnings
 
 If you see warnings about deprecated stage names, they have been addressed in our configuration by explicitly setting `stages: [pre-commit]` for hooks that have this issue. This overrides the deprecated stage names defined in the hook repositories themselves.
