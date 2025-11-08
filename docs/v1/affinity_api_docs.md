@@ -18,8 +18,11 @@ This markdown version of the Affinity API v1 documentation was created to provid
 - **Offline access** - Work with the documentation without an internet connection
 - **Text-based search** - Easier to search and navigate compared to interactive websites
 - **Version control** - Track changes and updates over time
+- **Direct raw access** - Accessible via GitHub raw URLs for programmatic use
 
 **Source:** Extracted from the live Affinity API documentation at https://api-docs.affinity.co/
+
+**Raw Markdown URL:** `https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs.md`
 
 **Documentation Version:** This copy is based on the official documentation as it appeared on **November 6, 2025 at 18:49:04** (Last updated: 11/06/2025 18:49:04). The official documentation may have been updated since this copy was created.
 
@@ -346,6 +349,7 @@ Use the common use cases below to learn how Affinity API endpoints work.
 >
 > - The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list `affinity.affinity.co/lists/[**list_id**]` and for a company profile `affinity.affinity.co/companies/[**company_id**]`
 > - For large lists, use `page_size` and `page_token` parameters in the [`GET /lists/{list_id}/list-entries`](#list-entries) endpoint to improve performance
+>
 ## Getting Field Values for All List Entries on a List
 
 1. Query [`GET /lists`](#list) to get all lists and filter results by list name to get the appropriate list ID
@@ -883,7 +887,7 @@ curl -X POST “https://api.affinity.co/lists/450/list-entries” \
 > **Note**
 > Person and company lists can contain the same entity multiple times. Depending on your use case, before you add an entry, you may want to verify whether or not it exists in the list already.
 
-#### The list entry resource that was just created through this request.
+#### The list entry resource that was just created through this request
 
 #### Delete a Specific List Entry
 
@@ -962,6 +966,7 @@ curl "https://api.affinity.co/lists/450/list-entries/56517" \
 ## GET /person/field
 
 - Global field IDs for organizations are returned from GET /organization/field
+
 #### Example Request
 
 ```bash
@@ -979,6 +984,7 @@ curl "https://api.affinity.co/persons/fields" -u :$APIKEY
 ## GET /organization/field
 
 - List-specific field IDs are also returned from GET /list/{list_id}
+
 #### Example Request
 
 ```bash
@@ -1061,7 +1067,7 @@ is_list_specific boolean false This determines whether the field object belongs 
 
 is_required boolean false This determines whether the field object is required.
 
-| This determine whether multiple value can be added to a single cells for the field. | is _list_ specific | This determine whether the fields objects belongs to a specific list. If set to true, you must pass in the appropriate list_id. | is _required |
+| This determine whether multiple value can be added to a single cells for the field. | is _list_ specific | This determine whether the fields objects belongs to a specific list. If set to true, you must pass in the appropriate list_id. | is_required |
 #### Field Entity Type
 
 #### Return
@@ -1106,6 +1112,7 @@ As an example for how a field value is created:
 - A person X is added to this list. This action creates a list entry for this person.
 - A value, 50,000, is entered in the cell corresponding to person X in the Deal Size column.
 - 50,000 is now a field value tied to the list entry corresponding to person X, and the "Deal Size" field.
+
 > **Note**
 > By default, Affinity creates some fields for you automatically. These include Location, Industry, Job Title, and more. See the Default Fields section for more information.
 
@@ -1502,11 +1509,12 @@ An array of all the field value changes associated with the supplied field and p
 
 The person API allows you to manage all the contacts of your organization. These people include anyone your team has ever been in email communication or meeting with, and all the people that your team has added to Affinity.
 
-#### If you are looking to add or remove a person from a list, please check out the List Entries section of the API.
+#### If you are looking to add or remove a person from a list, please check out the List Entries section of the API
 
 List Entries
 
 - If you are looking to modify a person's field value (one of the cells on Affinity's spreadsheet), please check out the Field Value section of the API.
+
 #### The Person Resource
 
 Each person resource is assigned a unique id and stores the name, type, and email addresses of the person. A person resource also has access to a Smart attribute called primary_email. The value of primary_email is automatically computed and represents the most likely current active email address for the person.
@@ -1776,7 +1784,7 @@ Update an existing person with person_id with the supplied parameters. Only attr
 
 The person object that was just updated through this request.
 
-#### If you are looking to add an existing person to a list, please check the List Entries section of the API.
+#### If you are looking to add an existing person to a list, please check the List Entries section of the API
 
 > **Note**
 > If you are trying to add a new email or organization to a person, the existing values for email and organization_id must also be supplied as parameters.
@@ -1854,9 +1862,10 @@ An organization has many people associated with it - these are your team's point
 
 To make the data quality as good as possible, we have our own proprietary database of organizations that we have developed through third-party partnerships and web scraping. We use this database to enrich organization data automatically.
 
-#### If you are looking to add or remove an organization from a list, please check out the List Entries section of the API.
+#### If you are looking to add or remove an organization from a list, please check out the List Entries section of the API
 
 - If you are looking to modify a field value (one of the cells on Affinity' spreadsheet), please check out the Field Value section of the API.
+
 #### The Organization Resource
 
 Each organization object has a unique id. It also has a name, domain (the website of the organization), and people associated with it. The domain is an important attribute from an automation perspective, as it's used to automatically associate person objects with organizations.
@@ -2100,7 +2109,7 @@ Create a new organization with the supplied parameters.
 
 The organization resource that was just created by a successful request.
 
-#### If you are looking to add an existing organization to a list, please check the List Entries section of the API.
+#### If you are looking to add an existing organization to a list, please check the List Entries section of the API
 
 #### Update an Organization
 
@@ -2129,7 +2138,7 @@ Update an existing organization with organization_id with the supplied parameter
 
 The organization resource that was just updated through a successful request.
 
-#### If you are looking to add an existing organization to a list, please check the List Entries section of the API.
+#### If you are looking to add an existing organization to a list, please check the List Entries section of the API
 
 > **Note**
 > If you are trying to add a person to an organization, the existing values for person_id must also be passed into the endpoint.
@@ -2474,7 +2483,7 @@ curl "https://api.affinity.co/opportunities/120611418" \
 
 Return all interactions that meet the query parameters.
 
-#### type integer true The type of interaction to be retrieved.
+#### type integer true The type of interaction to be retrieved
 
 logging_type integer false The logging type of interaction to be retrieved.
 
@@ -2506,15 +2515,16 @@ page_size number false How many results to return per page. (Default is the maxi
 | end_time | string | A string (formatted according to ISO 8601) representing the end of the time range for the interaction to be retrieved. Must be after start_time. Date range must not exceed one year. | page_size | number | How many results to return per page. (Default is the maximum value of 100.) |
 page_token string false The next_page_token from the previous response required to retrieve the next page of result.
 
-#### One person_id, organization_id or opportunity_id must be specified per request.
+#### One person_id, organization_id or opportunity_id must be specified per request
 
 - Only one type of interaction can be specified per request.
 - An error will be returned if an internal person is used in the person_id parameter.
+
 #### Return
 
 An array of all the interactions filtered by query parameters. next_page_token includes a token to be sent along with the next request as the page_token parameter to fetch the next page of results.
 
-#### Interaction in the API response may not be visible on a CRM profile page if they have the exact same timestamp as another interaction.
+#### Interaction in the API response may not be visible on a CRM profile page if they have the exact same timestamp as another interaction
 
 #### Get a Specific Interaction
 
@@ -2671,7 +2681,7 @@ ISO 8601
 
 The interaction created through this request.
 
-#### When creating an interaction using the API, the users corresponding to the API token will be the creator by default.
+#### When creating an interaction using the API, the users corresponding to the API token will be the creator by default
 
 #### Update an Interaction
 
@@ -4045,6 +4055,7 @@ The rate limit resource, a JSON body of data including limit, calls remaining, s
 #### 2025-11-05
 
 - Added support for bearer authentication
+
 #### 2024-07-17
 
 - At least one associated person, company, opportunity, or parent note must be specified when creating a note.
@@ -4055,6 +4066,7 @@ creating a note
 - /interaction now restricts the duration between start_time and end_time to a maximum of one year
 - /interaction now ensures that the provided start_time is before the provided end_time
 - /interaction now has a maximum page_size of 100
+
 #### 2023-08-07
 
 - Added associated_person_id, interaction_person_id, interaction_id, and interaction_type to the note resource. The person_id, associated_person_id, and interaction_person_id properties on a note have been updated. See [the note resource](#the-note-resource) for more details.
@@ -4062,6 +4074,7 @@ creating a note
 #### 2023-07-27
 
 - Datetime values in webhook bodies and API responses are ISO 8601-formatted date strings. For example: "2023-06-21T16:00:28.315-07:00".
+
 #### 2023-07-17
 
 - Added information about notes with type 1. See [note with type 1](#the-note-resource) for more details.
@@ -4069,6 +4082,7 @@ creating a note
 #### 2023-07-03
 
 - Updated API access information for Professional tier customers.
+
 #### 2023-06-13
 
 - The created_at parameter on the POST endpoint for notes no longer accepts timestamps in the future. See [POST /note](#post-note) for more details.
@@ -4103,28 +4117,36 @@ create a note within a thread
 #### 2023-02-10
 
 - Added Rate Limit Header section to the Rate Limit documentation.
+
 #### 2023-02-08
 
 - Added created_at and updated_at timestamp to Field Value.
 - Added an updated_at timestamp to Note.
+
 #### 2023-02-07
 
 - Added the ability to retrieve Current Organization columns data on Person.
+
 #### 2022-09-06
 
 - Added Rate Limit endpoint and documentation. Moved from a daily to a per minute per user limit. Monthly per account limit remain the same.
+
 #### 2022-09-02
 
 - Added entity_type and exclude_dropdown_option documentation to Field.
+
 #### 2022-05-05
 
 - Added enrichment_source documentation to Field.
+
 #### 2022-04-11
 
 - Added Partner With Us section.
+
 #### 2022-03-21
 
 - Added opportunity_id fields to person and organization response.
+
 #### 2022-02-23
 
 - Added Interaction API documentation.
@@ -4151,6 +4173,7 @@ Reminder webhook
 
 - Added organization.merged event to Webhook.
 - Added mentioned_person_id and is_meeting fields to Note.
+
 #### 2021-11-22
 
 - Added link out to Help Center for webhook response
@@ -4164,10 +4187,12 @@ GET field value change
 #### 2021-10-15
 
 - Minor content update
+
 #### 2021-10-04
 
 - Update to Example Response.
 - Responsive tweak.
+
 #### 2021-09-07
 
 - Revamped API documentation Added Common Use Case section. Added Rate Limit section. Update to PUT and POST cURL example.
@@ -4176,12 +4201,15 @@ Common Use Case
 
 - Added Rate Limit section.
 - Update to PUT and POST cURL example.
+
 #### 2021-08-18
 
 - Fixed typo in the API doc where entity_id and creator_id wa in path paramater when they should be inside the payload parameter for Create a New List Entry.
+
 #### 2021-07-28
 
 - Fixed typo in Relationship Strength section.
+
 #### 2021-05-05
 
 - Updated API rate limit information.
