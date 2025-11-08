@@ -240,6 +240,14 @@ The data in each cell is represented by a "Field Value". There are both regular 
 
 ![Data Model Overview](https://api-docs.affinity.co/images/crm-field-mappings-47b2c3ba.png)
 
+**Legend:**
+
+- <span style="background-color: #FF8C00; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">List Entry</span> (orange)
+- <span style="background-color: #0066CC; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Global Field</span> (blue)
+- <span style="background-color: #CC0000; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">List-specific Field</span> (red)
+- <span style="background-color: #9933CC; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Field Value</span> (purple)
+- <span style="background-color: #00CC66; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">Smart Field Value</span> (green)
+
 > **Note**  
 > When working with Affinity's API, it is important to understand the differences between how data is organized in the CRM versus the API.  
 > Although Smart Fields show up as a column in the List, they **do not** exist in the API in the same way **Global Fields** and **List-specific Fields** ones do.  
