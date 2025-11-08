@@ -688,9 +688,23 @@ This list would have 25 "list entries". Each list entry would be associated with
 
 #### List Type
 
+The list type determines what kind of entities the list contains:
+
+| Value | Type | Description |
+|-------|------|-------------|
+| 0 | Person | List contains person entities |
+| 1 | Organization | List contains organization entities |
+| 8 | Opportunity | List contains opportunity entities |
+
 #### List-level Role
 
-See here for details on the permissions held by the role.
+List-level roles determine the permissions that users have on a specific list:
+
+| Role | Value | Description |
+|------|-------|-------------|
+| Admin | 0 | Full access to the list, including ability to modify list settings and delete the list |
+| Standard | 1 | Can view and edit list entries and field values, but cannot modify list settings |
+| Basic | 2 | Can only view the list, cannot make any modifications |
 
 #### Get All Lists
 
@@ -785,6 +799,17 @@ The list resource that was just created through this request.
 
 Each list comprises a number of entries. Each list entry has a creator, a list that it belongs to, and the underlying entity it represents depending on the type of the list (people, organizations, or opportunities).
 
+A list entry resource has the following attributes:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the list entry object. |
+| list_id | integer | The unique identifier of the list that this entry belongs to. |
+| creator_id | integer | The unique ID of the internal person who created the list entry. If the list entry was created via API, this is the internal person corresponding to the API key that was used. |
+| entity_id | integer | The unique identifier of the entity (person, organization, or opportunity) that this list entry represents. |
+| entity | object | A nested object containing the entity's id and name. |
+| created_at | string | The timestamp when the list entry was created. |
+
 Operations like adding and removing entities from a list can be accomplished using the list entry abstraction.
 
 > **Note**  
@@ -810,13 +835,23 @@ curl "https://api.affinity.co/lists/450/list-entries" -u :$APIKEY
 
 If no page size is specified, fetch all the list entries in the list with the supplied list id. If a page size is specified, fetch up to that number of list entries in the list with the supplied list id.
 
-#### Path Parameter
+#### Path Parameters
 
-#### Query Parameter
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | true | The unique identifier of the list object. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| page_size | number | false | How many results to return per page. If not specified, all list entries will be returned. |
+| page_token | string | false | The next_page_token from the previous response required to retrieve the next page of results. |
+| creator_id | integer | false | Filter list entries by the internal person who created them. |
 
 #### Return
 
-If the page_size is not passed in as a parameter, an array of all the list entry resources corresponding to the provided list will be returned. If the page_size is passed in as a parameter, an object with entries and page_token will be returned.
+If the page_size is not passed in as a parameter, an array of all the list entry resources corresponding to the provided list will be returned. If the page_size is passed in as a parameter, an object with `entries` and `next_page_token` will be returned.
 
 List Entry Resource
 
@@ -826,7 +861,12 @@ List Entry Resource
 
 Fetch a list entry with a specified id.
 
-#### Path Parameter
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | true | The unique identifier of the list object. |
+| list_entry_id | integer | true | The unique identifier of the list entry object. |
 
 #### Return
 
@@ -858,7 +898,17 @@ curl "https://api.affinity.co/lists/450/list-entries/56517" \
 
 Create a new list entry in the list with the supplied list id.
 
-#### Payload Parameter
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | true | The unique identifier of the list object. |
+
+#### Payload Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| entity_id | integer | true | The unique identifier of the entity (person, organization, or opportunity) to add to the list. |
 
 > **Note**
 > Opportunities cannot be created using this endpoint. Instead, use the POST /opportunities endpoint.
@@ -916,6 +966,13 @@ curl -X POST "https://api.affinity.co/opportunities/120611418" \
 ## DELETE /lists/{list_id}/list-entries/{list_entry_id}
 
 Delete a list entry with a specified list_entry_id.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | true | The unique identifier of the list object. |
+| list_entry_id | integer | true | The unique identifier of the list entry object to delete. |
 
 #### Return
 
@@ -1003,9 +1060,35 @@ curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
 
 Each field object has a unique id. It also has a name, which determines the name of the field, and allow_multiple, which determines whether multiple values can be added to a single cell for that field.
 
+A field resource has the following attributes:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the field object. |
+| name | string | The name of the field. |
+| list_id | integer | The unique identifier of the list that the field belongs to if it is list-specific. This is null if the field is global. |
+| enrichment_source | string | The source of enrichment for automatically created fields (e.g., "crunchbase", "affinity", "pitchbook"). This is null for manually created fields. |
+| value_type | integer | The type of values that can be associated with this field. See [Field Value Type](#field-value-type) below for all value types. |
+| allows_multiple | boolean | Determines whether multiple values can be added to a single cell for this field. |
+| track_changes | boolean | Determines whether historical changes to field values are tracked. Only certain value types support change tracking. |
+| dropdown_options | array | An array of dropdown option objects (for dropdown and ranked dropdown fields). Each option has `id`, `text`, `rank`, and `color` attributes. |
+
 Affinity is extremely flexible and customizable, and a lot of that power comes from our ability to support many different value types for fields. Numbers, dates, and locations are all examples of value types.
 
 #### Field Value Type
+
+The value types listed below determine what kind of data can be stored in a field:
+
+| Value | Type | Description |
+|-------|------|-------------|
+| 0 | Person | Field value is a person entity |
+| 1 | Organization | Field value is an organization entity |
+| 2 | Dropdown | Field value is a dropdown option |
+| 3 | Number | Field value is a numeric value |
+| 4 | Date | Field value is a date |
+| 5 | Location | Field value is a location |
+| 6 | Text | Field value is a text string |
+| 7 | Ranked Dropdown | Field value is a ranked dropdown option (like Status fields) |
 
 All the types listed below can be referenced by looking at the Affinity web app as well.
 
@@ -1026,9 +1109,17 @@ Pass the entity_type to fetch fields of a specific entity type. Otherwise, any f
 
 Pass the with_modified_name flag to return the fields such that the names have the list name prepended to them in the format [List Name] Field Name (i.e. [Deal] Status).
 
-Pass the exclude_dropdown_option flag to exclude dropdown options from the response. This may be useful when the payload is too large due to too many dropdown options.
+Pass the exclude_dropdown_options flag to exclude dropdown options from the response. This may be useful when the payload is too large due to too many dropdown options.
 
-#### Query Parameter
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | false | Filter fields to only those specific to this list. If not provided, all global and list-specific fields will be returned. |
+| value_type | integer | false | Filter fields to only those of this value type. If not provided, fields of all types will be returned. |
+| entity_type | integer | false | Filter fields to only those of this entity type. If not provided, fields of all entity types will be returned. |
+| with_modified_names | boolean | false | When true, field names will have the list name prepended in the format [List Name] Field Name (e.g., [Deal] Status). |
+| exclude_dropdown_options | boolean | false | When true, dropdown options will be excluded from the response. Useful when the payload is too large. |
 
 #### Return
 
@@ -1069,6 +1160,14 @@ is_required boolean false This determines whether the field object is required.
 
 | This determine whether multiple value can be added to a single cells for the field. | is _list_ specific | This determine whether the fields objects belongs to a specific list. If set to true, you must pass in the appropriate list_id. | is_required |
 #### Field Entity Type
+
+The entity type determines what kind of entities a field can be associated with:
+
+| Value | Type | Description |
+|-------|------|-------------|
+| 0 | Person | Field applies to person entities |
+| 1 | Organization | Field applies to organization entities |
+| 8 | Opportunity | Field applies to opportunity entities |
 
 #### Return
 
@@ -1335,6 +1434,12 @@ A field value change also has field_id, entity_id, list_entry_id attributes that
 
 The action types specified below correspond to the action_type of a field value change. This attribute filters the field value changes that are returned. For example, when an action_type of 0 is specified, only created actions will be returned.
 
+| Value | Action Type | Description |
+|-------|-------------|-------------|
+| 0 | Create | Field value was created |
+| 1 | Delete | Field value was deleted |
+| 2 | Update | Field value was updated |
+
 > **Note**
 > There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
 
@@ -1425,7 +1530,7 @@ List Entries
 
 Each person resource is assigned a unique id and stores the name, type, and email addresses of the person. A person resource also has access to a Smart attribute called primary_email. The value of primary_email is automatically computed and represents the most likely current active email address for the person.
 
-The person resource organization_id is a collection of unique identifiers to the person's associated organizations.
+The person resource organization_ids is a collection of unique identifiers to the person's associated organizations.
 
 > **Note**
 > A person can be associated with multiple organizations. For example, say you have a person who works at Company A, and later moves to Company B. That person would be associated with both organizations.
@@ -1449,17 +1554,17 @@ The person resource organization_id is a collection of unique identifiers to the
 > | The last name of the person. | email | "string[]" | The email addresses of the person. |
 > primary_email string The email (automatically computed) that is most likely to be the current active email address of the person.
 >
-> organization_id integer[] An array of unique identifiers of organizations that the person is associated with.
+> organization_ids integer[] An array of unique identifiers of organizations that the person is associated with.
 >
-> | primary_email | string | The email (automatically computed) that is most likely to be the current active email address of the person. | organization_id | "integer[]" | An array of unique identifiers of organizations that the person is associated with. |
-> opportunity_id integer[] An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true.
+> | primary_email | string | The email (automatically computed) that is most likely to be the current active email address of the person. | organization_ids | "integer[]" | An array of unique identifiers of organizations that the person is associated with. |
+> opportunity_ids integer[] An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true.
 >
-> | An array of unique identifiers of organizations that the person is associated with. | opportunity_id | "integer[]" | An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true. |
-> current_organization_id integer[] An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true.
+> | An array of unique identifiers of organizations that the person is associated with. | opportunity_ids | "integer[]" | An array of unique identifiers of opportunities that the person is associated with. Only returned when with_opportunities=true. |
+> current_organization_ids integer[] An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organizations=true.
 >
 > list_entries ListEntry[] An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint.
 >
-> | current_organization_id | "integer[]" | An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organization=true. | list_entries | "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. |
+> | current_organization_ids | "integer[]" | An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when with_current_organizations=true. | list_entries | "ListEntry[]" | An array of list entry resources associated with the person, only returned as part of the Get a Specific Person endpoint. |
 > Get a Specific Person
 >
 > interaction_date objects An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date.
@@ -1470,6 +1575,13 @@ The person resource organization_id is a collection of unique identifiers to the
 > | An object with seven string date fields representing the most recent and upcoming interactions with this person: first_email_date, last_email_date, last_event_date, last_chat_message_date, last_interaction_date, next_event_date, next_meeting_date. | interaction | objects | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for date and person_id which indicate the internal person associated with that interaction. |
 
 #### Person type
+
+The person type indicates whether a person is internal or external to your team:
+
+| Value | Type | Description |
+|-------|------|-------------|
+| 0 | External | Person is external to your team (not a user of Affinity) |
+| 1 | Internal | Person is internal to your team (a user of Affinity) |
 
 #### Search for Persons
 
@@ -1656,7 +1768,7 @@ The person object that was just updated through this request.
 #### If you are looking to add an existing person to a list, please check the List Entries section of the API
 
 > **Note**
-> If you are trying to add a new email or organization to a person, the existing values for email and organization_id must also be supplied as parameters.
+> If you are trying to add a new email or organization to a person, the existing values for email and organization_ids must also be supplied as parameters.
 
 #### Delete a Person
 
@@ -1760,11 +1872,11 @@ domain string The website name of the organization. This is used by Affinity to 
 domain string[] An array of all the websites associated with the organization. These are also used to automatically associate person objects with an organization.
 
 | The website name of the organization. This is used by Affinity to automatically associate person objects with an organization. | domain | "string[]" | An array of all the websites associated with the organization. These are also used to automatically associate person objects with an organization. |
-person_id integer[] An array of unique identifiers of people that are associated with the organization.
+person_ids integer[] An array of unique identifiers of people that are associated with the organization.
 
-opportunity_id integer[] An array of unique identifiers of opportunities that are associated with the organization.
+opportunity_ids integer[] An array of unique identifiers of opportunities that are associated with the organization.
 
-| person_id | "integer[]" | An array of unique identifiers of people that are associated with the organization. | opportunity_id | "integer[]" | An array of unique identifiers of opportunities that are associated with the organization. |
+| person_ids | "integer[]" | An array of unique identifiers of people that are associated with the organization. | opportunity_ids | "integer[]" | An array of unique identifiers of opportunities that are associated with the organization. |
 global boolean Returns whether this organization is a part of Affinity's global data set of organizations. This is always false if the organization was created by you.
 
 list_entries ListEntry[] An array of list entry resources associated with the organization, only returned as part of the Get a Specific Organization endpoint.
