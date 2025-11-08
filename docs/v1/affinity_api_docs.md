@@ -900,7 +900,114 @@ If no page size is specified, fetches all the list entries in the list with the 
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| list_id | integer | true | The unique identifier of the list object. |
+| list_id | integer | true | The unique ID of the list whose list entries are to be retrieved. |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| page_size | integer | false | How many results to return per page. (Default is to return all results.) |
+| page_token | string | false | The next_page_token from the previous response required to retrieve the next page of results. |
+
+#### Returns
+
+If the `page_size` is not passed in as a parameter, an array of all the list entry resources corresponding to the provided list will be returned. If the `page_size` is passed in as a parameter, an object with two fields: `list_entries` and `next_page_token` are returned. `list_entries` maps to an array of up to `page_size` list entries. `next_page_token` includes a token to be sent along with the next request as the `page_token` parameter to fetch the next page of results. Each list entry in the both cases includes all the attributes as specified in the List Entry Resource section above.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/lists/450/list-entries" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+[
+  {
+    "id": 64608,
+    "list_id": 450,
+    "creator_id": 287843,
+    "entity_id": 62034,
+    "created_at": "2017-05-04T10:44:31.525-08:00",
+    "entity": {
+      "type": 0,
+      "first_name": "Affinity",
+      "last_name": "Team",
+      "primary_email": "team@affinity.co",
+      "emails": ["team@affinity.co"]
+    }
+  },
+  {
+    "id": 53510,
+    "list_id": 450,
+    "creator_id": 38596,
+    "entity_id": 241576,
+    "created_at": "2017-02-22T15:22:21.125-08:00",
+    "entity": {
+      "type": 0,
+      "first_name": "John",
+      "last_name": "Doe",
+      "primary_email": "jdoe@stanford.edu",
+      "emails": ["jdoe@stanford.edu"]
+    }
+  }
+]
+```
+
+#### Example Response with Pagination
+
+```json
+{
+  "list_entries": [
+    {
+      "id": 64608,
+      "list_id": 450,
+      "creator_id": 287843,
+      "entity_id": 62034,
+      "created_at": "2017-05-04T10:44:31.526-08:00",
+      "entity": {
+        "type": 0,
+        "first_name": "Affinity",
+        "last_name": "Team",
+        "primary_email": "team@affinity.co",
+        "emails": ["team@affinity.co"]
+      }
+    },
+    {
+      "id": 53510,
+      "list_id": 450,
+      "creator_id": 38596,
+      "entity_id": 241576,
+      "created_at": "2017-02-22T15:22:21.125-08:00",
+      "entity": {
+        "type": 0,
+        "first_name": "John",
+        "last_name": "Doe",
+        "primary_email": "jdoe@stanford.edu",
+        "emails": ["jdoe@stanford.edu"]
+      }
+    }
+  ],
+  "next_page_token": "eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9"
+}
+```
+
+#### Get a Specific List Entry
+
+`GET /lists/{list_id}/list-entries/{list_entry_id}`
+
+Fetches a list entry with a specified id.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| list_id | integer | true | The unique ID of the list that contains the specified list_entry_id. |
+| list_entry_id | integer | true | The unique ID of the list entry object to be retrieved. |
+
+#### Returns
+
+The list entry object corresponding to the list_entry_id.
 
 #### Example Request
 
@@ -918,135 +1025,6 @@ curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
   "entity_id": 241576,
   "created_at": "2017-02-22T15:22:21.125-08:00",
   "entity": {
-    "type": 0,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "jdoe@stanford.edu",
-    "emails": [
-      "jdoe@stanford.edu"
-    ]
-  }
-}
-```
-
-
-#### Query Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| page_size | number | false | How many results to return per page. If not specified, all list entries will be returned. |
-| page_token | string | false | The next_page_token from the previous response required to retrieve the next page of results. |
-| creator_id | integer | false | Filter list entries by the internal person who created them. |
-
-#### Returns
-
-If the page_size is not passed in as a parameter, an array of all the list entry resources corresponding to the provided list will be returned. If the page_size is passed in as a parameter, an object with `list_entries` and `next_page_token` will be returned.
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries?page_size=10" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "list_entries": [
-    {
-      "id": 53510,
-      "list_id": 450,
-      "creator_id": 38596,
-      "entity_id": 38706,
-
-#### Example Request
-
-```bash
-curl -X POST “https://api.affinity.co/lists/450/list-entries” \
-   -u :$APIKEY \
-   -H "Content-Type: application/json" \
-   -d '{"entity_id": 38706}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 53510,
-  "list_id": 450,
-  "creator_id": 38596,
-  "entity_id": 38706,
-  "created_at": "2017-02-22T15:22:21.125-08:00",
-  "entity": {
-    "type": 0,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "jdoe@stanford.edu",
-    "emails": [
-      "jdoe@stanford.edu"
-    ]
-  }
-}
-```
-
-      "entity_type": 0,
-      "created_at": "2015-12-11T02:26:56.537-08:00"
-    }
-  ],
-  "next_page_token": "eyJwYXJhbXMiOnsicGFnZV9zaXplIjoxMH0sInBhZ2UiOjJ9"
-}
-```
-
-#### Get a Specific List Entry
-
-`GET /lists/{list_id}/list-entries/{list_entry_id}`
-
-Fetches a list entry with a specified id.
-
-#### Path Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| list_id | integer | true | The unique identifier of the list object. |
-| list_entry_id | integer | true | The unique identifier of the list entry object. |
-
-#### Returns
-
-The list entry object corresponding to the list_entry_id.
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries/16367" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "id": 53510,
-  "list_id": 450,
-  "creator_id": 38596,
-  "entity_id": 38706,
-  "created_at": "2017-02-22T15:22:21.125-08:00",
-  "entity": {
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/lists/450/list-entries/56517" \
-   -u :$APIKEY \
-   -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "success": true
-}
-```
-
     "type": 0,
     "first_name": "John",
     "last_name": "Doe",
@@ -3336,47 +3314,6 @@ curl -X POST "https://api.affinity.co/opportunities" \
   -d '{"name": "Penny Opportunity", "list_id": 6645, "person_ids": [38706], "organization_ids": [21442]}'
 ```
 
-#### Example Request
-
-```bash
-# Returns an array relationship strengths matching the criteria.
-curl "https://api.affinity.co/relationships-strengths?external_id=1234&internal_id=2345" -u :$APIKEY
-```
-
-```bash
-# Returns an array relationship strengths matching the criteria.
-curl "https://api.affinity.co/relationships-strengths?external_id=1234" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "internal_id": 1234,
-    "external_id": 2345,
-    "strength": 0.5
-  }
-]
-```
-
-```json
-[
-  {
-    "external_id": 1234,
-    "internal_id": 2345,
-    "strength": 0.5,
-  },
-  {
-    "external_id": 1234,
-    "internal_id": 3456,
-    "strength": 0.9,
-  },
-  ...
-]
-```
-
-
 #### Example Response
 
 ```json
@@ -3402,16 +3339,29 @@ curl "https://api.affinity.co/relationships-strengths?external_id=1234" -u :$API
 
 `PUT /opportunities/{opportunity_id}`
 
-Update an existing opportunity with opportunity_id with the supplied parameters.
+Updates an existing opportunity with `opportunity_id` with the supplied parameters.
 
-#### Return
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| opportunity_id | integer | true | The unique ID of the opportunity to be updated. |
+
+#### Payload Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| name | string | false | The name of the opportunity. |
+| person_ids | integer[] | false | An array of unique identifiers of persons that the opportunity will be associated with. |
+| organization_ids | integer[] | false | An array of unique identifiers of organizations that the opportunity will be associated with. |
+
+#### Returns
 
 The opportunity resource that was just updated through a successful request.
 
-> **Note**
-> If you are trying to add a person to an opportunity, the existing values for person_id must also be passed into the endpoint.
->
-> If you are trying to add an organization to an opportunity, the existing values for organization_id must also be passed into the endpoint.
+> **Notes**
+> - If you are trying to add a person to an opportunity, the existing values for `person_ids` must also be passed into the endpoint.
+> - If you are trying to add an organization to an opportunity, the existing values for `organization_ids` must also be passed into the endpoint.
 
 #### Example Request
 
@@ -3426,66 +3376,41 @@ curl -X POST "https://api.affinity.co/opportunities/120611418" \
 
 ```json
 {
-  "id": 123
+  "id": 120611418,
+  "name": "Penny Opp",
+  "person_ids": [38706, 89734],
+  "organization_ids": [21442],
+  "list_entries": [
+    {
+      "id": 999886,
+      "creator_id": 1127776,
+      "list_id": 6645,
+      "entity_id": 50,
+      "entity_type": 8,
+      "created_at": "2018-03-07T16:32:35.794-08:00"
+    }
+  ]
 }
 ```
 
 #### Delete an Opportunity
 
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/notes" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 22984,
-    "creator_id": 860197,
-    "person_ids": [38706,89734],
-    "is_meeting": false,
-    "mentioned_person_ids": [49817, 78624],
-    "organization_ids": [64779194],
-    "opportunity_ids": [117],
-    "parent_id":  null,
-    "content": "Had a lunch meeting with Jane ... ",
-    "type": 0,
-    "created_at": "2017-03-28T00:38:41.275-08:00",
-    "updated_at": "2017-04-03T00:22:25.612-08:00"
-  },
-  {
-    "id": 22983,
-    "creator_id": 860196,
-    "person_ids": [],
-    "is_meeting": false,
-    "mentioned_person_ids": [7237],
-    "organization_ids": [64779194],
-    "opportunity_ids": [115],
-    "parent_id":  null,
-    "content": "Had a **lunch meeting** @ Google ... ",
-    "type": 2,
-    "created_at": "2017-03-28T00:38:41.275-08:00",
-    "updated_at": null
-  },
-  ...
-]
-
-#### Example Request
-
-```bash
-# Returns the note with the specified `note_id`
-curl "https://api.affinity.co/notes/22984" -u :$APIKEY
-```
-
-```
-
 `DELETE /opportunities/{opportunity_id}`
 
-Delete an opportunity with a specified opportunity_id.
+Deletes an opportunity with a specified `opportunity_id`.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| opportunity_id | integer | true | The unique ID of the opportunity that needs to be deleted. |
+
+#### Returns
+
+`{"success": true}`.
+
+> **Note**
+> This will also delete all the field values, if any, associated with the opportunity.
 
 #### Example Request
 
@@ -3502,13 +3427,6 @@ curl "https://api.affinity.co/opportunities/120611418" \
   "success": true
 }
 ```
-
-#### Return
-
-{"success": true}
-
-> **Note**
-> This will also delete all the field values, if any, associated with the opportunity.
 
 # Interactions
 
@@ -3693,17 +3611,12 @@ The details of the interaction corresponding to the ID and type specified in the
 
 Creates a new interaction with the supplied parameters.
 
-> **Note**
-> - Only meetings (`type == 0`), calls (`type == 1`), and chat messages (`type == 2`) are supported.
-> - Email interactions (`type == 3`) cannot be created through the API.
-> - When creating an interaction using the API, the user corresponding to the API token will be the creator by default.
-
 #### Payload Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| type | integer | true | The type of interaction to be created. Only meetings (`type == 0`), calls (`type == 1`), and chat messages (`type == 2`) are supported. |
-| person_ids | integer[] | true | The list of person IDs that are associated with the event. At least one internal person ID must be included (see [Person Resource](#person) for more details on internal persons). |
+| type | integer | true | The type of interaction to be created. Only meetings (`type == 0`), calls (`type == 1`) and chat messages (`type == 2`) are supported. |
+| person_ids | integer[] | true | The list of person IDs that are associated with the event. At least one internal person ID must be included (see [Person Resource](#the-person-resource) for more details on internal persons). |
 | content | string | true | The string containing the content of the new interaction. |
 | direction | integer | false | The direction of the chat message to be created. Only applies to chat messages (`type == 2`). |
 | date | string | true | A string (formatted according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) representing the date time the interaction occurred. |
@@ -3712,51 +3625,32 @@ Creates a new interaction with the supplied parameters.
 
 The interaction created through this request.
 
+> **Note**
+> When creating an interaction using the API, the user corresponding to the API token will be the creator by default.
+
 #### Example Request
 
 ```bash
-
-#### Example Response
-
-```json
-{
-  "id": 43212,
-  "name": "GoogleFriends.csv",
-  "size": 993,
-  "person_id": null,
-  "organization_id": 10,
-  "opportunity_id": null,
-  "created_at": "2011-01-25T09:59:35.288-08:00",
-  "uploader_id": 10
-}
-```
-
-```json
-{
-  "success": true
-}
-```
-
 curl -X POST "https://api.affinity.co/interactions" \
   -u :$APIKEY \
   -H "Content-Type: application/json" \
-  -d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29,546-08:00"}'
+  -d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
 ```
 
 #### Example Response
 
 ```json
 {
-  "date": "2021-02-07T10:56:29,546-08:00",
+  "date": "2021-02-07T10:56:29.546-08:00",
   "id": 3007,
   "attendees": ["john@affinity.co", "yen@alice.com"],
-  "start_time": "2021-02-07T10:56:29,546-08:00",
+  "start_time": "2021-02-07T10:56:29.546-08:00",
   "end_time": null,
   "updated_at": null,
   "manual_creator_id": 443,
   "title": "Manually logged event",
   "type": 0,
-  "notes": [],
+  "notes": [7],
   "persons": [
     {
       "id": 443,
@@ -3791,16 +3685,20 @@ Updates the content of an existing interaction with the supplied parameters.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | integer | true | The identifier of the interaction object to be updated. |
+| id | integer | true | The ID of the interaction to be updated. |
 
-#### Parameter
+#### Payload Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | type | integer | true | The type of interaction to be updated. |
-| person_ids | integer[] | false | The list of person IDs that are associated with the event. |
+| person_ids | integer[] | true | The list of person IDs that are associated with the event. |
 | content | string | false | The string containing the content of the interaction. |
-| date | string | false | A string (formatted according to ISO 8601) representing the date time the interaction occurred. |
+| date | string | false | A string (formatted according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) representing the date time the interaction occurred. |
+
+#### Returns
+
+The interaction object that was just updated through this request.
 
 #### Example Request
 
@@ -3815,42 +3713,53 @@ curl -X PUT "https://api.affinity.co/interactions/3007" \
 
 ```json
 {
-  "id": 3007,
-  "type": 0,
   "date": "2022-02-07T10:56:29.546-08:00",
-  "content": "Update interaction from external API.",
+  "id": 3007,
+  "attendees": ["john@affinity.co", "yen@alice.com"],
+  "start_time": "2022-02-07T10:56:29.546-08:00",
+  "end_time": null,
+  "updated_at": null,
+  "manual_creator_id": 443,
+  "title": "Manually logged event",
+  "type": 0,
+  "notes": [7],
   "persons": [
     {
       "id": 443,
       "type": 1,
       "first_name": "John",
-      "last_name": "Doe"
+      "last_name": "Doe",
+      "primary_email": "john@affinity.co",
+      "emails": ["john@affinity.co"]
+    },
+    {
+      "id": 2021,
+      "type": 0,
+      "first_name": "Alice",
+      "last_name": "Yen",
+      "primary_email": "yen@alice.com",
+      "emails": ["yen@alice.com"]
     }
   ]
 }
 ```
 
-#### Return
-
-The interaction object that was just updated through this request.
-
 #### Delete an Interaction
 
 `DELETE /interactions/{id}`
 
-Delete the interaction with the specified id.
+Deletes the interaction with the specified `id`.
 
 #### Path Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| id | integer | true | The identifier of the interaction object to be deleted. |
-
-#### Query Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
+| id | integer | true | The unique ID of the interaction to be deleted. |
 | type | integer | true | The type of interaction to be deleted. |
+
+#### Returns
+
+`{"success": true}`.
 
 #### Example Request
 
@@ -3867,10 +3776,6 @@ curl "https://api.affinity.co/interactions/22984?type=0" \
   "success": true
 }
 ```
-
-#### Return
-
-`{"success": true}` if the interaction was successfully deleted.
 
 # Relationship Strengths
 
@@ -4186,11 +4091,11 @@ curl "https://api.affinity.co/notes/22984" -u :$APIKEY
 
 Create a new note with the supplied parameters.
 
-Set the type parameter to 2 to create an HTML note. See [here](#formatting-content-as-html) for more information on the sort of rich text formatting we support in notes. Please note that `<a>` tags aren't currently clickable inside notes.
+Set the `type` parameter to 2 to create an HTML note. See [here](#formatting-content-as-html) for more information on the sort of rich text formatting we support in notes. Please note that `<a>` tags aren't currently clickable inside notes.
 
-It is possible to create a reply to an existing note by setting parent_id. The parent note should not have a parent_id itself. It is possible for a single parent note to have multiple reply notes — the replies will be ordered by creation time.
+It is possible to create a reply to an existing note by setting `parent_id`. The parent note should not have a `parent_id` itself. It is possible for a single parent note to have multiple reply notes — the replies will be ordered by creation time.
 
-#### Parameter
+#### Payload Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -4201,68 +4106,9 @@ It is possible to create a reply to an existing note by setting parent_id. The p
 | type | integer | false | The type of the new note. Defaults to 0. The types 0 and 2 represent plain text and HTML note, respectively. If submitting HTML, see the [formatting options](#formatting-content-as-html). |
 | parent_id | integer | custom* | The unique identifier of the note to which the newly created note should reply. See comment above. |
 | creator_id | integer | false | The ID of a Person resource who should be recorded as the author of the note. Must be a person who can access Affinity. If not provided, the creator defaults to the owner of the API key. |
-| created_at | string | false | A string (formatted according to ISO 8601) representing the creation time to be recorded for the note. If not provided, defaults to the current time. Does not support time in the future. |
+| created_at | string | false | A string (formatted according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) representing the creation time to be recorded for the note. If not provided, defaults to the current time. Does not support time in the future. |
 
-#### Return
-
-#### Example Request
-
-```bash
-curl -X PUT "https://api.affinity.co/reminders/15385" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"type": 1, "reset_type": 0, "reminder_days": 30}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 15385,
-  "type": 1,
-  "created_at": "2022-02-01T09:36:07.316-08:00",
-  "completed_at": null,
-  "content": "Create reminder from external API",
-  "due_date": "2021-11-30T00:00:00.000-08:00",
-  "reset_type": 0,
-  "reminder_days": 70,
-  "status": 2,
-  "creator": {
-    "id": 443,
-    "type": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "john@affinity.co",
-    "emails": [
-      "john@affinity.co"
-    ]
-  },
-  "owner": {
-    "id": 443,
-    "type": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "john@affinity.co",
-    "emails": [
-      "john@affinity.co"
-    ]
-  },
-  "completer": null,
-  "person": {
-    "id": 2021,
-    "type": 0,
-    "first_name": "Alice",
-    "last_name": "Yen",
-    "primary_email": "yen@alice.com",
-    "emails": [
-      "yen@alice.com"
-    ]
-  },
-  "organization": null,
-  "opportunity": null
-}
-```
-
+#### Returns
 
 The note resource created through this request.
 
@@ -4272,6 +4118,47 @@ The note resource created through this request.
 > When creating a note using the API, the user corresponding to the API token will be the creator by default.
 >
 > To ensure that content gets encoded properly, it is recommended to submit either application/json or application/x-www-form-urlencoded instead of query parameters.
+
+#### Example Request (JSON)
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "content": "Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+#### Example Request (Form)
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&content=Had a lunch meeting with Jane and John today. They want to invest in Acme Corp."
+```
+
+#### Example Response
+
+```json
+{
+  "id": 22985,
+  "creator_id": 860197,
+  "person_ids": [38708, 24809, 89203, 97304],
+  "associated_person_ids": [38708, 24809],
+  "interaction_person_ids": [89203, 97304],
+  "interaction_id": 114,
+  "interaction_type": 0,
+  "is_meeting": true,
+  "mentioned_person_ids": [],
+  "organization_ids": [64779194],
+  "opportunity_ids": [117],
+  "parent_id": null,
+  "content": "Had a lunch meeting with Jane ... ",
+  "type": 0,
+  "created_at": "2017-03-28T00:38:41.275-08:00",
+  "updated_at": null
+}
+```
 
 #### Update a Note
 
@@ -4588,95 +4475,47 @@ curl "https://api.affinity.co/entity-files/download/12345" \
 
 `POST /entity-files`
 
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/webhook/1234" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "success": true
-}
-```
-
-Upload file(s) attached to the entity with the given id.
+Uploads files attached to the entity with the given id.
 
 The file will display on the entity's profile, provided that the entity is not a person internal to the user's organization.
 
-#### Payload Parameters
+#### Path Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| file | file | custom* | A single file to upload. Use this parameter for single file uploads. Exactly one of `file` or `files[]` must be provided. |
-| files[] | file[] | custom* | Multiple files to upload. Use this parameter for multi-file uploads. Exactly one of `file` or `files[]` must be provided. |
-| person_id | integer | custom* | The unique identifier of the person object to attach the file(s) to. Exactly one of person_id, organization_id, or opportunity_id must be specified. |
-| organization_id | integer | custom* | The unique identifier of the organization object to attach the file(s) to. Exactly one of person_id, organization_id, or opportunity_id must be specified. |
-| opportunity_id | integer | custom* | The unique identifier of the opportunity object to attach the file(s) to. Exactly one of person_id, organization_id, or opportunity_id must be specified. |
+| file | File | false | A singular file to be uploaded, formatted as form data (multipart/form-data). |
+| files | File[] | false | An array of files to be uploaded, formatted as form data (multipart/form-data). |
+| person_id | integer | false | The unique identifier of the person object to attach the file(s) to. |
+| organization_id | integer | false | The unique identifier of the organization object to attach the file(s) to. |
+| opportunity_id | integer | false | The unique identifier of the opportunity object to attach the file(s) to. |
 
 #### Returns
 
 `{"success": true}`
 
-> **Note**
-> File(s) must be attached to exactly one entity, specified using one of the three entity ID parameters (`person_id`, `organization_id`, or `opportunity_id`).
->
-> For single file uploads, use the `file` parameter. For multiple file uploads, use the `files[]` parameter (array format).
-
-#### Example Request (Single File)
-
-```bash
-curl -X POST "https://api.affinity.co/entity-files" \
--u :$APIKEY \
--H 'Content-Type: multipart/form-data' \
--F file=@file.txt \
+> **Notes**
+> - Files must be attached to a single entity, specified using one of the three entity ID parameters (`person_id`, `organization_id`, and `opportunity_id`).
+> - At least one file must be uploaded using the `file` or `files` parameters.
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/auth/whoami" -u :$API_KEY
+# Single file upload
+curl -X POST "https://api.affinity.co/entity-files" \
+  -u :$APIKEY \
+  -H 'Content-Type: multipart/form-data' \
+  -F file=@file.txt \
+  -F person_id=1
 ```
-
-#### Example Response
-
-```json
-{
-  "tenant": {
-    "id": 1,
-    "name": "Affinity",
-    "subdomain": "affinity"
-  },
-  "user": {
-    "id": 2,
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john@affinity.co"
-  },
-  "grant": {
-    "type": "api_key",
-    "scope": "external_api",
-    "createdAt": "2020-12-14T09:00:00.000-05:00"
-  }
-}
-```
-
--F person_id=1
-```
-
-#### Example Request (Multiple Files)
 
 ```bash
+# Multi file upload
 curl -X POST "https://api.affinity.co/entity-files" \
--u :$APIKEY \
--H 'Content-Type: multipart/form-data' \
--F 'files[]=@file1.txt' \
--F 'files[]=@file2.txt' \
--F person_id=1
+  -u :$APIKEY \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'files[]=@file1.txt' \
+  -F 'files[]=@file2.txt' \
+  -F person_id=1
 ```
 
 #### Example Response
@@ -5574,36 +5413,6 @@ Common Use Case
 #### 2021-05-05
 
 - Updated API rate limit information.
-
-#### Example Request
-
-```bash
-/rate-limit
-```
-
-```bash
-/rate-limit
-```
-
-```bash
-curl "https://api.affinity.co/rate-limit" -u :$API_KEY
-```
-
-```bash
-curl "https://api.affinity.co/rate-limit" -u :$API_KEY
-```
-
-```bash
-GET /rate-limit
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
 
 ---
 
