@@ -61,7 +61,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Default Fields](#default-fields)
 - [Common Use Cases](#common-use-cases)
   - [Getting Field Value for All List Entries on a List](#getting-field-value-for-all-list-entries-on-a-list)
-  - [Getting Field Value Changes for Status Fields](#getting-field-value-changes-for-status-fields)
+  - [Getting Field Value Changes for Status Fields](#getting-field-values-changes-for-status-fields)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
 - [Useful Resources](#useful-resources)
 - [Partner With Us](#partner-with-us)
@@ -78,7 +78,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Delete a Specific List Entry](#delete-a-specific-list-entry)
 - [Fields](#fields)
   - [The Field Resource](#the-field-resource)
-  - [Get Field](#get-field)
+  - [Get Fields](#get-fields)
   - [Create Field](#create-field)
   - [Delete a Field](#delete-a-field)
 - [Field Values](#field-values)
@@ -87,10 +87,10 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Create a New Field Value](#create-a-new-field-value)
   - [Update a Field Value](#update-a-field-value)
   - [Delete a Field Value](#delete-a-field-value)
-- [Field Value Changes](#field-value-changes)
+- [Field Value Changes](#field-values-changes)
   - [Supported field types](#supported-field-types)
   - [The Field Value Change Resource](#the-field-value-change-resource)
-  - [Get Field Value Changes](#get-field-value-changes)
+  - [Get Field Value Changes](#get-field-values-changes)
 - [Persons](#persons)
   - [The Person Resource](#the-person-resource)
   - [Search for Persons](#search-for-persons)
@@ -467,10 +467,10 @@ GET /fields Response:
 ]
 ```
 
-3. Query [`GET /field-value-changes`](#field-value-change) passing in the `id` from Step 2
+3. Query [`GET /field-values-changes`](#field-value-change) passing in the `id` from Step 2
 
 ```
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
   {
     "id": 7,
@@ -513,10 +513,10 @@ GET /field-value-changes Response:
 ]
 ```
 
-4. Filter results of [`GET /field-value-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-values-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-value-changes Response:
+GET /field-values-changes Response:
 [
   {
     "id": 7,
@@ -1312,23 +1312,6 @@ The value types listed below determine what kind of data can be stored in a fiel
 | 1 | Organization | Field value is an organization entity |
 | 2 | Dropdown | Field value is a dropdown option |
 | 3 | Number | Field value is a numeric value |
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/fields/1234" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "success": true
-}
-```
-
 | 4 | Date | Field value is a date |
 | 5 | Location | Field value is a location |
 | 6 | Text | Field value is a text string |
@@ -1487,6 +1470,28 @@ curl -X POST "https://api.affinity.co/fields" \
 
 Delete a field with the specified id.
 
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | integer | true | The unique identifier of the field object to delete. |
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/fields/1234" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "success": true
+}
+```
+
 #### Return
 
 {"success": true}
@@ -1604,42 +1609,41 @@ The Field Types specified below correspond to the value_type of a field.
 #### Example Request
 
 ```bash
-GET /field-values
-```
-
-```bash
-GET /field-values Response:
-[
-{
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/field-values/20406836" \
-  -u :$APIKEY \
-  -X "DELETE"
+curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
 ```
 
 #### Example Response
 
 ```json
-{
-  "success": true
-}
-```
-
-"id": 2448594830,
-"field_id": 61223,
-"list_entry_id": 37605676,
-"entity_type": 0,
-"value_type": 3,
-"entity_id": 7133202,
-"value": 5000.0
-}
-...
+[
+  {
+    "id": 250616,
+    "field_id": 337,
+    "list_entry_id": null,
+    "entity_id": 38706,
+    "created_at": "2021-10-04T08:54:24.694-04:00",
+    "updated_at": "2022-03-04T08:54:24.694-04:00",
+    "value": {
+      "city": "San Francisco",
+      "state": "California",
+      "country": "United States",
+      "continent": null,
+      "street_address": null
+    }
+  },
+  {
+    "id": 2634897436,
+    "field_id": 768101,
+    "list_entry_id": null,
+    "entity_type": 0,
+    "value_type": 2,
+    "entity_id": 65680071,
+    "created_at": "2022-10-04T08:54:24.694-04:00",
+    "updated_at": null,
+    "value": "Software Engineer"
+  }
 ]
 ```
-
 
 `GET /field-values`
 
@@ -1668,66 +1672,6 @@ An array of all the field values associated with the supplied person, organizati
 
 > **Note**
 > Field value endpoint does return Crunchbase fields, but with null values.
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/field-values?person_id=38706" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 2448594830,
-    "field_id": 61223,
-    "list_entry_id": 37605676,
-    "entity_type": 0,
-    "value_type": 3,
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 50822718,
-    "field_id": 236333,
-    "entity_id": 261131046,
-    "list_entry_id": 15709964,
-    "action_type": 0,
-    "changer": {
-      "id": 38706,
-      "type": 0,
-      "first_name": "Jane",
-      "last_name": "Doe",
-      "primary_email": "jane@gmail.com",
-      "emails": [
-        "jane@gmail.com"
-      ]
-    },
-    "changed_at": "2020-04-11T15:46:50.963-07:00",
-    "value": {
-      "id": 1607859,
-      "text": "New",
-      "rank": 1,
-      "color": 0
-    }
-  }
-]
-```
-
-    "entity_id": 7133202,
-    "value": 5000.0
-  }
-]
-```
 
 #### Create a New Field Value
 
@@ -1945,7 +1889,7 @@ The action types specified below correspond to the action_type of a field value 
 
 #### Get Field Value Changes
 
-`GET /field-value-changes`
+`GET /field-values-changes`
 
 Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
 
@@ -1963,7 +1907,7 @@ Returns all field value changes attached to a specific field. Field value change
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
+curl "https://api.affinity.co/field-values-changes?field_id=236333" -u :$APIKEY
 ```
 
 #### Example Response
