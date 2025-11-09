@@ -61,7 +61,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Default Fields](#default-fields)
 - [Common Use Cases](#common-use-cases)
   - [Getting Field Value for All List Entries on a List](#getting-field-value-for-all-list-entries-on-a-list)
-  - [Getting Field Value Changes for Status Fields](#getting-field-values-changes-for-status-fields)
+  - [Getting Field Value Changes for Status Fields](#getting-field-value-changes-for-status-fields)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
 - [Useful Resources](#useful-resources)
 - [Partner With Us](#partner-with-us)
@@ -83,14 +83,14 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Delete a Field](#delete-a-field)
 - [Field Values](#field-values)
   - [The Field Value Resource](#the-field-value-resource)
-  - [Get Field Value](#get-field-value)
+  - [Get Field Values](#get-field-values)
   - [Create a New Field Value](#create-a-new-field-value)
   - [Update a Field Value](#update-a-field-value)
   - [Delete a Field Value](#delete-a-field-value)
-- [Field Value Changes](#field-values-changes)
+- [Field Value Changes](#field-value-changes)
   - [Supported field types](#supported-field-types)
   - [The Field Value Change Resource](#the-field-value-change-resource)
-  - [Get Field Value Changes](#get-field-values-changes)
+  - [Get Field Value Changes](#get-field-value-changes)
 - [Persons](#persons)
   - [The Person Resource](#the-person-resource)
   - [Search for Persons](#search-for-persons)
@@ -391,7 +391,7 @@ GET /lists/{list_id}/list-entries Response:
 ]
 ```
 
-3. For each list entry, query [`GET /field-values`](#field-value) with the `entity_id` from the previous step. Make sure you are passing `entity_id` through the appropriate parameter (e.g person_id)
+3. For each list entry, query [`GET /field-values`](#get-field-values) with the `entity_id` from the previous step. Make sure you are passing `entity_id` through the appropriate parameter (e.g person_id)
 
 ```
 GET /field-values Response:
@@ -467,10 +467,10 @@ GET /fields Response:
 ]
 ```
 
-3. Query [`GET /field-values-changes`](#field-value-change) passing in the `id` from Step 2
+3. Query [`GET /field-value-changes`](#get-field-value-changes) passing in the `id` from Step 2
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -513,10 +513,10 @@ GET /field-values-changes Response:
 ]
 ```
 
-4. Filter results of [`GET /field-values-changes`](#field-value-change) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-value-changes`](#get-field-value-changes) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -888,7 +888,7 @@ A list entry resource has the following attributes:
 Operations like adding and removing entities from a list can be accomplished using the list entry abstraction.
 
 > **Note**  
-> Although list entries correspond to rows in an Affinity spreadsheet, the values associated with the entity are not stored inside the list entry resource. If you are trying to update, create, or delete field values, see the [Field Value](#field-value) section.
+> Although list entries correspond to rows in an Affinity spreadsheet, the values associated with the entity are not stored inside the list entry resource. If you are trying to update, create, or delete field values, see the [Field Values](#field-values) section.
 
 #### Get All List Entries
 
@@ -1791,28 +1791,6 @@ curl "https://api.affinity.co/field-values/20406836" \
 
 {"success": true}
 
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/persons?term=doe" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/persons?term=doe&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-```bash
-# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
-curl "https://api.affinity.co/persons" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
-```
-
-#### Example Response
-
 ```json
 {
   "persons": [
@@ -1886,7 +1864,7 @@ The action types specified below correspond to the action_type of a field value 
 
 #### Get Field Value Changes
 
-`GET /field-values-changes`
+`GET /field-value-changes`
 
 Returns all field value changes attached to a specific field. Field value changes can be filtered by action_type, person, organization, opportunity or list_entry by passing in the appropriate parameters.
 
@@ -1904,7 +1882,7 @@ Returns all field value changes attached to a specific field. Field value change
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-values-changes?field_id=236333" -u :$APIKEY
+curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
 ```
 
 #### Example Response
