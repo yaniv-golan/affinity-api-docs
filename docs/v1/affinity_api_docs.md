@@ -3427,6 +3427,31 @@ curl "https://api.affinity.co/relationships-strengths?external_id=1234&internal_
 ]
 ```
 
+#### Example Request
+
+```bash
+# Returns an array of relationship strengths matching the criteria.
+curl "https://api.affinity.co/relationships-strengths?external_id=1234" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+[
+  {
+    "external_id": 1234,
+    "internal_id": 2345,
+    "strength": 0.5
+  },
+  {
+    "external_id": 1234,
+    "internal_id": 3456,
+    "strength": 0.9
+  },
+  ...
+]
+```
+
 #### Return
 
 An array of the relationship strength matching the criteria.
@@ -3492,7 +3517,24 @@ A note resource has the following attributes:
 
 #### Formatting content as HTML
 
-If you would like to format your note, create them with type equal to 2, as described in Create a New Note. All currently supported formatting options are described below.
+> **Example `content` payload**
+>
+> ```html
+> <p>This is normal text. <strong>But this is bold!</strong> <span style="color: rgb(255, 0, 0);">And this is red!</span></p>
+> ```
+
+If you would like to format your notes, create them with `type` equal to `2`, as described in [Create a New Note](#create-a-new-note). All currently supported formatting options are described below.
+
+| Style | Formatting | Example |
+|-------|------------|---------|
+| Paragraph | `<p>` element | `<p>I am a paragraph!</p>` |
+| Bold | `<strong>` element | `<p><strong>This text is bold</strong></p>` |
+| Italics | `<em>` element | `<p><em>This text is italicized</em></p>` |
+| Underlined | `<u>` element | `<p><u>This text is underlined</u></p>` |
+| Ordered lists | `<ol>` + `<li>` elements | `<ol><li>First item</li><li>Second item</li></ol>` |
+| Unordered lists | `<ul>` + `<li>` elements | `<ul><li>An item</li><li>Another item</li></ul>` |
+| Background color | `background-color` inline style | `<p><span style="background-color: rgb(255, 0, 0);">The background is red</span></p>` |
+| Font color | `color` inline style | `<p><span style="color: rgb(255, 0, 0);">The text color is red</span></p>` |
 
 #### Get All Notes
 
@@ -3621,6 +3663,79 @@ curl -X POST "https://api.affinity.co/notes" \
   "content": "Had a lunch meeting with Jane ... ",
   "type": 0,
   "created_at": "2017-03-28T00:38:41.275-08:00",
+  "updated_at": null
+}
+```
+
+#### Example Request Creating An HTML-Type Note (JSON)
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706, 624289], "organization_ids": [120611418], "opportunity_ids": [167], "type": 2, "content": "Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."}'
+```
+
+#### Example Request Creating An HTML-Type Note (Form)
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "person_ids[]=38706&person_ids[]=624289&organization_ids[]=120611418&opportunity_ids[]=167&type=2&content=Had a <strong>lunch meeting<strong> with Jane and John today. They want to invest in Acme Corp."
+```
+
+#### Example Response
+
+```json
+{
+  "id": 22986,
+  "creator_id": 860197,
+  "person_ids": [38708, 24809, 89203, 97304],
+  "associated_person_ids": [38708, 24809],
+  "interaction_person_ids": [89203, 97304],
+  "interaction_id": 114,
+  "interaction_type": 0,
+  "is_meeting": true,
+  "mentioned_person_ids": [],
+  "organization_ids": [64779194],
+  "opportunity_ids": [117],
+  "parent_id": null,
+  "content": "Had a **lunch meeting** with Jane ... ",
+  "type": 2,
+  "created_at": "2017-03-28T00:38:41.275-08:00",
+  "updated_at": null
+}
+```
+
+#### Example Request with parent_id
+
+```bash
+curl -X POST "https://api.affinity.co/notes" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"person_ids": [38706], "organization_ids": [120611418], "parent_id": 22984, "content": "This is a <strong> reply </strong>to the previous note.", "type": 2}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 22987,
+  "creator_id": 860197,
+  "person_ids": [],
+  "associated_person_ids": [],
+  "interaction_person_ids": [],
+  "interaction_id": null,
+  "interaction_type": null,
+  "is_meeting": false,
+  "mentioned_person_ids": [],
+  "organization_ids": [],
+  "opportunity_ids": [],
+  "parent_id": 22984,
+  "content": "This is a reply to the previous note. Because a parent_id was supplied, the supplied person_ids, organization_ids, and opportunity_ids were ignored.",
+  "type": 2,
+  "created_at": "2017-03-29T00:38:41.275-08:00",
   "updated_at": null
 }
 ```
