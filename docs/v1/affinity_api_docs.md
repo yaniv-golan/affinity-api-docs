@@ -60,7 +60,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
   - [Overview](#overview)
   - [Default Fields](#default-fields)
 - [Common Use Cases](#common-use-cases)
-  - [Getting Field Value for All List Entries on a List](#getting-field-value-for-all-list-entries-on-a-list)
+  - [Getting Field Values for All List Entries on a List](#getting-field-values-for-all-list-entries-on-a-list)
   - [Getting Field Value Changes for Status Fields](#getting-field-value-changes-for-status-fields)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
 - [Useful Resources](#useful-resources)
@@ -343,7 +343,7 @@ Use the common use cases below to learn how Affinity API endpoints work.
 
 > **Helpful Tips**
 >
-> - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhook) to keep data synced. You may want to schedule occasional syncs via the REST API to fixed any inconsistencies
+> - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhooks) to keep data synced. You may want to schedule occasional syncs via the REST API to fixed any inconsistencies
 > - Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId`
 >
 > ![Request Payload Example](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
@@ -410,8 +410,8 @@ GET /field-values Response:
 ```
 
 4. Locate field values for a given set of fields (optional)
-   1. Query [`GET /fields`](#field) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the `list_id` parameter to prefilter the results
-   2. Filter results of [`GET /fields`](#field) by field name to get the appropriate field ID
+   1. Query [`GET /fields`](#get-fields) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the `list_id` parameter to prefilter the results
+   2. Filter results of [`GET /fields`](#get-fields) by field name to get the appropriate field ID
    3. Cross-reference the `field_id` from Step 3 with the field ID
 
 ```
@@ -449,8 +449,8 @@ GET /lists Response:
 ```
 
 2. Locate the appropriate status field:
-   1. Query [`GET /fields`](#field) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results
-   2. Filter results of [`GET /fields`](#field) by field name and cross-reference the `list_id` with the appropriate list ID from Step 1 to confirm you have the appropriate status field
+   1. Query [`GET /fields`](#get-fields) to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results
+   2. Filter results of [`GET /fields`](#get-fields) by field name and cross-reference the `list_id` with the appropriate list ID from Step 1 to confirm you have the appropriate status field
 
 ```
 GET /fields Response:
@@ -862,7 +862,7 @@ Create a new list with the supplied parameters.
 | type | integer | true | The type of the entities (people, organizations, or opportunities) contained within the list. Each list only supports one entity type. |
 | is_public | boolean | true | Set to true to make the list publicly accessible to all users in your Affinity account. Set to false to make the list private to the list's owner and additional users. |
 | owner_id | integer | false | The unique ID of the internal person who should own the list. Defaults to the owner of the API key being used. See [here](https://support.affinity.co/hc/en-us/articles/360029432951-List-Level-Permissions) for permissions held by a list's owner. |
-| additional_permission | object[] | false | A list of additional internal persons and the permissions they should have on the list. Should be a list of objects with `internal_person_id` and `role_id`, where `role_id` comes from the [list-level roles](#list-level-roles) table below. |
+| additional_permissions | object[] | false | A list of additional internal persons and the permissions they should have on the list. Should be a list of objects with `internal_person_id` and `role_id`, where `role_id` comes from the [list-level roles](#list-level-roles) table below. |
 
 #### Returns
 
@@ -1187,51 +1187,6 @@ curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
 
 #### Example Response
 
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 1234,
-    "name": "[Deals] Amount",
-    "list_id": 11,
-    "enrichment_source": "none",
-    "value_type": 3,
-    "allows_multiple": false,
-    "track_changes": true,
-    "dropdown_options": []
-  },
-  {
-    "id": 5678,
-    "name": "[Events] Amount",
-    "list_id": 16,
-    "enrichment_source": "none",
-    "value_type": 3,
-    "allows_multiple": false,
-    "track_changes": true,
-    "dropdown_options": []
-  },
-  {
-    "id": 4321,
-    "name": "[Companies] Description",
-    "list_id": 18,
-    "enrichment_source": "dealroom",
-    "value_type": 6,
-    "allows_multiple": false,
-    "track_changes": false,
-    "dropdown_options": []
-  },
-  ...
-]
-```
-
-
 ```json
 [
   {
@@ -1251,39 +1206,6 @@ curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
 ---
 
 ## The Field Resource
-
-#### Example Request
-
-
-#### Example Request
-
-```bash
-curl -X POST "https://api.affinity.co/fields" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"name": "[Deals] Amount", "list_id": 11, "entity_type": 1, "value_type": 3, "allows_multiple": false, "is_list_specific": true}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 59,
-  "name": "[Deals] Amount",
-  "list_id": 11,
-  "enrichment_source": "none",
-  "value_type": 3,
-  "allows_multiple": false,
-  "track_changes": false,
-  "dropdown_options": []
-}
-```
-
----
-
-# Fields
-
-#### The Field Resource
 
 Each field object has a unique id. It also has a name, which determines the name of the field, and allow_multiple, which determines whether multiple values can be added to a single cell for that field.
 
@@ -1334,7 +1256,7 @@ Pass the value_type to fetch fields of a specific value type. Otherwise, all fie
 
 Pass the entity_type to fetch fields of a specific entity type. Otherwise, any fields of any entity type will be returned.
 
-Pass the with_modified_name flag to return the fields such that the names have the list name prepended to them in the format [List Name] Field Name (i.e. [Deal] Status).
+Pass the with_modified_names flag to return the fields such that the names have the list name prepended to them in the format [List Name] Field Name (i.e. [Deal] Status).
 
 Pass the exclude_dropdown_options flag to exclude dropdown options from the response. This may be useful when the payload is too large due to too many dropdown options.
 
@@ -1357,6 +1279,50 @@ An array of all the fields requested.
 
 > **Note**
 > Field endpoint does not return any Crunchbase fields.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/fields?with_modified_names=true" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+[
+  {
+    "id": 1234,
+    "name": "[Deals] Amount",
+    "list_id": 11,
+    "enrichment_source": "none",
+    "value_type": 3,
+    "allows_multiple": false,
+    "track_changes": true,
+    "dropdown_options": []
+  },
+  {
+    "id": 5678,
+    "name": "[Events] Amount",
+    "list_id": 16,
+    "enrichment_source": "none",
+    "value_type": 3,
+    "allows_multiple": false,
+    "track_changes": true,
+    "dropdown_options": []
+  },
+  {
+    "id": 4321,
+    "name": "[Companies] Description",
+    "list_id": 18,
+    "enrichment_source": "dealroom",
+    "value_type": 6,
+    "allows_multiple": false,
+    "track_changes": false,
+    "dropdown_options": []
+  },
+  ...
+]
+```
 
 #### Create Field
 
