@@ -353,7 +353,7 @@ Use the common use cases below to learn how Affinity API endpoints work.
 >
 ## Getting Field Values for All List Entries on a List
 
-1. Query [`GET /lists`](#list) to get all lists and filter results by list name to get the appropriate list ID
+1. Query [`GET /lists`](#lists) to get all lists and filter results by list name to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -431,7 +431,7 @@ GET /fields Response:
 
 ## Getting Field Value Changes for Status Fields
 
-1. Query [`GET /lists`](#list) and filter results to get the appropriate list ID
+1. Query [`GET /lists`](#lists) and filter results to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -561,7 +561,7 @@ GET /field-values-changes Response:
 
 ## Getting the Strongest Relationship Strength Connection to an Organization on a List
 
-1. Query [`GET /lists`](#list) to get all lists and filter results to get the appropriate list ID
+1. Query [`GET /lists`](#lists) to get all lists and filter results to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -653,7 +653,7 @@ GET /relationships-strengths Response:
 
 ## Useful Resources
 
-- [Postman Collection](/postman/collection.json) (Right-click and save as JSON then import into [Postman](https://www.postman.com/))
+- [Postman Collection](https://api-docs.affinity.co/postman/collection.json) (Right-click and save as JSON then import into [Postman](https://www.postman.com/))
 - [Affinity Zapier Integrations](https://zapier.com/apps/affinity/integrations)
 - [Affinity Tray Connectors](https://tray.io/documentation/connectors/service/affinity)
 
@@ -1589,20 +1589,17 @@ A field value can take on many different kinds of values, depending on the field
 
 #### Field Value Value Types
 
-The value types below determine the format of the `value` attribute in a field value:
+The Field Type specified below corresponds to the `value_type` of a field.
 
-| Value Type | Description | Value Format |
-|------------|-------------|--------------|
-| Dropdown (2) | Dropdown option | Object with `id`, `text`, `rank`, `color` |
-| Number (3) | Numeric value | Number (integer or float) |
-| Person (0) | Person entity | Object with `id`, `type`, `first_name`, `last_name`, `primary_email`, `emails` |
-| Organization (1) | Organization entity | Object with `id`, `name`, `domain`, `domains` |
-| Location (5) | Location | String |
-| Date (4) | Date | ISO 8601 formatted date string |
-| Text (6) | Text string | String |
-| Ranked Dropdown (7) | Ranked dropdown option | Object with `id`, `text`, `rank`, `color` |
-
-The Field Types specified below correspond to the value_type of a field.
+| Value Type | Type | Description |
+|------------|------|-------------|
+| person | integer | This represents a value in a person field. |
+| organization | integer | This represents a value in an organization field. |
+| dropdown | string | This represents a value in a dropdown field. |
+| number | integer | This represents a value in a number field. |
+| location | object | This represents a value in a location field - it's an object comprising the following keys: `street_address`, `city`, `state`, `country`, all of which take string values. |
+| date | datetime | This represents a value in a date field. |
+| text | string | This represents a value in a text field. |
 
 #### Get Field Values
 
@@ -2815,6 +2812,40 @@ None.
 #### Return
 
 An array of the fields that exist on all organizations for your team.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+[
+  {
+    "id": 662,
+    "name": "Potential Users",
+    "value_type": 3,
+    "allows_multiple": false,
+    "dropdown_options": []
+  },
+  {
+    "id": 700,
+    "name": "Leads",
+    "value_type": 0,
+    "allows_multiple": true,
+    "dropdown_options": []
+  },
+  {
+    "id": 2988,
+    "name": "Last Funding Date",
+    "value_type": 4,
+    "allows_multiple": false,
+    "dropdown_options": []
+  }
+]
+```
 
 # Opportunities
 
