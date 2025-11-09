@@ -41,18 +41,10 @@ API_CONFIGS = {
     },
 }
 
-# Notice template to insert into documentation
-NOTICE_TEMPLATE = """---
-
-> **🔄 Documentation Update Available**
->
-> A newer version of the official Affinity API documentation was detected on **{update_date}**.
-> - **Diff**: [View changes in PR #{pr_number}]({pr_url})
-> - **PR**: [{pr_title}]({pr_url}) (Status: Open/Pending Review)
-> - **Note**: This PR contains the updated documentation but has not been reviewed/merged yet.
-> - **Source**: [Official Documentation]({source_url})
-
----"""
+# Notice template - NO LONGER USED
+# The script no longer modifies the markdown file automatically.
+# Instead, it creates an alert PR with reference files for manual review.
+NOTICE_TEMPLATE = None  # Deprecated
 
 
 def fetch_latest_docs(
@@ -142,37 +134,33 @@ def extract_timestamp(html: str, api_version: str) -> str | None:
 
 def extract_content(html: str, api_version: str) -> str:
     """
-    Extract and convert HTML to markdown.
+    Extract raw HTML content for change detection only.
 
-    This is a simplified version - in production, you'd want more sophisticated
-    HTML to markdown conversion. For now, we'll extract the main content.
+    NOTE: This function does NOT convert HTML to markdown. It returns the raw HTML
+    for hash comparison to detect when the source documentation has changed.
+    The actual markdown documentation must be updated manually by comparing the
+    live site with the current markdown and making careful, surgical edits.
 
     Args:
         html: HTML content
         api_version: API version (v1 or v2)
 
     Returns:
-        Markdown content
+        Raw HTML content (NOT markdown)
     """
     soup = BeautifulSoup(html, "lxml")
 
-    # Remove script and style elements
-    for script in soup(["script", "style"]):
+    # Remove script and style elements for cleaner comparison
+    for script in soup(["script", "style", "nav", "header", "footer"]):
         script.decompose()
 
-    # Get text content
-    text = soup.get_text()
+    # Find the main content area (adjust selector based on site structure)
+    main_content = soup.find("main") or soup.find("article") or soup.find("body")
 
-    # Clean up whitespace
-    lines = (line.strip() for line in text.splitlines())
-    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-    text = "\n".join(chunk for chunk in chunks if chunk)
+    if main_content:
+        return str(main_content)
 
-    # Note: This is a simplified extraction. For production use, you'd want
-    # a more sophisticated HTML-to-markdown converter that preserves structure,
-    # code blocks, tables, etc. Consider using html2text or markdownify libraries.
-
-    return text
+    return html
 
 
 def calculate_content_hash(content: str) -> str:
@@ -270,6 +258,8 @@ def generate_diff(current_content: str, latest_content: str) -> str:
 
 def update_doc_header(doc_content: str, api_version: str, update_timestamp: str) -> str:
     """
+    DEPRECATED: No longer used - we don't automatically modify the markdown.
+
     Update the documentation header with the latest timestamp.
 
     Args:
@@ -337,6 +327,8 @@ def update_docs_with_notice(
     source_url: str,
 ) -> None:
     """
+    DEPRECATED: No longer used - we don't automatically modify the markdown.
+
     Add notice section to documentation file.
 
     Inserts the notice after the disclaimer section at the top.
@@ -542,61 +534,42 @@ def check_and_update_docs(
         # Create and checkout branch
         subprocess.run(["git", "checkout", "-b", branch_name], check=True)
 
-        # Update documentation file
-        # Note: For now, we're replacing the entire content.
-        # In a production system, you'd want to preserve the header structure
-        # and only update the content body. For now, we'll update the header
-        # if it exists in the current content.
+        # Save the raw HTML for manual comparison (don't touch the markdown!)
+        html_path = config["doc_path"].replace(".md", "_live_snapshot.html")
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(latest_content)
 
-        # Try to preserve header from current content if it exists
-        header_end_markers = [
-            "## Table of Contents",
-            "## Introduction",
-            "## Getting Started",
-            "# Introduction",
-            "# Getting Started",
-        ]
-
-        header_preserved = False
-        updated_content = latest_content
-
-        # Check if current content has a header we should preserve
-        for marker in header_end_markers:
-            if marker in current_content:
-                # Extract header (everything before the marker)
-                header_end = current_content.find(marker)
-                if header_end > 0:
-                    header = current_content[:header_end]
-                    # Update header with new timestamp
-                    header = update_doc_header(
-                        header, api_version, datetime.now().isoformat()
-                    )
-                    # Combine header with new content (find similar marker in new content)
-                    if marker in latest_content:
-                        content_start = latest_content.find(marker)
-                        updated_content = (
-                            header + "\n\n" + latest_content[content_start:]
-                        )
-                    else:
-                        # If marker not found in new content, append header
-                        updated_content = header + "\n\n" + latest_content
-                    header_preserved = True
-                    break
-
-        # If no header marker found, try to update timestamp in existing content
-        if not header_preserved and "Documentation Version:" in current_content:
-            updated_content = update_doc_header(
-                latest_content, api_version, datetime.now().isoformat()
+        # Create a summary file explaining what changed
+        summary_path = config["doc_path"].replace(".md", "_update_summary.txt")
+        with open(summary_path, "w", encoding="utf-8") as f:
+            f.write("Documentation Update Detected\n")
+            f.write(f"{'=' * 60}\n\n")
+            f.write(f"Source: {config['url']}\n")
+            f.write(f"Detected: {datetime.now().isoformat()}\n")
+            f.write(f"Timestamp from source: {timestamp or 'Not found'}\n\n")
+            f.write("What Changed:\n")
+            f.write(f"{diff_summary}\n\n")
+            f.write("Manual Review Required:\n")
+            f.write(f"{'=' * 60}\n")
+            f.write(f"The live documentation at {config['url']} has changed.\n")
+            f.write(
+                "Please manually compare the live site with the current markdown:\n"
+            )
+            f.write(f"  1. View live site: {config['url']}\n")
+            f.write(f"  2. Compare with: {config['doc_path']}\n")
+            f.write("  3. Make careful, surgical edits to fix any discrepancies\n")
+            f.write("  4. Test the updated markdown\n")
+            f.write("  5. Delete this update branch after merging changes to main\n\n")
+            f.write(f"Raw HTML snapshot saved to: {html_path}\n")
+            f.write(
+                "(For reference only - do NOT use automated HTML-to-markdown conversion)\n"
             )
 
-        with open(config["doc_path"], "w") as f:
-            f.write(updated_content)
-
-        # Stage changes
-        subprocess.run(["git", "add", config["doc_path"]], check=True)
+        # Stage both files
+        subprocess.run(["git", "add", html_path, summary_path], check=True)
 
         # Commit
-        commit_message = f"Auto-update: {api_version.upper()} docs updated on {timestamp_str}\n\n{diff_summary}"
+        commit_message = f"Alert: {api_version.upper()} docs changed on live site ({timestamp_str})\n\nManual review and update required.\n\n{diff_summary}"
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
 
         # Push branch
@@ -607,28 +580,53 @@ def check_and_update_docs(
         return False
 
     # Create PR
-    pr_title = f"Auto-update: Affinity API {api_version.upper()} docs updated on {timestamp_str}"
-    pr_body = f"""## Automated Documentation Update
+    pr_title = f"Alert: {api_version.upper()} docs changed on live site - Manual review required"
+    pr_body = f"""## 🔔 Documentation Change Detected
 
-This PR was automatically created by the documentation update workflow.
+The live documentation at [{config["url"]}]({config["url"]}) has changed.
 
 **Source**: [{api_version.upper()} API Documentation]({config["url"]})
-**Detected Update**: {timestamp or "Unknown timestamp"}
-**Changes**: {diff_summary}
-
-### What Changed
-{diff_summary}
-
-The documentation has been updated to match the latest version from the official Affinity website.
-
-### Review Checklist
-- [ ] Verify changes match official documentation
-- [ ] Check for formatting issues
-- [ ] Ensure all code examples are present
-- [ ] Review notice section accuracy
+**Detected**: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}
+**Source Timestamp**: {timestamp or "Not found"}
 
 ---
-*This PR was created automatically. Please review before merging.*"""
+
+## ⚠️ Manual Review Required
+
+This PR does **NOT** contain automatic updates to the markdown file.
+
+**Why?** Automated HTML-to-markdown conversion destroys document structure and creates malformed content. Instead, this PR contains:
+
+1. **HTML Snapshot** (`{html_path.split('/')[-1]}`): Raw HTML from the live site for reference
+2. **Update Summary** (`{summary_path.split('/')[-1]}`): Description of what changed
+
+---
+
+## 📋 Action Items
+
+To update the documentation:
+
+1. **Compare**: Open [{config["url"]}]({config["url"]}) and `{config["doc_path"]}`
+2. **Identify**: Find the specific sections that changed
+3. **Edit**: Make careful, surgical edits to the markdown file
+4. **Validate**: Check formatting, code examples, and structure
+5. **Test**: Ensure markdown renders correctly
+6. **Commit**: Push changes to `main` branch (NOT this branch)
+7. **Close**: Close this PR after manual update is complete
+
+---
+
+## 📊 Detected Changes
+
+{diff_summary}
+
+---
+
+## ℹ️ About This Alert
+
+This automated alert is triggered when the content hash of the live documentation changes. It serves as a notification that the source documentation has been updated and the markdown file may need corresponding updates.
+
+**Do NOT merge this PR** - it only contains reference files, not the actual markdown updates."""
 
     pr_data = create_pr(api_version, branch_name, pr_title, pr_body)
 
@@ -636,27 +634,9 @@ The documentation has been updated to match the latest version from the official
         print(f"Failed to create PR for {api_version}")
         return False
 
-    # Add notice to documentation
-    update_docs_with_notice(
-        config["doc_path"],
-        api_version,
-        pr_data["url"],
-        timestamp or timestamp_str,
-        pr_data["number"],
-        pr_title,
-        config["url"],
-    )
-
-    # Commit the notice update
-    try:
-        subprocess.run(["git", "add", config["doc_path"]], check=True)
-        subprocess.run(
-            ["git", "commit", "-m", f"Add notice about PR #{pr_data['number']}"],
-            check=True,
-        )
-        subprocess.run(["git", "push"], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Warning: Failed to commit notice update: {e}")
+    # Do NOT modify the markdown file - manual review required
+    print(f"✅ Alert PR created: #{pr_data['number']}")
+    print("📝 Manual review required - see PR for details")
 
     # Update version metadata
     version_metadata.update(

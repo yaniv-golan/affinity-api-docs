@@ -90,7 +90,7 @@ For API support or questions about the Affinity API itself, contact Affinity dir
 - [Field Value Changes](#field-value-changes)
   - [Supported field types](#supported-field-types)
   - [The Field Value Change Resource](#the-field-value-change-resource)
-  - [Get Field Values Changes](#get-field-values-changes)
+  - [Get Field Value Changes](#get-field-value-changes)
 - [Persons](#persons)
   - [The Person Resource](#the-person-resource)
   - [Search for Persons](#search-for-persons)
@@ -1943,7 +1943,7 @@ The action types specified below correspond to the action_type of a field value 
 > **Note**
 > There are some extra attributes returned by this endpoint; they will be deprecated soon and should not be used.
 
-#### Get Field Values Changes
+#### Get Field Value Changes
 
 `GET /field-value-changes`
 
@@ -1963,7 +1963,7 @@ Returns all field value changes attached to a specific field. Field value change
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/field-values-changes?field_id=236333" -u :$APIKEY
+curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
 ```
 
 #### Example Response
@@ -2820,84 +2820,35 @@ The organization resource that was just updated through a successful request.
 
 #### Delete an Organization
 
-#### Example Request
-
-#### Example Request
-
-```bash
-curl -X POST "https://api.affinity.co/interactions" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"person_ids": [443, 2021], "type": 0, "date": "2021-02-07T10:56:29.546-08:00", "content": "Create interaction from external API."}'
-```
-
-#### Example Response
-
-```json
-{
-  "date": "2021-02-07T10:56:29.546-08:00",
-  "id": 3007,
-  "attendees": [
-    "john@affinity.co",
-    "yen@alice.com"
-  ],
-  "start_time": "2021-02-07T10:56:29.546-08:00",
-  "end_time": null,
-  "updated_at": null,
-  "manual_creator_id": 443,
-  "title": "Manually logged event",
-  "type": 0,
-  "notes": [
-    7
-  ],
-  "persons": [
-    {
-      "id": 443,
-      "type": 1,
-      "first_name": "John",
-      "last_name": "Doe",
-      "primary_email": "john@affinity.co",
-      "emails": [
-        "john@affinity.co"
-      ]
-    },
-    {
-      "id": 2021,
-      "type": 0,
-      "first_name": "Alice",
-      "last_name": "Yen",
-      "primary_email": "yen@alice.com",
-      "emails": [
-        "yen@alice.com"
-      ]
-    }
-  ]
-}
-```
-
-
-```bash
-curl -X PUT "https://api.affinity.co/organizations/120611418" \
-   -u :$APIKEY \
-   -H "Content-Type: application/json" \
-   -d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
 `DELETE /organizations/{organization_id}`
 
-Delete an organization with a specified organization_id.
+Deletes an organization with a specified organization_id.
 
-#### Return
+#### Path Parameters
 
-{"success": true}
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| organization_id | integer | true | The unique ID of the organization that needs to be deleted. |
+
+#### Returns
+
+`{"success": true}`.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations/120611418" \
+  -u :$APIKEY \
+  -X "DELETE"
+```
+
+#### Example Response
+
+```json
+{
+  "success": true
+}
+```
 
 > **Note**
 > An appropriate error will be returned if you are trying to delete a global organization.
@@ -2931,63 +2882,38 @@ Unlike people and organizations, an opportunity can only belong to a single list
 
 #### The Opportunity Resource
 
-
-#### Example Request
-
-```bash
-curl -X PUT "https://api.affinity.co/interactions/3007" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"type": 0, "date": "2022-02-07T10:56:29.546-08:00", "content": "Update interaction from external API."}'
-```
-
 #### Example Response
 
 ```json
 {
-  "date": "2022-02-07T10:56:29.546-08:00",
-  "id": 3007,
-  "attendees": [
-    "john@affinity.co",
-    "yen@alice.com"
-  ],
-  "start_time": "2022-02-07T10:56:29.546-08:00",
-  "end_time": null,
-  "updated_at": null,
-  "manual_creator_id": 443,
-  "title": "Manually logged event",
-  "type": 0,
-  "notes": [
-    7
-  ],
-  "persons": [
+  "id": 117,
+  "name": "Affinity Opportunity",
+  "person_ids": [38706],
+  "organization_ids": [21442],
+  "list_entries": [
     {
-      "id": 443,
-      "type": 1,
-      "first_name": "John",
-      "last_name": "Doe",
-      "primary_email": "john@affinity.co",
-      "emails": [
-        "john@affinity.co"
-      ]
-    },
-    {
-      "id": 2021,
-      "type": 0,
-      "first_name": "Alice",
-      "last_name": "Yen",
-      "primary_email": "yen@alice.com",
-      "emails": [
-        "yen@alice.com"
-      ]
+      "id": 442313,
+      "creator_id": 38706,
+      "list_id": 4974,
+      "entity_id": 117,
+      "entity_type": 8,
+      "created_at": "2018-03-03T23:02:46.412-08:00"
     }
   ]
 }
 ```
 
-Each opportunity object has a unique id. It also has a name, person_id and organization_id associated with it, and an array of list_entries. An important attribute to note is list_entries. Because an opportunity can only belong to a single list, the list_entries array will always contain exactly one entry.
+Each opportunity object has a unique id. It also has a name, persons_ids and organization_ids associated with it, and an array of list_entries. An important attribute to note is list_entries. Because an opportunity can only belong to a single list, list_entries can only have one list entry.
 
 Of course, all fields can be modified and the opportunity can be deleted.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | integer | The unique identifier of the opportunity object. |
+| name | string | The name of the opportunity (see below). |
+| person_ids | number[] | An array of unique identifiers for persons that are associated with the opportunity |
+| organization_ids | number[] | An array of unique identifiers for organizations that are associated with the opportunity |
+| list_entries | ListEntry[] | An array of list entry resources associated with the opportunity (at most 1 list entry). If the user corresponding to the API key does not have access to the list, this will be empty. |
 
 #### Search for Opportunities
 
@@ -2999,11 +2925,9 @@ This result is paginated. An initial request returns an object with two fields: 
 
 The absence of a next_page_token indicates that all the records have been fetched, though its presence does not necessarily indicate that there are more resources to be fetched. The next page may be empty.
 
-#### Return
+#### Returns
 
 An object with two fields: opportunities and next_page_token. opportunities maps to an array of all the opportunity resources that match the search criteria. next_page_token includes a token to be sent as a query parameter in subsequent requests to get the next page of results.
-
-#### Get a Specific Opportunity
 
 #### Example Request
 
@@ -3016,48 +2940,48 @@ curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
 curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
 ```
 
-```bash
-curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
-```
+#### Get a Specific Opportunity
 
-```bash
-curl "https://api.affinity.co/opportunities/120611418" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
+`GET /opportunities/{opportunity_id}`
 
-#### Example Response
+Fetches an opportunity with a specified opportunity_id.
 
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| opportunity_id | integer | true | The unique ID of the opportunity that needs to be retrieved. |
+
+#### Returns
+
+The opportunity object corresponding to the opportunity_id.
 
 #### Example Request
 
 ```bash
-curl "https://api.affinity.co/interactions/22984?type=0" \
-  -u :$APIKEY \
-  -X "DELETE"
+curl "https://api.affinity.co/opportunities/117" -u :$APIKEY
 ```
 
 #### Example Response
 
 ```json
 {
-  "success": true
+  "id": 117,
+  "name": "Affinity Opportunity",
+  "person_ids": [3526824],
+  "organization_ids": [128367168],
+  "list_entries": [
+    {
+      "id": 442313,
+      "creator_id": 1124736,
+      "list_id": 4974,
+      "entity_id": 117,
+      "entity_type": 8,
+      "created_at": "2018-03-03T23:02:46.412-08:00"
+    }
+  ]
 }
 ```
-
-```json
-{
-  "id": 123
-}
-```
-
-`GET /opportunities/{opportunity_id}`
-
-Fetch an opportunity with a specified opportunity_id.
-
-#### Return
-
-The opportunity object corresponding to the opportunity_id.
 
 #### Create a New Opportunity
 
@@ -3139,7 +3063,7 @@ The opportunity resource that was just updated through a successful request.
 #### Example Request
 
 ```bash
-curl -X POST "https://api.affinity.co/opportunities/120611418" \
+curl -X PUT "https://api.affinity.co/opportunities/120611418" \
   -u :$APIKEY \
   -H "Content-Type: application/json" \
   -d '{"name": "Penny Opp", "person_ids": [38706, 89734]}'
@@ -3698,7 +3622,30 @@ Just like field values, notes are used to keep track of state on an entity. They
 
 #### The Note Resource
 
-A note object contains content, which is a string containing the note body. In addition, a note can be associated with multiple people, organizations, or opportunities. Each person, organization, or opportunity can have multiple notes associated with it.
+#### Example Response
+
+```json
+{
+  "id": 22984,
+  "creator_id": 860197,
+  "person_ids": [38708, 24809, 89203, 97304],
+  "associated_person_ids": [38708, 24809],
+  "interaction_person_ids": [89203, 97304],
+  "interaction_id": 114,
+  "interaction_type": 0,
+  "is_meeting": true,
+  "mentioned_person_ids": [49817, 78624],
+  "organization_ids": [64779194],
+  "opportunity_ids": [117],
+  "parent_id": null,
+  "content": "Had a lunch meeting with Jane and John today. They are looking to invest.",
+  "type": 0,
+  "created_at": "2017-03-28T00:38:41.275-08:00",
+  "updated_at": "2017-04-03T00:22:25.612-08:00"
+}
+```
+
+A note object contains content, which is a string containing the note body. In addition, a note can be associated with multiple people, organizations, or opportunities. Each person, organization, or opportunity will display linked notes on their profiles.
 
 A note resource has the following attributes:
 
@@ -3708,63 +3655,6 @@ A note resource has the following attributes:
 | creator_id | integer | The unique identifier of the internal person who created the note. |
 | person_ids | integer[] | An array containing the unique identifiers for all the people relevant to the note. This is the union of associated_person_ids and interaction_person_ids. |
 | associated_person_ids | integer[] | An array containing the unique identifiers for the people directly associated with the note. |
-
-#### Example Request
-
-```bash
-# Returns the reminder with the specified `reminder_id`
-curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "id": 15326,
-  "type": 1,
-  "created_at": "2021-11-18T14:34:53.218-08:00",
-  "completed_at": null,
-  "content": "Reply email to Alice",
-  "due_date": "2021-12-18T14:34:53.217-08:00",
-  "reset_type": 1,
-  "reminder_days": 30,
-  "status": 2,
-  "creator": {
-    "id": 443,
-    "type": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "john@affinity.co",
-    "emails": [
-      "john@affinity.co"
-    ]
-  },
-  "owner": {
-    "id": 443,
-    "type": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "primary_email": "john@affinity.co",
-    "emails": [
-      "john@affinity.co"
-    ]
-  },
-  "completer": null,
-  "person": {
-    "id": 2021,
-    "type": 0,
-    "first_name": "Alice",
-    "last_name": "Yen",
-    "primary_email": "yen@alice.com",
-    "emails": [
-      "yen@alice.com"
-    ]
-  },
-  "organization": null,
-  "opportunity": null
-}
-```
-
 | interaction_person_ids | integer[] | An array containing the unique identifiers for the people on the interaction the note is attached to, if any. This will be an empty array if there is no such interaction or there aren't any attendees. |
 | organization_ids | integer[] | An array of unique identifiers of organization objects that are associated with the note. |
 | opportunity_ids | integer[] | An array of unique identifiers of opportunity objects that are associated with the note. |
@@ -3772,7 +3662,7 @@ curl "https://api.affinity.co/reminders/15326" -u :$APIKEY
 | interaction_id | integer | The unique identifier of the interaction the note is attached to, if any. |
 | interaction_type | integer | The type of the interaction the note is attached to, if any. See [Interaction Types](#interaction-types). |
 | is_meeting | boolean | True if the note is attached to a meeting or a call. |
-| type | integer | The type of the note. The supported types for new note creation via API are 0 (plain text) and 2 (HTML). Notes with type 3 are AI meeting summaries generated by Affinity Notetaker. |
+| type | integer | The type of the note. The supported types for new note creation via API are 0 and 2, which represent plain text and HTML notes, respectively. Notes with type 3 are AI meeting summaries generated by Affinity Notetaker, and can only be created by the system. Users may also encounter existing notes with type 1, which represents notes created directly from email messages (this creation method is now deprecated). |
 | content | string | The string containing the content of the note. Supports HTML formatting when type is 2. |
 | parent_id | integer | The unique identifier of the note that this note is a reply to. If this field is null, the note is not a reply. |
 | created_at | string | The timestamp when the note was created (ISO 8601 format). |
@@ -4213,34 +4103,6 @@ A reminder resource has the following attributes:
 | updated_at | string | The timestamp when the reminder was last updated (ISO 8601 format). |
 
 #### Reminder Types
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/rate-limit" -u :$API_KEY
-```
-
-#### Example Response
-
-```json
-{
-  "rate": {
-    "org_monthly": {
-      "limit": 40000,
-      "remaining": 39993,
-      "reset": 2124845,
-      "used": 7
-    },
-    "api_key_per_minute": {
-      "limit": 900,
-      "remaining": 900,
-      "reset": 0,
-      "used": 0
-    }
-  }
-}
-```
-
 
 | Type | Value | Description |
 |------|-------|-------------|
