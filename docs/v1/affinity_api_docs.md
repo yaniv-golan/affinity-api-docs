@@ -2580,259 +2580,59 @@ curl "https://api.affinity.co/organizations/120611418" \
 
 #### Search for Organizations
 
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/organizations/fields" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 662,
-    "name": "Potential Users",
-    "value_type": 3,
-    "allows_multiple": false,
-    "dropdown_options": []
-  },
-  {
-    "id": 700,
-    "name": "Leads",
-    "value_type": 0,
-    "allows_multiple": true,
-    "dropdown_options": []
-  },
-  {
-    "id": 2988,
-    "name": "Last Funding Date",
-    "value_type": 4,
-    "allows_multiple": false,
-    "dropdown_options": []
-  },
-  ...
-]
-```
-
-`GET /organizations`
-
-Searches your teams data and Affinity's global data for organizations.
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/organizations" \
--u :$APIKEY \
--d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/organizations" \
--u :$APIKEY \
--d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
-```
-
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/opportunities?term=affinity" -u :$APIKEY
-```
-
-```bash
-# To get the second page of results, issue the following query:
-curl "https://api.affinity.co/opportunities?term=affinity&page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "opportunities": [
-    {
-      "id": 121,
-      "name": "Affinity Opportunity",
-      "person_ids": [3526824],
-      "organization_ids": [128367168],
-      "list_entries": [
-        {
-          "id": 442313,
-          "creator_id": 1124736,
-          "list_id": 4974,
-          "entity_id": 121,
-          "entity_type": 8,
-          "created_at": "2018-03-03T23:02:46.412-08:00"
-        },
-      ],
-    },
-    {
-      "id": 150,
-      "name": "Affinity Opportunity 2",
-      "person_ids": [5326214],
-      "organization_ids": [128367168],
-      "list_entries": [
-        {
-          "id": 442421,
-          "creator_id": 1124736,
-          "list_id": 4974,
-          "entity_id": 150,
-          "entity_type": 8,
-          "created_at": "2018-03-08T23:02:46.412-08:00"
-        },
-      ],
-    },
-    ...
-  ],
-  "next_page_token": "eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9",
-}
-```
-
-```bash
-# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
-curl "https://api.affinity.co/organizations" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
-```
-
-```bash
-# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
-curl "https://api.affinity.co/organizations" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
-```
-
-```bash
-curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
-```
-
-```bash
-curl "https://api.affinity.co/organizations/64779194" -u :$APIKEY
-```
-
-```bash
-GET /organizations/{organization_id}
-```
-
-```bash
-curl -X POST "https://api.affinity.co/organizations" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
-```
-
-```bash
-
-#### Example Response
-
-```json
-{
-  "id": 120611418,
-  "name": "Penny Opportunity",
-  "person_ids": [
-    38706
-  ],
-  "organization_ids": [
-    21442
-  ],
-  "list_entries": [
-    {
-      "id": 999886,
-      "creator_id": 1127776,
-      "list_id": 6645,
-      "entity_id": 50,
-      "entity_type": 8,
-      "created_at": "2018-03-07T16:32:35.794-08:00"
-    }
-  ]
-}
-```
-
-curl -X POST "https://api.affinity.co/organizations" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
-```
-
-```bash
-POST /organizations
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/organizations/120611418" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
-```
-
-```bash
-curl -X PUT "https://api.affinity.co/organizations/120611418" \
--u :$APIKEY \
--H "Content-Type: application/json" \
--d '{"name": "Acme Corp.", "person_ids": [38706, 89734]}'
-```
-
-```bash
-PUT /organizations/{organization_id}
-```
-
-```bash
-curl "https://api.affinity.co/organizations/120611418" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-curl "https://api.affinity.co/organizations/120611418" \
--u :$APIKEY \
--X "DELETE"
-```
-
-```bash
-DELETE /organizations/{organization_id}
-
-#### Example Response
-
-```json
-{
-  "id": 120611418,
-  "name": "Penny Opp",
-  "person_ids": [
-    38706,
-    89734
-  ],
-  "organization_ids": [
-    21442
-  ],
-  "list_entries": [
-    {
-      "id": 999886,
-      "creator_id": 1127776,
-      "list_id": 6645,
-      "entity_id": 50,
-      "entity_type": 8,
-      "created_at": "2018-03-07T16:32:35.794-08:00"
-    }
-  ]
-}
-```
-
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
 `GET /organizations`
 
 Searches your team's data and fetches all the organizations that meet the search criteria. The search term can be a part of an organization's name or domain.
+
+#### Example Request
+
+```bash
+curl "https://api.affinity.co/organizations?term=affinity" -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{
+  "organizations": [
+    {
+      "id": 64779194,
+      "name": "Affinity",
+      "domain": "affinity.co",
+      "domains": ["affinity.co"],
+      "global": false
+    },
+    {
+      "id": 1513682,
+      "name": "Brand Affinity Technologies",
+      "domain": "brandaffinity.net",
+      "domains": ["brandaffinity.net"],
+      "global": true
+    },
+    ...
+  ],
+  "next_page_token": "eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9"
+}
+```
+
+#### Example Pagination
+
+```bash
+# To get the second page of results, issue the following query:
+curl "https://api.affinity.co/organizations" \
+  -u :$APIKEY \
+  -d page_token=eyJwYXJhbXMiOnsidGVybSI6IiJ9LCJwYWdlX3NpemUiOjUsIm9mZnNldCI6MTB9
+```
+
+#### Example with Interaction Date
+
+```bash
+# To get the results between min_last_email_interaction_date and max_last_email_interaction_date, issue the following query:
+curl "https://api.affinity.co/organizations" \
+  -u :$APIKEY \
+  -H "Content-Type: application/json" \
+  -d '{"min_last_email_date": "2021-01-01T00:00:00", "with_interaction_dates": true, "max_last_email_date": "2021-01-12T23:59:59"}'
+```
 
 This result is paginated. An initial request returns an object with two fields: `organizations` and `next_page_token`. `organizations` contains an array of organization resources. The value of `next_page_token` should be sent as the query parameter `page_token` in another request to retrieve the next page of results. While paginating through results, each request must have identical query parameters other than the changing `page_token`. Otherwise, an `Invalid page_token variable` error will be returned.
 
@@ -2845,23 +2645,6 @@ You can filter by interaction dates by providing additional query parameters lik
 #### Query Parameters
 
 | Parameter | Type | Required | Description |
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/opportunities/120611418" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "success": true
-}
-```
-
 |-----------|------|----------|-------------|
 | term | string | false | A string used to search all the organizations in your team's address book. This could be a name or a domain name. |
 | with_interaction_dates | boolean | false | When true, interaction dates will be present on the returned resources. Only organizations that have interactions will be returned. |
@@ -3547,23 +3330,6 @@ Get the detail for a specific interaction given the existing ID and type.
 | type | integer | true | The type of interaction to be retrieved. |
 
 #### Example Request
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/notes/22984" \
-  -u :$APIKEY \
-  -X "DELETE"
-```
-
-#### Example Response
-
-```json
-{
-  "success": true
-}
-```
-
 
 ```bash
 curl "https://api.affinity.co/interactions/15326?type=2" -u :$APIKEY
@@ -4267,40 +4033,7 @@ Can optionally be filtered to return only entity files associated with a specifi
 | page_size | number | false | How many results to return per page. (Default is the maximum value of 500.) |
 | page_token | string | false | The next_page_token from the previous response required to retrieve the next page of results. |
 
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/webhook" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-[
-  {
-    "id": 1234,
-    "webhook_url": "https://hooks.example.com/webhook-create",
-    "subscriptions": [
-      "list.created",
-      "person.created",
-      "organization.created",
-      "opportunity.created"
-    ],
-    "disabled": false,
-    "created_by": 5678
-  },
-  {
-    "id": 2345,
-    "webhook_url": "https://hooks.example.com/webhook-all",
-    "subscriptions": [],
-    "disabled": true,
-    "created_by": 5678
-  }
-]
-```
-
-
-#### Return
+#### Returns
 
 An object with two fields: `entity_files` and `next_page_token`. `entity_files` maps to an array of all the entity file resources. `next_page_token` includes a token to be sent along with the next request as the `page_token` parameter to fetch the next page of results.
 
@@ -4316,30 +4049,6 @@ curl "https://api.affinity.co/entity-files" -u :$APIKEY
 {
   "entity_files": [
     {
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/webhook/1234" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "id": 1234,
-  "webhook_url": "https://hooks.example.com/webhook",
-  "subscriptions": [
-    "list.created",
-    "person.created",
-    "organization.created",
-    "opportunity.created"
-  ],
-  "disabled": false,
-  "created_by": 5678
-}
-```
-
       "id": 43212,
       "name": "example.pdf",
       "size": 1024,
@@ -4766,36 +4475,6 @@ The reminder object that was just updated through this request.
 
 #### Delete a Reminder
 
-#### Example Request
-
-```bash
-curl -X PUT "https://api.affinity.co/reminders/15385" \
-  -u :$APIKEY \
-  -H "Content-Type: application/json" \
-  -d '{"type": 1, "reset_type": 0, "reminder_days": 30}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 15385,
-  "creator": {...},
-  "owner": {...},
-  "person": {...},
-  "type": 1,
-  "reset_type": 0,
-  "reminder_days": 30,
-  "status": 1,
-  "content": "Follow up on proposal",
-  "due_date": "2021-12-30",
-  "created_at": "2021-11-01T10:00:00Z",
-  "updated_at": "2021-11-20T15:00:00Z"
-}
-```
-
-#### Delete a Reminder
-
 `DELETE /reminders/{reminder_id}`
 
 Deletes the reminder with the specified reminder_id.
@@ -5205,8 +4884,7 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 
 #### 2024-07-17
 
-- At least one associated person, company, opportunity, or parent note must be specified when creating a note.
-creating a note
+- At least one associated person, company, opportunity, or parent note must be specified when [creating a note](#create-a-new-note).
 
 #### 2024-05-01
 
@@ -5243,23 +4921,18 @@ creating a note
 - Added the ability to create a List. See [Create a New List](#create-a-new-list) for more details.
 
 - Updated Postman collection to help developers get started.
-Postman collection
 
 - Added documentation on formatting option for HTML note.
-documentation
 
 #### 2023-03-09
 
 - Account for chat message when returning interaction info on the GET endpoint for Person and Organization.
-Organization
 
 #### 2023-02-28
 
 - Added the ability to create HTML note.
-create HTML note
 
 - Added the ability to create a note within a thread.
-create a note within a thread
 
 #### 2023-02-10
 
@@ -5297,12 +4970,10 @@ create a note within a thread
 #### 2022-02-23
 
 - Added Interaction API documentation.
-Interaction API
 
 #### 2022-02-17
 
 - Updated GET entity file and entity file webhook to exclude non-users uploaded file.
-GET entity file
 
 #### 2022-02-03
 
@@ -5311,10 +4982,8 @@ GET entity file
 #### 2022-02-01
 
 - Added Reminder API documentation.
-Reminder API
 
 - Added Reminder webhook event.
-Reminder webhook
 
 #### 2022-01-28
 
