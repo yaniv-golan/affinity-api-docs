@@ -2282,7 +2282,7 @@ Create a new person with the supplied parameters.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | first_name | string | true | The first name of the person. |
-| last_name | string | false | The last name of the person. |
+| last_name | string | true | The last name of the person. |
 | emails | string[] | true | The email addresses of the person. |
 | organization_ids | integer[] | false | An array of unique identifiers of organizations that the person is associated with. |
 
@@ -2788,23 +2788,6 @@ The organization resource that was just created by a successful request.
 
 #### Update an Organization
 
-#### Example Request
-
-```bash
-curl -X POST "https://api.affinity.co/organizations" \
-   -u :$APIKEY \
-   -H "Content-Type: application/json" \
-   -d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
-```
-
-#### Example Response
-
-```json
-{
-  "id": 123
-}
-```
-
 `PUT /organizations/{organization_id}`
 
 Update an existing organization with organization_id with the supplied parameters.
@@ -2817,6 +2800,26 @@ The organization resource that was just updated through a successful request.
 
 > **Note**
 > If you are trying to add a person to an organization, the existing values for person_id must also be passed into the endpoint.
+
+#### Example Request
+
+```bash
+curl -X PUT "https://api.affinity.co/organizations/120611418" \
+   -u :$APIKEY \
+   -H "Content-Type: application/json" \
+   -d '{"name": "Acme Corporation", "domain": "acme.co", "person_ids": [38706]}'
+```
+
+#### Example Response
+
+```json
+{
+  "id": 120611418,
+  "name": "Acme Corporation",
+  "domain": "acme.co",
+  "person_ids": [38706]
+}
+```
 
 #### Delete an Organization
 
@@ -3485,109 +3488,6 @@ Returns an array of relationship strengths matching the criteria.
 |-----------|------|----------|-------------|
 | external_id | integer | true | The external person associated with this relationship strength. |
 | internal_id | integer | false | The internal person associated with this relationship strength. |
-
-
-#### Example Request
-
-```bash
-curl "https://api.affinity.co/reminders?page_size=2&status=2" -u :$APIKEY
-```
-
-#### Example Response
-
-```json
-{
-  "reminders": [
-    {
-      "id": 15562,
-      "type": 1,
-      "created_at": "2021-11-22T09:31:52.415-08:00",
-      "completed_at": null,
-      "content": "Recurring reminder",
-      "due_date": "2021-12-22T09:31:52.415-08:00",
-      "reset_type": 0,
-      "reminder_days": 30,
-      "status": 2,
-      "creator": {
-        "id": 443,
-        "type": 1,
-        "first_name": "John",
-        "last_name": "Doe",
-        "primary_email": "john@affinity.co",
-        "emails": [
-          "john@affinity.co"
-        ]
-      },
-      "owner": {
-        "id": 443,
-        "type": 1,
-        "first_name": "John",
-        "last_name": "Doe",
-        "primary_email": "john@affinity.co",
-        "emails": [
-          "john@affinity.co"
-        ]
-      },
-      "completer": null,
-      "person": null,
-      "organization": {
-        "id": 4904,
-        "name": "organization",
-        "domain": null,
-        "domains": [],
-        "crunchbase_uuid": null,
-        "global": false
-      },
-      "opportunity": null
-    },
-    {
-      "id": 15326,
-      "type": 1,
-      "created_at": "2021-11-18T14:34:53.218-08:00",
-      "completed_at": null,
-      "content": "Reply email to Alice",
-      "due_date": "2021-12-18T14:34:53.217-08:00",
-      "reset_type": 1,
-      "reminder_days": 30,
-      "status": 2,
-      "creator": {
-        "id": 443,
-        "type": 1,
-        "first_name": "John",
-        "last_name": "Doe",
-        "primary_email": "john@affinity.co",
-        "emails": [
-          "john@affinity.co"
-        ]
-      },
-      "owner": {
-        "id": 443,
-        "type": 1,
-        "first_name": "John",
-        "last_name": "Doe",
-        "primary_email": "john@affinity.co",
-        "emails": [
-          "john@affinity.co"
-        ]
-      },
-      "completer": null,
-      "person": {
-        "id": 2021,
-        "type": 0,
-        "first_name": "Alice",
-        "last_name": "Yen",
-        "primary_email": "yen@alice.com",
-        "emails": [
-          "yen@alice.com"
-        ]
-      },
-      "organization": null,
-      "opportunity": null
-    }
-  ],
-  "next_page_token": "eyJwYXJhbXMiOnsiY29tcGxldGVyX2lkIjpudWxsLCJvd25lcl9pZCI6bnVsbCwiY3JlYXRvcl9"
-}
-```
 
 #### Example Request
 
@@ -4710,6 +4610,9 @@ Querying the rate limit endpoint will yield information about account (AKA organ
 #### Return
 
 The rate limit resource, a JSON body of data including limit, calls remaining, seconds until reset and calls count for both organization-level monthly limits and API key-level per-minute limits.
+
+> **Note**
+> `/rate-limit` and `/auth/whoami` endpoints are exempt from organization-level monthly rate limits.
 
 #### Example Request
 
