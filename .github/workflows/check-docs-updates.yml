@@ -1,4 +1,4 @@
-name: Sync Affinity v1 Docs
+name: Sync Affinity Docs
 
 on:
   schedule:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.11.4"
           cache: "pip"
 
       - name: Install dependencies
@@ -32,32 +32,26 @@ jobs:
       - name: Sync documentation
         id: sync_docs
         run: |
-          set +e
-          python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff --summary-file "$GITHUB_STEP_SUMMARY"
-          status=$?
-          set -e
-          if [ "$status" -eq 0 ]; then
-            echo "changes=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          if [ "$status" -eq 1 ]; then
+          set -euo pipefail
+          python tools/v1_sync_pipeline/sync_v1_docs.py --summary-file "$GITHUB_STEP_SUMMARY"
+          python tools/v2_sync_pipeline/sync_v2_docs.py --snapshot-dir tmp/v2
+          python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
+          python tools/v1_sync_pipeline/qa/check_links.py docs/v2/affinity_api_docs.md
+          if git status --short docs/v1 docs/v2 | grep .; then
             echo "changes=true" >> "$GITHUB_OUTPUT"
-            exit 0
+          else
+            echo "changes=false" >> "$GITHUB_OUTPUT"
           fi
-          exit "$status"
-
-      - name: Run link checker
-        run: python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
 
       - name: Create pull request
         if: steps.sync_docs.outputs.changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "chore: sync Affinity v1 docs"
-          title: "chore: sync Affinity v1 docs"
+          commit-message: "chore: sync Affinity API docs"
+          title: "chore: sync Affinity API docs"
           body: |
-            Automated sync of Affinity API v1 documentation.
-          branch: chore/sync-v1-docs
+            Automated sync of Affinity API v1 and v2 documentation.
+          branch: chore/sync-affinity-docs
           delete-branch: true
 
       - name: Summary

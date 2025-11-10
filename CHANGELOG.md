@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_No changes yet._
+
+## [2.0.0] - 2025-11-10
+
+### Added
+
+- Affinity API v2 sync pipeline (`tools/v2_sync_pipeline/`) that fetches the Redoc OpenAPI payload, dereferences schemas, renders tag-based chapters, schema appendices, and error references, and publishes `docs/v2/affinity_api_docs.md`.
+- Pytest coverage for the v2 renderer + spec loader, including a spec-coverage guard to ensure every path is surfaced in the markdown.
+
+### Changed
+
+- CI workflows (`check-docs-updates.yml`, `tests.yml`) now run both v1 and v2 sync pipelines, link-check the generated markdown, and include the new package in coverage reporting.
+- README, AGENTS, and `llms.txt` document the v2 workflow, raw links, and guardrails for AI assistants.
+- Python toolchain is pinned to 3.11.4 locally (via `.python-version` + pyenv instructions) and in CI runners for consistency.
+- v2 markdown renderer now titles each endpoint section with the human-readable summary, adds the `GET /v2/...` line immediately beneath the heading, and keeps the Table of Contents focused on descriptions rather than raw URLs.
+- v2 descriptions preserve embedded markdown tables, convert single-cell callout tables into blockquote warnings, and keep filter matrices/notes in sync with the live Redoc formatting.
+- Response schemas now include explicit model names, constraint-aware type strings, cleaner property tables, nested detail links, and a note explaining why live-site request/response samples are not mirrored in the markdown export.
+
 ## [1.1.0] - 2025-11-10
 
 ### Added

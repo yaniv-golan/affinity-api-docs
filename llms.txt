@@ -11,22 +11,25 @@
 - Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs.md
 - Contents: full Affinity API v1 reference (auth, endpoints, schemas, rate limits, examples in bash/Ruby/Python/Node, JSON requests/responses, changelog). Generated via `tools/v1_sync_pipeline/sync_v1_docs.py`.
 
-### API v2 Documentation
-- Coming soon (folder scaffolded at `docs/v2/`).
+### API v2 Documentation (Auto-generated canonical)
+- Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md
+- Contents: full Affinity API v2 reference sourced from the Redoc OpenAPI payload (auth, rate limits, endpoint-by-endpoint details, synthesized cURL examples, schema + error references). Generated via `tools/v2_sync_pipeline/sync_v2_docs.py`.
 
 ---
 
 ## LLM Guardrails
 
-1. **Do NOT edit** `docs/v1/affinity_api_docs.md` manually. Regenerate it by running:
+1. **Do NOT edit** `docs/v1/affinity_api_docs.md` or `docs/v2/affinity_api_docs.md` manually. Regenerate them by running:
    ```
    python tools/v1_sync_pipeline/sync_v1_docs.py
+   python tools/v2_sync_pipeline/sync_v2_docs.py
    ```
 2. Before proposing edits, run the QA helpers:
    - `python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md`
+   - `python tools/v1_sync_pipeline/qa/check_links.py docs/v2/affinity_api_docs.md`
    - `pytest tests/`
 3. If you detect anchor overrides becoming stale, update `BROKEN_ANCHOR_MAP` in `sync_v1_docs.py` and document the review in the quarterly issue.
-4. CI already runs the sync + link checker daily and opens PRs automatically. LLMs should focus on improving the tooling, **not** the generated markdown content.
+4. CI already runs both sync pipelines + link checkers daily and opens PRs automatically. LLMs should focus on improving the tooling, **not** the generated markdown content.
 
 ---
 

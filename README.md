@@ -44,7 +44,8 @@ The original Affinity API documentation is hosted on dynamic, interactive websit
 
 **API v2 Documentation:**
 
-- 📋 Coming soon (planned)
+- 📄 [View on GitHub](https://github.com/yaniv-golan/affinity-api-docs/blob/main/docs/v2/affinity_api_docs.md)
+- 🔗 [Raw Markdown](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md)
 
 ### Accessing Raw Markdown
 
@@ -87,8 +88,10 @@ cd affinity-api-docs/docs/v1
 
 ### API v2 Documentation
 
-- 📋 **Planned:** Not yet started
-- 📂 Location: `docs/v2/` (directory prepared)
+- ✅ Auto-generated from https://developer.affinity.co/ via the new v2 sync pipeline
+- ✅ Tag-based chapters, request/response tables, schema appendix, and error reference
+- ✅ Example `curl` requests synthesized for every endpoint
+- 📂 Location: `docs/v2/affinity_api_docs.md` (do **not** edit manually)
 
 ## Automated Updates & Manual Workflow
 
@@ -109,9 +112,16 @@ cd affinity-api-docs/docs/v1
 When working locally (or verifying CI results):
 
 ```bash
+# v1 workflow
 python tools/v1_sync_pipeline/sync_v1_docs.py
 python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
-pytest tests/
+
+# v2 workflow
+python tools/v2_sync_pipeline/sync_v2_docs.py
+python tools/v1_sync_pipeline/qa/check_links.py docs/v2/affinity_api_docs.md
+
+# Shared test suite
+python -m pytest
 ```
 
 All generated artifacts (HTML snapshots, extracted code blocks, metadata) are written under `tmp/` and ignored by git. Commit only the updated markdown + metadata that land outside `tmp/`.
@@ -191,6 +201,24 @@ affinity-api-docs/
 See the individual documentation files for detailed authentication instructions.
 
 ## Development
+
+### Python Version
+
+This project targets **Python 3.11.4**. We recommend using [pyenv](https://github.com/pyenv/pyenv) to match the interpreter used in CI/CD:
+
+```bash
+# install pyenv (see https://github.com/pyenv/pyenv#installation for details)
+brew install pyenv  # macOS example
+
+# install and activate Python 3.11.4
+pyenv install 3.11.4
+pyenv local 3.11.4
+
+# verify
+python --version  # -> Python 3.11.4
+```
+
+All project scripts (`tools/*_sync_pipeline/*.py`, tests, pre-commit) assume this interpreter. If you use a different Python version, you may see SSL/tooling warnings that CI does not cover.
 
 ### Pre-commit Hooks
 
