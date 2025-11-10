@@ -997,7 +997,7 @@ OK
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`api-key`,`access-token`)` | Yes | The type of grant used to authenticate |
+| `type` | `string (enum: `api-key`, `access-token`)` | Yes | The type of grant used to authenticate |
 | `scopes` | `array<string>` | Yes | The scopes available to the current grant |
 | `createdAt` | `string<date-time>` | Yes | When the grant was created |
 
@@ -1508,7 +1508,7 @@ OK
 | `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the chat message |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
 | `creator` | `object` | Yes | The creator of the chat message |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
@@ -1523,7 +1523,7 @@ OK
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
 
@@ -1544,7 +1544,7 @@ OK
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -1739,7 +1739,7 @@ Requires the "Export All Organizations directory" [permission](#section/Getting-
 | `limit` | `integer<int32>` | No | Number of items to include in the page |
 | `ids` | `array<integer<int64>>` | No | Company IDs |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -1790,8 +1790,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2140,9 +2140,9 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
-| `valueType` | `string (enum:`person`,`person-multi`,`company`,`company-multi`,`filterable-text`, …)` | Yes | The type of the data in this Field |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -2333,7 +2333,7 @@ Requires the "Export All Organizations directory" [permission](#section/Getting-
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -2374,8 +2374,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -2740,8 +2740,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -3400,6 +3400,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns relevant notes for a given company which includes directly attached notes and notes attached to persons on this company.
 
 You can filter notes using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
@@ -3472,7 +3473,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -3484,7 +3485,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -3524,7 +3525,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -3561,7 +3562,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -3585,7 +3586,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -3610,7 +3611,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -3622,7 +3623,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -3662,7 +3663,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -3699,7 +3700,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -3723,7 +3724,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -3756,7 +3757,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -3768,7 +3769,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -3808,7 +3809,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -3845,7 +3846,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -3869,7 +3870,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -3907,7 +3908,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -3931,7 +3932,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -3978,7 +3979,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -4002,7 +4003,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -4232,6 +4233,7 @@ Retrieve paginated company merges for the organization.
 Returns all company merges initiated by users in your organization, including their current
 status, the companies involved, and merge details. You can filter company merges using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties:
 
+
 | Property | Type | Operators | Values | Examples |
 |----------|------|-----------|--------|----------|
 | `status` | `enum` | `=` | `in-progress`, `success`, `failed` | `status=failed` |
@@ -4280,7 +4282,7 @@ Paginated list of company merge states
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryCompanyId` | `integer<int64>` | Yes | ID of the primary company that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -4556,7 +4558,6 @@ Request body for initiating a company merge
 | `duplicateCompanyId` | `integer<int64>` | Yes | The ID of the company profile that will be merged and then deleted. All data from this company will be transferred to the primary company. (Constraints: ≥ 1; ≤ 9007199254740991) |
 
 Example: merge-companies
-
 ```json
 {
   "duplicateCompanyId": 67890,
@@ -4840,7 +4841,7 @@ Entity representing the state of an individual company merge
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryCompanyId` | `integer<int64>` | Yes | ID of the primary company that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -5129,6 +5130,7 @@ the companies involved, and task details.
 
 You can filter tasks using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties:
 
+
 | Property | Type | Operators | Values | Examples |
 |----------|------|-----------|--------|----------|
 | `status` | `enum` | `=` | `in-progress`, `success`, `failed` | `status=failed` |
@@ -5176,7 +5178,7 @@ Paginated list of company merge tasks
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -5484,7 +5486,7 @@ Company merge task details and status for batch operations
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -5827,7 +5829,7 @@ OK
 | `id` | `integer<int64>` | Yes | The email's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the email was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, emails can only be logged as 'automated'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
 | `subject` | `string/null` | Yes | The email's subject |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the email was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the email was updated |
@@ -6096,7 +6098,7 @@ OK
 | `creatorId` | `integer<int64>` | Yes | The ID of the user that created this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `ownerId` | `integer<int64>` | Yes | The ID of the user that owns this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `isPublic` | `boolean` | Yes | Whether or not the list is public |
-| `type` | `string (enum:`company`,`opportunity`,`person`)` | Yes | The entity type for this list |
+| `type` | `string (enum: `company`, `opportunity`, `person`)` | Yes | The entity type for this list |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -6336,7 +6338,7 @@ OK
 | `creatorId` | `integer<int64>` | Yes | The ID of the user that created this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `ownerId` | `integer<int64>` | Yes | The ID of the user that owns this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `isPublic` | `boolean` | Yes | Whether or not the list is public |
-| `type` | `string (enum:`company`,`opportunity`,`person`)` | Yes | The entity type for this list |
+| `type` | `string (enum: `company`, `opportunity`, `person`)` | Yes | The entity type for this list |
 
 Example: company-list
 
@@ -6607,9 +6609,9 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
-| `valueType` | `string (enum:`person`,`person-multi`,`company`,`company-multi`,`filterable-text`, …)` | Yes | The type of the data in this Field |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -7022,7 +7024,7 @@ Requires the "Export data from Lists" [permission](#section/Getting-Started/Perm
 | `cursor` | `string` | No | Cursor for the next or previous page |
 | `limit` | `integer<int32>` | No | Number of items to include in the page |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -7635,7 +7637,7 @@ Requires the "Export data from Lists" [permission](#section/Getting-Started/Perm
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -7689,8 +7691,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -7722,8 +7724,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -7746,7 +7748,7 @@ OK
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -7762,8 +7764,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company-list-enriched
@@ -8187,7 +8189,7 @@ Requires the "Export data from Lists" [permission](#section/Getting-Started/Perm
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `ids` | `array<string>` | No | Field IDs for which to return field data |
-| `types` | `array<string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `types` | `array<string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 | `cursor` | `string` | No | Cursor for the next or previous page |
 | `limit` | `integer<int32>` | No | Number of items to include in the page |
 
@@ -8222,8 +8224,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -8663,7 +8665,6 @@ Update multiple field values.
 | `value` | `oneOf` | No |  |
 
 Example: update-fields
-
 ```json
 {
   "operation": "update-fields",
@@ -8838,7 +8839,7 @@ OK
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `operation` | `string (enum:`update-fields`)` | No |  |
+| `operation` | `string (enum: `update-fields`)` | No |  |
 
 Example: update-fields
 
@@ -9139,8 +9140,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company
@@ -9441,7 +9442,6 @@ Requires the "Export data from Lists" [permission](#section/Getting-Started/Perm
 | `value` | `oneOf` | No |  |
 
 Example: company
-
 ```json
 {
   "value": {
@@ -9772,7 +9772,7 @@ OK
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The saved view's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The saved view's name |
-| `type` | `string (enum:`sheet`,`board`,`dashboard`)` | Yes | The type for this saved view |
+| `type` | `string (enum: `sheet`, `board`, `dashboard`)` | Yes | The type for this saved view |
 | `createdAt` | `string<date-time>` | Yes | The date that the saved view was created |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -10048,7 +10048,7 @@ OK
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The saved view's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The saved view's name |
-| `type` | `string (enum:`sheet`,`board`,`dashboard`)` | Yes | The type for this saved view |
+| `type` | `string (enum: `sheet`, `board`, `dashboard`)` | Yes | The type for this saved view |
 | `createdAt` | `string<date-time>` | Yes | The date that the saved view was created |
 
 Example
@@ -10640,7 +10640,7 @@ OK
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The meeting's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string (enum:`automated`,`manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
+| `loggingType` | `string (enum: `automated`, `manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
 | `title` | `string/null` | Yes | The meeting's title |
 | `startTime` | `string<date-time>` | Yes | The timestamp of when the meeting starts |
 | `endTime` | `string/null<date-time>` | Yes | The timestamp of when the meeting ends |
@@ -10845,6 +10845,7 @@ Operations about notes
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns all notes, with the exception of replies.
 You can filter notes using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
 
@@ -10862,7 +10863,7 @@ You can filter notes using the `filter` query parameter. The filter parameter is
 | `cursor` | `string` | No | Cursor for the next or previous page |
 | `limit` | `integer<int32>` | No | Number of items to include in the page |
 | `filter` | `string` | No | Filter options |
-| `includes` | `array<string (enum:`companiesPreview`,`personsPreview`,`opportunitiesPreview`,`repliesCount`)>` | No | Additional properties to include in the response |
+| `includes` | `array<string (enum: `companiesPreview`, `personsPreview`, `opportunitiesPreview`, `repliesCount`)>` | No | Additional properties to include in the response |
 
 #### Example Request
 
@@ -10913,7 +10914,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -10925,7 +10926,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -10965,7 +10966,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -11002,7 +11003,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11026,7 +11027,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -11051,7 +11052,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -11063,7 +11064,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -11103,7 +11104,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -11140,7 +11141,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11164,7 +11165,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -11197,7 +11198,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -11209,7 +11210,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -11249,7 +11250,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -11286,7 +11287,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11310,7 +11311,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -11348,7 +11349,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11372,7 +11373,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -11419,7 +11420,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11443,7 +11444,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -11713,6 +11714,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Get a Note with a given id
 
 #### Path Parameters
@@ -11723,7 +11725,7 @@ Get a Note with a given id
 #### Query Parameters
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| `includes` | `array<string (enum:`companiesPreview`,`personsPreview`,`opportunitiesPreview`,`repliesCount`)>` | No | Additional properties to include in the response |
+| `includes` | `array<string (enum: `companiesPreview`, `personsPreview`, `opportunitiesPreview`, `repliesCount`)>` | No | Additional properties to include in the response |
 
 #### Example Request
 
@@ -11764,7 +11766,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -11776,7 +11778,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -11816,7 +11818,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -11853,7 +11855,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -11877,7 +11879,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -11902,7 +11904,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -11914,7 +11916,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -11954,7 +11956,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -11991,7 +11993,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -12015,7 +12017,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -12048,7 +12050,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -12060,7 +12062,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -12100,7 +12102,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -12137,7 +12139,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -12161,7 +12163,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -12199,7 +12201,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -12223,7 +12225,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -12270,7 +12272,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -12294,7 +12296,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 Example: ai-notetaker
 
@@ -12529,6 +12531,7 @@ Errors
 - **Tag:** notes · **OperationId:** v2_notes_noteId_attached-companies__GET · **Stability:** `beta` · **Auth:** bearerAuth
 
 > **⚠️ This endpoint is currently in BETA**
+
 
 Returns directly attached companies for a given Note.
 
@@ -12820,6 +12823,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns directly attached opportunities for a given Note.
 
 #### Path Parameters
@@ -13110,6 +13114,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns directly attached persons for a given Note.
 
 #### Path Parameters
@@ -13157,7 +13162,7 @@ OK
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -13406,6 +13411,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 This endpoint returns reply notes for a given note id.
 You can filter replies using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
 
@@ -13492,7 +13498,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -13516,7 +13522,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -13563,7 +13569,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -13587,7 +13593,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -14501,6 +14507,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns Notes for a given Opportunity which includes directly attached notes and those attached to persons on this Opportunity.
 
 You can filter notes using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
@@ -14573,7 +14580,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -14585,7 +14592,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -14625,7 +14632,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -14662,7 +14669,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -14686,7 +14693,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -14711,7 +14718,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -14723,7 +14730,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -14763,7 +14770,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -14800,7 +14807,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -14824,7 +14831,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -14857,7 +14864,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -14869,7 +14876,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -14909,7 +14916,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -14946,7 +14953,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -14970,7 +14977,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -15008,7 +15015,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -15032,7 +15039,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -15079,7 +15086,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -15103,7 +15110,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -15385,6 +15392,7 @@ Retrieve paginated person merges for the organization.
 Returns all person merges initiated by users in your organization, including their current
 status, the persons involved, and merge details. You can filter person merges using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties:
 
+
 | Property | Type | Operators | Values | Examples |
 |----------|------|-----------|--------|----------|
 | `status` | `enum` | `=` | `in-progress`, `success`, `failed` | `status=failed` |
@@ -15433,7 +15441,7 @@ Paginated person merge states
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryPersonId` | `integer<int64>` | Yes | ID of the primary person that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -15709,7 +15717,6 @@ Request body for initiating a person merge
 | `duplicatePersonId` | `integer<int64>` | Yes | The ID of the person profile that will be merged and then deleted. All data from this person will be transferred to the primary person. (Constraints: ≥ 1; ≤ 9007199254740991) |
 
 Example: merge-persons
-
 ```json
 {
   "duplicatePersonId": 67890,
@@ -15993,7 +16000,7 @@ Entity representing the state of an individual person merge
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryPersonId` | `integer<int64>` | Yes | ID of the primary person that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -16282,6 +16289,7 @@ the persons involved, and task details.
 
 You can filter tasks using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties:
 
+
 | Property | Type | Operators | Values | Examples |
 |----------|------|-----------|--------|----------|
 | `status` | `enum` | `=` | `in-progress`, `success`, `failed` | `status=failed` |
@@ -16329,7 +16337,7 @@ Paginated person merge tasks
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -16637,7 +16645,7 @@ Person merge task details and status for batch operations
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -16947,7 +16955,7 @@ Requires the "Export All People directory" [permission](#section/Getting-Started
 | `limit` | `integer<int32>` | No | Number of items to include in the page |
 | `ids` | `array<integer<int64>>` | No | People IDs |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -16983,7 +16991,7 @@ OK
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -16999,8 +17007,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -17365,9 +17373,9 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
-| `valueType` | `string (enum:`person`,`person-multi`,`company`,`company-multi`,`filterable-text`, …)` | Yes | The type of the data in this Field |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -17558,7 +17566,7 @@ Requires the "Export All People directory" [permission](#section/Getting-Started
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | `fieldIds` | `array<string>` | No | Field IDs for which to return field data |
-| `fieldTypes` | `array<string (enum:`enriched`,`global`,`relationship-intelligence`)>` | No | Field Types for which to return field data |
+| `fieldTypes` | `array<string (enum: `enriched`, `global`, `relationship-intelligence`)>` | No | Field Types for which to return field data |
 
 #### Example Request
 
@@ -17584,7 +17592,7 @@ OK
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -17600,8 +17608,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -17974,8 +17982,8 @@ OK
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -18634,6 +18642,7 @@ Errors
 
 > **⚠️ This endpoint is currently in BETA**
 
+
 Returns notes for a given person id which includes directly attached notes, notes on meetings this person attended, and notes where this person is mentioned.
 
 You can filter notes using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
@@ -18706,7 +18715,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -18718,7 +18727,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -18758,7 +18767,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -18795,7 +18804,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -18819,7 +18828,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -18844,7 +18853,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -18856,7 +18865,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -18896,7 +18905,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -18933,7 +18942,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -18957,7 +18966,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -18990,7 +18999,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -19002,7 +19011,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -19042,7 +19051,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -19079,7 +19088,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -19103,7 +19112,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -19141,7 +19150,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -19165,7 +19174,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -19212,7 +19221,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -19236,7 +19245,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -19567,7 +19576,7 @@ AuthorizationErrors model
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of interaction |
 | `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `direction` | `string (enum:`received`,`sent`)` | Yes | The direction of the chat message |
+| `direction` | `string (enum: `received`, `sent`)` | Yes | The direction of the chat message |
 | `sentAt` | `string<date-time>` | Yes | The time the chat message was sent |
 | `manualCreator` | `object` | Yes |  |
 | `participants` | `array<object>` | Yes | The participants of the chat |
@@ -19581,7 +19590,7 @@ AuthorizationErrors model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`participants` details** — See [PersonData](#persondata)
 
@@ -19594,7 +19603,7 @@ AuthorizationErrors model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### CompaniesValue
 **Properties**
 | Field | Type | Required | Description |
@@ -19632,8 +19641,8 @@ Company model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyData
 **Properties**
@@ -19704,8 +19713,8 @@ CompanyDataPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyMergeRequest
 Request body for initiating a company merge
@@ -19729,7 +19738,7 @@ Entity representing the state of an individual company merge
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryCompanyId` | `integer<int64>` | Yes | ID of the primary company that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -19753,7 +19762,7 @@ Paginated list of company merge states
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryCompanyId` | `integer<int64>` | Yes | ID of the primary company that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -19775,7 +19784,7 @@ Company merge task details and status for batch operations
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -19804,7 +19813,7 @@ Paginated list of company merge tasks
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -19859,8 +19868,8 @@ CompanyPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20148,8 +20157,8 @@ CompanyPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### FieldMetadata
 **Properties**
@@ -20157,9 +20166,9 @@ CompanyPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
-| `valueType` | `string (enum:`person`,`person-multi`,`company`,`company-multi`,`filterable-text`, …)` | Yes | The type of the data in this Field |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 ### FieldMetadataPaged
 FieldMetadataPaged model
 **Properties**
@@ -20177,9 +20186,9 @@ FieldMetadataPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
-| `valueType` | `string (enum:`person`,`person-multi`,`company`,`company-multi`,`filterable-text`, …)` | Yes | The type of the data in this Field |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -20205,8 +20214,8 @@ FieldPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20316,7 +20325,7 @@ FieldPaged model
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`filterable-text`,`text`)` | Yes | The type of value |
+| `type` | `string (enum: `filterable-text`, `text`)` | Yes | The type of value |
 | `data` | `string/null` | Yes | The value for a string |
 ### FieldValueUpdate
 **Variant:** CompaniesValueUpdate
@@ -20395,7 +20404,7 @@ FieldPaged model
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`filterable-text`,`text`)` | Yes | The type of value |
+| `type` | `string (enum: `filterable-text`, `text`)` | Yes | The type of value |
 | `data` | `string/null` | Yes | The value for a string |
 **Variant:** TextsValue
 **Properties**
@@ -20430,7 +20439,7 @@ FieldPaged model
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`api-key`,`access-token`)` | Yes | The type of grant used to authenticate |
+| `type` | `string (enum: `api-key`, `access-token`)` | Yes | The type of grant used to authenticate |
 | `scopes` | `array<string>` | Yes | The scopes available to the current grant |
 | `createdAt` | `string<date-time>` | Yes | When the grant was created |
 
@@ -20444,7 +20453,7 @@ FieldPaged model
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of interaction |
 | `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `direction` | `string (enum:`received`,`sent`)` | Yes | The direction of the chat message |
+| `direction` | `string (enum: `received`, `sent`)` | Yes | The direction of the chat message |
 | `sentAt` | `string<date-time>` | Yes | The time the chat message was sent |
 | `manualCreator` | `object` | Yes |  |
 | `participants` | `array<object>` | Yes | The participants of the chat |
@@ -20458,7 +20467,7 @@ FieldPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`participants` details** — See [PersonData](#persondata)
 
@@ -20471,7 +20480,7 @@ FieldPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** Email
 **Properties**
 | Field | Type | Required | Description |
@@ -20584,8 +20593,8 @@ FieldPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryBatchOperationRequest
 **Variant:** ListEntryBatchOperationUpdateFields
@@ -20609,7 +20618,7 @@ Update multiple field values.
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `operation` | `string (enum:`update-fields`)` | No |  |
+| `operation` | `string (enum: `update-fields`)` | No |  |
 ### ListEntryBatchOperationUpdateFields
 Update multiple field values.
 Update multiple field values.
@@ -20660,8 +20669,8 @@ ListEntryPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20708,8 +20717,8 @@ ListEntryPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -20741,8 +20750,8 @@ ListEntryPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -20765,7 +20774,7 @@ ListEntryPaged model
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -20781,8 +20790,8 @@ ListEntryPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryWithEntityPaged
 ListEntryWithEntityPaged model
@@ -20837,7 +20846,7 @@ ListWithType model
 | `creatorId` | `integer<int64>` | Yes | The ID of the user that created this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `ownerId` | `integer<int64>` | Yes | The ID of the user that owns this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `isPublic` | `boolean` | Yes | Whether or not the list is public |
-| `type` | `string (enum:`company`,`opportunity`,`person`)` | Yes | The entity type for this list |
+| `type` | `string (enum: `company`, `opportunity`, `person`)` | Yes | The entity type for this list |
 ### ListWithTypePaged
 ListWithTypePaged model
 **Properties**
@@ -20858,7 +20867,7 @@ ListWithTypePaged model
 | `creatorId` | `integer<int64>` | Yes | The ID of the user that created this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `ownerId` | `integer<int64>` | Yes | The ID of the user that owns this list (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `isPublic` | `boolean` | Yes | Whether or not the list is public |
-| `type` | `string (enum:`company`,`opportunity`,`person`)` | Yes | The entity type for this list |
+| `type` | `string (enum: `company`, `opportunity`, `person`)` | Yes | The entity type for this list |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -20987,8 +20996,8 @@ Opportunity model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### OpportunityPaged
 OpportunityPaged model
@@ -21034,8 +21043,8 @@ OpportunityPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### Pagination
 **Properties**
@@ -21060,7 +21069,7 @@ Person model
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -21076,8 +21085,8 @@ Person model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonData
 **Properties**
@@ -21087,7 +21096,7 @@ Person model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### PersonDataPaged
 PersonDataPaged model
 **Properties**
@@ -21107,7 +21116,7 @@ PersonDataPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [Pagination](#pagination)
 
@@ -21134,7 +21143,7 @@ PersonDataPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### PersonListEntry
 **Properties**
 | Field | Type | Required | Description |
@@ -21156,7 +21165,7 @@ PersonDataPaged model
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -21172,8 +21181,8 @@ PersonDataPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonMergeRequest
 Request body for initiating a person merge
@@ -21197,7 +21206,7 @@ Entity representing the state of an individual person merge
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryPersonId` | `integer<int64>` | Yes | ID of the primary person that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -21221,7 +21230,7 @@ Paginated person merge states
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the merge (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | Current status of the merge |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | Current status of the merge |
 | `taskId` | `string<uuid>` | Yes | Identifier for the task this merge belongs to |
 | `startedAt` | `string<date-time>` | Yes | Timestamp when the merge started |
 | `primaryPersonId` | `integer<int64>` | Yes | ID of the primary person that other profiles were merged into (Constraints: ≥ 1; ≤ 9007199254740991) |
@@ -21243,7 +21252,7 @@ Person merge task details and status for batch operations
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -21272,7 +21281,7 @@ Paginated person merge tasks
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `string<uuid>` | Yes | The unique identifier for this merge task |
-| `status` | `string (enum:`in-progress`,`success`,`failed`)` | Yes | The current status of the batch operation |
+| `status` | `string (enum: `in-progress`, `success`, `failed`)` | Yes | The current status of the batch operation |
 | `resultsSummary` | `object` | Yes | Summary of merges in this batch task |
 
 **`resultsSummary` details** — Summary of merges in this batch task
@@ -21312,7 +21321,7 @@ PersonPaged model
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `emailAddresses` | `array<string<email>>` | Yes | All of the person's email addresses |
-| `type` | `string (enum:`internal`,`external`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`)` | Yes | The person's type |
 | `fields` | `array<object>` | No | The fields associated with the person |
 
 **`emailAddresses` details** — All of the person's email addresses
@@ -21328,8 +21337,8 @@ PersonPaged model
 | --- | --- | --- | --- |
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
-| `type` | `string (enum:`enriched`,`global`,`list`,`relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum:`affinity-data`,`dealroom`,`None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -21424,7 +21433,7 @@ SavedView model
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The saved view's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The saved view's name |
-| `type` | `string (enum:`sheet`,`board`,`dashboard`)` | Yes | The type for this saved view |
+| `type` | `string (enum: `sheet`, `board`, `dashboard`)` | Yes | The type for this saved view |
 | `createdAt` | `string<date-time>` | Yes | The date that the saved view was created |
 ### SavedViewPaged
 SavedViewPaged model
@@ -21443,7 +21452,7 @@ SavedViewPaged model
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The saved view's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The saved view's name |
-| `type` | `string (enum:`sheet`,`board`,`dashboard`)` | Yes | The type for this saved view |
+| `type` | `string (enum: `sheet`, `board`, `dashboard`)` | Yes | The type for this saved view |
 | `createdAt` | `string<date-time>` | Yes | The date that the saved view was created |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -21470,7 +21479,7 @@ SavedViewPaged model
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`filterable-text`,`text`)` | Yes | The type of value |
+| `type` | `string (enum: `filterable-text`, `text`)` | Yes | The type of value |
 | `data` | `string/null` | Yes | The value for a string |
 ### TextsValue
 **Properties**
@@ -21538,7 +21547,7 @@ WhoAmI model
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `type` | `string (enum:`api-key`,`access-token`)` | Yes | The type of grant used to authenticate |
+| `type` | `string (enum: `api-key`, `access-token`)` | Yes | The type of grant used to authenticate |
 | `scopes` | `array<string>` | Yes | The scopes available to the current grant |
 | `createdAt` | `string<date-time>` | Yes | When the grant was created |
 
@@ -21636,7 +21645,7 @@ CallPaged model
 | `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the chat message |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
 | `creator` | `object` | Yes | The creator of the chat message |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
@@ -21651,7 +21660,7 @@ CallPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
 
@@ -21672,7 +21681,7 @@ CallPaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### interactions.ChatMessagePaged
 ChatMessagePaged model
 **Properties**
@@ -21691,7 +21700,7 @@ ChatMessagePaged model
 | `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the chat message |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
 | `creator` | `object` | Yes | The creator of the chat message |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
@@ -21706,7 +21715,7 @@ ChatMessagePaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
 
@@ -21727,7 +21736,7 @@ ChatMessagePaged model
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -21744,7 +21753,7 @@ ChatMessagePaged model
 | `id` | `integer<int64>` | Yes | The email's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the email was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, emails can only be logged as 'automated'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
 | `subject` | `string/null` | Yes | The email's subject |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the email was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the email was updated |
@@ -21813,7 +21822,7 @@ EmailPaged model
 | `id` | `integer<int64>` | Yes | The email's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `sentAt` | `string<date-time>` | Yes | The timestamp of when the email was sent |
 | `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, emails can only be logged as 'automated'. |
-| `direction` | `string (enum:`sent`,`received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
+| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the email: 'sent' if the email was sent by an internal user and  'received' if the email was sent to an internal user. |
 | `subject` | `string/null` | Yes | The email's subject |
 | `createdAt` | `string<date-time>` | Yes | The timestamp of when the email was created |
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the email was updated |
@@ -21878,7 +21887,7 @@ EmailPaged model
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The meeting's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string (enum:`automated`,`manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
+| `loggingType` | `string (enum: `automated`, `manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
 | `title` | `string/null` | Yes | The meeting's title |
 | `startTime` | `string<date-time>` | Yes | The timestamp of when the meeting starts |
 | `endTime` | `string/null<date-time>` | Yes | The timestamp of when the meeting ends |
@@ -21922,7 +21931,7 @@ MeetingPaged model
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The meeting's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string (enum:`automated`,`manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
+| `loggingType` | `string (enum: `automated`, `manual`)` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). |
 | `title` | `string/null` | Yes | The meeting's title |
 | `startTime` | `string<date-time>` | Yes | The timestamp of when the meeting starts |
 | `endTime` | `string/null<date-time>` | Yes | The timestamp of when the meeting ends |
@@ -22006,7 +22015,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22030,7 +22039,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 A Root Note object created by the AI Notetaker
@@ -22064,7 +22073,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22076,7 +22085,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -22116,7 +22125,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -22153,7 +22162,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22177,7 +22186,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.BaseNote
 An abstract base class for notes
 An abstract base class for notes
@@ -22207,7 +22216,7 @@ An abstract base class for notes
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22231,7 +22240,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.BaseReply
 An abstract base class for note replies, either of a UserNoteReply or AiNotetakerNoteReply
 An abstract base class for note replies, either of a UserNoteReply or AiNotetakerNoteReply
@@ -22269,7 +22278,7 @@ An abstract base class for note replies, either of a UserNoteReply or AiNotetake
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22293,7 +22302,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.BaseRootNote
 A root note
 A root note
@@ -22317,7 +22326,7 @@ A root note
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22329,7 +22338,7 @@ A root note
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -22369,7 +22378,7 @@ A root note
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -22406,7 +22415,7 @@ A root note
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22430,7 +22439,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.CallInteraction
 This is a Call (Event) object attached to a note
 This is a Call (Event) object attached to a note
@@ -22505,7 +22514,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22517,7 +22526,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -22557,7 +22566,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -22594,7 +22603,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22618,7 +22627,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.Interaction
 An interaction attached to a Note. It can be a Meeting, a Call or an ChatMessage.
 An interaction attached to a Note. It can be a Meeting, a Call or an ChatMessage.
@@ -22675,7 +22684,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22687,7 +22696,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -22727,7 +22736,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -22764,7 +22773,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22788,7 +22797,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.MeetingInteraction
 This is a Meeting (Event) object attached to a note
 This is a Meeting (Event) object attached to a note
@@ -22818,7 +22827,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.Note
 Note model
 **Variant:** notes.EntitiesNote
@@ -22844,7 +22853,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22856,7 +22865,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -22896,7 +22905,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -22933,7 +22942,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -22957,7 +22966,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -22982,7 +22991,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -22994,7 +23003,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -23034,7 +23043,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -23071,7 +23080,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23095,7 +23104,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -23128,7 +23137,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -23140,7 +23149,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -23180,7 +23189,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -23217,7 +23226,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23241,7 +23250,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -23279,7 +23288,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23303,7 +23312,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -23350,7 +23359,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23374,7 +23383,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.NotesPaged
 NotesPaged model
 **Properties**
@@ -23410,7 +23419,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -23422,7 +23431,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -23462,7 +23471,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -23499,7 +23508,7 @@ A Note object attached to an entity (Person, Company, Opportunity)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23523,7 +23532,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.InteractionNote
 A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
@@ -23548,7 +23557,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -23560,7 +23569,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -23600,7 +23609,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -23637,7 +23646,7 @@ A Note object attached to an interaction (Email, Meeting, Call, ChatMessage)
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23661,7 +23670,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerRootNote
 A Root Note object created by the AI Notetaker
 **Properties**
@@ -23694,7 +23703,7 @@ A Root Note object created by the AI Notetaker
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -23706,7 +23715,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`opportunitiesPreview` details** — See [notes.OpportunitiesPreview](#notesopportunitiespreview)
 
@@ -23746,7 +23755,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`companiesPreview` details** — See [notes.CompaniesPreview](#notescompaniespreview)
 
@@ -23783,7 +23792,7 @@ A Root Note object created by the AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23807,7 +23816,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.UserReplyNote
 A reply to a note created by a user
 **Properties**
@@ -23845,7 +23854,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23869,7 +23878,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -23916,7 +23925,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -23940,7 +23949,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -23975,7 +23984,7 @@ The permission settings of a note
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sharingType` | `string (enum:`private`,`public`,`custom`)` | Yes | The sharing type of the note |
+| `sharingType` | `string (enum: `private`, `public`, `custom`)` | Yes | The sharing type of the note |
 | `owner` | `object` | Yes |  |
 
 **`owner` details** — See [PersonData](#persondata)
@@ -23987,7 +23996,7 @@ The permission settings of a note
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.PersonMention
 A person mentioned in a note.
 A person mentioned in a note.
@@ -24007,7 +24016,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.PersonsPreview
 A preview for attached Persons on a Note
 A preview for attached Persons on a Note
@@ -24028,7 +24037,7 @@ A preview for attached Persons on a Note
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.RepliesPaged
 Replies for a Note
 Replies for a Note
@@ -24079,7 +24088,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -24103,7 +24112,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -24150,7 +24159,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -24174,7 +24183,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
@@ -24224,7 +24233,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -24248,7 +24257,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 **Variant:** notes.AiNotetakerReplyNote
 A reply to a Note, created by an AI Notetaker
 **Properties**
@@ -24295,7 +24304,7 @@ A reply to a Note, created by an AI Notetaker
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -24319,7 +24328,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### notes.UserReplyNote
 A reply to a note created by a user
 A reply to a note created by a user
@@ -24358,7 +24367,7 @@ A reply to a note created by a user
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 **`mentions` details** — A mention in a note. See [notes.Mention](#notesmention)
 
@@ -24382,7 +24391,7 @@ A person mentioned in a note.
 | `firstName` | `string/null` | Yes | The person's first name |
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum:`internal`,`external`,`collaborator`)` | Yes | The person's type |
+| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
 ## Error Reference
 

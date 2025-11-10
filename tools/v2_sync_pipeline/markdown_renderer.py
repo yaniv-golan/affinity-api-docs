@@ -428,7 +428,7 @@ class V2MarkdownRenderer:
             curl_lines.append("  --header 'Content-Type: application/json'")
             payload = json.dumps(example_body, separators=(",", ":"), ensure_ascii=False)
             curl_lines.append(f"  --data-raw '{_bash_quote(payload)}'")
-        return ["", "#### Example Request", "```bash", " \\\n".join(curl_lines), "```"]
+        return ["", "#### Example Request", "", "```bash", " \\\n".join(curl_lines), "```"]
 
     def _render_responses(self, op: dict[str, Any]) -> list[str]:
         responses = op.get("responses", {})
@@ -465,6 +465,7 @@ class V2MarkdownRenderer:
                     label = f"Example: {name}" if name else "Example"
                     lines.append("")
                     lines.append(label)
+                    lines.append("")
                     lines.append("```json")
                     lines.append(json.dumps(example, indent=2, sort_keys=True, ensure_ascii=False))
                     lines.append("```")
