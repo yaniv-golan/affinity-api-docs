@@ -11,7 +11,7 @@ This repository hosts the automatically generated **Affinity API v1** documentat
 ## Current Status
 
 - ✅ Markdown extracted, normalized, and auto-synced from https://api-docs.affinity.co/
-- ✅ Full set of code samples (bash/Ruby/Python/Node) + JSON request/response examples embedded
+- ✅ Code samples match the live site (currently bash/cURL + JSON) and the parser auto-detects new languages as they appear
 - ✅ Last-updated timestamp injected automatically during sync
 - ✅ Legacy manual doc preserved separately with warning banner
 - ✅ CI schedules daily syncs and opens PRs when drift is detected
@@ -84,6 +84,7 @@ affinity-api-docs/
 
 - `docs/v1/affinity_api_docs.md` is generated—**editing it manually will be reverted** the next time the pipeline runs.
 - `docs/v1/affinity_api_docs_legacy.md` exists strictly for historical reference.
+- `docs/internal/` is gitignored on purpose—keep planning/rollout notes there locally without committing them.
 - The sync header clearly states the unofficial nature of this copy; always cross-check with https://api-docs.affinity.co/.
 - `llms.txt` spells out the guardrails for AI assistants—review it before delegating tasks to LLMs.
 - Use fenced code blocks (`bash`, `ruby`, `python`, `javascript`, `json`) exactly as produced by the pipeline.

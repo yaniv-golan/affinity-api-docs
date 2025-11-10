@@ -80,7 +80,7 @@ cd affinity-api-docs/docs/v1
 ### API v1 Documentation
 
 - ✅ Core documentation auto-generated from https://api-docs.affinity.co/
-- ✅ Formatting standardized (tables, code blocks use `bash`/`ruby`/`python`/`javascript`)
+- ✅ Formatting standardized (tables, fenced `bash` and `json` blocks today; parser auto-detects additional languages if Affinity adds them)
 - ✅ Code examples + JSON request/response samples embedded for every endpoint section
 - ✅ Raw markdown accessible via direct links
 - 📂 Location: `docs/v1/affinity_api_docs.md` (do **not** edit manually)
@@ -151,6 +151,7 @@ affinity-api-docs/
 │   └── development/      # Development documentation
 │       ├── TESTING.md    # Testing guide
 │       └── TEST_RESULTS.md  # Test results
+│   └── (local only) docs/internal/     # Gitignored planning notes (kept outside repo)
 ├── tools/
 │   └── v1_sync_pipeline/
 │       ├── sync_v1_docs.py
@@ -175,6 +176,8 @@ affinity-api-docs/
 ├── internal_docs/        # Planning + reports
 └── tmp/                  # Gitignored snapshots/artifacts
 ```
+
+> **Note:** The `docs/internal/` path is intentionally gitignored. Keep any private rollout plans or personal notes there locally without committing them to the public repository.
 
 ## Authentication
 
