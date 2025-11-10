@@ -1,0 +1,22 @@
+Documentation Update Detected
+============================================================
+
+Source: https://api-docs.affinity.co/
+Detected: 2025-11-10T00:27:30.065999
+Timestamp from source: old one in the api.
+
+What Changed:
+Added: ~2470 lines, Removed: ~1804 lines
+
+Manual Review Required:
+============================================================
+The live documentation at https://api-docs.affinity.co/ has changed.
+Please manually compare the live site with the current markdown:
+  1. View live site: https://api-docs.affinity.co/
+  2. Compare with: docs/v1/affinity_api_docs.md
+  3. Make careful, surgical edits to fix any discrepancies
+  4. Test the updated markdown
+  5. Delete this update branch after merging changes to main
+
+Raw HTML snapshot saved to: docs/v1/affinity_api_docs_live_snapshot.html
+(For reference only - do NOT use automated HTML-to-markdown conversion)
