@@ -319,6 +319,21 @@ class AffinityV1Parser:
         name = node.name
         text = self.render_inline_children(node)
         if name == "code":
+            anchor_child = next(
+                (child for child in node.children if isinstance(child, Tag) and child.name == "a"),
+                None,
+            )
+            if anchor_child and anchor_child.parent is node:
+                href = anchor_child.get("href")
+                label = normalize_text(anchor_child.get_text())
+                if href:
+                    if "@" in href and not href.lower().startswith(("mailto:", "http://", "https://", "#")):
+                        href = f"mailto:{href}"
+                    if href.startswith("#"):
+                        target = href[1:]
+                        if target not in self.anchor_ids and target in BROKEN_ANCHOR_MAP:
+                            href = f"#{BROKEN_ANCHOR_MAP[target]}"
+                return f"[`{label}`]({href})" if href else f"`{label}`"
             return f"`{text}`"
         if name in {"strong", "b"}:
             return f"**{text}**"

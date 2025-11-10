@@ -379,11 +379,11 @@ Use the common use cases below to learn how Affinity API endpoints work.
 > - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhooks) to keep data synced. You may want to schedule occasional syncs via the REST API to fixed any inconsistencies
 > - Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId` ![](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
 > - The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list `affinity.affinity.co/lists/[list_id]` and for a company profile `affinity.affinity.co/companies/[company_id]`
-> - For large lists, use `page_size` and `page_token` parameters in the `[GET /lists/list_id}/list-entries](#get-all-list-entries)` endpoint to improve performance
+> - For large lists, use `page_size` and `page_token` parameters in the [`GET /lists/list_id}/list-entries`](#get-all-list-entries) endpoint to improve performance
 
 ## Getting Field Values for All List Entries on a List
 
-1. Query `[GET /lists](#get-all-lists)` to get all lists and filter results by list name to get the appropriate list ID
+1. Query [`GET /lists`](#get-all-lists) to get all lists and filter results by list name to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -400,7 +400,7 @@ GET /lists Response:
 ]
 ```
 
-2. Query `[GET /lists/12058/list-entries](#get-all-list-entries)` to get all list entries. Store the `entity_id` associated with each list entry ID
+2. Query [`GET /lists/12058/list-entries`](#get-all-list-entries) to get all list entries. Store the `entity_id` associated with each list entry ID
 
 ```
 GET /lists/{list_id}/list-entries Response:
@@ -421,7 +421,7 @@ GET /lists/{list_id}/list-entries Response:
 ]
 ```
 
-3. For each list entry, query `[GET /field-values](#get-field-values)` with the `entity_id` from the previous step. Make sure you are passing `entity_id` through the appropriate parameter (e.g person_id)
+3. For each list entry, query [`GET /field-values`](#get-field-values) with the `entity_id` from the previous step. Make sure you are passing `entity_id` through the appropriate parameter (e.g person_id)
 
 ```
 GET /field-values Response:
@@ -470,7 +470,7 @@ GET /fields Response:
 
 ## Getting Field Value Changes for Status Fields
 
-1. Query `[GET /lists](#get-all-lists)` and filter results to get the appropriate list ID
+1. Query [`GET /lists`](#get-all-lists) and filter results to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -513,7 +513,7 @@ GET /fields Response:
 ]
 ```
 
-3. Query `[GET /field-values-changes](#field-value-changes)` passing in the `id` from Step 2
+3. Query [`GET /field-values-changes`](#field-value-changes) passing in the `id` from Step 2
 
 ```
 GET /field-values-changes Response:
@@ -559,7 +559,7 @@ GET /field-values-changes Response:
 ]
 ```
 
-4. Filter results of `[GET /field-values-changes](#field-value-changes)` (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-values-changes`](#field-value-changes) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
 GET /field-values-changes Response:
@@ -607,7 +607,7 @@ GET /field-values-changes Response:
 
 ## Getting the Strongest Relationship Strength Connection to an Organization on a List
 
-1. Query `[GET /lists](#get-all-lists)` to get all lists and filter results to get the appropriate list ID
+1. Query [`GET /lists`](#get-all-lists) to get all lists and filter results to get the appropriate list ID
 
 ```
 GET /lists Response:
@@ -624,7 +624,7 @@ GET /lists Response:
 ]
 ```
 
-2. Query `[GET /lists/12058/list-entries](#get-all-list-entries)` to get all list entries. Store the `entity_id` associated with each list entry ID
+2. Query [`GET /lists/12058/list-entries`](#get-all-list-entries) to get all list entries. Store the `entity_id` associated with each list entry ID
 
 ```
 GET /lists/{list_id}/list-entries Response:
@@ -651,7 +651,7 @@ GET /lists/{list_id}/list-entries Response:
 ]
 ```
 
-3. For each list entry, query `[GET /organizations/{organization_id}](#get-a-specific-organization)` to get all list people associated with the organization. Store the `person_ids` associated with each organization
+3. For each list entry, query [`GET /organizations/{organization_id}`](#get-a-specific-organization) to get all list people associated with the organization. Store the `person_ids` associated with each organization
 
 ```
 GET /organizations/7133202 Response:
@@ -677,7 +677,7 @@ GET /organizations/7133202 Response:
 }
 ```
 
-4. For each person ID from Step 3, query `[GET /relationships-strengths](#get-relationship-strength)` passing in the person ID. Once all person IDs have been looped through, filter for the highest `strength`
+4. For each person ID from Step 3, query [`GET /relationships-strengths`](#get-relationship-strength) passing in the person ID. Once all person IDs have been looped through, filter for the highest `strength`
 
 ```
 GET /relationships-strengths Response:
@@ -1172,7 +1172,7 @@ Creates a new list entry in the list with the supplied list id.
 
 #### Notes
 
-> - Opportunities cannot be created using this endpoint. Instead use the `[POST /opportunities](#create-a-new-opportunity)` endpoint.
+> - Opportunities cannot be created using this endpoint. Instead use the [`POST /opportunities`](#create-a-new-opportunity) endpoint.
 > - Person and company lists can contain the same entity multiple times. Depending on your use case, before you add an entry, you may want to verify whether or not it exists in the list already.
 
 #### Returns
@@ -1228,9 +1228,9 @@ By default, Affinity provides all teams with a few default global fields: For pe
 
 #### Notes
 
-> - Global field IDs for persons are returned from `[GET /persons/fields](#get-global-person-fields)`
-> - Global field IDs for organizations are returned from `[GET /organizations/fields](#get-global-organizations-fields)`
-> - List-specific field IDs are also returned from `[GET /lists/{list_id}](#get-a-specific-list)`
+> - Global field IDs for persons are returned from [`GET /persons/fields`](#get-global-person-fields)
+> - Global field IDs for organizations are returned from [`GET /organizations/fields`](#get-global-organizations-fields)
+> - List-specific field IDs are also returned from [`GET /lists/{list_id}`](#get-a-specific-list)
 
 ## The Field Resource
 
@@ -1630,7 +1630,7 @@ An array of all the field values associated with the supplied `person`, `organiz
 
 > - Exactly one of `person_id`, `organization_id`, `opportunity_id`, or `list_entry_id` must be specified to the endpoint.
 > - If a `person_id`, `organization_id`, or `opportunity_id` is specified, the endpoint returns all field values tied to these entities - including those that are associated with all list entries that exist for the given person or organization. Opportunities can only have one list entry.
-> - Smart fields cannot be retrieved using the field values endpoint. Smart field values can be retrieved using the `with_interaction_dates` parameter on the `[GET /persons/{person_id}](#get-a-specific-person)` or `[GET /organizations/{organization_id}](#get-a-specific-organization)` endpoints. The people associated with smart fields can be retrieved using the `with_interaction_persons` on the `[GET /persons/{person_id}](#get-a-specific-person)` or `[GET /organizations/{organization_id}](#get-a-specific-organization)` endpoints.
+> - Smart fields cannot be retrieved using the field values endpoint. Smart field values can be retrieved using the `with_interaction_dates` parameter on the [`GET /persons/{person_id}`](#get-a-specific-person) or [`GET /organizations/{organization_id}`](#get-a-specific-organization) endpoints. The people associated with smart fields can be retrieved using the `with_interaction_persons` on the [`GET /persons/{person_id}`](#get-a-specific-person) or [`GET /organizations/{organization_id}`](#get-a-specific-organization) endpoints.
 > - Field values endpoint does return Crunchbase fields, but with `null` values.
 
 ## Create a New Field Value

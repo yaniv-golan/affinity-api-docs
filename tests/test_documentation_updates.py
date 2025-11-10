@@ -101,3 +101,21 @@ def test_affinity_parser_extracts_text_and_code_samples() -> None:
     assert parser.code_samples
     assert parser.code_samples[0].language == "bash"
     assert parser.code_samples[0].section == "Introduction"
+
+
+def test_code_wrapped_anchor_becomes_clickable() -> None:
+    html = dedent(
+        """
+        <html>
+          <body>
+            <h2 id="get-thing">Heading</h2>
+            <div class="content">
+              <p><code><a href="#get-thing">GET /thing</a></code></p>
+            </div>
+          </body>
+        </html>
+        """
+    )
+    parser = sync.AffinityV1Parser(html)
+    markdown = parser.build_markdown()
+    assert "[`GET /thing`](#get-thing)" in markdown
