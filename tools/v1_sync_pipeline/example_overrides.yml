@@ -1,0 +1,45 @@
+get-a-specific-organization:
+  example_request: |
+    ```bash
+    # Returns the organization with the specified `organization_id`.
+    curl "https://api.affinity.co/organizations/120611418" -u :$APIKEY
+    ```
+get-relationship-strength:
+  example_request: |
+    ```bash
+    # Returns relationship strengths matching the provided identifiers.
+    curl "https://api.affinity.co/relationships-strengths?external_id=1234&internal_id=2345" -u :$APIKEY
+    ```
+  example_response: |
+    ```json
+    [
+      {
+        "internal_id": 1234,
+        "external_id": 2345,
+        "strength": 0.5
+      }
+    ]
+    ```
+whoami:
+  example_request: |
+    ```bash
+    # Returns the authenticated user.
+    curl "https://api.affinity.co/auth/whoami" -u :$APIKEY
+    ```
+rate-limit:
+  example_request: |
+    ```bash
+    # Returns the current rate limit status.
+    curl "https://api.affinity.co/rate-limit" -u :$APIKEY
+    ```
+update-an-opportunity:
+  example_request: |
+    ```bash
+    # Updates the opportunity with the specified `opportunity_id`.
+    curl -X PUT "https://api.affinity.co/opportunities/120611418" \
+      -u :$APIKEY \
+      -H "Content-Type: application/json" \
+      -d '{"name": "Penny Opportunity", "person_ids": [38706, 89734]}'
+    ```
+reminders:
+  example_request: |

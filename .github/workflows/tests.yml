@@ -28,7 +28,7 @@ jobs:
 
       - name: Ensure sync script is idempotent
         run: |
-          python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff
+          python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff --summary-file "$GITHUB_STEP_SUMMARY"
 
       - name: Run unit tests
         run: |

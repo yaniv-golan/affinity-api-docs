@@ -46,6 +46,7 @@ This repository hosts the automatically generated **Affinity API v1** documentat
    - Optionally run `python tools/v1_sync_pipeline/qa/compare_to_live.py --snapshot <new snapshot>`
    - Run `pytest tests/`
 4. **llms.txt** contains explicit “DO NOT EDIT” warnings for AI assistants—keep it updated when automation changes.
+5. **Example overrides & metadata:** keep `tools/v1_sync_pipeline/example_overrides.yml` in sync with any upstream discrepancies, and ensure `tmp/v1_sync_metadata.json` reports an empty `example_mismatches` array. Content/label hygiene fixes are automated—do not revert them in the generated markdown.
 
 ## Project Structure (trimmed)
 

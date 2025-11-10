@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-11-10
+
+### Added
+
+- Section-bounded parser that keeps example blocks scoped to their endpoints and records per-section metadata.
+- Example validation + override pipeline (`tools/v1_sync_pipeline/example_overrides.yml`) with warnings emitted to `tmp/v1_sync_metadata.json` and the workflow summary.
+- Pytest guard ensuring `example_mismatches` stays empty.
+
+### Changed
+
+- Normalized smart quotes and common typos, relabeled body/form parameter tables, and added the missing interaction/reminder notes.
+- README/AGENTS document the override workflow and metadata expectations.
+
 ## [1.0.0] - 2025-11-08
 
 ### Added

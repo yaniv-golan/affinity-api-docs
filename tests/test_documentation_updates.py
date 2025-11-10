@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 from textwrap import dedent
@@ -149,3 +150,11 @@ Content
     reordered = sync.move_examples_below_details(doc)
     assert reordered.index("`GET /foo`") < reordered.index("#### Example Request")
     assert reordered.index("Returns all foo.") < reordered.index("#### Example Request")
+
+
+def test_metadata_has_no_example_mismatches(tmp_path: Path) -> None:
+    metadata_file = Path("tmp/v1_sync_metadata.json")
+    if not metadata_file.exists():
+        pytest.skip("metadata file missing; run sync_v1_docs.py first")
+    metadata = json.loads(metadata_file.read_text())
+    assert metadata.get("example_mismatches") in (None, [], {}), metadata.get("example_mismatches")

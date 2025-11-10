@@ -116,6 +116,12 @@ pytest tests/
 
 All generated artifacts (HTML snapshots, extracted code blocks, metadata) are written under `tmp/` and ignored by git. Commit only the updated markdown + metadata that land outside `tmp/`.
 
+#### Example Overrides & Validation
+
+- Manual fixes for specific endpoints live in `tools/v1_sync_pipeline/example_overrides.yml`. Each entry can override the Example Request/Response blocks for a section when the live site is inaccurate.
+- `python tools/v1_sync_pipeline/sync_v1_docs.py` now validates that every Example Request matches the section verb/path. Any mismatches are written to `tmp/v1_sync_metadata.json` and echoed to the workflow summary.
+- If a mismatch is intentional (for example, until the upstream docs are corrected), add or update the corresponding override entry instead of editing the markdown directly.
+
 ### Disabling the Schedule
 
 If you need to pause the daily sync, edit `.github/workflows/check-docs-updates.yml` and remove/comment the `schedule` block. Manual dispatch remains available.

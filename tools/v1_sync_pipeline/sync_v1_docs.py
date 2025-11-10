@@ -5,14 +5,16 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from urllib.parse import urljoin
 
 import requests
+import yaml
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 AFFINITY_V1_URL = "https://api-docs.affinity.co/"
@@ -50,11 +52,30 @@ def normalize_text(text: str) -> str:
     return text
 
 
+def normalize_code(text: str) -> str:
+    replacements = {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+    }
+    for bad, good in replacements.items():
+        text = text.replace(bad, good)
+    return text
+
+
 @dataclass
 class CodeSample:
     language: str
     code: str
     section: str
+
+
+@dataclass
+class SectionRecord:
+    title: str
+    anchor: str
+    markdown: str
 
 
 def slugify(title: str) -> str:
@@ -226,7 +247,7 @@ def move_examples_below_details(markdown: str) -> str:
     in_section = False
 
     for line in lines:
-        if line.startswith("## ") and not line.startswith("### "):
+        if (line.startswith("# ") or line.startswith("## ")) and not line.startswith("### "):
             if in_section:
                 result.extend(reorder_section(section))
                 section = [line]
@@ -248,6 +269,197 @@ def move_examples_below_details(markdown: str) -> str:
     return "".join(result)
 
 
+CODE_BLOCK_PATTERN = re.compile(r"```[^\n]*\n(.*?)```", re.S)
+
+
+def load_example_overrides(path: Path) -> Dict[str, Dict[str, str]]:
+    if not path.exists():
+        return {}
+    data = yaml.safe_load(path.read_text()) or {}
+    overrides: Dict[str, Dict[str, str]] = {}
+    for anchor, payload in data.items():
+        overrides[anchor] = payload or {}
+    return overrides
+
+
+def apply_overrides_and_validate(parser: "AffinityV1Parser", overrides: Dict[str, Dict[str, str]]) -> Tuple[str, List[Dict[str, str]]]:
+    updated_sections: List[SectionRecord] = []
+    mismatches: List[Dict[str, str]] = []
+
+    for section in parser.section_records:
+        text = section.markdown
+        override = overrides.get(section.anchor)
+        if override:
+            text = apply_override_to_section(text, override)
+        mismatch = validate_section_examples(section, text)
+        if mismatch:
+            mismatches.append(mismatch)
+        updated_sections.append(SectionRecord(section.title, section.anchor, text))
+
+    parser.section_records = updated_sections
+    parts = []
+    if parser.preface_markdown.strip():
+        parts.append(parser.preface_markdown.rstrip())
+    parts.extend(sec.markdown.rstrip() for sec in parser.section_records if sec.markdown.strip())
+    combined = "\n\n".join(parts)
+    return combined, mismatches
+
+
+def apply_override_to_section(section_text: str, override: Dict[str, str]) -> str:
+    text = section_text
+    if "example_request" in override:
+        text = replace_example_block(text, "Request", override["example_request"] or "")
+    if "example_response" in override:
+        text = replace_example_block(text, "Response", override["example_response"] or "")
+    return text
+
+
+def replace_example_block(text: str, label: str, new_content: str) -> str:
+    heading = f"#### Example {label}"
+    pattern = re.compile(rf"^\s*{heading}\n(?:\n)?```.*?```", re.S | re.MULTILINE)
+    text = pattern.sub("", text)
+    new_content = (new_content or "").strip()
+    if not new_content:
+        return text
+    replacement = f"{heading}\n\n{new_content}\n"
+    text = text.rstrip() + "\n\n" + replacement
+    return text
+
+
+def validate_section_examples(section: SectionRecord, section_text: str) -> Dict[str, str] | None:
+    declared = extract_declared_endpoint(section_text)
+    example = extract_first_example(section_text)
+    if not declared or not example:
+        return None
+    expected_method, expected_path = declared
+    example_method, example_path = example
+    if example_method == expected_method and paths_match(expected_path, example_path):
+        return None
+    return {
+        "anchor": section.anchor,
+        "title": section.title,
+        "expected_method": expected_method,
+        "expected_path": expected_path,
+        "example_method": example_method,
+        "example_path": example_path,
+    }
+
+
+def extract_declared_endpoint(section_text: str) -> Tuple[str, str] | None:
+    inline = re.search(r"`(GET|POST|PUT|DELETE|PATCH)\s+(/[^`\s]+)`", section_text)
+    if not inline:
+        inline = re.search(r"\b(GET|POST|PUT|DELETE|PATCH)\s+(/[^\s`]+)", section_text)
+    if not inline:
+        return None
+    return inline.group(1), inline.group(2)
+
+
+def extract_first_example(section_text: str) -> Tuple[str, str] | None:
+    for block in CODE_BLOCK_PATTERN.finditer(section_text):
+        body = block.group(1)
+        if "curl" not in body:
+            continue
+        url_match = re.search(r"\"https://api\\.affinity\\.co([^\"\s]*)\"", body)
+        if not url_match:
+            continue
+        method_match = re.search(r"-(?:-request|X)\s+\"?([A-Z]+)\"?", body, re.IGNORECASE)
+        method = method_match.group(1).upper() if method_match else "GET"
+        path = url_match.group(1) or "/"
+        path = path.split("?")[0] or "/"
+        if not path.startswith("/"):
+            path = f"/{path}"
+        return method, path
+    return None
+
+
+def paths_match(expected: str, actual: str) -> bool:
+    expected_clean = expected.split("?")[0]
+    actual_clean = actual.split("?")[0]
+    pattern = re.sub(r"\{[^}]+\}", r"[^/]+", expected_clean)
+    pattern = "^" + pattern.rstrip("/") + "/?$"
+    return re.match(pattern, actual_clean.rstrip("/")) is not None
+
+
+def append_summary(summary_file: str | None, mismatches: List[Dict[str, str]]) -> None:
+    if not summary_file or not mismatches:
+        return
+    lines = ["## Example validation warnings", ""]
+    for mismatch in mismatches:
+        lines.append(
+            f"- `{mismatch['anchor']}` expected {mismatch['expected_method']} {mismatch['expected_path']}, "
+            f"found {mismatch['example_method']} {mismatch['example_path']}"
+        )
+    lines.append("")
+    with open(summary_file, "a", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+
+
+def apply_content_hygiene(markdown: str) -> str:
+    replacements = {
+        "max_`{interaction type>`_date": "max_{interaction_type}_date",
+        "min_`{interaction type}`_date": "min_{interaction_type}_date",
+        "max interation": "max interaction",
+        "min interation": "min interaction",
+        "| contect |": "| content |",
+    }
+    for old, new in replacements.items():
+        markdown = markdown.replace(old, new)
+
+    markdown = insert_interaction_limit_note(markdown)
+    markdown = annotate_reminder_requirements(markdown)
+    markdown = relabel_parameter_section(markdown, "## Create a New Reminder", "Body Parameters")
+    markdown = relabel_parameter_section(markdown, "## Update a Reminder", "Body Parameters")
+    markdown = relabel_parameter_section(markdown, "## Upload Files", "Form Data Parameters")
+    return markdown
+
+
+def insert_interaction_limit_note(markdown: str) -> str:
+    needle = (
+        "> - One `person_id`, `organization_id` or `opportunity_id` must be specified per request.\n"
+        "> - Only one `type` of interaction can be specified per request.\n"
+        "> - An error will be returned if an internal person is used in the `person_id` parameter."
+    )
+    addition = (
+        "> - `start_time` and `end_time` must be within a single one-year window when querying interactions."
+    )
+    if needle in markdown and addition not in markdown:
+        replacement = needle.replace(
+            "> - Only one `type` of interaction can be specified per request.\n",
+            "> - Only one `type` of interaction can be specified per request.\n"
+            + addition
+            + "\n",
+        )
+        markdown = markdown.replace(needle, replacement)
+    return markdown
+
+
+def annotate_reminder_requirements(markdown: str) -> str:
+    variants = [
+        "Note that at most one of `person_id`, `organization_id` or `opportunity_id` can be specified per request.",
+        "Note that at most one of `person_id`, `organization_id` or `opportunity_id` can be specified.",
+    ]
+    addition = (
+        "One-time reminders (`type = 0`) require a `due_date`. Recurring reminders (`type = 1`) require `reset_type` and `reminder_days`."
+    )
+    if addition in markdown:
+        return markdown
+    for sentence in variants:
+        if sentence in markdown:
+            markdown = markdown.replace(sentence, f"{sentence}\n\n{addition}", 1)
+            break
+    return markdown
+
+
+def relabel_parameter_section(markdown: str, heading: str, new_label: str) -> str:
+    pattern = re.compile(rf"({re.escape(heading)}[\s\S]*?)(###|####) Path Parameters", re.MULTILINE)
+
+    def _repl(match: re.Match) -> str:
+        hashes = match.group(2)
+        return match.group(1) + f"{hashes} {new_label}"
+
+    return pattern.sub(_repl, markdown, count=1)
+
+
 class AffinityV1Parser:
     """Convert Affinity v1 HTML content into markdown."""
 
@@ -265,12 +477,49 @@ class AffinityV1Parser:
             for tag in self.soup.find_all(attrs={"id": True})
             if tag.get("id")
         }
+        self.section_records: List[SectionRecord] = []
+        self.preface_markdown = ""
 
     # ------------------------------------------------------------------
     def build_markdown(self) -> str:
-        blocks: List[str] = []
+        preface_nodes: List = []
+        sections: List[Dict[str, List]] = []
+        current_section: Dict[str, List] | None = None
+
         for child in self.content.children:
-            blocks.extend(self.render_block(child))
+            if isinstance(child, Tag) and child.name in {"h1", "h2"}:
+                if current_section:
+                    sections.append(current_section)
+                current_section = {"heading": child, "nodes": [child]}
+                continue
+            target = current_section["nodes"] if current_section else preface_nodes
+            target.append(child)
+
+        if current_section:
+            sections.append(current_section)
+
+        rendered_parts: List[str] = []
+        self.section_records = []
+        self.preface_markdown = self.render_nodes(preface_nodes)
+        if self.preface_markdown.strip():
+            rendered_parts.append(self.preface_markdown)
+
+        for section in sections:
+            markdown = self.render_nodes(section["nodes"])
+            if markdown.strip():
+                rendered_parts.append(markdown)
+            heading_tag = section["heading"]
+            title = heading_tag.get_text(strip=True)
+            anchor = heading_tag.get("id") or slugify(title)
+            self.section_records.append(SectionRecord(title=title, anchor=anchor, markdown=markdown))
+
+        combined = "\n\n".join(part for part in rendered_parts if part.strip())
+        return combined
+
+    def render_nodes(self, nodes: List) -> str:
+        blocks: List[str] = []
+        for node in nodes:
+            blocks.extend(self.render_block(node))
         cleaned_blocks = [block.rstrip() for block in blocks if block and block.strip()]
         return "\n\n".join(cleaned_blocks)
 
@@ -532,6 +781,7 @@ class AffinityV1Parser:
         code_node = node.find("code") if node.name != "code" else node
         raw = code_node.get_text("", strip=False) if code_node else node.get_text("", strip=False)
         cleaned = raw.replace("\r", "")
+        cleaned = normalize_code(cleaned)
         return cleaned.strip("\n")
 
     def format_code_block(self, language: str, code: str) -> str:
@@ -593,6 +843,16 @@ def main() -> None:
     parser.add_argument("--code-json", default="tmp/code_blocks_sync.json", help="Where to store extracted code blocks")
     parser.add_argument("--metadata", default="tmp/v1_sync_metadata.json", help="Metadata output path")
     parser.add_argument(
+        "--example-overrides",
+        default="tools/v1_sync_pipeline/example_overrides.yml",
+        help="Path to YAML file containing example overrides",
+    )
+    parser.add_argument(
+        "--summary-file",
+        default=None,
+        help="Optional path to append warnings for GitHub summary",
+    )
+    parser.add_argument(
         "--fail-on-diff",
         action="store_true",
         help="Exit with status 1 if the generated markdown differs from the existing output",
@@ -607,9 +867,12 @@ def main() -> None:
     timestamp = resolve_timestamp(header_ts, fetched_at)
     parser_obj = AffinityV1Parser(html)
     markdown_body = parser_obj.build_markdown()
+    overrides = load_example_overrides(Path(args.example_overrides))
+    markdown_body, mismatches = apply_overrides_and_validate(parser_obj, overrides)
     toc = build_toc(markdown_body)
     full_markdown = render_header(args, timestamp, snapshot_path, toc) + markdown_body + "\n"
     full_markdown = move_examples_below_details(full_markdown)
+    full_markdown = apply_content_hygiene(full_markdown)
 
     output_path = Path(args.output)
     previous_content = output_path.read_text() if output_path.exists() else None
@@ -624,8 +887,19 @@ def main() -> None:
         "snapshot": str(snapshot_path),
         "last_modified": timestamp.isoformat(),
         "output": str(output_path),
+        "example_mismatches": mismatches,
     }
     Path(args.metadata).write_text(json.dumps(metadata, indent=2))
+
+    if mismatches:
+        for mismatch in mismatches:
+            print(
+                f"[example-mismatch] {mismatch['anchor']}: expected {mismatch['expected_method']} {mismatch['expected_path']} "
+                f"but found {mismatch['example_method']} {mismatch['example_path']}",
+                file=sys.stderr,
+            )
+
+    append_summary(args.summary_file, mismatches)
 
     if args.fail_on_diff and content_changed:
         raise SystemExit("Generated documentation differs from existing output")
