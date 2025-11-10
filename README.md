@@ -84,7 +84,6 @@ cd affinity-api-docs/docs/v1
 - ✅ Code examples + JSON request/response samples embedded for every endpoint section
 - ✅ Raw markdown accessible via direct links
 - 📂 Location: `docs/v1/affinity_api_docs.md` (do **not** edit manually)
-- 🗂️ Historical snapshot: `docs/v1/affinity_api_docs_legacy.md` (manual doc archived)
 
 ### API v2 Documentation
 
@@ -145,8 +144,7 @@ affinity-api-docs/
 │       └── validate_docs_structure.py
 ├── docs/
 │   ├── v1/               # API v1 documentation
-│   │   ├── affinity_api_docs.md        # Auto-generated canonical doc
-│   │   └── affinity_api_docs_legacy.md # Historical manual snapshot
+│   │   └── affinity_api_docs.md        # Auto-generated canonical doc
 │   ├── v2/               # API v2 documentation (planned)
 │   └── development/      # Development documentation
 │       ├── TESTING.md    # Testing guide

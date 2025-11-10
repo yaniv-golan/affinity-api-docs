@@ -11,10 +11,6 @@
 - Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs.md
 - Contents: full Affinity API v1 reference (auth, endpoints, schemas, rate limits, examples in bash/Ruby/Python/Node, JSON requests/responses, changelog). Generated via `tools/v1_sync_pipeline/sync_v1_docs.py`.
 
-### API v1 Documentation (Historical snapshot)
-- Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs_legacy.md
-- Use only for reference—this was the manually curated doc prior to automation.
-
 ### API v2 Documentation
 - Coming soon (folder scaffolded at `docs/v2/`).
 

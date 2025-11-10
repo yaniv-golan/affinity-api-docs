@@ -5,7 +5,6 @@
 This repository hosts the automatically generated **Affinity API v1** documentation alongside the scaffolding for future v2 work. The canonical markdown is created by the sync pipeline and **must never be edited manually**—run the tooling instead.
 
 - **Primary doc:** `docs/v1/affinity_api_docs.md` (auto-generated)
-- **Historical snapshot:** `docs/v1/affinity_api_docs_legacy.md` (read-only, manual doc archived)
 - **Automation:** `tools/v1_sync_pipeline/` (sync + QA tooling)
 
 ## Current Status
@@ -57,8 +56,7 @@ affinity-api-docs/
 ├── REPOSITORY_STRUCTURE.md
 ├── docs/
 │   ├── v1/
-│   │   ├── affinity_api_docs.md          # auto-generated canonical doc
-│   │   └── affinity_api_docs_legacy.md   # manual snapshot (do not edit)
+│   │   └── affinity_api_docs.md          # auto-generated canonical doc
 │   ├── v2/                               # placeholder for future work
 │   └── development/
 ├── tools/
@@ -83,7 +81,6 @@ affinity-api-docs/
 ## Important Notes
 
 - `docs/v1/affinity_api_docs.md` is generated—**editing it manually will be reverted** the next time the pipeline runs.
-- `docs/v1/affinity_api_docs_legacy.md` exists strictly for historical reference.
 - `docs/internal/` is gitignored on purpose—keep planning/rollout notes there locally without committing them.
 - The sync header clearly states the unofficial nature of this copy; always cross-check with https://api-docs.affinity.co/.
 - `llms.txt` spells out the guardrails for AI assistants—review it before delegating tasks to LLMs.
