@@ -6,6 +6,7 @@ import json
 import textwrap
 from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Tuple
 
 from .utils import build_toc, normalize_whitespace, format_description, fix_mojibake, slugify
@@ -241,6 +242,7 @@ class V2MarkdownRenderer:
     def _render_header(self, toc: str) -> str:
         long_ts = self.ctx.fetched_at.strftime("%B %d, %Y at %H:%M:%S %Z")
         short_ts = self.ctx.fetched_at.strftime("%m/%d/%Y %H:%M:%S %Z")
+        snapshot_label = Path(self.ctx.snapshot_path).name if self.ctx.snapshot_path else "N/A"
         lines = [
             "# Affinity API v2 Documentation (Auto-synced)",
             "",
@@ -269,7 +271,7 @@ class V2MarkdownRenderer:
             "> **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.",
             "",
             f"**Documentation Version:** This copy is based on the official documentation as it appeared on **{long_ts}** (Last updated: {short_ts}).",
-            f"**Snapshot:** `{self.ctx.snapshot_path}`",
+            f"**Snapshot:** Captured HTML `{snapshot_label}` (archived with the sync artifacts for QA).",
             "",
             "> **⚠️ Use at Your Own Risk**",
             ">",
