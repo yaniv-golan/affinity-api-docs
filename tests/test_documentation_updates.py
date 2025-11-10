@@ -119,3 +119,33 @@ def test_code_wrapped_anchor_becomes_clickable() -> None:
     parser = sync.AffinityV1Parser(html)
     markdown = parser.build_markdown()
     assert "[`GET /thing`](#get-thing)" in markdown
+
+
+def test_examples_reordered_after_endpoint_details() -> None:
+    doc = """# Title
+
+## Get Foo
+
+#### Example Request
+
+```bash
+curl https://api.affinity.co/foo -u :$APIKEY
+```
+
+#### Example Response
+
+```json
+{}
+```
+
+`GET /foo`
+
+Returns all foo.
+
+## Next Section
+
+Content
+"""
+    reordered = sync.move_examples_below_details(doc)
+    assert reordered.index("`GET /foo`") < reordered.index("#### Example Request")
+    assert reordered.index("Returns all foo.") < reordered.index("#### Example Request")

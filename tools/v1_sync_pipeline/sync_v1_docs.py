@@ -160,6 +160,94 @@ def render_header(args, timestamp: datetime, snapshot_path: Path, toc: str) -> s
     return "\n".join(header_lines)
 
 
+def move_examples_below_details(markdown: str) -> str:
+    """Ensure Example Request/Response blocks come after endpoint descriptions."""
+
+    def collect_example_block(body_lines: List[str], start: int) -> tuple[List[str], int]:
+        idx = start
+        captured: List[str] = []
+        while idx < len(body_lines) and body_lines[idx].startswith("#### Example"):
+            captured.append(body_lines[idx])
+            idx += 1
+            # capture optional blank line after heading
+            while idx < len(body_lines) and body_lines[idx].strip() == "" and not captured[-1].strip() == "":
+                captured.append(body_lines[idx])
+                idx += 1
+            fence_open = False
+            while idx < len(body_lines):
+                line = body_lines[idx]
+                captured.append(line)
+                if line.startswith("```"):
+                    fence_open = not fence_open
+                    if not fence_open:
+                        idx += 1
+                        break
+                idx += 1
+            while idx < len(body_lines) and body_lines[idx].strip() == "":
+                captured.append(body_lines[idx])
+                idx += 1
+        return captured, idx
+
+    def reorder_section(section_lines: List[str]) -> List[str]:
+        header = section_lines[0]
+        body = section_lines[1:]
+        idx = 0
+        while idx < len(body) and body[idx].strip() == "":
+            idx += 1
+        if idx >= len(body) or not body[idx].startswith("#### Example"):
+            return section_lines
+        example_lines, next_idx = collect_example_block(body, idx)
+        if not example_lines:
+            return section_lines
+        remaining = body[:idx] + body[next_idx:]
+        while remaining and remaining[0].strip() == "":
+            remaining = remaining[1:]
+        new_section: List[str] = [header]
+        if not remaining or remaining[0].strip() != "":
+            new_section.append("\n")
+        new_section.extend(remaining)
+        if new_section and new_section[-1].strip() != "":
+            new_section.append("\n")
+        while example_lines and example_lines[0].strip() == "":
+            example_lines = example_lines[1:]
+        while example_lines and example_lines[-1].strip() == "":
+            example_lines = example_lines[:-1]
+        if example_lines:
+            if not new_section or new_section[-1].strip() != "":
+                new_section.append("\n")
+            new_section.extend(example_lines)
+            if not new_section[-1].endswith("\n"):
+                new_section.append("\n")
+        return new_section
+
+    lines = markdown.splitlines(keepends=True)
+    result: List[str] = []
+    section: List[str] = []
+    in_section = False
+
+    for line in lines:
+        if line.startswith("## ") and not line.startswith("### "):
+            if in_section:
+                result.extend(reorder_section(section))
+                section = [line]
+            else:
+                if section:
+                    result.extend(section)
+                section = [line]
+                in_section = True
+            continue
+        if in_section:
+            section.append(line)
+        else:
+            result.append(line)
+    if section:
+        if in_section:
+            result.extend(reorder_section(section))
+        else:
+            result.extend(section)
+    return "".join(result)
+
+
 class AffinityV1Parser:
     """Convert Affinity v1 HTML content into markdown."""
 
@@ -521,6 +609,7 @@ def main() -> None:
     markdown_body = parser_obj.build_markdown()
     toc = build_toc(markdown_body)
     full_markdown = render_header(args, timestamp, snapshot_path, toc) + markdown_body + "\n"
+    full_markdown = move_examples_below_details(full_markdown)
 
     output_path = Path(args.output)
     previous_content = output_path.read_text() if output_path.exists() else None
