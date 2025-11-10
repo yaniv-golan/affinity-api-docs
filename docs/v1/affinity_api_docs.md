@@ -442,15 +442,15 @@ GET /field-values Response:
 4. Locate field values for a given set of fields (optional)
 
 1. Query
-  GET /fields
+  [`GET /fields`](#get-fields)
   to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the
-  list_id
+  `list_id`
   parameter to prefilter the results
 2. Filter results of
-  GET /fields
+  [`GET /fields`](#get-fields)
   by field name to get the appropriate field ID
 3. Cross-reference the
-  field_id
+  `field_id`
   from Step 3 with the field ID
 
 ```
@@ -490,12 +490,12 @@ GET /lists Response:
 2. Locate the appropriate status field:
 
 1. Query
-  GET /fields
+  [`GET /fields`](#get-fields)
   to get all fields. If the given set of fields are all list-specific, it is helpful to pass along the list_id parameter to prefilter the results
 2. Filter results of
-  GET /fields
+  [`GET /fields`](#get-fields)
   by field name and cross-reference the
-  list_id
+  `list_id`
   with the appropriate list ID from Step 1 to confirm you have the appropriate status field
 
 ```
@@ -693,12 +693,12 @@ GET /relationships-strengths Response:
 
 ## Useful Resources
 
-- Postman Collection
+- [Postman Collection](/postman/collection.json)
   (Right-click and save as JSON then import into
-  Postman
+  [Postman](https://www.postman.com/)
   )
-- Affinity Zapier Integrations
-- Affinity Tray Connectors
+- [Affinity Zapier Integrations](https://zapier.com/apps/affinity/integrations)
+- [Affinity Tray Connectors](https://tray.io/documentation/connectors/service/affinity)
 
 # Partner With Us
 
@@ -5249,60 +5249,58 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 **2024-07-17**
 
 - At least one associated person, company, opportunity, or parent note must be specified when
-  creating a note
+  [creating a note](#create-a-new-note)
   .
 
 **2024-05-01**
 
-- /interactions
+- `/interactions`
   now restricts the duration between
-  start_time
+  `start_time`
   and
-  end_time
+  `end_time`
   to a maximum of one year
-- /interactions
+- `/interactions`
   now ensures that the provided
-  start_time
+  `start_time`
   is before the provided
-  end_time
+  `end_time`
   year
-- /interactions
+- `/interactions`
   now has a maximum
-  page_size
+  `page_size`
   of 100.
 
 **2023-08-07**
 
 - Added
-  associated_person_ids
+  `associated_person_ids`
   ,
-  interaction_person_ids
+  `interaction_person_ids`
   ,
-  interaction_id
+  `interaction_id`
   , and
-  interaction_type
+  `interaction_type`
   to
-  the note resource
+  [the note resource](#the-note-resource)
   . The
-  person_ids
+  `person_ids`
   ,
-  associated_person_ids
+  `associated_person_ids`
   , and
-  interaction_person_ids
+  `interaction_person_ids`
   properties on a note should now reflect the various ways a note can be tied to a person.
 
 **2023-07-27**
 
 - datetime values in webhook bodies and API responses are ISO 8601-formatted date strings. For example:
-  "2023-06-21T16:00:28.315-07:00"
+  `"2023-06-21T16:00:28.315-07:00"`
   .
 
 **2023-07-17**
 
 - Add information about
-  notes with
-  type
-  1
+  [notes with `type` 1](#the-note-resource)
   .
 
 **2023-07-03**
@@ -5312,173 +5310,173 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 **2023-06-13**
 
 - The
-  created_at
+  `created_at`
   parameter on the
-  POST endpoint for notes
+  [POST endpoint for notes](#create-a-new-note)
   no longer accepts timestamps in the future.
 
 **2023-05-17**
 
 - Added
-  403 error code
+  [403 error code](#requests-amp-responses)
   for permissions-related errors.
 
 **2023-03-27**
 
 - Added the ability to
-  create a List
+  [create a List](#create-a-new-list)
   .
 - Updated
-  Postman collection
+  [Postman collection](#useful-resources)
   to help developers get started.
 - Added
-  documentation
+  [documentation](#formatting-content-as-html)
   on formatting options for HTML notes.
 
 **2023-03-09**
 
 - Account for chat messages when returning interaction info on the GET endpoints for
-  Persons
+  [Persons](#persons)
   and
-  Organizations
+  [Organizations](#organizations)
   .
 
 **2023-02-28**
 
 - Added the ability to
-  create HTML notes
+  [create HTML notes](#create-a-new-note)
   .
 - Added the ability to
-  create a note within a thread
+  [create a note within a thread](#create-a-new-note)
   .
 
 **2023-02-10**
 
 - Added
-  Rate Limit Headers
+  [Rate Limit Headers](#rate-limit-headers)
   section to the
-  Rate Limits
+  [Rate Limits](#rate-limits)
   documentation.
 
 **2023-02-08**
 
 - Added
-  created_at
+  `created_at`
   and
-  updated_at
+  `updated_at`
   timestamps to
-  Field Values
+  [Field Values](#field-values)
   .
 - Added an
-  updated_at
+  `updated_at`
   timestamp to
-  Notes
+  [Notes](#notes)
   .
 
 **2023-02-07**
 
 - Added the ability to retrieve Current Organization column data on
-  Persons
+  [Persons](#persons)
   .
 
 **2022-09-06**
 
 - Added
-  Rate Limit
+  [Rate Limit](#rate-limit)
   endpoint and documentation. Moved from a daily to a per minute per user limit. Monthly per account limits remain the same.
 
 **2022-09-02**
 
 - Added
-  entity_type
+  `entity_type`
   and
-  exclude_dropdown_options
+  `exclude_dropdown_options`
   documentation to
-  Fields
+  [Fields](#fields)
   .
 
 **2022-05-05**
 
 - Added
-  enrichment_source
+  `enrichment_source`
   documentation to
-  Fields
+  [Fields](#fields)
   .
 
 **2022-04-11**
 
 - Added
-  Partner With Us
+  [Partner With Us](#partner-with-us)
   section.
 
 **2022-03-21**
 
 - Added
-  opportunity_ids
+  `opportunity_ids`
   fields to person and organization responses.
 
 **2022-02-23**
 
 - Added
-  Interactions API
+  [Interactions API](#interactions)
   documentation.
 
 **2022-02-17**
 
 - Updated
-  GET entity files
+  [GET entity files](#get-all-files)
   and entity file webhooks to exclude non-user uploaded files.
 
 **2022-02-03**
 
 - Added
-  Whoami API
+  [Whoami API](#whoami)
   documentation.
 
 **2022-02-01**
 
 - Added
-  Reminder API
+  [Reminder API](#reminders)
   documentation.
 - Added
-  Reminder webhook
+  [Reminder webhook](/#webhooks)
   events.
 
 **2022-01-28**
 
 - Added
-  organization.merged
+  `organization.merged`
   event to
-  Webhooks
+  [Webhooks](#webhooks)
   .
 - Added
-  mentioned_person_ids
+  `mentioned_person_ids`
   and
-  is_meeting
+  `is_meeting`
   fields to
-  Notes
+  [Notes](#notes)
   .
 
 **2021-11-22**
 
 - Added link out to
-  Help Center
+  [Help Center](https://support.affinity.co/s/article/Types-of-webhooks-available-with-Affinity-s-API)
   for webhook responses
 
 **2021-11-19**
 
 - Updated
-  GET field values changes
+  [GET field values changes](#get-field-values-changes)
   to be filterable by
-  action_type
+  `action_type`
   ,
-  person
+  `person`
   ,
-  organization
+  `organization`
   ,
-  opportunity
+  `opportunity`
   or
-  list_entry
+  `list_entry`
   by passing in the appropriate parameter.
 
 **2021-10-15**
@@ -5494,25 +5492,25 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 
 - Revamped API documentation
   - Added
-    Common Use Cases
+    [Common Use Cases](#common-use-cases)
     section.
   - Added
-    Rate Limits
+    [Rate Limits](#rate-limits)
     section.
   - Updates to
-    PUT
+    `PUT`
     and
-    POST
+    `POST`
     cURL examples.
 
 **2021-08-18**
 
 - Fixed typo in the API docs where
-  entity_id
+  `entity_id`
   and
-  creator_id
+  `creator_id`
   was in path paramaters when they should be inside the payload parameters for
-  Create a New List Entry
+  [Create a New List Entry](#create-a-new-list-entry)
   .
 
 **2021-07-28**

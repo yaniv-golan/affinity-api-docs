@@ -559,6 +559,10 @@ class AffinityV1Parser:
         if node.name == "hr":
             return ["---"]
 
+        if node.name in {"a", "span", "strong", "em", "b", "i", "code"}:
+            rendered = self.render_inline(node)
+            return [rendered] if rendered else []
+
         if node.name == "blockquote":
             text = self.render_inline_children(node).strip()
             if text.lower() in {"example request", "example response"}:
