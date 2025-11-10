@@ -2,188 +2,107 @@
 
 ## Project Overview
 
-This repository contains extracted and cleaned API documentation for **both Affinity API v1 and v2**. Both versions will be maintained in this repository.
+This repository hosts the automatically generated **Affinity API v1** documentation alongside the scaffolding for future v2 work. The canonical markdown is created by the sync pipeline and **must never be edited manually**—run the tooling instead.
 
-**Affinity API Versions:**
-
-- **v1**: Legacy API documented at https://api-docs.affinity.co/
-  - Currently being worked on - main file: `docs/v1/affinity_api_docs.md`
-- **v2**: New API with different approach/terminology, documented at https://developer.affinity.co/
-  - Planned for future work - folder ready at `docs/v2/`
-  - v2 is **not** a superset of v1 - they are separate APIs with different designs
-
-The current v1 documentation file is located at `docs/v1/affinity_api_docs.md` and contains:
-
-- Complete API endpoint documentation
-- Request/response formats
-- Parameter descriptions
-- Resource schemas
-- Rate limiting information
-- Common use cases
-- Changelog
+- **Primary doc:** `docs/v1/affinity_api_docs.md` (auto-generated)
+- **Historical snapshot:** `docs/v1/affinity_api_docs_legacy.md` (read-only, manual doc archived)
+- **Automation:** `tools/v1_sync_pipeline/` (sync + QA tooling)
 
 ## Current Status
 
-The markdown file has been:
+- ✅ Markdown extracted, normalized, and auto-synced from https://api-docs.affinity.co/
+- ✅ Full set of code samples (bash/Ruby/Python/Node) + JSON request/response examples embedded
+- ✅ Last-updated timestamp injected automatically during sync
+- ✅ Legacy manual doc preserved separately with warning banner
+- ✅ CI schedules daily syncs and opens PRs when drift is detected
+- ✅ QA scripts (link checker + live comparison helper) live under `tools/v1_sync_pipeline/qa/`
+- ⚠️ Future work: add Affinity API v2 documentation when ready
 
-- ✅ Extracted from the live documentation site
-- ✅ Fixed encoding issues and typos
-- ✅ Corrected formatting inconsistencies
-- ✅ Standardized markdown syntax
-- ✅ Fixed table formatting
-- ✅ Corrected outline/TOC structure
-- ✅ Automated updates via GitHub Actions
-- ✅ Last updated timestamp (automatically maintained)
-- ⚠️ **Missing**: Code examples (cURL, Ruby, Python, Node.js) for API endpoints
-- ⚠️ **Missing**: Request/response JSON examples
+## Automation Workflow
 
-## Project Structure
+### Sync Script
+
+- Path: `tools/v1_sync_pipeline/sync_v1_docs.py`
+- Usage: `python tools/v1_sync_pipeline/sync_v1_docs.py [--fail-on-diff]`
+- Defaults: reads from `https://api-docs.affinity.co/`, writes to `docs/v1/affinity_api_docs.md`, stores HTML + metadata in `tmp/`
+- `--fail-on-diff` exits with code 1 if the generated markdown differs from what is committed (used by CI/tests)
+
+### QA Scripts
+
+- `python tools/v1_sync_pipeline/qa/check_links.py [PATH]` – validates internal anchors and external HTTP links (defaults to the canonical doc)
+- `python tools/v1_sync_pipeline/qa/compare_to_live.py --snapshot tmp/current_live_site.html` – helper for comparing markdown vs. captured browser snapshots
+
+### CI/CD
+
+- **Sync Affinity v1 Docs** (`.github/workflows/check-docs-updates.yml`): runs daily + on demand, executes the sync script with `--fail-on-diff`, runs the link checker, and opens a PR via `peter-evans/create-pull-request` when changes exist.
+- **Tests** (`.github/workflows/tests.yml`): runs on push/PR, installs dependencies, executes the sync script with `--fail-on-diff`, and runs the pytest suite with coverage over `tools/v1_sync_pipeline`.
+
+## Maintenance & Ownership
+
+1. **Never edit** `docs/v1/affinity_api_docs.md` manually. Regenerate via the sync script whenever updates are needed.
+2. **Quarterly BROKEN_ANCHOR_MAP review:** revisit `BROKEN_ANCHOR_MAP` inside `sync_v1_docs.py`, confirm the live site still requires the overrides, and track the reminder in the quarterly review issue (label `quarterly-review`).
+3. **Manual validation checklist (when investigating diffs):**
+   - Run `python tools/v1_sync_pipeline/sync_v1_docs.py`
+   - Run `python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md`
+   - Optionally run `python tools/v1_sync_pipeline/qa/compare_to_live.py --snapshot <new snapshot>`
+   - Run `pytest tests/`
+4. **llms.txt** contains explicit “DO NOT EDIT” warnings for AI assistants—keep it updated when automation changes.
+
+## Project Structure (trimmed)
 
 ```
 affinity-api-docs/
 ├── AGENTS.md (this file)
-├── README.md (project README)
-├── REPOSITORY_STRUCTURE.md (structure documentation)
-├── requirements-ci.txt (CI/CD dependencies)
-├── pytest.ini (pytest configuration)
-├── pyproject.toml (Python tooling config)
-├── .pre-commit-config.yaml (pre-commit hooks)
-├── .markdownlint.json (markdown linting rules)
-├── .yamllint.yml (YAML linting rules)
-├── .gitignore (gitignore rules)
-├── .github/
-│   ├── workflows/ (GitHub Actions workflows)
-│   │   ├── check-docs-updates.yml
-│   │   ├── pre-commit.yml
-│   │   └── tests.yml
-│   ├── scripts/ (CI/CD automation scripts)
-│   │   ├── check_and_update_docs.py
-│   │   └── validate_docs_structure.py
-│   ├── docs-version-v1.json (version tracking)
-│   └── docs-version-v2.json (version tracking)
+├── README.md
+├── REPOSITORY_STRUCTURE.md
 ├── docs/
 │   ├── v1/
-│   │   └── affinity_api_docs.md (v1 documentation)
-│   ├── v2/ (v2 documentation - planned)
-│   └── development/ (development documentation)
-│       ├── TESTING.md
-│       ├── TEST_RESULTS.md
-│       └── PRE_COMMIT.md
-├── tests/ (test suite)
-│   ├── README.md
-│   ├── conftest.py
-│   ├── test_documentation_updates.py (pytest tests)
-│   ├── test-local.sh (legacy)
-│   ├── test-edge-cases.sh (legacy)
-│   ├── test-production-scenarios.sh (legacy)
-│   └── test-realistic-scenarios.py (legacy)
-├── scripts/ (temporary - gitignored)
-└── tmp/ (temporary outputs - gitignored)
+│   │   ├── affinity_api_docs.md          # auto-generated canonical doc
+│   │   └── affinity_api_docs_legacy.md   # manual snapshot (do not edit)
+│   ├── v2/                               # placeholder for future work
+│   └── development/
+├── tools/
+│   └── v1_sync_pipeline/
+│       ├── sync_v1_docs.py               # production sync pipeline
+│       └── qa/
+│           ├── check_links.py
+│           └── compare_to_live.py
+├── .github/
+│   ├── workflows/
+│   │   ├── check-docs-updates.yml        # daily sync + auto-PR
+│   │   ├── pre-commit.yml
+│   │   └── tests.yml                     # CI tests + sync verification
+│   └── scripts/
+│       └── validate_docs_structure.py
+├── tests/
+│   └── test_documentation_updates.py
+├── tmp/ (gitignored artifacts: snapshots, extracted blocks, comparisons)
+└── internal_docs/ … (project reports & planning)
 ```
-
-**Key Points:**
-
-- `docs/` - All documentation files (committed to git)
-- `scripts/` - **All scripts are temporary/throwaway** (gitignored)
-  - These are one-off extraction/processing scripts for this iterative project
-  - Once documentation is complete, scripts can be deleted
-- `tmp/` - All temporary outputs and extracted data (gitignored)
-- `.dev/` - Development notes and scratch files (gitignored)
-
-## Key Tasks Remaining
-
-### 1. Add Code Examples
-
-The live API documentation site includes code examples in multiple languages (cURL, Ruby, Python, Node.js) for each endpoint. These need to be extracted and added to the markdown file.
-
-**Location**: Code examples should be added after each endpoint definition (after `## GET /path` or `## POST /path` etc.) and before the next section.
-
-**Format**: Code examples should follow this structure:
-
-1. Add a `#### Example Request` heading
-2. Include code blocks for each available language:
-   - `bash` for cURL examples
-   - `ruby` for Ruby examples  
-   - `python` for Python examples
-   - `javascript` for Node.js examples
-3. Add a `#### Example Response` heading
-4. Include a `json` code block with example response data
-
-Example structure:
-
-- `#### Example Request` section with language-specific code blocks
-- `#### Example Response` section with JSON example
-
-### 2. Extract Code Examples from Live Site
-
-The HTML from https://api-docs.affinity.co/ has been fetched and saved. Code examples need to be:
-
-- Parsed from the HTML
-- Matched to their corresponding endpoints
-- Cleaned of HTML entities and formatting
-- Added to the appropriate sections in the markdown
-
-### 3. Add Last Updated Timestamp
-
-The live site includes a "Last updated" timestamp that should be added to the documentation header.
-
-## Code Style & Conventions
-
-- **Markdown**: Use standard markdown formatting
-- **Code Blocks**: Use fenced code blocks with language identifiers (bash, ruby, python, javascript, json)
-- **Headers**: Use `##` for endpoint definitions, `####` for subsections
-- **Tables**: Ensure proper spacing around pipes: `| column | column |`
-- **Links**: Use markdown link format: `[text](#anchor)` for internal links
-- **Notes**: Use `#### Note` for important notes
-
-## File Locations
-
-- **v1 documentation**: `docs/v1/affinity_api_docs.md` (current focus)
-- **v2 documentation**: `docs/v2/` (planned for future)
-- **Source HTML**: `tmp/api_docs_raw.html` (temporary, gitignored)
-- **Code blocks**: `tmp/code_blocks.json` (temporary, gitignored)
-- **Scripts**: `scripts/` directory
-- **Temporary outputs**: `tmp/` directory (all gitignored)
 
 ## Important Notes
 
-- The markdown files should contain **ALL** information from the web pages, even if in a non-interactive format
-- Code examples are critical - they're the most important missing piece for v1
-- The documentation should be complete enough for developers to use the API without visiting the live site
-- Maintain consistency with existing formatting and structure
-- **v1** endpoint paths use the base URL: `https://api.affinity.co/`
-- **v2** endpoint paths use the base URL: `https://api.affinity.co/v2`
+- `docs/v1/affinity_api_docs.md` is generated—**editing it manually will be reverted** the next time the pipeline runs.
+- `docs/v1/affinity_api_docs_legacy.md` exists strictly for historical reference.
+- The sync header clearly states the unofficial nature of this copy; always cross-check with https://api-docs.affinity.co/.
+- `llms.txt` spells out the guardrails for AI assistants—review it before delegating tasks to LLMs.
+- Use fenced code blocks (`bash`, `ruby`, `python`, `javascript`, `json`) exactly as produced by the pipeline.
 
 ## Authentication
 
-**Affinity API v1** (this documentation) uses:
+- **Affinity API v1:** supports HTTP Basic Auth (API key as password, username blank) or Bearer token (`Authorization: Bearer YOUR_API_KEY`).
+- **Affinity API v2:** uses Bearer tokens only (v2 docs live at https://developer.affinity.co/ and are not yet mirrored here).
 
-- **HTTP Basic Auth**: Provide API key as basic auth password (no username needed)
-- **HTTP Bearer Auth**: Also supported - provide API key as bearer token
+## Resources & Support
 
-**Affinity API v2** (separate API, not yet documented here) uses:
-
-- **HTTP Bearer Auth only**: Provide API key as bearer token
-
-All examples in this v1 documentation should use `YOUR_API_KEY` or `$APIKEY` as placeholder.
-
-## Next Steps
-
-1. Parse the fetched HTML to extract code examples
-2. Match code examples to their corresponding endpoints
-3. Add code examples in all available languages (cURL, Ruby, Python, Node.js)
-4. Add example request/response JSON where appropriate
-5. Add "Last updated" timestamp to the header
-6. Verify all content matches the live documentation site
-
-## Resources
-
-- **v1 API Documentation** (this repo): https://api-docs.affinity.co/
-- **v2 API Documentation** (future work): https://developer.affinity.co/
-- Support: support@affinity.co
+- Live Docs: https://api-docs.affinity.co/
+- Repo Docs (auto-generated): `docs/v1/affinity_api_docs.md`
+- Support: [support@affinity.co](mailto:support@affinity.co)
+- Issues/automation reminders: see GitHub issues labeled `quarterly-review` (BROKEN_ANCHOR_MAP) and `automation`.
 
 ## API Version Differences
 
-- **v1**: Legacy API, uses Basic Auth (no username) or Bearer Auth
-- **v2**: New API, uses Bearer Auth only, different terminology and approach
-- v2 is **not** a superset of v1 - they are separate APIs with different designs
+- v1 and v2 are separate APIs with distinct schemas and auth strategies.
+- v1 base URL: `https://api.affinity.co/`
+- v2 base URL: `https://api.affinity.co/v2`
+- Do **not** assume parity between versions; maintain both docs independently.

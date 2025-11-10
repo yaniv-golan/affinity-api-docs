@@ -54,7 +54,7 @@ pytest tests/ -m integration
 
 ```bash
 pip install pytest-cov
-pytest tests/ --cov=.github/scripts --cov-report=html
+pytest tests/ --cov=tools/v1_sync_pipeline --cov-report=html
 ```
 
 ## Test Organization
@@ -62,9 +62,8 @@ pytest tests/ --cov=.github/scripts --cov-report=html
 - **`test_documentation_updates.py`** - Main pytest test suite
 - **`conftest.py`** - Pytest fixtures and configuration
 - **`test-local.sh`** - Quick local test script (legacy)
-- **`test-edge-cases.sh`** - Edge case testing (legacy)
-- **`test-production-scenarios.sh`** - Production scenarios (legacy)
-- **`test-realistic-scenarios.py`** - Legacy test script
+- **`test-edge-cases.sh`** - Edge case smoke tests (legacy helper)
+- **`test-production-scenarios.sh`** - Production scenario smoke tests (legacy helper)
 
 ## Test Categories
 

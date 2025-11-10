@@ -29,14 +29,18 @@ echo "Installing dependencies..."
 pip install -q -r requirements-ci.txt
 
 echo ""
-echo "Running script in DRY RUN mode..."
+echo "Running sync pipeline with fail-on-diff..."
 echo "=========================================="
-python3 .github/scripts/check_and_update_docs.py --api-version v1 --dry-run
+python3 tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff || true
+
+echo ""
+echo "Running link checker..."
+python3 tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
 
 echo ""
 echo "=========================================="
 echo "Test complete!"
 echo ""
-echo "To test without dry-run (will create PRs):"
-echo "  python3 .github/scripts/check_and_update_docs.py --api-version v1 --force-check true"
+echo "To regenerate docs after inspecting diffs, run:"
+echo "  python3 tools/v1_sync_pipeline/sync_v1_docs.py"
 echo "=========================================="

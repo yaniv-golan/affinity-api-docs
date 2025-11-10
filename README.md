@@ -79,67 +79,47 @@ cd affinity-api-docs/docs/v1
 
 ### API v1 Documentation
 
-- ✅ Core documentation extracted and cleaned
-- ✅ Formatting standardized
+- ✅ Core documentation auto-generated from https://api-docs.affinity.co/
+- ✅ Formatting standardized (tables, code blocks use `bash`/`ruby`/`python`/`javascript`)
+- ✅ Code examples + JSON request/response samples embedded for every endpoint section
 - ✅ Raw markdown accessible via direct links
-- ⚠️ **In Progress:** Adding code examples (cURL, Ruby, Python, Node.js)
-- 📂 Location: `docs/v1/affinity_api_docs.md`
+- 📂 Location: `docs/v1/affinity_api_docs.md` (do **not** edit manually)
+- 🗂️ Historical snapshot: `docs/v1/affinity_api_docs_legacy.md` (manual doc archived)
 
 ### API v2 Documentation
 
 - 📋 **Planned:** Not yet started
 - 📂 Location: `docs/v2/` (directory prepared)
 
-## Automated Updates
+## Automated Updates & Manual Workflow
 
-This repository uses **automated GitHub Actions workflows** to keep the documentation synchronized with the official Affinity API documentation.
+### GitHub Actions
 
-### How It Works
+- **Sync Affinity v1 Docs** (`.github/workflows/check-docs-updates.yml`)
+  - Runs daily at 00:00 UTC (plus manual `workflow_dispatch`)
+  - Executes `python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff`
+  - Runs `python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md`
+  - Uses `peter-evans/create-pull-request` to open a PR whenever the canonical markdown changes
+- **Tests** (`.github/workflows/tests.yml`)
+  - Runs on push/PR
+  - Re-runs the sync script with `--fail-on-diff` to ensure the repo already contains the generated output
+  - Executes the pytest suite (coverage over `tools/v1_sync_pipeline`)
 
-- **Schedule**: The workflow runs **daily at 00:00 UTC** to check for updates
-- **Manual Trigger**: You can also manually trigger the workflow from the GitHub Actions tab in your repository
-- **Process**:
-  1. Fetches the latest documentation from the official Affinity websites
-  2. Compares it with the current version in this repository
-  3. If changes are detected, automatically creates a Pull Request (PR) with the updated documentation
-  4. Adds a notice section to the documentation indicating that an update is available
+### Manual Sync Steps
 
-### What to Expect
+When working locally (or verifying CI results):
 
-When an update is detected, you'll see:
+```bash
+python tools/v1_sync_pipeline/sync_v1_docs.py
+python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
+pytest tests/
+```
 
-- **A Pull Request** with the updated documentation
-- **A notice section** at the top of the documentation file indicating:
-  - The date the update was detected
-  - A link to view the diff
-  - A link to the PR
-  - Status information
+All generated artifacts (HTML snapshots, extracted code blocks, metadata) are written under `tmp/` and ignored by git. Commit only the updated markdown + metadata that land outside `tmp/`.
 
-### Reviewing Updates
+### Disabling the Schedule
 
-All automated updates require **manual review** before merging:
-
-1. Review the PR to verify the changes match the official documentation
-2. Check for any formatting issues
-3. Ensure all code examples are present and correct
-4. Merge the PR when satisfied
-
-### Disabling Automated Updates
-
-If you need to disable automated updates temporarily:
-
-1. Edit `.github/workflows/check-docs-updates.yml`
-2. Comment out or remove the `schedule` section
-3. Commit the changes
-
-### Workflow Details
-
-- **Workflow File**: [`.github/workflows/check-docs-updates.yml`](.github/workflows/check-docs-updates.yml)
-- **Script**: [`.github/scripts/check_and_update_docs.py`](.github/scripts/check_and_update_docs.py)
-- **Version Tracking**: `.github/docs-version-v1.json` and `.github/docs-version-v2.json`
-- **Testing**: See [Testing Guide](docs/development/TESTING.md) for details
-
-The workflow supports both **v1** and **v2** API documentation (v2 will be enabled when that documentation is added to the repository).
+If you need to pause the daily sync, edit `.github/workflows/check-docs-updates.yml` and remove/comment the `schedule` block. Manual dispatch remains available.
 
 ## Disclaimer
 
@@ -153,26 +133,30 @@ For production use or critical implementations, always verify against the [offic
 affinity-api-docs/
 ├── README.md              # This file
 ├── CHANGELOG.md           # Repository changelog
-├── AGENTS.md             # Developer/AI agent guidelines
-├── llms.txt              # llms.txt format index for LLMs/IDEs
-├── requirements-ci.txt   # Python dependencies for CI/CD
+├── AGENTS.md              # Developer/AI agent guidelines
+├── llms.txt               # llms.txt format index for LLMs/IDEs
+├── requirements-ci.txt    # Python dependencies for CI/CD
 ├── .github/
 │   ├── workflows/        # GitHub Actions workflows
-│   │   ├── check-docs-updates.yml  # Automated documentation updates
+│   │   ├── check-docs-updates.yml  # Daily sync + auto-PR
 │   │   ├── pre-commit.yml          # Pre-commit checks
 │   │   └── tests.yml               # Test suite
-│   ├── scripts/          # CI/CD automation scripts
-│   │   ├── check_and_update_docs.py
-│   │   └── validate_docs_structure.py
-│   ├── docs-version-v1.json  # Version tracking for v1
-│   └── docs-version-v2.json  # Version tracking for v2
+│   └── scripts/
+│       └── validate_docs_structure.py
 ├── docs/
 │   ├── v1/               # API v1 documentation
-│   │   └── affinity_api_docs.md
+│   │   ├── affinity_api_docs.md        # Auto-generated canonical doc
+│   │   └── affinity_api_docs_legacy.md # Historical manual snapshot
 │   ├── v2/               # API v2 documentation (planned)
 │   └── development/      # Development documentation
 │       ├── TESTING.md    # Testing guide
 │       └── TEST_RESULTS.md  # Test results
+├── tools/
+│   └── v1_sync_pipeline/
+│       ├── sync_v1_docs.py
+│       └── qa/
+│           ├── check_links.py
+│           └── compare_to_live.py
 ├── tests/                # Test suite (pytest)
 │   ├── README.md         # Test documentation
 │   ├── conftest.py      # Pytest fixtures
@@ -188,7 +172,8 @@ affinity-api-docs/
 ├── pyproject.toml        # Python tooling configuration
 ├── LICENSE               # MIT License
 ├── CONTRIBUTING.md       # Contribution guidelines
-└── .gitignore
+├── internal_docs/        # Planning + reports
+└── tmp/                  # Gitignored snapshots/artifacts
 ```
 
 ## Authentication

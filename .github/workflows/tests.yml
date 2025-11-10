@@ -26,13 +26,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-ci.txt
 
+      - name: Ensure sync script is idempotent
+        run: |
+          python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff
+
       - name: Run unit tests
         run: |
           pytest tests/ -m "not integration" -v --tb=short
 
       - name: Run tests with coverage
         run: |
-          pytest tests/ -m "not integration" --cov=.github/scripts --cov-report=term-missing
+          pytest tests/ -m "not integration" --cov=tools/v1_sync_pipeline --cov-report=term-missing --cov-report=xml
 
       - name: Upload coverage reports
         if: always()

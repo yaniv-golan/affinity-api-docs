@@ -39,7 +39,7 @@ repos:
       - id: markdownlint
         args: [--fix, --config=.markdownlint.json]
         files: ^(docs/|README\.md|AGENTS\.md|.*\.md)$
-        exclude: ^docs/v1/affinity_api_docs\.md$  # Exclude large API docs - too many false positives
+        exclude: ^docs/v1/affinity_api_docs(_legacy)?\.md$  # Exclude large API docs - too many false positives
 
   # YAML linting
   - repo: https://github.com/adrienverge/yamllint
