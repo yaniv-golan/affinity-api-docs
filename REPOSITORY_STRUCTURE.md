@@ -11,6 +11,7 @@ This document explains the repository structure and why files are organized this
   - `workflows/` - Actions definitions (`check-docs-updates.yml`, `tests.yml`, `pre-commit.yml`)
   - `scripts/validate_docs_structure.py` - Lightweight CI validation helper
   - `docs-version-*.json` - Metadata files used by historic workflows
+  - **CI note**: `check-docs-updates.yml` auto-creates the `chore/sync-affinity-docs` branch/PR and then explicitly triggers `tests.yml` and `pre-commit.yml` via `workflow_dispatch` so that required checks run even though the PR is opened by a workflow.
 
 **Why here?**: Keeps automation-specific assets scoped to GitHub configuration.
 

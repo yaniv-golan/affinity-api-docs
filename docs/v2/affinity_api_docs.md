@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **November 05, 2025 at 18:08:51 UTC** (Last updated: 11/05/2025 18:08:51 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **December 01, 2025 at 18:13:48 UTC** (Last updated: 12/01/2025 18:13:48 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -60,6 +60,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
       - [Simple Types](#simple-types)
       - [Collections (all types)](#collections-all-types)
   - [Error Codes](#error-codes)
+  - [Versioning](#versioning)
   - [Beta Endpoints](#beta-endpoints)
 - [Data Model](#data-model)
   - [The Basics](#the-basics)
@@ -73,6 +74,8 @@ This markdown version of the Affinity API v2 documentation was generated automat
   - [Nested Associations](#nested-associations)
 - [User Guides](#user-guides)
   - [A Tour of Our GET Endpoints](#a-tour-of-our-get-endpoints)
+- [Upcoming Changes](#upcoming-changes)
+  - [January 1st, 2026](#january-1st-2026)
 - [Changelog](#changelog)
   - [September 25th, 2025](#september-25th-2025)
   - [July 30th, 2025](#july-30th-2025)
@@ -575,6 +578,10 @@ monthly limits:
 | X-Ratelimit-Limit-Org-Remaining  | Number of requests remaining for the account            |
 | X-Ratelimit-Limit-Org-Reset      | Time in seconds before the limit resets for the account |
 
+**Note:** Starting January 1st, 2026, these header names will be changed to lowercase format (e.g.,
+`x-ratelimit-limit-user` instead of `X-Ratelimit-Limit-User`). See the
+[Upcoming Changes](#section/Upcoming-Changes) for more details.
+
 ## Pagination
 
 When an endpoint is expected to return multiple results, we break the results into pages to make
@@ -648,6 +655,20 @@ documentation for endpoint-specific errors):
 | 429        | Too Many Requests — You have exceeded the rate limit.                                                                                                                                                       |
 | 500        | Internal Server Error — We had a problem with our server. Try again later.                                                                                                                                  |
 | 503        | Service Unavailable — This shouldn't generally happen. Contact us if you encounter this error.                                                                                                              |
+
+## Versioning
+
+Versioning in Affinity's API ensures that your integrations remain stable as updates are introduced.
+Within API v2, minor versions identify releases that may include breaking or behavior-changing
+modifications, and they allow you to target the exact API behavior your integration depends on.
+
+When you create an API key in the Settings page, you'll select a **Default API Version** for that
+key. The current available versions are:
+
+- **2024-01-01** - The current stable version of the v2 API
+
+As new minor versions of Affinity API v2 are introduced, they will appear in this list. You'll be
+able to create new keys using those versions or update an existing key to use a newer version.
 
 ## Beta Endpoints
 
@@ -820,6 +841,40 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 
 Tip: The ID for a List, Saved View, Person, Company, or Opportunity can always be found in its
 Affinity web app URL.
+
+# Upcoming Changes
+
+## January 1st, 2026
+
+- Rate Limit Change: Rate limit response headers will be updated to use lowercase formatting. This
+  change affects all API endpoints. The new lowercase headers are:
+
+| Header                           | Description                                             |
+| -------------------------------- | ------------------------------------------------------- |
+| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |
+| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |
+| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |
+| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |
+| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |
+| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |
+
+To ensure compatibility with this change, we recommend updating your application to read rate limit
+headers using a case-insensitive approach, which will work both before and after this change.
+
+- API Change: Handling timestamps for date fields. Affinity is standardizing how dates are
+  represented across the platform to ensure consistency between the application and the API.
+  Starting January 1st, 2026, the API will change how it handles timestamps for date fields. Today,
+  timestamps sent to date fields over the API are not visible to users in any CRM interface. After
+  this change, the API will ignore any time information included in requests, storing and returning
+  values at midnight Pacific Time (PT) on the submitted date.
+
+  **Example:**
+  - API request includes: `2024-04-01T15:30:00Z`
+  - Affinity will store and return: `2024-04-01T07:00:00.000Z` (equivalent to midnight PT)
+
+  Any existing date field values that currently include timestamps will also be updated to reflect
+  midnight PT on their stored date. No action is required unless your integration depends on time
+  data within date fields.
 
 # Changelog
 
@@ -1791,7 +1846,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2141,7 +2196,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2375,7 +2430,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -2741,7 +2796,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -6610,7 +6665,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -7692,7 +7747,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -7725,7 +7780,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -7765,7 +7820,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company-list-enriched
@@ -8225,7 +8280,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -9141,7 +9196,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company
@@ -9791,14 +9846,14 @@ Example
     {
       "createdAt": "2023-01-01T00:00:00Z",
       "id": 28,
-      "name": "my interesting companies",
+      "name": "Deal List",
       "type": "sheet"
     },
     {
-      "createdAt": "2023-01-01T00:00:00Z",
-      "id": 28,
-      "name": "my interesting companies",
-      "type": "sheet"
+      "createdAt": "2023-06-15T00:00:00Z",
+      "id": 42,
+      "name": "Deal Pipeline Status",
+      "type": "board"
     }
   ],
   "pagination": {
@@ -10055,10 +10110,10 @@ Example
 
 ```json
 {
-  "createdAt": "2023-01-01T00:00:00Z",
-  "id": 28,
-  "name": "my interesting companies",
-  "type": "sheet"
+  "createdAt": "2023-06-15T00:00:00Z",
+  "id": 42,
+  "name": "Deal Pipeline Status",
+  "type": "board"
 }
 ```
 
@@ -17008,7 +17063,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -17374,7 +17429,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -17609,7 +17664,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -17983,7 +18038,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -19642,7 +19697,7 @@ Company model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyData
 **Properties**
@@ -19714,7 +19769,7 @@ CompanyDataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyMergeRequest
 Request body for initiating a company merge
@@ -19869,7 +19924,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20158,7 +20213,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### FieldMetadata
 **Properties**
@@ -20167,7 +20222,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 ### FieldMetadataPaged
 FieldMetadataPaged model
@@ -20187,7 +20242,7 @@ FieldMetadataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20215,7 +20270,7 @@ FieldPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20594,7 +20649,7 @@ FieldPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryBatchOperationRequest
 **Variant:** ListEntryBatchOperationUpdateFields
@@ -20670,7 +20725,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20718,7 +20773,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -20751,7 +20806,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -20791,7 +20846,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryWithEntityPaged
 ListEntryWithEntityPaged model
@@ -20997,7 +21052,7 @@ Opportunity model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### OpportunityPaged
 OpportunityPaged model
@@ -21044,7 +21099,7 @@ OpportunityPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### Pagination
 **Properties**
@@ -21086,7 +21141,7 @@ Person model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonData
 **Properties**
@@ -21182,7 +21237,7 @@ PersonDataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonMergeRequest
 Request body for initiating a person merge
@@ -21338,7 +21393,7 @@ PersonPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
