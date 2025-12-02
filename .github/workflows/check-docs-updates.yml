@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 jobs:
   sync-docs:
@@ -42,6 +43,23 @@ jobs:
           else
             echo "changes=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Trigger Tests and Pre-commit workflows
+        if: steps.sync_docs.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: chore/sync-affinity-docs
+        run: |
+          set -euo pipefail
+          for workflow in tests.yml pre-commit.yml; do
+            curl -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/$REPO/actions/workflows/$workflow/dispatches" \
+              -d "{\"ref\":\"$BRANCH\"}"
+          done
 
       - name: Create pull request
         if: steps.sync_docs.outputs.changes == 'true'
