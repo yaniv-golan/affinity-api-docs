@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
-## [2.0.0] - 2025-11-10
+## [2.0.0] - 2025-12-02
 
 ### Added
 
@@ -24,6 +24,10 @@ _No changes yet._
 - v2 markdown renderer now titles each endpoint section with the human-readable summary, adds the `GET /v2/...` line immediately beneath the heading, and keeps the Table of Contents focused on descriptions rather than raw URLs.
 - v2 descriptions preserve embedded markdown tables, convert single-cell callout tables into blockquote warnings, and keep filter matrices/notes in sync with the live Redoc formatting.
 - Response schemas now include explicit model names, constraint-aware type strings, cleaner property tables, nested detail links, and a note explaining why live-site request/response samples are not mirrored in the markdown export.
+
+### Removed
+
+- Legacy `.github/scripts/check_and_update_docs.py` workflow helper in favor of the dedicated v1 and v2 sync pipeline scripts.
 
 ## [1.1.0] - 2025-11-10
 
