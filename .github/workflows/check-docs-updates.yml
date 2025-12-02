@@ -63,7 +63,7 @@ jobs:
 
       - name: Create pull request
         if: steps.sync_docs.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore: sync Affinity API docs"
           title: "chore: sync Affinity API docs"
