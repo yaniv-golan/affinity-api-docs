@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 01, 2025 at 18:13:48 UTC** (Last updated: 12/01/2025 18:13:48 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **December 03, 2025 at 18:07:40 UTC** (Last updated: 12/03/2025 18:07:40 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
