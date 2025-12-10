@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 01, 2025 at 18:13:48 UTC** (Last updated: 12/01/2025 18:13:48 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **December 09, 2025 at 18:09:20 UTC** (Last updated: 12/09/2025 18:09:20 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -1337,12 +1337,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -1601,12 +1600,11 @@ OK
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -5936,12 +5934,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -10724,12 +10721,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -21685,12 +21681,11 @@ CallPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.ChatMessage
@@ -21793,12 +21788,11 @@ ChatMessagePaged model
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Email
@@ -21929,12 +21923,11 @@ EmailPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Meeting
@@ -22015,12 +22008,11 @@ MeetingPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### notes.AiNotetakerReplyNote
