@@ -84,7 +84,7 @@ def save_artifacts(artifacts: FetchArtifacts, spec: dict[str, Any], snapshot_dir
     json_path = snapshot_dir / "openapi.json"
     html_path.write_text(artifacts.html, encoding="utf-8")
     state_path.write_text(artifacts.state_js, encoding="utf-8")
-    json_path.write_text(json.dumps(spec, indent=2, sort_keys=True), encoding="utf-8")
+    json_path.write_text(json.dumps(spec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     manifest_path = snapshot_dir / "artifact_hashes.json"
     hashes = {
         "html_sha256": _hash_file(html_path),
