@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 
 from tools.v2_sync_pipeline import openapi_loader
+from tools.v2_sync_pipeline import sync_v2_docs
 from tools.v2_sync_pipeline.markdown_renderer import RenderContext, V2MarkdownRenderer
 
 
@@ -128,3 +130,10 @@ def test_renderer_mentions_every_path_from_spec() -> None:
     markdown = V2MarkdownRenderer(ctx).build()
     for path in spec["paths"]:
         assert path in markdown
+
+
+def test_write_bytes_if_changed_tracks_diffs(tmp_path: Path) -> None:
+    target = tmp_path / "out.bin"
+    assert sync_v2_docs.write_bytes_if_changed(target, b"first") is True
+    assert sync_v2_docs.write_bytes_if_changed(target, b"first") is False
+    assert sync_v2_docs.write_bytes_if_changed(target, b"second") is True

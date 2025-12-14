@@ -46,6 +46,7 @@ The original Affinity API documentation is hosted on dynamic, interactive websit
 
 - 📄 [View on GitHub](https://github.com/yaniv-golan/affinity-api-docs/blob/main/docs/v2/affinity_api_docs.md)
 - 🔗 [Raw Markdown](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md)
+- 🔗 [OpenAPI JSON](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/openapi.json)
 
 ### Accessing Raw Markdown
 
@@ -92,20 +93,20 @@ cd affinity-api-docs/docs/v1
 - ✅ Tag-based chapters, request/response tables, schema appendix, and error reference
 - ✅ Example `curl` requests synthesized for every endpoint
 - 📂 Location: `docs/v2/affinity_api_docs.md` (do **not** edit manually)
+- 📂 OpenAPI spec: `docs/v2/openapi.json` (do **not** edit manually)
 
 ## Automated Updates & Manual Workflow
 
 ### GitHub Actions
 
-- **Sync Affinity v1 Docs** (`.github/workflows/check-docs-updates.yml`)
+- **Sync Affinity Docs** (`.github/workflows/check-docs-updates.yml`)
   - Runs daily at 00:00 UTC (plus manual `workflow_dispatch`)
-  - Executes `python tools/v1_sync_pipeline/sync_v1_docs.py --fail-on-diff`
-  - Runs `python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md`
-  - Uses `peter-evans/create-pull-request` to open a PR whenever the canonical markdown changes
+  - Executes both sync pipelines and link-checks the generated markdown
+  - Uses `peter-evans/create-pull-request` to open a PR whenever the generated outputs change
 - **Tests** (`.github/workflows/tests.yml`)
   - Runs on push/PR
   - Re-runs the sync script with `--fail-on-diff` to ensure the repo already contains the generated output
-  - Executes the pytest suite (coverage over `tools/v1_sync_pipeline`)
+  - Executes the pytest suite (coverage over `tools/v1_sync_pipeline` and `tools/v2_sync_pipeline`)
 
 ### Manual Sync Steps
 
@@ -161,7 +162,9 @@ affinity-api-docs/
 ├── docs/
 │   ├── v1/               # API v1 documentation
 │   │   └── affinity_api_docs.md        # Auto-generated canonical doc
-│   ├── v2/               # API v2 documentation (planned)
+│   ├── v2/               # API v2 documentation
+│   │   ├── affinity_api_docs.md        # Auto-generated canonical doc
+│   │   └── openapi.json                # Auto-generated OpenAPI spec
 │   └── development/      # Development documentation
 │       ├── TESTING.md    # Testing guide
 │       └── TEST_RESULTS.md  # Test results
