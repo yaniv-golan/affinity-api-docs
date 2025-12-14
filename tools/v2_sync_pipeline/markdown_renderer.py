@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 import textwrap
 from dataclasses import dataclass
 from datetime import datetime
@@ -237,7 +238,9 @@ class V2MarkdownRenderer:
         toc = build_toc(markdown_body)
         header = self._render_header(toc)
         combined = f"{header}\n\n{markdown_body}".strip()
-        return fix_mojibake(combined)
+        combined = fix_mojibake(combined)
+        combined = rewrite_v2_markdown_links(combined)
+        return combined
 
     def _render_header(self, toc: str) -> str:
         long_ts = self.ctx.fetched_at.strftime("%B %d, %Y at %H:%M:%S %Z")
@@ -647,3 +650,98 @@ def _stringify(value: Any) -> str:
     if isinstance(value, (dict, list)):
         return json.dumps(value, ensure_ascii=False)
     return str(value)
+
+
+BROKEN_SUPPORT_URL_MAP = {
+    "https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key": "https://support.affinity.co/s/article/How-to-Create-and-Manage-API-Keys",
+}
+
+
+def _collect_heading_anchors(markdown: str) -> dict[int, str]:
+    """Return mapping of line index -> GitHub anchor slug for headings."""
+    anchors_by_line: dict[int, str] = {}
+    slug_counts: dict[str, int] = {}
+    in_code = False
+    for idx, line in enumerate(markdown.splitlines()):
+        if line.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        match = re.match(r"^(#{1,6})\s+(.*)", line)
+        if not match:
+            continue
+        title = match.group(2).strip()
+        base = slugify(title)
+        count = slug_counts.get(base, 0)
+        slug_counts[base] = count + 1
+        anchor = base if count == 0 else f"{base}-{count}"
+        anchors_by_line[idx] = anchor
+    return anchors_by_line
+
+
+def _collect_operation_anchors(markdown: str, anchors_by_line: dict[int, str]) -> dict[str, str]:
+    """Return mapping of operationId -> anchor slug for its heading."""
+    lines = markdown.splitlines()
+    opid_to_anchor: dict[str, str] = {}
+    opid_pattern = re.compile(r"\*\*OperationId:\*\*\s*([^\s·]+)")
+    for idx, line in enumerate(lines):
+        match = opid_pattern.search(line)
+        if not match:
+            continue
+        operation_id = match.group(1).strip()
+        heading_idx = idx - 1
+        while heading_idx >= 0:
+            if heading_idx in anchors_by_line:
+                opid_to_anchor[operation_id] = anchors_by_line[heading_idx]
+                break
+            heading_idx -= 1
+    return opid_to_anchor
+
+
+def rewrite_v2_markdown_links(markdown: str) -> str:
+    """Rewrite Redoc-style anchors into GitHub heading anchors and fix known broken URLs."""
+    for old, new in BROKEN_SUPPORT_URL_MAP.items():
+        markdown = markdown.replace(old, new)
+
+    anchors_by_line = _collect_heading_anchors(markdown)
+    anchor_set = set(anchors_by_line.values())
+    operation_anchors = _collect_operation_anchors(markdown, anchors_by_line)
+
+    def rewrite_target(target: str) -> str:
+        if not target.startswith("#"):
+            return target
+        if target.startswith("#section/"):
+            section_path = target[len("#section/") :]
+            segment = section_path.split("/")[-1]
+            return f"#{slugify(segment)}"
+        if target.startswith("#tag/"):
+            marker = "/operation/"
+            if marker in target:
+                operation_id = target.split(marker, 1)[1]
+                anchor = operation_anchors.get(operation_id)
+                if anchor:
+                    return f"#{anchor}"
+            return target
+        if target.startswith("#operation/"):
+            operation_id = target[len("#operation/") :]
+            anchor = operation_anchors.get(operation_id)
+            if anchor:
+                return f"#{anchor}"
+            return target
+        if target.startswith("#interactions"):
+            candidate = f"#{target[len('#interactions'):]}"
+            if candidate.startswith("##"):
+                candidate = candidate[1:]
+            if candidate[1:] in anchor_set:
+                return candidate
+        return target
+
+    link_pattern = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+
+    def replace(match: re.Match[str]) -> str:
+        label = match.group(1)
+        target = match.group(2).strip()
+        return f"[{label}]({rewrite_target(target)})"
+
+    return link_pattern.sub(replace, markdown)

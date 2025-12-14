@@ -6,6 +6,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 
 - **Primary doc (v1):** `docs/v1/affinity_api_docs.md` (auto-generated)
 - **Primary doc (v2):** `docs/v2/affinity_api_docs.md` (auto-generated)
+- **OpenAPI spec (v2):** `docs/v2/openapi.json` (auto-generated)
 - **Automation:** `tools/v1_sync_pipeline/` and `tools/v2_sync_pipeline/` (sync + QA tooling)
 
 ## Current Status
@@ -25,7 +26,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 - **v1:** `python tools/v1_sync_pipeline/sync_v1_docs.py [--fail-on-diff]`
   - Reads https://api-docs.affinity.co/, writes `docs/v1/affinity_api_docs.md`, snapshot artifacts under `tmp/`
 - **v2:** `python tools/v2_sync_pipeline/sync_v2_docs.py [--fail-on-diff]`
-  - Reads https://developer.affinity.co/, writes `docs/v2/affinity_api_docs.md`, HTML/state JSON/manifest saved under `tmp/v2/`
+  - Reads https://developer.affinity.co/, writes `docs/v2/affinity_api_docs.md` and `docs/v2/openapi.json`, HTML/state JSON/manifest saved under `tmp/v2/`
   - Automatically extracts the embedded Redoc OpenAPI JSON, dereferences `$ref`s, flattens schemas, and injects schema + error appendices
   - `--fail-on-diff` mirrors the v1 behavior (exit 1 when the output differs from what is committed)
 
@@ -41,7 +42,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 
 ## Maintenance & Ownership
 
-1. **Never edit** `docs/v1/affinity_api_docs.md` or `docs/v2/affinity_api_docs.md` manually. Regenerate via the sync scripts whenever updates are needed.
+1. **Never edit** `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md`, or `docs/v2/openapi.json` manually. Regenerate via the sync scripts whenever updates are needed.
 2. **Quarterly BROKEN_ANCHOR_MAP review:** revisit `BROKEN_ANCHOR_MAP` inside `sync_v1_docs.py`, confirm the live site still requires the overrides, and track the reminder in the quarterly review issue (label `quarterly-review`).
 3. **Manual validation checklist (when investigating diffs):**
    - Run `python tools/v1_sync_pipeline/sync_v1_docs.py` and `python tools/v2_sync_pipeline/sync_v2_docs.py`
@@ -63,6 +64,7 @@ affinity-api-docs/
 │   │   └── affinity_api_docs.md          # auto-generated canonical doc
 │   ├── v2/
 │   │   └── affinity_api_docs.md          # auto-generated canonical doc
+│   │   └── openapi.json                  # auto-generated OpenAPI spec
 │   └── development/
 ├── tools/
 │   └── v1_sync_pipeline/
@@ -91,6 +93,7 @@ affinity-api-docs/
 ## Important Notes
 
 - `docs/v1/affinity_api_docs.md` and `docs/v2/affinity_api_docs.md` are generated—**editing them manually will be reverted** the next time the pipelines run.
+- `docs/v2/openapi.json` is generated—**editing it manually will be reverted** the next time the v2 pipeline runs.
 - `docs/internal/` is gitignored on purpose—keep planning/rollout notes there locally without committing them.
 - The sync header clearly states the unofficial nature of this copy; always cross-check with https://api-docs.affinity.co/.
 - `llms.txt` spells out the guardrails for AI assistants—review it before delegating tasks to LLMs.

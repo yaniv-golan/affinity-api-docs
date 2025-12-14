@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 01, 2025 at 18:13:48 UTC** (Last updated: 12/01/2025 18:13:48 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **December 09, 2025 at 18:09:20 UTC** (Last updated: 12/09/2025 18:09:20 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -429,11 +429,11 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [WhoAmI](#whoami)
     - [interactions.Call](#interactionscall)
     - [interactions.CallPaged](#interactionscallpaged)
-    - [interactions.ChatMessage](#interactionschatmessage)
+    - [interactions.ChatMessage](#chatmessage)
     - [interactions.ChatMessagePaged](#interactionschatmessagepaged)
-    - [interactions.Email](#interactionsemail)
+    - [interactions.Email](#email)
     - [interactions.EmailPaged](#interactionsemailpaged)
-    - [interactions.Meeting](#interactionsmeeting)
+    - [interactions.Meeting](#meeting)
     - [interactions.MeetingPaged](#interactionsmeetingpaged)
     - [notes.AiNotetakerReplyNote](#notesainotetakerreplynote)
     - [notes.AiNotetakerRootNote](#notesainotetakerrootnote)
@@ -495,7 +495,7 @@ Affinity API v1's use of basic authentication).
 
 To generate an API key, navigate to the Settings page in the Affinity web app. You will need the
 "Generate an API key" role-based permission controlled by your Affinity admin. See
-[this Help Center article](https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key)
+[this Help Center article](https://support.affinity.co/s/article/How-to-Create-and-Manage-API-Keys)
 for full instructions on API key generation, and
 [this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)
 for more information on role-based permissions in Affinity.
@@ -580,7 +580,7 @@ monthly limits:
 
 **Note:** Starting January 1st, 2026, these header names will be changed to lowercase format (e.g.,
 `x-ratelimit-limit-user` instead of `X-Ratelimit-Limit-User`). See the
-[Upcoming Changes](#section/Upcoming-Changes) for more details.
+[Upcoming Changes](#upcoming-changes) for more details.
 
 ## Pagination
 
@@ -977,7 +977,7 @@ headers using a case-insensitive approach, which will work both before and after
   applications, and to identify founders and companies that need investors' attention.
 - Endpoints that previously required a `fieldIds` parameter to return field data, now accept either
   `fieldIds` or `fieldTypes`, and will return field data accordingly. See the
-  [Specifying Desired Fields (Field Selection)](#section/Data-Model/Working-with-Field-Data) section
+  [Specifying Desired Fields (Field Selection)](#working-with-field-data) section
   of these docs for more information. The new `fieldTypes` parameter should make field data
   retrieval easier for users looking to pull data from many similar Fields at a time.
 
@@ -990,7 +990,7 @@ headers using a case-insensitive approach, which will work both before and after
 ## December 12, 2023
 
 - Added the ability to retrieve metadata (e.g. ID, name, type, enrichment source, and data type) on
-  Fields. See the [Retrieving Field Metadata](#section/Data-Model/Working-with-Field-Data) section
+  Fields. See the [Retrieving Field Metadata](#working-with-field-data) section
   of these docs for more information.
 
 ## auth
@@ -1319,7 +1319,7 @@ OK
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -1337,12 +1337,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -1553,7 +1552,7 @@ OK
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of ChatMessage results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.ChatMessage](#interactionschatmessage)
+**`data` details** — See [interactions.ChatMessage](#chatmessage)
 
 **Items**
 
@@ -1580,7 +1579,7 @@ OK
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
+**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -1601,12 +1600,11 @@ OK
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -1785,7 +1783,7 @@ When no `fieldIds` or `fieldTypes` are provided, Companies will be returned with
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All Organizations directory" [permission](#section/Getting-Started/Permissions).
+Requires the "Export All Organizations directory" [permission](#permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -2377,7 +2375,7 @@ When no `fieldIds` or `fieldTypes` are provided, Companies will be returned with
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All Organizations directory" [permission](#section/Getting-Started/Permissions).
+Requires the "Export All Organizations directory" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -2738,7 +2736,7 @@ Paginate through the List Entries (AKA rows) for the given Company across all Li
 Each List Entry includes field data for the Company, including list-specific field data.
 Each List Entry also includes metadata about its creation, i.e., when it was added to the List and by whom.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -4296,7 +4294,7 @@ status, the companies involved, and merge details. You can filter company merges
 
 Company merges are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -4598,9 +4596,9 @@ Errors
 
 Initiate a company merge to combine a duplicate company profile into a primary company profile.
 
-This is an asynchronous process that will merge all data from the duplicate company into the primary company. Once the merge is initiated, you can track its progress using the returned [task URL](#tag/companyMerges/operation/v2_tasks_company-merges_taskId__GET).
+This is an asynchronous process that will merge all data from the duplicate company into the primary company. Once the merge is initiated, you can track its progress using the returned [task URL](#get-company-merge-task).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](#permissions) and organization admin role.
 
 #### Request Body
 
@@ -4866,9 +4864,9 @@ Retrieve the status and details of a specific company merge.
 
 Returns information about the company merge including its current status, the companies involved, timestamps, and any error information if the merge failed.
 
-The `mergeId` can be obtained from the response of the [Get All Company Merges](#tag/companyMerges/operation/v2_company-merges__GET) endpoint, or by filtering company merges by task ID using `/v2/company-merges?filter=taskId={taskId}` after initiating a merge.
+The `mergeId` can be obtained from the response of the [Get All Company Merges](#get-all-company-merges) endpoint, or by filtering company merges by task ID using `/v2/company-merges?filter=taskId={taskId}` after initiating a merge.
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](#permissions) and organization admin role.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -5192,7 +5190,7 @@ You can filter tasks using the `filter` query parameter. The filter parameter is
 
 Tasks are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -5504,7 +5502,7 @@ number of merges in-progress, completed, and failed.
 
 Detailed information about individual merges for this task can be found by querying:
 `/v2/company-merges?filter=taskId={taskId}` See [Company
-Merges](#tag/companyMerges/operation/v2_company-merges__GET) for more details.
+Merges](#get-all-company-merges) for more details.
 
 Task statuses:
 
@@ -5512,7 +5510,7 @@ Task statuses:
 - `success`: The merge task completed successfully.
 - `failed`: The merge task failed.
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Path Parameters
@@ -5874,7 +5872,7 @@ OK
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of Email results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.Email](#interactionsemail)
+**`data` details** — See [interactions.Email](#email)
 
 **Items**
 
@@ -5900,7 +5898,7 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -5918,7 +5916,7 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -5936,12 +5934,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -7066,7 +7063,7 @@ When no `fieldIds` or `fieldTypes` are provided, List Entries will be returned w
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -7680,7 +7677,7 @@ When no `fieldIds` or `fieldTypes` are provided, the List Entry will be returned
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -8232,7 +8229,7 @@ Paginate through all field values on a single list entry.
 
 All fields will be included by default. The `ids` and `types` parameters can be used to filter the collection.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -8688,9 +8685,9 @@ Errors
 
 Perform batch operations on a list entry's fields.
 
-Currently the only operation at the endpoint is `update-fields`, which allows you to update multiple field values with a single request. This is equivalent to calling [the single field update](#operation/v2_lists_listId_list-entries_listEntryId_fields_fieldId__POST) endpoint multiple times.
+Currently the only operation at the endpoint is `update-fields`, which allows you to update multiple field values with a single request. This is equivalent to calling [the single field update](#update-a-single-field-value-on-a-list-entry) endpoint multiple times.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -9165,7 +9162,7 @@ Errors
 
 Returns a single field value on a list entry.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -9479,7 +9476,7 @@ Errors
 
 Update a single field value.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -10337,9 +10334,9 @@ Though this endpoint respects the Saved View's filters and column/Field selectio
 it does not yet preserve sort order. This endpoint also only supports **sheet-type
 Saved Views**, and not board- or dashboard-type Saved Views.
 
-See the [Data Model](#section/Data-Model) section for more information about Saved Views.
+See the [Data Model](#data-model) section for more information about Saved Views.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -10687,7 +10684,7 @@ OK
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of Meeting results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.Meeting](#interactionsmeeting)
+**`data` details** — See [interactions.Meeting](#meeting)
 
 **Items**
 
@@ -10706,7 +10703,7 @@ OK
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the meeting was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the meeting (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -10724,12 +10721,11 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -13924,7 +13920,7 @@ Returns basic information but **not** field data on each Opportunity.
 To access field data on Opportunities, use the `/lists/{list_id}/list-entries`
 or the `/v2/lists/{list_id}/saved-views/{view_id}/list-entries` GET endpoint.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -14261,7 +14257,7 @@ Returns basic information but **not** field data on the requested Opportunity.
 To access field data on Opportunities, use the `/lists/{list_id}/list-entries`
 or the `/v2/lists/{list_id}/saved-views/{view_id}/list-entries` GET endpoint.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -15455,7 +15451,7 @@ status, the persons involved, and merge details. You can filter person merges us
 
 Person merges are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -15757,9 +15753,9 @@ Errors
 
 Initiate a person merge to combine a duplicate person profile into a primary person profile.
 
-This is an asynchronous process that will merge all data from the duplicate person into the primary person. Once the merge is initiated, you can track its progress using the returned [task URL](#tag/personMerges/operation/v2_tasks_person-merges_taskId__GET).
+This is an asynchronous process that will merge all data from the duplicate person into the primary person. Once the merge is initiated, you can track its progress using the returned [task URL](#get-person-merge-task).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](#permissions) and organization admin role.
 
 #### Request Body
 
@@ -16025,9 +16021,9 @@ Retrieve the status and details of a specific person merge.
 
 Returns information about the person merge including its current status, the persons involved, timestamps, and any error information if the merge failed.
 
-The `mergeId` can be obtained from the response of the [Get All Person Merges](#tag/personMerges/operation/v2_person-merges__GET) endpoint, or by filtering person merges by task ID using `/v2/person-merges?filter=taskId={taskId}` after initiating a merge.
+The `mergeId` can be obtained from the response of the [Get All Person Merges](#get-all-person-merges) endpoint, or by filtering person merges by task ID using `/v2/person-merges?filter=taskId={taskId}` after initiating a merge.
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](#permissions) and organization admin role.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -16351,7 +16347,7 @@ You can filter tasks using the `filter` query parameter. The filter parameter is
 
 Tasks are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -16663,7 +16659,7 @@ number of merges in-progress, completed, and failed.
 
 Detailed information about individual merges for this task can be found by querying:
 `/v2/person-merges?filter=taskId={taskId}` See [Person
-Merges](#tag/personMerges/operation/v2_person-merges__GET) for more details.
+Merges](#get-all-person-merges) for more details.
 
 Task statuses:
 
@@ -16671,7 +16667,7 @@ Task statuses:
 - `success`: The merge task completed successfully.
 - `failed`: The merge task failed.
 
-Requires the "Manage duplicates" [permission](#section/Getting-Started/Permissions) and
+Requires the "Manage duplicates" [permission](#permissions) and
 organization admin role.
 
 #### Path Parameters
@@ -17001,7 +16997,7 @@ When no `fieldIds` or `fieldTypes` are provided, Persons will be returned withou
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All People directory" [permission](#section/Getting-Started/Permissions).
+Requires the "Export All People directory" [permission](#permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -17610,7 +17606,7 @@ When no `fieldIds` or `fieldTypes` are provided, Persons will be returned withou
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All People directory" [permission](#section/Getting-Started/Permissions).
+Requires the "Export All People directory" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -17980,7 +17976,7 @@ Paginate through the List Entries (AKA rows) for the given Person across all Lis
 Each List Entry includes field data for the Person, including list-specific field data.
 Each List Entry also includes metadata about its creation, i.e., when it was added to the List and by whom.
 
-Requires the "Export data from Lists" [permission](#section/Getting-Started/Permissions).
+Requires the "Export data from Lists" [permission](#permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -21624,7 +21620,7 @@ WhoAmI model
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21667,7 +21663,7 @@ CallPaged model
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21685,12 +21681,11 @@ CallPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.ChatMessage
@@ -21717,7 +21712,7 @@ CallPaged model
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
+**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21745,7 +21740,7 @@ ChatMessagePaged model
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of ChatMessage results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.ChatMessage](#interactionschatmessage)
+**`data` details** — See [interactions.ChatMessage](#chatmessage)
 
 **Items**
 
@@ -21772,7 +21767,7 @@ ChatMessagePaged model
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#interactionspersondatapreview)
+**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21793,12 +21788,11 @@ ChatMessagePaged model
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Email
@@ -21824,7 +21818,7 @@ ChatMessagePaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21842,7 +21836,7 @@ ChatMessagePaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21867,7 +21861,7 @@ EmailPaged model
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of Email results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.Email](#interactionsemail)
+**`data` details** — See [interactions.Email](#email)
 
 **Items**
 
@@ -21893,7 +21887,7 @@ EmailPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`toParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21911,7 +21905,7 @@ EmailPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`ccParticipantsPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21929,12 +21923,11 @@ EmailPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Meeting
@@ -21953,7 +21946,7 @@ EmailPaged model
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the meeting was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the meeting (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -21978,7 +21971,7 @@ MeetingPaged model
 | `data` | `array<object> (≤ 100 items)` | Yes | A page of Meeting results |
 | `pagination` | `object` | Yes |  |
 
-**`data` details** — See [interactions.Meeting](#interactionsmeeting)
+**`data` details** — See [interactions.Meeting](#meeting)
 
 **Items**
 
@@ -21997,7 +21990,7 @@ MeetingPaged model
 | `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the meeting was updated |
 | `attendeesPreview` | `object` | Yes | A preview of the attendees in the meeting (Constraints: stability `beta`) |
 
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#interactionsattendeespreview)
+**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
 
 **Properties**
 | Field | Type | Required | Description |
@@ -22015,12 +22008,11 @@ MeetingPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+**`pagination` details** — See [Pagination](#pagination)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### notes.AiNotetakerReplyNote

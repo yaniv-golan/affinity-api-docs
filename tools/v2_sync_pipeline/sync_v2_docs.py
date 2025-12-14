@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Any
 import sys
@@ -24,6 +25,12 @@ def parse_args() -> argparse.Namespace:
         default=Path("docs/v2/affinity_api_docs.md"),
         type=Path,
         help="Path to write the generated markdown.",
+    )
+    parser.add_argument(
+        "--spec-output",
+        default=Path("docs/v2/openapi.json"),
+        type=Path,
+        help="Path to write the extracted OpenAPI spec JSON.",
     )
     parser.add_argument(
         "--snapshot-dir",
@@ -56,6 +63,14 @@ def generate_markdown(
     return renderer.build()
 
 
+def write_bytes_if_changed(path: Path, payload: bytes) -> bool:
+    previous = path.read_bytes() if path.exists() else None
+    content_changed = previous != payload
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(payload)
+    return content_changed
+
+
 def main() -> int:
     args = parse_args()
     artifacts = openapi_loader.fetch_site(args.url)
@@ -67,14 +82,20 @@ def main() -> int:
         source_url=args.url,
         fetched_at=artifacts.last_modified or artifacts.date_header or artifacts.fetched_at,
     )
-    output_text = markdown.rstrip() + "\n"
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    previous = args.output.read_text(encoding="utf-8") if args.output.exists() else None
-    content_changed = previous != output_text
-    args.output.write_text(output_text, encoding="utf-8")
-    if args.fail_on_diff and content_changed:
-        raise SystemExit("Generated documentation differs from existing output")
-    print(f"Wrote {args.output}")
+    markdown_payload = (markdown.rstrip() + "\n").encode("utf-8")
+    spec_payload = saved.json_path.read_bytes()
+
+    changed_files: list[str] = []
+    if write_bytes_if_changed(args.output, markdown_payload):
+        changed_files.append(str(args.output))
+    if write_bytes_if_changed(args.spec_output, spec_payload):
+        changed_files.append(str(args.spec_output))
+
+    if args.fail_on_diff and changed_files:
+        changed_list = ", ".join(changed_files)
+        raise SystemExit(f"Generated outputs differ from existing output: {changed_list}")
+
+    print(json.dumps({"wrote": [str(args.output), str(args.spec_output)]}))
     return 0
 
 
