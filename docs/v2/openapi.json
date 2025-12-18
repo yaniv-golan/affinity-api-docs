@@ -3810,6 +3810,115 @@
         },
         "x-stability-level": "beta"
       },
+      "success-3": {
+        "description": "Example response for transcripts.",
+        "value": {
+          "data": [
+            {
+              "createdAt": "2023-01-01T00:00:23Z",
+              "id": 1,
+              "languageCode": "en",
+              "note": {
+                "content": {
+                  "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
+                },
+                "createdAt": "2023-01-01T00:00:20Z",
+                "creator": {
+                  "firstName": "Lisa",
+                  "id": 8,
+                  "lastName": "Simpson",
+                  "primaryEmailAddress": "lisa.simpson@springfield.com",
+                  "type": "internal"
+                },
+                "id": 742,
+                "mentions": [],
+                "type": "ai-notetaker",
+                "updatedAt": "2023-01-21T00:01:00Z"
+              }
+            },
+            {
+              "createdAt": "2023-02-01T00:00:35Z",
+              "id": 2,
+              "languageCode": "en",
+              "note": {
+                "content": {
+                  "html": "<p> Bart issues the directive to \u00e2\u0080\u009ctake him away,\u00e2\u0080\u009d but Chief Wiggum fumbles his words, saying \u00e2\u0080\u009cbake him away.\u00e2\u0080\u009d When questioned by Lou, the Chief defers to Bart's original instruction, effectively agreeing to proceed as Bart suggested. </p>"
+                },
+                "createdAt": "2023-02-01T00:00:00Z",
+                "creator": {
+                  "firstName": "Bart",
+                  "id": 10,
+                  "lastName": "Simpson",
+                  "primaryEmailAddress": "bart.simpson@springfield.com",
+                  "type": "internal"
+                },
+                "id": 844,
+                "mentions": [],
+                "type": "ai-notetaker",
+                "updatedAt": "2023-02-21T00:00:00Z"
+              }
+            }
+          ],
+          "pagination": {
+            "nextUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgIGFmdGVyOjo6NA",
+            "prevUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgYmVmb3JlOjo6Nw"
+          }
+        }
+      },
+      "success-4": {
+        "description": "Example response for a transcript.",
+        "value": {
+          "createdAt": "2023-01-01T00:00:00Z",
+          "fragmentsPreview": {
+            "data": [
+              {
+                "content": "I want the most intelligent hamster you've got.",
+                "endTimestamp": "00:00:04",
+                "speaker": "Lisa Simpson",
+                "startTimestamp": "00:00:01"
+              },
+              {
+                "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
+                "endTimestamp": "00:00:11",
+                "speaker": "Sarcastic Clerk",
+                "startTimestamp": "00:00:05"
+              },
+              {
+                "content": "How can a hamster write mysteries?",
+                "endTimestamp": "00:00:13",
+                "speaker": "Lisa Simpson",
+                "startTimestamp": "00:00:12"
+              },
+              {
+                "content": "Well he gets the ending first then he works backward.",
+                "endTimestamp": "00:00:19",
+                "speaker": "Sarcastic Clerk",
+                "startTimestamp": "00:00:15"
+              }
+            ],
+            "totalCount": 4
+          },
+          "id": 1,
+          "languageCode": "en",
+          "note": {
+            "content": {
+              "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
+            },
+            "createdAt": "2023-01-01T00:00:20Z",
+            "creator": {
+              "firstName": "Lisa",
+              "id": 8,
+              "lastName": "Simpson",
+              "primaryEmailAddress": "lisa.simpson@springfield.com",
+              "type": "internal"
+            },
+            "id": 742,
+            "mentions": [],
+            "type": "ai-notetaker",
+            "updatedAt": "2023-01-21T00:01:00Z"
+          }
+        }
+      },
       "task-failed": {
         "description": "Example response showing a merge task that failed during processing.",
         "summary": "Merge task failed",
@@ -10161,6 +10270,177 @@
         "title": "notes.UserReplyNote",
         "type": "object",
         "x-stability-level": "beta"
+      },
+      "transcripts.BaseTranscript": {
+        "properties": {
+          "createdAt": {
+            "description": "The date and time the transcript was created",
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "description": "The transcript's unique identifier",
+            "examples": [
+              1234
+            ],
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "languageCode": {
+            "description": "The language code of the transcript",
+            "enum": [
+              "de",
+              "en",
+              "es",
+              "fr",
+              "id",
+              "it",
+              "ja",
+              "ko",
+              "nl",
+              "pt",
+              "ru",
+              "sv",
+              "uk",
+              "zh"
+            ],
+            "examples": [
+              "en"
+            ],
+            "type": [
+              "string"
+            ]
+          },
+          "note": {
+            "description": "Note associated with the transcript",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/notes.AiNotetakerRootNote"
+              },
+              {
+                "$ref": "#/components/schemas/notes.AiNotetakerReplyNote"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "note",
+          "createdAt",
+          "languageCode"
+        ],
+        "title": "transcripts.BaseTranscript",
+        "type": "object"
+      },
+      "transcripts.Fragment": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "description": "The dialogue fragment of the transcript",
+            "examples": [
+              "I was saying Boo-urns."
+            ],
+            "type": [
+              "string"
+            ]
+          },
+          "endTimestamp": {
+            "description": "The ending timestamp of the dialogue fragment relative to the beginning of the transcript",
+            "examples": [
+              "00:14:41"
+            ],
+            "type": "string"
+          },
+          "speaker": {
+            "description": "The speaker of the dialogue fragment",
+            "examples": [
+              "Hans Moleman"
+            ],
+            "type": [
+              "string"
+            ]
+          },
+          "startTimestamp": {
+            "description": "The starting timestamp of the dialogue fragment relative to the beginning of the transcript",
+            "examples": [
+              "00:00:06"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "speaker",
+          "startTimestamp",
+          "endTimestamp"
+        ],
+        "title": "transcripts.Fragment",
+        "type": "object"
+      },
+      "transcripts.FragmentsPreview": {
+        "description": "A preview for dialogue fragments on a transcript",
+        "properties": {
+          "data": {
+            "description": "Preview of dialogue fragments on a transcript",
+            "items": {
+              "$ref": "#/components/schemas/transcripts.Fragment"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "totalCount": {
+            "description": "The total count of the collection parameter.",
+            "format": "int64",
+            "maximum": 9007199254740991,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "title": "transcripts.FragmentsPreview",
+        "type": "object"
+      },
+      "transcripts.Transcript": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/transcripts.BaseTranscript"
+          }
+        ],
+        "properties": {
+          "fragmentsPreview": {
+            "$ref": "#/components/schemas/transcripts.FragmentsPreview"
+          }
+        },
+        "required": [
+          "fragmentsPreview"
+        ],
+        "title": "transcripts.Transcript",
+        "type": "object",
+        "unevaluatedProperties": false
+      },
+      "transcripts.TranscriptPaged": {
+        "additionalProperties": false,
+        "description": "transcripts.TranscriptPaged model",
+        "properties": {
+          "data": {
+            "description": "A page of Transcript results",
+            "items": {
+              "$ref": "#/components/schemas/transcripts.BaseTranscript"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationWithTotalCount"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "transcripts.TranscriptPaged",
+        "type": "object"
       }
     },
     "securitySchemes": {
@@ -14936,6 +15216,170 @@
           "personMerges"
         ]
       }
+    },
+    "/v2/transcripts": {
+      "get": {
+        "description": "Paginate through all transcripts and return basic metadata only. Use the single transcript endpoint to fetch the entire transcript data. \nWill only return transcripts that the current authenticated user has permission to see.\n\nYou can filter transcripts using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.\n| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                    |\n|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|---------------------------------|\n| `id`                        | Filter transcripts by id                                        | `int32`    | `=`                                  | `id=1`                          |\n| `createdAt`                 | Filter transcripts by when it was created                       | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-02-04T10:48:24Z` |\n",
+        "operationId": "v2_transcripts__GET",
+        "parameters": [
+          {
+            "description": "Include total count of the collection in the pagination response",
+            "in": "query",
+            "name": "totalCount",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Cursor for the next or previous page",
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to include in the page",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Filter options",
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-3"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/transcripts.TranscriptPaged"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "X-Ratelimit-Limit-Org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "X-Ratelimit-Limit-Org-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "X-Ratelimit-Limit-Org-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "X-Ratelimit-Limit-User": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "X-Ratelimit-Limit-User-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "X-Ratelimit-Limit-User-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get all Transcripts",
+        "tags": [
+          "transcripts"
+        ]
+      }
+    },
+    "/v2/transcripts/{transcriptId}": {
+      "get": {
+        "description": "Get a transcript with a given id with the first 100 fragments of the transcript. Use the /fragments endpoint to fetch all fragments of the transcript.\n",
+        "operationId": "v2_transcripts_transcriptId__GET",
+        "parameters": [
+          {
+            "description": "The id of the Transcript",
+            "in": "path",
+            "name": "transcriptId",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-4"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/transcripts.Transcript"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "X-Ratelimit-Limit-Org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "X-Ratelimit-Limit-Org-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "X-Ratelimit-Limit-Org-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "X-Ratelimit-Limit-User": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "X-Ratelimit-Limit-User-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "X-Ratelimit-Limit-User-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get a single Transcript",
+        "tags": [
+          "transcripts"
+        ]
+      }
     }
   },
   "security": [
@@ -14997,6 +15441,10 @@
     {
       "description": "Operations about persons",
       "name": "persons"
+    },
+    {
+      "description": "Operations about transcripts",
+      "name": "transcripts"
     }
   ]
 }
