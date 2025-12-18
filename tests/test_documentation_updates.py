@@ -152,6 +152,27 @@ Content
     assert reordered.index("Returns all foo.") < reordered.index("#### Example Request")
 
 
+def test_apply_content_hygiene_rewrites_field_value_changes_endpoint() -> None:
+    markdown = dedent(
+        """
+        ## Get Field Values Changes
+
+        Query [`GET /field-values-changes`](#field-value-changes) to retrieve changes.
+
+        See also [GET field values changes](#get-field-values-changes).
+        """
+    ).strip()
+    cleaned = sync.apply_content_hygiene(markdown)
+    assert "/field-values-changes" not in cleaned
+    assert "Get Field Values Changes" not in cleaned
+    assert "GET field values changes" not in cleaned
+    assert "#get-field-values-changes" not in cleaned
+    assert "/field-value-changes" in cleaned
+    assert "Get Field Value Changes" in cleaned
+    assert "GET field value changes" in cleaned
+    assert "#get-field-value-changes" in cleaned
+
+
 def test_metadata_has_no_example_mismatches(tmp_path: Path) -> None:
     metadata_file = Path("tmp/v1_sync_metadata.json")
     if not metadata_file.exists():

@@ -401,6 +401,11 @@ def apply_content_hygiene(markdown: str) -> str:
         "max interation": "max interaction",
         "min interation": "min interaction",
         "| contect |": "| content |",
+        # Live API uses `/field-value-changes`; the pluralized variant appears in older docs.
+        "/field-values-changes": "/field-value-changes",
+        "Get Field Values Changes": "Get Field Value Changes",
+        "GET field values changes": "GET field value changes",
+        "#get-field-values-changes": "#get-field-value-changes",
     }
     for old, new in replacements.items():
         markdown = markdown.replace(old, new)
@@ -873,10 +878,10 @@ def main() -> None:
     markdown_body = parser_obj.build_markdown()
     overrides = load_example_overrides(Path(args.example_overrides))
     markdown_body, mismatches = apply_overrides_and_validate(parser_obj, overrides)
+    markdown_body = apply_content_hygiene(markdown_body)
     toc = build_toc(markdown_body)
     full_markdown = render_header(args, timestamp, snapshot_path, toc) + markdown_body + "\n"
     full_markdown = move_examples_below_details(full_markdown)
-    full_markdown = apply_content_hygiene(full_markdown)
 
     output_path = Path(args.output)
     previous_content = output_path.read_text() if output_path.exists() else None

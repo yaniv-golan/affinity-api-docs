@@ -101,7 +101,7 @@ This markdown version of the Affinity API v1 documentation was generated automat
     - [Single-valued fields](#single-valued-fields)
   - [The Field Value Change Resource](#the-field-value-change-resource)
     - [Field Value Change action types](#field-value-change-action-types)
-  - [Get Field Values Changes](#get-field-values-changes)
+  - [Get Field Value Changes](#get-field-value-changes)
       - [Notes](#notes-6)
 - [Persons](#persons)
       - [Notes](#notes-7)
@@ -164,6 +164,7 @@ This markdown version of the Affinity API v1 documentation was generated automat
   - [Download File](#download-file)
       - [Notes](#notes-17)
   - [Upload Files](#upload-files)
+    - [Form Data Parameters](#form-data-parameters)
       - [Notes](#notes-18)
 - [Reminders](#reminders)
   - [The Reminder Resource](#the-reminder-resource)
@@ -513,10 +514,10 @@ GET /fields Response:
 ]
 ```
 
-3. Query [`GET /field-values-changes`](#field-value-changes) passing in the `id` from Step 2
+3. Query [`GET /field-value-changes`](#field-value-changes) passing in the `id` from Step 2
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -559,10 +560,10 @@ GET /field-values-changes Response:
 ]
 ```
 
-4. Filter results of [`GET /field-values-changes`](#field-value-changes) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
+4. Filter results of [`GET /field-value-changes`](#field-value-changes) (e.g.: If you only want status field changes for a specific organization in your list, search by the `list_entry_id`).
 
 ```
-GET /field-values-changes Response:
+GET /field-value-changes Response:
 [
   {
     "id": 7,
@@ -1831,7 +1832,7 @@ The action type specified below corresponds to the `action_type` of a field valu
   }
 }
 ```
-## Get Field Values Changes
+## Get Field Value Changes
 
 `GET /field-value-changes`
 
@@ -5466,7 +5467,7 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 **2021-11-19**
 
 - Updated
-  [GET field values changes](#get-field-values-changes)
+  [GET field value changes](#get-field-value-changes)
   to be filterable by
   `action_type`
   ,
