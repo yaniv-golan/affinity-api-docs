@@ -11,6 +11,10 @@ _No changes yet._
 
 ## [2.1.1] - 2025-12-18
 
+### Changed
+
+- CI tests only enforce v1/v2 sync idempotency (`--fail-on-diff`) when the sync pipelines, generated docs, or workflow files change; upstream drift is handled by the scheduled sync workflow.
+
 ### Fixed
 
 - v1 sync pipeline rewrites the non-routable `GET /field-values-changes` typo to the live `GET /field-value-changes` endpoint during generation.
