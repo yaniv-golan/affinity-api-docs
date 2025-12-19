@@ -3919,6 +3919,42 @@
           }
         }
       },
+      "success-5": {
+        "description": "Example response for a paginated fragments response given a transcript id.",
+        "value": {
+          "data": [
+            {
+              "content": "I want the most intelligent hamster you've got.",
+              "endTimestamp": "00:00:04",
+              "speaker": "Lisa Simpson",
+              "startTimestamp": "00:00:01"
+            },
+            {
+              "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
+              "endTimestamp": "00:00:11",
+              "speaker": "Sarcastic Clerk",
+              "startTimestamp": "00:00:05"
+            },
+            {
+              "content": "How can a hamster write mysteries?",
+              "endTimestamp": "00:00:13",
+              "speaker": "Lisa Simpson",
+              "startTimestamp": "00:00:12"
+            },
+            {
+              "content": "Well he gets the ending first then he works backward.",
+              "endTimestamp": "00:00:19",
+              "speaker": "Sarcastic Clerk",
+              "startTimestamp": "00:00:15"
+            }
+          ],
+          "pagination": {
+            "nextUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgIGFmdGVyOjo6NA",
+            "prevUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgYmVmb3JlOjo6Nw",
+            "totalCount": 4
+          }
+        }
+      },
       "task-failed": {
         "description": "Example response showing a merge task that failed during processing.",
         "summary": "Merge task failed",
@@ -10379,6 +10415,29 @@
         "title": "transcripts.Fragment",
         "type": "object"
       },
+      "transcripts.FragmentPaged": {
+        "additionalProperties": false,
+        "description": "transcripts.FragmentPaged model",
+        "properties": {
+          "data": {
+            "description": "A page of Fragments for a transcript",
+            "items": {
+              "$ref": "#/components/schemas/transcripts.Fragment"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationWithTotalCount"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "transcripts.FragmentPaged",
+        "type": "object"
+      },
       "transcripts.FragmentsPreview": {
         "description": "A preview for dialogue fragments on a transcript",
         "properties": {
@@ -15376,6 +15435,105 @@
           }
         },
         "summary": "Get a single Transcript",
+        "tags": [
+          "transcripts"
+        ]
+      }
+    },
+    "/v2/transcripts/{transcriptId}/fragments": {
+      "get": {
+        "description": "Get fragments of a transcript given a transcript id.\n",
+        "operationId": "v2_transcripts_transcriptId_fragments__GET",
+        "parameters": [
+          {
+            "description": "The id of the Transcript",
+            "in": "path",
+            "name": "transcriptId",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for the next or previous page",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to include in the page",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Include total count of the collection in the pagination response",
+            "in": "query",
+            "name": "totalCount",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-5"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/transcripts.FragmentPaged"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "X-Ratelimit-Limit-Org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "X-Ratelimit-Limit-Org-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "X-Ratelimit-Limit-Org-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "X-Ratelimit-Limit-User": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "X-Ratelimit-Limit-User-Remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "X-Ratelimit-Limit-User-Reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get fragments of a transcript",
         "tags": [
           "transcripts"
         ]
