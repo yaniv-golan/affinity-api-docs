@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 16, 2025 at 18:11:26 UTC** (Last updated: 12/16/2025 18:11:26 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **December 18, 2025 at 18:07:57 UTC** (Last updated: 12/18/2025 18:07:57 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -326,6 +326,11 @@ This markdown version of the Affinity API v2 documentation was generated automat
       - [Path Parameters](#path-parameters-30)
       - [Example Request](#example-request-49)
       - [Responses](#responses-49)
+    - [Get fragments of a transcript](#get-fragments-of-a-transcript)
+      - [Path Parameters](#path-parameters-31)
+      - [Query Parameters](#query-parameters-36)
+      - [Example Request](#example-request-50)
+      - [Responses](#responses-50)
   - [Schema Reference](#schema-reference)
     - [Attendee](#attendee)
     - [AttendeesPreview](#attendeespreview)
@@ -470,6 +475,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [notes.UserReplyNote](#notesuserreplynote)
     - [transcripts.BaseTranscript](#transcriptsbasetranscript)
     - [transcripts.Fragment](#transcriptsfragment)
+    - [transcripts.FragmentPaged](#transcriptsfragmentpaged)
     - [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
     - [transcripts.Transcript](#transcriptstranscript)
     - [transcripts.TranscriptPaged](#transcriptstranscriptpaged)
@@ -20180,6 +20186,312 @@ Errors
 | `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
 | `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
 
+### Get fragments of a transcript
+`GET /v2/transcripts/{transcriptId}/fragments`
+
+- **Tag:** transcripts · **OperationId:** v2_transcripts_transcriptId_fragments__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+Get fragments of a transcript given a transcript id.
+
+#### Path Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `transcriptId` | `integer<int32>` | Yes | The id of the Transcript |
+
+#### Query Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `cursor` | `string` | No | Cursor for the next or previous page |
+| `limit` | `integer<int32>` | No | Number of items to include in the page |
+| `totalCount` | `boolean` | No | Include total count of the collection in the pagination response |
+
+#### Example Request
+
+```bash
+curl --request GET 'https://api.affinity.co/v2/transcripts/{transcriptId}/fragments' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+#### Responses
+
+##### 200 — application/json
+
+OK
+
+**Response schema (`application/json`):**
+###### Schema: transcripts.FragmentPaged
+*Type:* object
+transcripts.FragmentPaged model
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` | Yes | A page of Fragments for a transcript |
+| `pagination` | `object` | Yes |  |
+
+**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
+
+**Items**
+
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `string` | Yes | The dialogue fragment of the transcript |
+| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
+| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
+| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
+
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
+| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
+| `nextUrl` | `string/null<uri>` | No | URL for the next page |
+
+Example: success
+
+```json
+{
+  "data": [
+    {
+      "content": "I want the most intelligent hamster you've got.",
+      "endTimestamp": "00:00:04",
+      "speaker": "Lisa Simpson",
+      "startTimestamp": "00:00:01"
+    },
+    {
+      "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
+      "endTimestamp": "00:00:11",
+      "speaker": "Sarcastic Clerk",
+      "startTimestamp": "00:00:05"
+    },
+    {
+      "content": "How can a hamster write mysteries?",
+      "endTimestamp": "00:00:13",
+      "speaker": "Lisa Simpson",
+      "startTimestamp": "00:00:12"
+    },
+    {
+      "content": "Well he gets the ending first then he works backward.",
+      "endTimestamp": "00:00:19",
+      "speaker": "Sarcastic Clerk",
+      "startTimestamp": "00:00:15"
+    }
+  ],
+  "pagination": {
+    "nextUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgIGFmdGVyOjo6NA",
+    "prevUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgYmVmb3JlOjo6Nw",
+    "totalCount": 4
+  }
+}
+```
+
+**Response Headers**
+| Header | Type | Description |
+| --- | --- | --- |
+| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
+| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
+| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
+| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
+| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
+| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+
+##### 400 — application/json
+
+Bad Request
+
+**Response schema (`application/json`):**
+###### Schema: responses.400
+*Type:* object
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `errors` | `array<oneOf>` | Yes |  |
+
+**`errors` details**
+
+**Items**
+
+**Variant:** BadRequestError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** ValidationError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+| `param` | `string` | Yes | Param the error refers to |
+
+**Response Headers**
+| Header | Type | Description |
+| --- | --- | --- |
+| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
+| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
+| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
+| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
+| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
+| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+
+##### 404 — application/json
+
+Not Found
+
+**Response schema (`application/json`):**
+###### Schema: NotFoundErrors
+*Type:* object
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `errors` | `array<object>` | Yes | NotFoundError errors |
+
+**`errors` details** — See [NotFoundError](#notfounderror)
+
+**Items**
+
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+
+Example
+
+```json
+{
+  "errors": [
+    {
+      "code": "not-found",
+      "message": "ð¨ Error! Sound the alarm! ð¨"
+    },
+    {
+      "code": "not-found",
+      "message": "ð¨ Error! Sound the alarm! ð¨"
+    }
+  ]
+}
+```
+
+**Response Headers**
+| Header | Type | Description |
+| --- | --- | --- |
+| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
+| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
+| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
+| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
+| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
+| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+
+##### DEFAULT — application/json
+
+Errors
+
+**Response schema (`application/json`):**
+###### Schema: Errors
+*Type:* object
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `errors` | `array<oneOf>` | Yes | Errors |
+
+**`errors` details** — See [Error](#error)
+
+**Items**
+
+**Variant:** AuthenticationError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** AuthorizationError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** BadRequestError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** ConflictError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** MethodNotAllowedError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** NotAcceptableError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** NotFoundError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** NotImplementedError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** RateLimitError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** ServerError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** UnprocessableEntityError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** UnsupportedMediaTypeError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** ValidationError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+| `param` | `string` | Yes | Param the error refers to |
+
+**Response Headers**
+| Header | Type | Description |
+| --- | --- | --- |
+| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
+| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
+| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
+| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
+| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
+| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+
 ## Schema Reference
 ### Attendee
 **Properties**
@@ -25071,6 +25383,35 @@ A person mentioned in a note.
 | `speaker` | `string` | Yes | The speaker of the dialogue fragment |
 | `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
 | `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
+### transcripts.FragmentPaged
+transcripts.FragmentPaged model
+transcripts.FragmentPaged model
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` | Yes | A page of Fragments for a transcript |
+| `pagination` | `object` | Yes |  |
+
+**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
+
+**Items**
+
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `content` | `string` | Yes | The dialogue fragment of the transcript |
+| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
+| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
+| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
+
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
+
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
+| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
+| `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### transcripts.FragmentsPreview
 A preview for dialogue fragments on a transcript
 A preview for dialogue fragments on a transcript
