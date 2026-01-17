@@ -24,7 +24,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 16, 2025 at 18:11:26 UTC** (Last updated: 12/16/2025 18:11:26 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **January 16, 2026 at 18:08:20 UTC** (Last updated: 01/16/2026 18:08:20 UTC).
 **Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -72,11 +72,9 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [Saved Views](#saved-views)
     - [Partner Data Restrictions](#partner-data-restrictions)
   - [Nested Associations](#nested-associations)
-- [User Guides](#user-guides)
-  - [A Tour of Our GET Endpoints](#a-tour-of-our-get-endpoints)
-- [Upcoming Changes](#upcoming-changes)
-  - [January 1st, 2026](#january-1st-2026)
 - [Changelog](#changelog)
+  - [January 14th, 2026](#january-14th-2026)
+  - [January 1st, 2026](#january-1st-2026)
   - [September 25th, 2025](#september-25th-2025)
   - [July 30th, 2025](#july-30th-2025)
   - [May 14th, 2025](#may-14th-2025)
@@ -317,15 +315,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
       - [Query Parameters](#query-parameters-34)
       - [Example Request](#example-request-47)
       - [Responses](#responses-47)
-  - [transcripts](#transcripts)
-    - [Get all Transcripts](#get-all-transcripts)
-      - [Query Parameters](#query-parameters-35)
-      - [Example Request](#example-request-48)
-      - [Responses](#responses-48)
-    - [Get a single Transcript](#get-a-single-transcript)
-      - [Path Parameters](#path-parameters-30)
-      - [Example Request](#example-request-49)
-      - [Responses](#responses-49)
   - [Schema Reference](#schema-reference)
     - [Attendee](#attendee)
     - [AttendeesPreview](#attendeespreview)
@@ -431,6 +420,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [Tenant](#tenant)
     - [TextValue](#textvalue)
     - [TextsValue](#textsvalue)
+    - [TimeoutError](#timeouterror)
     - [UnprocessableEntityError](#unprocessableentityerror)
     - [UnsupportedMediaTypeError](#unsupportedmediatypeerror)
     - [User](#user)
@@ -468,11 +458,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [notes.RepliesPaged](#notesrepliespaged)
     - [notes.Reply](#notesreply)
     - [notes.UserReplyNote](#notesuserreplynote)
-    - [transcripts.BaseTranscript](#transcriptsbasetranscript)
-    - [transcripts.Fragment](#transcriptsfragment)
-    - [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-    - [transcripts.Transcript](#transcriptstranscript)
-    - [transcripts.TranscriptPaged](#transcriptstranscriptpaged)
   - [Error Reference](#error-reference)
 
 # Introduction
@@ -504,11 +489,10 @@ dropdown that can be used to select the "type" for which to display the response
 
 ## Authentication
 
-Affinity API v2 uses API keys and **bearer authentication** (this is an important difference from
-Affinity API v1's use of basic authentication).
+Affinity API v2 uses API keys and **bearer authentication**.
 
-To generate an API key, navigate to the Settings page in the Affinity web app. You will need the
-"Generate an API key" role-based permission controlled by your Affinity admin. See
+To generate an API key, navigate to the Manage Apps Page in your Affinity Settings. You will need
+the "Generate an API key" role-based permission controlled by your Affinity admin. See
 [this Help Center article](https://support.affinity.co/s/article/How-to-Create-and-Manage-API-Keys)
 for full instructions on API key generation, and
 [this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)
@@ -516,8 +500,10 @@ for more information on role-based permissions in Affinity.
 
 Provide your API key as your bearer authentication token to start making calls to Affinity API v2.
 
-We support one API key per user in your Affinity account. Your API key is able to read data and
-perform actions in Affinity on your behalf, so keep it safe as you would a password.
+You can create multiple API keys and provide a name and description for each. Your API key is able
+to read data and perform actions in Affinity on your behalf, so keep it safe as you would a
+password. To further secure an API key, you can define an IP Allowlist to limit which IP addresses
+or ranges can make API calls using that key.
 
 ## Permissions
 
@@ -585,16 +571,12 @@ monthly limits:
 
 | Header                           | Description                                             |
 | -------------------------------- | ------------------------------------------------------- |
-| X-Ratelimit-Limit-User           | Number of requests allowed per minute for the user      |
-| X-Ratelimit-Limit-User-Remaining | Number of requests remaining for the user               |
-| X-Ratelimit-Limit-User-Reset     | Time in seconds before the limit resets for the user    |
-| X-Ratelimit-Limit-Org            | Number of requests allowed per month for the account    |
-| X-Ratelimit-Limit-Org-Remaining  | Number of requests remaining for the account            |
-| X-Ratelimit-Limit-Org-Reset      | Time in seconds before the limit resets for the account |
-
-**Note:** Starting January 1st, 2026, these header names will be changed to lowercase format (e.g.,
-`x-ratelimit-limit-user` instead of `X-Ratelimit-Limit-User`). See the
-[Upcoming Changes](#upcoming-changes) for more details.
+| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |
+| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |
+| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |
+| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |
+| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |
+| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |
 
 ## Pagination
 
@@ -839,29 +821,12 @@ The API truncates these nested arrays of Persons or Companies **at 100 entries**
 Opportunity is associated with 200 Persons in Affinity, only 100 of those Persons will be returned
 by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 
-# User Guides
+# Changelog
 
-## A Tour of Our GET Endpoints
+## January 14th, 2026
 
-| Desired Data                                                | Relevant Endpoints                                                                                                                                                                                                                                                                                                                                    | Notes                                                                                     |
-| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Company/Person/Opportunity rows from a List                 | Grab the List's ID from its URL in the Affinity web app, then hit GET `/v2/lists/{listId}/list-entries`                                                                                                                                                                                                                                               | Data returned will be restricted to the rows on the requested List                        |
-| Company/Person/Opportunity rows from a Saved View           | In the Affinity web app, navigate to a List and [create a Saved View](https://support.affinity.co/hc/en-us/articles/115001508572-How-to-leverage-saved-views-within-a-list) with the desired field data and filters on it. Grab the List and Saved View IDs from the web app URL, then hit GET `/v2/lists/{listId}/saved-views/{viewId}/list-entries` | Data returned will be restricted to the rows and columns on the requested Saved View      |
-| Full rolodex of Companies or Persons in Affinity            | GET `/v2/companies`, GET `/v2/persons`                                                                                                                                                                                                                                                                                                                | Data from list-specific Fields will not be returned                                       |
-| All the rows for a given Company or Person across all Lists | GET `/v2/companies/{id}/list-entries`, GET `/v2/persons/{id}/list-entries`                                                                                                                                                                                                                                                                            |                                                                                           |
-| Metadata on Fields, including Field IDs                     | GET `/v2/companies/fields`, GET `/v2/persons/fields`, GET `/v2/lists/{listId}/fields`                                                                                                                                                                                                                                                                 | Metadata on list-specific Fields will only be returned by GET `/v2/lists/{listId}/fields` |
-| Metadata on Lists or Saved Views                            | GET `/v2/lists`, GET `/v2/lists/{listId}/saved-views`                                                                                                                                                                                                                                                                                                 |                                                                                           |
-| Opportunity data                                            | GET `/v2/opportunities` will only return Opportunity names and List IDs. For comprehensive Opportunity data, hit GET `/v2/lists/{listId}/list-entries` for an Opportunity List                                                                                                                                                                        |                                                                                           |
-
-Tip: The ID for a List, Saved View, Person, Company, or Opportunity can always be found in its
-Affinity web app URL.
-
-# Upcoming Changes
-
-## January 1st, 2026
-
-- Rate Limit Change: Rate limit response headers will be updated to use lowercase formatting. This
-  change affects all API endpoints. The new lowercase headers are:
+- Rate limit response headers have been updated to use lowercase formatting. This change affects all
+  API endpoints. The new lowercase headers are:
 
 | Header                           | Description                                             |
 | -------------------------------- | ------------------------------------------------------- |
@@ -872,8 +837,7 @@ Affinity web app URL.
 | x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |
 | x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |
 
-To ensure compatibility with this change, we recommend updating your application to read rate limit
-headers using a case-insensitive approach, which will work both before and after this change.
+## January 1st, 2026
 
 - API Change: Handling timestamps for date fields. Affinity is standardizing how dates are
   represented across the platform to ensure consistency between the application and the API.
@@ -889,8 +853,6 @@ headers using a case-insensitive approach, which will work both before and after
   Any existing date field values that currently include timestamps will also be updated to reflect
   midnight PT on their stored date. No action is required unless your integration depends on time
   data within date fields.
-
-# Changelog
 
 ## September 25th, 2025
 
@@ -1102,12 +1064,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -1151,12 +1113,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -1234,6 +1196,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -1257,12 +1225,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## calls
 
@@ -1362,12 +1330,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -1402,12 +1370,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -1485,6 +1453,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -1508,12 +1482,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## chatMessages
 
@@ -1625,12 +1599,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -1665,12 +1639,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -1748,6 +1722,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -1771,12 +1751,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## companies
 
@@ -1959,12 +1939,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -1999,12 +1979,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -2048,12 +2028,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -2131,6 +2111,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -2154,12 +2140,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on Company Fields
 `GET /v2/companies/fields`
@@ -2222,12 +2208,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -2262,12 +2248,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -2345,6 +2331,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -2368,12 +2360,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single Company
 `GET /v2/companies/{companyId}`
@@ -2490,12 +2482,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -2530,12 +2522,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -2579,12 +2571,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -2628,12 +2620,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -2711,6 +2703,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -2734,12 +2732,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a Company's List Entries
 `GET /v2/companies/{companyId}/list-entries`
@@ -2915,12 +2913,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -2955,12 +2953,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -3004,12 +3002,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -3053,12 +3051,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -3136,6 +3134,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -3159,12 +3163,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a Company's Lists
 `GET /v2/companies/{companyId}/lists`
@@ -3258,12 +3262,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -3298,12 +3302,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -3347,12 +3351,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -3430,6 +3434,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -3453,12 +3463,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Notes for a Company
 `GET /v2/companies/{companyId}/notes`
@@ -3799,6 +3809,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -4007,6 +4018,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -4084,12 +4096,12 @@ A person mentioned in a note.
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -4124,12 +4136,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -4173,12 +4185,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -4256,6 +4268,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -4279,12 +4297,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## companyMerges
 
@@ -4401,12 +4419,12 @@ Example: merges-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -4441,12 +4459,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -4490,12 +4508,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -4573,6 +4591,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -4596,12 +4620,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Initiate Company Merge
 `POST /v2/company-merges`
@@ -4667,12 +4691,12 @@ Example: merge-initiated
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -4707,12 +4731,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -4756,12 +4780,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -4839,6 +4863,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -4862,12 +4892,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Company Merge
 `GET /v2/company-merges/{mergeId}`
@@ -4934,12 +4964,12 @@ Example: completed-merge
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -4974,12 +5004,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -5023,12 +5053,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -5072,12 +5102,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -5155,6 +5185,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -5178,12 +5214,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get All Company Merge Tasks
 `GET /v2/tasks/company-merges`
@@ -5302,12 +5338,12 @@ Example: tasks-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -5342,12 +5378,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -5391,12 +5427,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -5474,6 +5510,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -5497,12 +5539,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Company Merge Task
 `GET /v2/tasks/company-merges/{taskId}`
@@ -5584,12 +5626,12 @@ Example: task-in-progress
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -5624,12 +5666,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -5673,12 +5715,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -5722,12 +5764,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -5805,6 +5847,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -5828,12 +5876,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## emails
 
@@ -5959,12 +6007,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -5999,12 +6047,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -6082,6 +6130,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -6105,12 +6159,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## lists
 
@@ -6214,12 +6268,12 @@ Example: success
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -6254,12 +6308,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -6337,6 +6391,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -6360,12 +6420,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on a single List
 `GET /v2/lists/{listId}`
@@ -6422,12 +6482,12 @@ Example: company-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -6462,12 +6522,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -6511,12 +6571,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -6594,6 +6654,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -6617,12 +6683,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on a single List's Fields
 `GET /v2/lists/{listId}/fields`
@@ -6857,12 +6923,12 @@ Example: company-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -6897,12 +6963,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -6946,12 +7012,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -7029,6 +7095,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -7052,12 +7124,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get all List Entries on a List
 `GET /v2/lists/{listId}/list-entries`
@@ -7425,12 +7497,12 @@ Example: company-list-enriched
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -7465,12 +7537,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -7514,12 +7586,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -7563,12 +7635,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -7646,6 +7718,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -7669,12 +7747,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single List Entry on a List
 `GET /v2/lists/{listId}/list-entries/{listEntryId}`
@@ -7983,12 +8061,12 @@ Example: company-list-enriched
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -8023,12 +8101,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -8072,12 +8150,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -8121,12 +8199,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -8204,6 +8282,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -8227,12 +8311,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get field values on a single List Entry
 `GET /v2/lists/{listId}/list-entries/{listEntryId}/fields`
@@ -8441,12 +8525,12 @@ Example: company-list-enriched
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -8481,12 +8565,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -8530,12 +8614,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -8579,12 +8663,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -8662,6 +8746,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -8685,12 +8775,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Perform batch operations on a list entry's fields
 `PATCH /v2/lists/{listId}/list-entries/{listEntryId}/fields`
@@ -8918,12 +9008,12 @@ Example: update-fields
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -8958,12 +9048,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -9007,12 +9097,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -9056,12 +9146,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -9139,6 +9229,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -9162,12 +9258,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single field value
 `GET /v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}`
@@ -9232,12 +9328,12 @@ Example: company
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -9272,12 +9368,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -9321,12 +9417,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -9370,12 +9466,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -9453,6 +9549,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -9476,12 +9578,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Update a single field value on a List Entry
 `POST /v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}`
@@ -9537,12 +9639,12 @@ No Content
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -9577,12 +9679,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -9626,12 +9728,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -9675,12 +9777,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -9758,6 +9860,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -9781,12 +9889,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on Saved Views
 `GET /v2/lists/{listId}/saved-views`
@@ -9877,12 +9985,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -9917,12 +10025,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -9966,12 +10074,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -10049,6 +10157,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -10072,12 +10186,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on a single Saved View
 `GET /v2/lists/{listId}/saved-views/{viewId}`
@@ -10131,12 +10245,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -10171,12 +10285,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -10220,12 +10334,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -10303,6 +10417,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -10326,12 +10446,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get all List Entries on a Saved View
 `GET /v2/lists/{listId}/saved-views/{viewId}/list-entries`
@@ -10397,12 +10517,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -10437,12 +10557,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -10486,12 +10606,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -10535,12 +10655,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -10618,6 +10738,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -10641,12 +10767,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## meetings
 
@@ -10746,12 +10872,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -10786,12 +10912,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -10869,6 +10995,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -10892,12 +11024,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## notes
 
@@ -11238,6 +11370,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -11446,6 +11579,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -11539,6 +11673,7 @@ Example: ai-notetaker
       },
       "id": 1,
       "mentions": [],
+      "transcriptId": 1,
       "type": "ai-notetaker",
       "updatedAt": "2023-01-21T00:00:00Z"
     },
@@ -11556,6 +11691,7 @@ Example: ai-notetaker
       },
       "id": 2,
       "mentions": [],
+      "transcriptId": 2,
       "type": "ai-notetaker",
       "updatedAt": "2024-01-21T00:00:00Z"
     }
@@ -11570,12 +11706,12 @@ Example: ai-notetaker
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -11610,12 +11746,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -11659,12 +11795,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -11742,6 +11878,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -11765,12 +11907,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single Note
 `GET /v2/notes/{noteId}`
@@ -12090,6 +12232,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -12298,6 +12441,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -12380,6 +12524,7 @@ Example: ai-notetaker
   },
   "id": 1,
   "mentions": [],
+  "transcriptId": 1,
   "type": "ai-notetaker",
   "updatedAt": "2023-01-21T00:00:00Z"
 }
@@ -12388,12 +12533,12 @@ Example: ai-notetaker
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -12428,12 +12573,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -12477,12 +12622,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -12560,6 +12705,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -12583,12 +12734,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Companies attached to a Note
 `GET /v2/notes/{noteId}/attached-companies`
@@ -12679,12 +12830,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -12719,12 +12870,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -12768,12 +12919,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -12851,6 +13002,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -12874,12 +13031,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Opportunities attached to a Note
 `GET /v2/notes/{noteId}/attached-opportunities`
@@ -12970,12 +13127,12 @@ Example: success
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -13010,12 +13167,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -13059,12 +13216,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -13142,6 +13299,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -13165,12 +13328,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Persons attached to a Note
 `GET /v2/notes/{noteId}/attached-persons`
@@ -13267,12 +13430,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -13307,12 +13470,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -13356,12 +13519,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -13439,6 +13602,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -13462,12 +13631,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get replies for a Note
 `GET /v2/notes/{noteId}/replies`
@@ -13595,6 +13764,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -13717,12 +13887,12 @@ Example: user-reply
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -13757,12 +13927,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -13806,12 +13976,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -13889,6 +14059,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -13912,12 +14088,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## opportunities
 
@@ -14010,12 +14186,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -14050,12 +14226,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -14099,12 +14275,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -14148,12 +14324,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -14231,6 +14407,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -14254,12 +14436,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single Opportunity
 `GET /v2/opportunities/{opportunityId}`
@@ -14314,12 +14496,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -14354,12 +14536,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -14403,12 +14585,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -14452,12 +14634,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -14535,6 +14717,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -14558,12 +14746,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Notes for an Opportunity
 `GET /v2/opportunities/{opportunityId}/notes`
@@ -14904,6 +15092,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -15112,6 +15301,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -15241,12 +15431,12 @@ Example: entities
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -15281,12 +15471,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -15330,12 +15520,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -15413,6 +15603,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -15436,12 +15632,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## personMerges
 
@@ -15558,12 +15754,12 @@ Example: merges-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -15598,12 +15794,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -15647,12 +15843,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -15730,6 +15926,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -15753,12 +15955,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Initiate Person Merge
 `POST /v2/person-merges`
@@ -15824,12 +16026,12 @@ Example: merge-initiated
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -15864,12 +16066,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -15913,12 +16115,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -15996,6 +16198,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -16019,12 +16227,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Person Merge
 `GET /v2/person-merges/{mergeId}`
@@ -16091,12 +16299,12 @@ Example: completed-merge
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -16131,12 +16339,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -16180,12 +16388,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -16229,12 +16437,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -16312,6 +16520,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -16335,12 +16549,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get All Person Merge Tasks
 `GET /v2/tasks/person-merges`
@@ -16459,12 +16673,12 @@ Example: tasks-list
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -16499,12 +16713,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -16548,12 +16762,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -16631,6 +16845,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -16654,12 +16874,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Person Merge Task
 `GET /v2/tasks/person-merges/{taskId}`
@@ -16741,12 +16961,12 @@ Example: task-in-progress
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -16781,12 +17001,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -16830,12 +17050,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -16879,12 +17099,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -16962,6 +17182,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -16985,12 +17211,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## persons
 
@@ -17190,12 +17416,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -17230,12 +17456,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -17279,12 +17505,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -17362,6 +17588,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -17385,12 +17617,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get metadata on Person Fields
 `GET /v2/persons/fields`
@@ -17453,12 +17685,12 @@ OK
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -17493,12 +17725,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -17576,6 +17808,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -17599,12 +17837,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a single Person
 `GET /v2/persons/{personId}`
@@ -17730,12 +17968,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -17770,12 +18008,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -17819,12 +18057,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -17868,12 +18106,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -17951,6 +18189,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -17974,12 +18218,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a Person's List Entries
 `GET /v2/persons/{personId}/list-entries`
@@ -18155,12 +18399,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -18195,12 +18439,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 403 — application/json
 
@@ -18244,12 +18488,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -18293,12 +18537,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -18376,6 +18620,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -18399,12 +18649,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get a Person's Lists
 `GET /v2/persons/{personId}/lists`
@@ -18498,12 +18748,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -18538,12 +18788,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -18587,12 +18837,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -18670,6 +18920,12 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -18693,12 +18949,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ### Get Notes for a Person
 `GET /v2/persons/{personId}/notes`
@@ -19039,6 +19295,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -19247,6 +19504,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -19376,12 +19634,12 @@ Example: entities
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 400 — application/json
 
@@ -19416,12 +19674,12 @@ Bad Request
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### 404 — application/json
 
@@ -19465,12 +19723,12 @@ Example
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ##### DEFAULT — application/json
 
@@ -19548,285 +19806,7 @@ Errors
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-## transcripts
-
-Operations about transcripts
-
-### Get all Transcripts
-`GET /v2/transcripts`
-
-- **Tag:** transcripts · **OperationId:** v2_transcripts__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Paginate through all transcripts and return basic metadata only. Use the single transcript endpoint to fetch the entire transcript data.
-Will only return transcripts that the current authenticated user has permission to see.
-
-You can filter transcripts using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
-
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                    |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|---------------------------------|
-| `id`                        | Filter transcripts by id                                        | `int32`    | `=`                                  | `id=1`                          |
-| `createdAt`                 | Filter transcripts by when it was created                       | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-02-04T10:48:24Z` |
-
-#### Query Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `boolean` | No | Include total count of the collection in the pagination response |
-| `cursor` | `string` | No | Cursor for the next or previous page |
-| `limit` | `integer<int32>` | No | Number of items to include in the page |
-| `filter` | `string` | No | Filter options |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/transcripts' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: transcripts.TranscriptPaged
-*Type:* object
-transcripts.TranscriptPaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Transcript results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [transcripts.BaseTranscript](#transcriptsbasetranscript)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
-
-Example: success
-
-```json
-{
-  "data": [
-    {
-      "createdAt": "2023-01-01T00:00:23Z",
-      "id": 1,
-      "languageCode": "en",
-      "note": {
-        "content": {
-          "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
-        },
-        "createdAt": "2023-01-01T00:00:20Z",
-        "creator": {
-          "firstName": "Lisa",
-          "id": 8,
-          "lastName": "Simpson",
-          "primaryEmailAddress": "lisa.simpson@springfield.com",
-          "type": "internal"
-        },
-        "id": 742,
-        "mentions": [],
-        "type": "ai-notetaker",
-        "updatedAt": "2023-01-21T00:01:00Z"
-      }
-    },
-    {
-      "createdAt": "2023-02-01T00:00:35Z",
-      "id": 2,
-      "languageCode": "en",
-      "note": {
-        "content": {
-          "html": "<p> Bart issues the directive to "take him away," but Chief Wiggum fumbles his words, saying "bake him away." When questioned by Lou, the Chief defers to Bart's original instruction, effectively agreeing to proceed as Bart suggested. </p>"
-        },
-        "createdAt": "2023-02-01T00:00:00Z",
-        "creator": {
-          "firstName": "Bart",
-          "id": 10,
-          "lastName": "Simpson",
-          "primaryEmailAddress": "bart.simpson@springfield.com",
-          "type": "internal"
-        },
-        "id": 844,
-        "mentions": [],
-        "type": "ai-notetaker",
-        "updatedAt": "2023-02-21T00:00:00Z"
-      }
-    }
-  ],
-  "pagination": {
-    "nextUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgIGFmdGVyOjo6NA",
-    "prevUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgYmVmb3JlOjo6Nw"
-  }
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
+**Variant:** TimeoutError
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -19855,330 +19835,12 @@ Errors
 **Response Headers**
 | Header | Type | Description |
 | --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-### Get a single Transcript
-`GET /v2/transcripts/{transcriptId}`
-
-- **Tag:** transcripts · **OperationId:** v2_transcripts_transcriptId__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Get a transcript with a given id with the first 100 fragments of the transcript. Use the /fragments endpoint to fetch all fragments of the transcript.
-
-#### Path Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `transcriptId` | `integer<int32>` | Yes | The id of the Transcript |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/transcripts/{transcriptId}' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: transcripts.Transcript
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `fragmentsPreview` | `object` | Yes | A preview for dialogue fragments on a transcript |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`fragmentsPreview` details** — See [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-
-Example: success
-
-```json
-{
-  "createdAt": "2023-01-01T00:00:00Z",
-  "fragmentsPreview": {
-    "data": [
-      {
-        "content": "I want the most intelligent hamster you've got.",
-        "endTimestamp": "00:00:04",
-        "speaker": "Lisa Simpson",
-        "startTimestamp": "00:00:01"
-      },
-      {
-        "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
-        "endTimestamp": "00:00:11",
-        "speaker": "Sarcastic Clerk",
-        "startTimestamp": "00:00:05"
-      },
-      {
-        "content": "How can a hamster write mysteries?",
-        "endTimestamp": "00:00:13",
-        "speaker": "Lisa Simpson",
-        "startTimestamp": "00:00:12"
-      },
-      {
-        "content": "Well he gets the ending first then he works backward.",
-        "endTimestamp": "00:00:19",
-        "speaker": "Sarcastic Clerk",
-        "startTimestamp": "00:00:15"
-      }
-    ],
-    "totalCount": 4
-  },
-  "id": 1,
-  "languageCode": "en",
-  "note": {
-    "content": {
-      "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
-    },
-    "createdAt": "2023-01-01T00:00:20Z",
-    "creator": {
-      "firstName": "Lisa",
-      "id": 8,
-      "lastName": "Simpson",
-      "primaryEmailAddress": "lisa.simpson@springfield.com",
-      "type": "internal"
-    },
-    "id": 742,
-    "mentions": [],
-    "type": "ai-notetaker",
-    "updatedAt": "2023-01-21T00:01:00Z"
-  }
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 404 — application/json
-
-Not Found
-
-**Response schema (`application/json`):**
-###### Schema: NotFoundErrors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<object>` | Yes | NotFoundError errors |
-
-**`errors` details** — See [NotFoundError](#notfounderror)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-
-Example
-
-```json
-{
-  "errors": [
-    {
-      "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
-    },
-    {
-      "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
-    }
-  ]
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
+| `x-ratelimit-limit-user` | `integer` | Number of requests allowed per minute for the user |
+| `x-ratelimit-limit-user-remaining` | `integer` | Number of requests remaining for the user |
+| `x-ratelimit-limit-user-reset` | `integer` | Time in seconds before the limit resets for the user |
+| `x-ratelimit-limit-org` | `integer` | Number of requests allowed per month for the account |
+| `x-ratelimit-limit-org-remaining` | `integer` | Number of requests remaining for the account |
+| `x-ratelimit-limit-org-reset` | `integer` | Time in seconds before the limit resets for the account |
 
 ## Schema Reference
 ### Attendee
@@ -20710,6 +20372,12 @@ CompanyPaged model
 | --- | --- | --- | --- |
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 **Variant:** UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -20794,6 +20462,12 @@ CompanyPaged model
 | `code` | `string` | Yes | Error code |
 | `message` | `string` | Yes | Error message |
 **Variant:** ServerError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
+**Variant:** TimeoutError
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -22154,6 +21828,12 @@ SavedViewPaged model
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of value |
 | `data` | `array/null` | Yes | The value for many strings |
+### TimeoutError
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `code` | `string` | Yes | Error code |
+| `message` | `string` | Yes | Error message |
 ### UnprocessableEntityError
 **Properties**
 | Field | Type | Required | Description |
@@ -22639,6 +22319,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -22711,6 +22392,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -23775,6 +23457,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -23983,6 +23666,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -24341,6 +24025,7 @@ A Root Note object created by the AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker note (Constraints: ≥ 1; ≤ 2147483647) |
 | `repliesCount` | `integer<int32>` | No | The number of replies to this note. This is only included if the `repliesCount` parameter is passed in the `includes` in the request and the note is not a reply itself. (Constraints: ≥ 0; ≤ 2147483647) |
 | `permissions` | `object` | No | The permission settings of a note (Constraints: stability `beta`) |
 | `opportunitiesPreview` | `object` | No | A preview for attached Opportunities on a Note (Constraints: stability `beta`) |
@@ -24549,6 +24234,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -24783,6 +24469,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -24928,6 +24615,7 @@ A reply to a Note, created by an AI Notetaker
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of the note |
 | `interaction` | `object` | No | The meeting this AI Notetaker was invited to. (Constraints: stability `beta`) |
+| `transcriptId` | `integer<int32>` | Yes | The id of the transcript of the AI notetaker reply note (Constraints: ≥ 1; ≤ 2147483647) |
 | `parent` | `object` | Yes |  |
 | `id` | `integer<int32>` | Yes | The id of the note (Constraints: ≥ 1; ≤ 2147483647) |
 | `content` | `object` | Yes | A note content (Constraints: stability `beta`) |
@@ -25055,100 +24743,6 @@ A person mentioned in a note.
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-### transcripts.BaseTranscript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-### transcripts.Fragment
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.FragmentsPreview
-A preview for dialogue fragments on a transcript
-A preview for dialogue fragments on a transcript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.Transcript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `fragmentsPreview` | `object` | Yes | A preview for dialogue fragments on a transcript |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`fragmentsPreview` details** — See [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.TranscriptPaged
-transcripts.TranscriptPaged model
-transcripts.TranscriptPaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Transcript results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [transcripts.BaseTranscript](#transcriptsbasetranscript)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
 ## Error Reference
 
@@ -25165,6 +24759,7 @@ The API returns structured errors with a `code` discriminator.
 | `not-implemented` | NotImplementedError |
 | `rate-limit` | RateLimitError |
 | `server` | ServerError |
+| `timeout` | TimeoutError |
 | `unprocessable-entity` | UnprocessableEntityError |
 | `unsupported-media-type` | UnsupportedMediaTypeError |
 | `validation` | ValidationError |
