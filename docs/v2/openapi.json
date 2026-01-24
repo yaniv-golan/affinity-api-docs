@@ -19,6 +19,7 @@
               },
               "id": 1,
               "mentions": [],
+              "transcriptId": 1,
               "type": "ai-notetaker",
               "updatedAt": "2023-01-21T00:00:00Z"
             },
@@ -36,6 +37,7 @@
               },
               "id": 2,
               "mentions": [],
+              "transcriptId": 2,
               "type": "ai-notetaker",
               "updatedAt": "2024-01-21T00:00:00Z"
             }
@@ -63,6 +65,7 @@
           },
           "id": 1,
           "mentions": [],
+          "transcriptId": 1,
           "type": "ai-notetaker",
           "updatedAt": "2023-01-21T00:00:00Z"
         },
@@ -107,6 +110,7 @@
                 },
                 "sharingType": "private"
               },
+              "transcriptId": 1,
               "type": "ai-notetaker",
               "updatedAt": "2023-01-01T00:00:00Z"
             }
@@ -137,6 +141,7 @@
           "parent": {
             "id": 1
           },
+          "transcriptId": 1,
           "type": "ai-notetaker-reply",
           "updatedAt": "2023-01-21T00:00:00Z"
         },
@@ -174,6 +179,7 @@
               "parent": {
                 "id": 1
               },
+              "transcriptId": 1,
               "type": "ai-notetaker-reply",
               "updatedAt": "2023-02-01T00:00:00Z"
             }
@@ -3832,6 +3838,7 @@
                 },
                 "id": 742,
                 "mentions": [],
+                "transcriptId": 1,
                 "type": "ai-notetaker",
                 "updatedAt": "2023-01-21T00:01:00Z"
               }
@@ -3854,6 +3861,7 @@
                 },
                 "id": 844,
                 "mentions": [],
+                "transcriptId": 2,
                 "type": "ai-notetaker",
                 "updatedAt": "2023-02-21T00:00:00Z"
               }
@@ -3863,7 +3871,8 @@
             "nextUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgIGFmdGVyOjo6NA",
             "prevUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgYmVmb3JlOjo6Nw"
           }
-        }
+        },
+        "x-stability-level": "beta"
       },
       "success-4": {
         "description": "Example response for a transcript.",
@@ -3914,10 +3923,49 @@
             },
             "id": 742,
             "mentions": [],
+            "transcriptId": 1,
             "type": "ai-notetaker",
             "updatedAt": "2023-01-21T00:01:00Z"
           }
-        }
+        },
+        "x-stability-level": "beta"
+      },
+      "success-5": {
+        "description": "Example response for a paginated fragments response given a transcript id.",
+        "value": {
+          "data": [
+            {
+              "content": "I want the most intelligent hamster you've got.",
+              "endTimestamp": "00:00:04",
+              "speaker": "Lisa Simpson",
+              "startTimestamp": "00:00:01"
+            },
+            {
+              "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
+              "endTimestamp": "00:00:11",
+              "speaker": "Sarcastic Clerk",
+              "startTimestamp": "00:00:05"
+            },
+            {
+              "content": "How can a hamster write mysteries?",
+              "endTimestamp": "00:00:13",
+              "speaker": "Lisa Simpson",
+              "startTimestamp": "00:00:12"
+            },
+            {
+              "content": "Well he gets the ending first then he works backward.",
+              "endTimestamp": "00:00:19",
+              "speaker": "Sarcastic Clerk",
+              "startTimestamp": "00:00:15"
+            }
+          ],
+          "pagination": {
+            "nextUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgIGFmdGVyOjo6NA",
+            "prevUrl": "https://api.affinity.co/v2/transcripts/1/fragments?cursor=ICAgICAgYmVmb3JlOjo6Nw",
+            "totalCount": 4
+          }
+        },
+        "x-stability-level": "beta"
       },
       "task-failed": {
         "description": "Example response showing a merge task that failed during processing.",
@@ -4430,22 +4478,22 @@
         },
         "description": "Bad Request",
         "headers": {
-          "X-Ratelimit-Limit-Org": {
+          "x-ratelimit-limit-org": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
           },
-          "X-Ratelimit-Limit-Org-Remaining": {
+          "x-ratelimit-limit-org-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
           },
-          "X-Ratelimit-Limit-Org-Reset": {
+          "x-ratelimit-limit-org-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
           },
-          "X-Ratelimit-Limit-User": {
+          "x-ratelimit-limit-user": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User"
           },
-          "X-Ratelimit-Limit-User-Remaining": {
+          "x-ratelimit-limit-user-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
           },
-          "X-Ratelimit-Limit-User-Reset": {
+          "x-ratelimit-limit-user-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
           }
         }
@@ -4460,22 +4508,22 @@
         },
         "description": "Forbidden",
         "headers": {
-          "X-Ratelimit-Limit-Org": {
+          "x-ratelimit-limit-org": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
           },
-          "X-Ratelimit-Limit-Org-Remaining": {
+          "x-ratelimit-limit-org-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
           },
-          "X-Ratelimit-Limit-Org-Reset": {
+          "x-ratelimit-limit-org-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
           },
-          "X-Ratelimit-Limit-User": {
+          "x-ratelimit-limit-user": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User"
           },
-          "X-Ratelimit-Limit-User-Remaining": {
+          "x-ratelimit-limit-user-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
           },
-          "X-Ratelimit-Limit-User-Reset": {
+          "x-ratelimit-limit-user-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
           }
         }
@@ -4490,22 +4538,22 @@
         },
         "description": "Not Found",
         "headers": {
-          "X-Ratelimit-Limit-Org": {
+          "x-ratelimit-limit-org": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
           },
-          "X-Ratelimit-Limit-Org-Remaining": {
+          "x-ratelimit-limit-org-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
           },
-          "X-Ratelimit-Limit-Org-Reset": {
+          "x-ratelimit-limit-org-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
           },
-          "X-Ratelimit-Limit-User": {
+          "x-ratelimit-limit-user": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User"
           },
-          "X-Ratelimit-Limit-User-Remaining": {
+          "x-ratelimit-limit-user-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
           },
-          "X-Ratelimit-Limit-User-Reset": {
+          "x-ratelimit-limit-user-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
           }
         }
@@ -4520,22 +4568,22 @@
         },
         "description": "Errors",
         "headers": {
-          "X-Ratelimit-Limit-Org": {
+          "x-ratelimit-limit-org": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
           },
-          "X-Ratelimit-Limit-Org-Remaining": {
+          "x-ratelimit-limit-org-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
           },
-          "X-Ratelimit-Limit-Org-Reset": {
+          "x-ratelimit-limit-org-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
           },
-          "X-Ratelimit-Limit-User": {
+          "x-ratelimit-limit-user": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User"
           },
-          "X-Ratelimit-Limit-User-Remaining": {
+          "x-ratelimit-limit-user-remaining": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
           },
-          "X-Ratelimit-Limit-User-Reset": {
+          "x-ratelimit-limit-user-reset": {
             "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
           }
         }
@@ -5855,6 +5903,7 @@
             "not-implemented": "#/components/schemas/NotImplementedError",
             "rate-limit": "#/components/schemas/RateLimitError",
             "server": "#/components/schemas/ServerError",
+            "timeout": "#/components/schemas/TimeoutError",
             "unprocessable-entity": "#/components/schemas/UnprocessableEntityError",
             "unsupported-media-type": "#/components/schemas/UnsupportedMediaTypeError",
             "validation": "#/components/schemas/ValidationError"
@@ -5891,6 +5940,9 @@
           },
           {
             "$ref": "#/components/schemas/ServerError"
+          },
+          {
+            "$ref": "#/components/schemas/TimeoutError"
           },
           {
             "$ref": "#/components/schemas/UnprocessableEntityError"
@@ -8985,6 +9037,32 @@
         "title": "TextsValue",
         "type": "object"
       },
+      "TimeoutError": {
+        "additionalProperties": false,
+        "examples": [
+          {
+            "code": "timeout",
+            "message": "\u00f0\u009f\u009a\u00a8 Error! Sound the alarm! \u00f0\u009f\u009a\u00a8"
+          }
+        ],
+        "properties": {
+          "code": {
+            "const": "timeout",
+            "description": "Error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "TimeoutError",
+        "type": "object"
+      },
       "UnprocessableEntityError": {
         "additionalProperties": false,
         "examples": [
@@ -9680,6 +9758,16 @@
             "$ref": "#/components/schemas/notes.MeetingInteraction",
             "description": "The meeting this AI Notetaker was invited to."
           },
+          "transcriptId": {
+            "description": "The id of the transcript of the AI notetaker reply note",
+            "examples": [
+              1234
+            ],
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
           "type": {
             "const": "ai-notetaker-reply",
             "description": "The type of the note",
@@ -9687,7 +9775,8 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "transcriptId"
         ],
         "title": "notes.AiNotetakerReplyNote",
         "type": "object",
@@ -9705,6 +9794,16 @@
             "$ref": "#/components/schemas/notes.MeetingInteraction",
             "description": "The meeting this AI Notetaker was invited to."
           },
+          "transcriptId": {
+            "description": "The id of the transcript of the AI notetaker note",
+            "examples": [
+              1234
+            ],
+            "format": "int32",
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer"
+          },
           "type": {
             "const": "ai-notetaker",
             "description": "The type of the note",
@@ -9712,7 +9811,8 @@
           }
         },
         "required": [
-          "type"
+          "type",
+          "transcriptId"
         ],
         "title": "notes.AiNotetakerRootNote",
         "x-stability-level": "beta"
@@ -10332,7 +10432,8 @@
           "languageCode"
         ],
         "title": "transcripts.BaseTranscript",
-        "type": "object"
+        "type": "object",
+        "x-stability-level": "beta"
       },
       "transcripts.Fragment": {
         "additionalProperties": false,
@@ -10377,7 +10478,32 @@
           "endTimestamp"
         ],
         "title": "transcripts.Fragment",
-        "type": "object"
+        "type": "object",
+        "x-stability-level": "beta"
+      },
+      "transcripts.FragmentPaged": {
+        "additionalProperties": false,
+        "description": "transcripts.FragmentPaged model",
+        "properties": {
+          "data": {
+            "description": "A page of Fragments for a transcript",
+            "items": {
+              "$ref": "#/components/schemas/transcripts.Fragment"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationWithTotalCount"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "transcripts.FragmentPaged",
+        "type": "object",
+        "x-stability-level": "beta"
       },
       "transcripts.FragmentsPreview": {
         "description": "A preview for dialogue fragments on a transcript",
@@ -10399,7 +10525,8 @@
           }
         },
         "title": "transcripts.FragmentsPreview",
-        "type": "object"
+        "type": "object",
+        "x-stability-level": "beta"
       },
       "transcripts.Transcript": {
         "allOf": [
@@ -10417,7 +10544,8 @@
         ],
         "title": "transcripts.Transcript",
         "type": "object",
-        "unevaluatedProperties": false
+        "unevaluatedProperties": false,
+        "x-stability-level": "beta"
       },
       "transcripts.TranscriptPaged": {
         "additionalProperties": false,
@@ -10440,7 +10568,8 @@
           "pagination"
         ],
         "title": "transcripts.TranscriptPaged",
-        "type": "object"
+        "type": "object",
+        "x-stability-level": "beta"
       }
     },
     "securitySchemes": {
@@ -10456,7 +10585,7 @@
       "name": "Affinity Support",
       "url": "https://support.affinity.co"
     },
-    "description": "# Introduction\n\nWelcome to Affinity API v2! This API provides a RESTful interface for building internal apps,\nautomated workflows, 3rd party integrations, and for connecting Affinity to the rest of your tech\nstack.\n\nThe legacy Affinity v1 API can be found at [api-docs.affinity.co](https://api-docs.affinity.co/).\nThe v2 API is not at feature parity with v1 - we are continuing to develop new v2 APIs to support\nall v1 functionality over time.\n\n**The Affinity APIs are only available on select license types.** See\n[this Help Center article](https://support.affinity.co/hc/en-us/articles/5563700459533-Getting-started-with-the-Affinity-API-FAQs)\nor contact your Customer Success Manager for more information.\n\n# Getting Started\n\nAll Affinity API endpoints use the base URL `https://api.affinity.co`. All v2 endpoint paths start\nwith `/v2`. Requests must be sent over HTTPS.\n\nThe first few sections of these docs cover general information on the API. Each subsequent section\ncovers a set of API endpoints.\n\nEach endpoint is documented with its accepted request parameters, expected response shapes, and a\nsample request and response. The shape of a given response can vary depending on what \"type\" of\nobject or data is being returned. When this is the case, the response documentation will include a\ndropdown that can be used to select the \"type\" for which to display the response shape.\n\n## Authentication\n\nAffinity API v2 uses API keys and **bearer authentication** (this is an important difference from\nAffinity API v1's use of basic authentication).\n\nTo generate an API key, navigate to the Settings page in the Affinity web app. You will need the\n\"Generate an API key\" role-based permission controlled by your Affinity admin. See\n[this Help Center article](https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key)\nfor full instructions on API key generation, and\n[this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)\nfor more information on role-based permissions in Affinity.\n\nProvide your API key as your bearer authentication token to start making calls to Affinity API v2.\n\nWe support one API key per user in your Affinity account. Your API key is able to read data and\nperform actions in Affinity on your behalf, so keep it safe as you would a password.\n\n## Permissions\n\n### Overall Requirements\n\nYou must have the \"Generate an API key\" permission to be able to work with the Affinity API. Most\nusers in Affinity have this by default \u00e2\u0080\u0094 Contact your Affinity admin if you are not able to generate\nan API key, and see\n[this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)\nfor more information on role-based permissions in Affinity.\n\n### Resource-Level Permissions\n\nThe Affinity API respects sharing permissions that are set in-product. For example, if a given user\ndoes not have access to a list, note, or interaction in-product, they will not be able to see or\nmodify it via API.\n\n### Endpoint-Level Permissions\n\nMany API endpoints require endpoint-specific permissions in-product. These permissions, along with\nthe \"Generate an API key\" permission, are managed by your Affinity admin in the Settings page. In\nthe description of each endpoint you will see the required permissions needed.\n\n## Rate Limits\n\nThe Affinity API sets a limit on the number of calls that a user can make per minute, and that all\nthe users on an account can make per month. It also sets a reasonable limit on the number of\nconcurrent requests it will support from an account at one time.\n\nRequests to **both** Affinity API versions will count toward the one pool of requests allowed for a\nuser or account. Once a per-minute, monthly, or concurrent rate limit is hit, subsequent requests\nwill return an error code of 429. **We highly recommend designing your application to handle 429\nerrors.**\n\n### Per-Minute Limits (User-Level)\n\nTo help protect our systems, API requests will be halted at **900 per user, per minute.** We may\nalso lower this limit on a temporary basis to manage API availability.\n\n### Concurrent Request Limits (Account-Level)\n\nTo protect our systems and manage availability across customers, we set a reasonable limit on\nconcurrent requests at the account level. Customers should not expect to hit this limit unless they\nare hitting the API with heavy operations from many concurrent threads at once.\n\n### Monthly Plan Tier Limits (Account-Level)\n\nThe overall number of requests you can make per month will depend on your account's plan tier.\n**This monthly account-level limit resets at the end of each calendar month.** Current rate limits\nby plan tier are:\n\n| Plan Tier  | Calls Per Month |\n| ---------- | --------------- |\n| Essentials | None            |\n| Scale      | 100k            |\n| Advanced   | 100k            |\n| Enterprise | Unlimited\\*     |\n\n\\*Per-Minute and Concurrent Request Limits still apply.\n\n### Rate Limit Headers\n\nAll API calls will return the following response headers with information about per-minute and\nmonthly limits:\n\n| Header                           | Description                                             |\n| -------------------------------- | ------------------------------------------------------- |\n| X-Ratelimit-Limit-User           | Number of requests allowed per minute for the user      |\n| X-Ratelimit-Limit-User-Remaining | Number of requests remaining for the user               |\n| X-Ratelimit-Limit-User-Reset     | Time in seconds before the limit resets for the user    |\n| X-Ratelimit-Limit-Org            | Number of requests allowed per month for the account    |\n| X-Ratelimit-Limit-Org-Remaining  | Number of requests remaining for the account            |\n| X-Ratelimit-Limit-Org-Reset      | Time in seconds before the limit resets for the account |\n\n**Note:** Starting January 1st, 2026, these header names will be changed to lowercase format (e.g.,\n`x-ratelimit-limit-user` instead of `X-Ratelimit-Limit-User`). See the\n[Upcoming Changes](#section/Upcoming-Changes) for more details.\n\n## Pagination\n\nWhen an endpoint is expected to return multiple results, we break the results into pages to make\nthem easier to handle. To cycle forward through multiple pages of data, look for the `nextUrl`\nproperty in the `pagination` portion of an API response, and use it for your next request. See\nendpoint documentation for more information.\n\n## Filtering\n\nSome endpoints support a filtering language for flexible and powerful queries. This allows for the\ncreation of complex filter expressions using different operators and boolean logic in a single\nfilter string. The description of each endpoint will contain information on which filter properties\nand operators are supported.\n\n### Rules\n\n- Spaces are insignificant by default. For example, `field = hello` and `field=hello` are both\n  valid.\n- If spaces are significant, they need to be inside double quotes, for example,\n  `field = \"hello world\"`\n- Special characters need to be escaped with a backslash: `field=\"hello\\\" world\"` <br> Full list of\n  special characters: `\\ * ~ ! & = > < $ ^ | \" ' ( ) ] [ /`\n- Use `&` and `|` for boolean operations: `foo = 1 | baz = 2 & bar = 3`. Boolean Algebra Logic is\n  assumed: `&` takes precedence over `|`. When evaluating the condition above, `baz = 2 & bar = 3`\n  will be computed first, and then the result will be `or`'ed with `foo=1`\n- Parentheses can be used to specify the order of operations. In the example above, to make sure\n  that `foo = 1 | baz = 2` is evaluated first, parentheses must be placed\n  `(foo = 1 | baz = 2) & bar = 3`\n\n### Grammar\n\n#### Simple Types\n\n| Definition               | Property Type                                        | Operator | Example                                                                                   |\n| ------------------------ | ---------------------------------------------------- | -------- | ----------------------------------------------------------------------------------------- |\n| exact match              | all                                                  | =        | content = \u00e2\u0080\u009chello world\u00e2\u0080\u009d <br> content=hello                                                |\n| starts with              | text                                                 | =^       | content =^ he                                                                             |\n| ends with                | text                                                 | =$       | content =$ llo                                                                            |\n| contains                 | text                                                 | =~       | content =~ lo                                                                             |\n| greater than             | int32, int64, float, double, decimal, date, datetime | \\>       | count > 1                                                                                 |\n| greater than or equal to | int32, int64, float, double, decimal, date, datetime | \\>=      | content >= 1                                                                              |\n| less than                | int32, int64, float, double, decimal, date, datetime | \\<       | count < 1                                                                                 |\n| less than or equal to    | int32, int64, float, double, decimal, date, datetime | \\<=      | content <= 1                                                                              |\n| is NULL                  | all                                                  | != \\*    | content != \\*                                                                             |\n| is not NULL              | all                                                  | =\\*      | content = \\*                                                                              |\n| is empty                 | text                                                 | =\"\"      | content = \"\"                                                                              |\n| negation                 | all                                                  | !        | content != \u00e2\u0080\u009dhello world\u00e2\u0080\u009d <br> !(content = \u00e2\u0080\u009dhello world\u00e2\u0080\u009d) <br> !(content =^ \u00e2\u0080\u009chello world\u00e2\u0080\u009d) |\n\n#### Collections (all types)\n\n| Definition                | Operator | Example                              |\n| ------------------------- | -------- | ------------------------------------ |\n| exact match with ordering | =        | industries = [Healthcare,Fintech]    |\n| contains all              | =~       | industries =~ [Healthcare,Fintech]   |\n| empty                     | =[]      | industries =[]                       |\n| negation                  | !        | !(industries = [Healthcare,Fintech]) |\n\n## Error Codes\n\nHere is a list of the error codes the API will return if something goes wrong (see endpoint\ndocumentation for endpoint-specific errors):\n\n| Error Code | Meaning                                                                                                                                                                                                     |\n| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| 400        | Bad Request \u00e2\u0080\u0094 See endpoint documentation for more information.                                                                                                                                              |\n| 401        | Unauthorized \u00e2\u0080\u0094 Your API key is invalid.                                                                                                                                                                     |\n| 403        | Forbidden \u00e2\u0080\u0094 Insufficient rights to a resource.                                                                                                                                                              |\n| 404        | Not Found \u00e2\u0080\u0094 Requested resource does not exist. See endpoint documentation for more information.                                                                                                             |\n| 405        | Method Not Allowed \u00e2\u0080\u0094 The method being used is not supported for this resource.                                                                                                                              |\n| 422        | Unprocessable Entity \u00e2\u0080\u0094 Malformed parameters supplied. This can also happen in cases the parameters supplied logically cannot complete the request. In this case, an appropriate error message is delivered. |\n| 429        | Too Many Requests \u00e2\u0080\u0094 You have exceeded the rate limit.                                                                                                                                                       |\n| 500        | Internal Server Error \u00e2\u0080\u0094 We had a problem with our server. Try again later.                                                                                                                                  |\n| 503        | Service Unavailable \u00e2\u0080\u0094 This shouldn't generally happen. Contact us if you encounter this error.                                                                                                              |\n\n## Versioning\n\nVersioning in Affinity\u00e2\u0080\u0099s API ensures that your integrations remain stable as updates are introduced.\nWithin API v2, minor versions identify releases that may include breaking or behavior-changing\nmodifications, and they allow you to target the exact API behavior your integration depends on.\n\nWhen you create an API key in the Settings page, you'll select a **Default API Version** for that\nkey. The current available versions are:\n\n- **2024-01-01** - The current stable version of the v2 API\n\nAs new minor versions of Affinity API v2 are introduced, they will appear in this list. You\u00e2\u0080\u0099ll be\nable to create new keys using those versions or update an existing key to use a newer version.\n\n## Beta Endpoints\n\nYou\u00e2\u0080\u0099ll notice in our documentation that some endpoints will be marked as BETA. These endpoints are\nnewly released and will eventually progress to General Availability (GA). While an endpoint is in\nBETA there are some important things to consider:\n\n- The development of this endpoint may still be in progress. This means new capabilities, request\n  parameters, response data, and performance improvements may be adjusted over time. Because of\n  this, breaking changes may occur to the endpoint WITHOUT notice or versioning.\n- As this is an early release, bug fixes may still be ongoing as well, and we encourage you to\n  report bugs to [support@affinity.co](mailto:support@affinity.co).\n- In addition, your feedback around the capabilities of the endpoint are highly valuable, please\n  reach out to your CSM to provide feedback to our product team.\n\n# Data Model\n\n## The Basics\n\nThe three top-level objects in Affinity are **Persons, Companies, and Opportunities**. (Note:\nCompanies are called Organizations in the Affinity web app.) These have profiles in the Affinity web\napp and can be added to Lists.\n\nA **List** is a spreadsheet-like collection of rows tied to Persons, Companies, or Opportunities.\n\n- Each row on a List is a **List Entry**. A List Entry contains data and metadata about a given\n  Person, Company, or Opportunity in the context of a List. This includes list-specific field data,\n  and information about who added the row to the List and when.\n- A given entity can be added to a List more than once. These List Entries can have different\n  List-specific field data and List Entry-level metadata.\n\nEach column on a List maps to a **Field**. Fields show up within Affinity profile pages, extensions,\nand integrations. There are two categories of fields:\n\n- **List-specific fields** are scoped to a single List. In the API, their data can only be accessed\n  through the List Entry resource.\n- **Global fields** belong to entities directly. These can include default fields, fields created by\n  you, enrichment fields, or relationship intelligence fields. They can be accessed through the\n  Person/Company/Opportunity resources and the List Entry resource.\n\n## Working with Field Data\n\n### Field Types and IDs\n\nHere is a deeper look at the types of Fields in Affinity, differentiated by the scope and source of\ntheir data:\n\n| Field&nbsp;Type             | Description                                                                                                                                                  | Example Fields                                                                                                                                              | Field ID Pattern                                                                                                                             |\n| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| `enriched`                  | Firmographic, funding, and people Fields populated by Affinity. These can be \"Affinity Data\" Fields or come from distinct data partners.                     | \"Affinity Data: Description\", \"Dealroom: Number of Employees\"                                                                                               | A string representing the enrichment source, followed by the field name, e.g. `affinity-data-description` or `dealroom-number-of-employees`. |\n| `list`                      | Fields that are specific to the context of a given list. These can only be accessed through `*/list-entries` endpoints in this version of the API.           | Default \"Status\" and \"Amount\" columns, custom columns that pertain to a given List of deals or founders                                                     | `field-`, followed by a unique integer, e.g. `field-1234`                                                                                    |\n| `global`                    | Fields that persist across an Affinity account and are not list-specific.                                                                                    | \"My Firm's Founder Scoring Column\"                                                                                                                          | `field-`, followed by a unique integer, e.g. `field-1234`                                                                                    |\n| `relationship-intelligence` | Fields populated by Affinity from users' email and calendar data that provide insight into your firm's relationship with a given Person/Company/Opportunity. | \"Source of Introduction\", \"First Email\", \"Last Email\", \"First Event\", \"Last Event\", \"Next Event\", \"First Chat Message\", \"Last Chat Message\", \"Last Contact\" | A string similar to the field's name in-product, e.g. `source-of-introduction`                                                               |\n\n### Field Value Types\n\nField data can take a variety of shapes. These value types are described in the Affinity Help Center\n[creating columns in lists](https://support.affinity.co/hc/en-us/articles/115001608232-How-to-create-a-new-column-in-a-list).\nHere is a list of the same value types, as represented in this API. Notice how array types end with\n`-multi`:\n\n| Single Type         | Array Type                |\n| ------------------- | ------------------------- |\n| `text`              | Not supported in Affinity |\n| `number`            | `number-multi`            |\n| `datetime`          | Not supported in Affinity |\n| `location`          | `location-multi`          |\n| `dropdown`          | `dropdown-multi`          |\n| `ranked-dropdown`   | Not supported in Affinity |\n| `person`            | `person-multi`            |\n| `company`           | `company-multi`           |\n| `filterable-text`\\* | `filterable-text-multi`\\* |\n\n\\*Note that `filterable-text` and `filterable-text-multi` are special types that operate similarly\nto `dropdown` and `dropdown-multi`. They are reserved for Affinity-populated Fields, and users\ncannot create Fields with these types.\n\nWhen an array-typed value has no data in it, the API will return `null` (rather than an empty\narray).\n\n### Retrieving Field Data\n\nTo retrieve field data on companies, persons, or opportunities, call GET `/v2/companies`, GET\n`/v2/persons`, or one of our GET `*/list-entries` endpoints. (Note that Opportunities only have\nlist-specific Fields, so all their field data will live on the `*/list-entries` endpoints.) For most\nof these endpoints, you will need to specify the Fields for which you want data returned via the\n`fieldIds` or `fieldTypes` parameter \u00e2\u0080\u0094 Otherwise, entities will be returned without any field data\nattached.\n\nThe GET `/v2/companies` and `/v2/persons` endpoints can return entities with enriched, global, and\nrelationship intelligence field data attached, but do not support list-specific field data. **To get\ncomprehensive field data including list-specific field data on Companies and Persons, use the GET\n`*/list-entries` endpoints.**\n\n### Specifying Desired Fields (Field Selection)\n\nAs mentioned above, you will need to specify the Fields (either by ID or by Type) for which you want\ndata returned when using the following endpoints:\n\n- GET `/v2/companies`\n- GET `/v2/companies/{id}`\n- GET `/v2/persons`\n- GET `/v2/persons/{id}`\n- GET `/v2/lists/{listId}/list-entries`\n\nEach of these endpoints has a `fieldIds` parameter that accepts an array of Field IDs, and a\n`fieldTypes` parameter that accepts an array of Field Types. Use the GET `*/fields` endpoints to get\nField IDs, Field Types, and other Field-level metadata:\n\n- Call GET `/v2/companies/fields` and `/v2/persons/fields` to get a list of the enriched, global,\n  and relationship intelligence (AKA non-list-specific) Fields that exist on Companies and Persons,\n  respectively. These are the Fields whose values are available to pull via GET `/v2/companies`, GET\n  `/v2/companies/{id}`, GET `/v2/persons`, and `/v2/persons/{id}`.\n- Call GET `/v2/lists/{listId}/fields` to get a list of the enriched, global, relationship\n  intelligence, **and list-specific** Fields for a given List. These are the Fields whose values are\n  available to pull via GET `/v2/lists/{listId}/list-entries`.\n\nThe following endpoints don't require field selection:\n\n- GET `/v2/lists/{listId}/saved-views/{viewId}/list-entries` \u00e2\u0080\u0094 See below. This endpoint returns just\n  the field data that has been pulled into the given Saved View via UI.\n- GET `/v2/companies/{id}/list-entries` and GET `/v2/persons/{id}/list-entries` \u00e2\u0080\u0094 These endpoints\n  return comprehensive field data for the given person or company in the context of each List Entry.\n\n### Saved Views\n\nA Saved View allows a user to configure the Fields they want to see in the UI for a given List, and\nset filters and sorts on the rows on that List. A List can have multiple Saved Views. In the context\nof this API, Saved Views can be useful for specifying the exact Fields for which data is needed. The\n`*/saved-views/{viewId}/list-entries` endpoint also respects the filters that have been set on the\ngiven Saved View in the Affinity web app. (It does not, however, respect sorts just yet.)\n\n### Partner Data Restrictions\n\nThis API supports pulling data from\n[Affinity Data](https://support.affinity.co/hc/en-us/articles/360058255052-Affinity-Data) fields and\nselect\n[Dealroom fields](https://support.affinity.co/hc/en-us/articles/6106558518797-Dealroom-co-data-in-Affinity#h_01G2N22SVH7TJR3DJV3NQDE9HQ).\nDue the agreements we have with some of our data partners, the API does not expose data from the\nfollowing sources:\n\n- Crunchbase, including Crunchbase UUID\n- Pitchbook\n- [Dealroom \"exclusive\" fields](https://support.affinity.co/hc/en-us/articles/6106558518797-Dealroom-co-data-in-Affinity#h_01G2N22YEAZJ5TC1X9ENKZFWF5)\n\n## Nested Associations\n\nSome GET endpoints return \"association\" data under `fields`. For example, the Persons GET endpoints\nreturn data about which Companies a Person is associated with in Affinity. The Opportunities GET\nendpoints return similar data about associated Companies and Persons. The List Entries GET endpoints\nalso return this data for Person and Opportunity List Entries.\n\nThe API truncates these nested arrays of Persons or Companies **at 100 entries**. For example, if an\nOpportunity is associated with 200 Persons in Affinity, only 100 of those Persons will be returned\nby the GET `/opportunities` or `/opportunities/{id}` endpoint.\n\n# User Guides\n\n## A Tour of Our GET Endpoints\n\n| Desired Data                                                | Relevant Endpoints                                                                                                                                                                                                                                                                                                                                    | Notes                                                                                     |\n| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |\n| Company/Person/Opportunity rows from a List                 | Grab the List\u00e2\u0080\u0099s ID from its URL in the Affinity web app, then hit GET `/v2/lists/{listId}/list-entries`                                                                                                                                                                                                                                               | Data returned will be restricted to the rows on the requested List                        |\n| Company/Person/Opportunity rows from a Saved View           | In the Affinity web app, navigate to a List and [create a Saved View](https://support.affinity.co/hc/en-us/articles/115001508572-How-to-leverage-saved-views-within-a-list) with the desired field data and filters on it. Grab the List and Saved View IDs from the web app URL, then hit GET `/v2/lists/{listId}/saved-views/{viewId}/list-entries` | Data returned will be restricted to the rows and columns on the requested Saved View      |\n| Full rolodex of Companies or Persons in Affinity            | GET `/v2/companies`, GET `/v2/persons`                                                                                                                                                                                                                                                                                                                | Data from list-specific Fields will not be returned                                       |\n| All the rows for a given Company or Person across all Lists | GET `/v2/companies/{id}/list-entries`, GET `/v2/persons/{id}/list-entries`                                                                                                                                                                                                                                                                            |                                                                                           |\n| Metadata on Fields, including Field IDs                     | GET `/v2/companies/fields`, GET `/v2/persons/fields`, GET `/v2/lists/{listId}/fields`                                                                                                                                                                                                                                                                 | Metadata on list-specific Fields will only be returned by GET `/v2/lists/{listId}/fields` |\n| Metadata on Lists or Saved Views                            | GET `/v2/lists`, GET `/v2/lists/{listId}/saved-views`                                                                                                                                                                                                                                                                                                 |                                                                                           |\n| Opportunity data                                            | GET `/v2/opportunities` will only return Opportunity names and List IDs. For comprehensive Opportunity data, hit GET `/v2/lists/{listId}/list-entries` for an Opportunity List                                                                                                                                                                        |                                                                                           |\n\nTip: The ID for a List, Saved View, Person, Company, or Opportunity can always be found in its\nAffinity web app URL.\n\n# Upcoming Changes\n\n## January 1st, 2026\n\n- Rate Limit Change: Rate limit response headers will be updated to use lowercase formatting. This\n  change affects all API endpoints. The new lowercase headers are:\n\n| Header                           | Description                                             |\n| -------------------------------- | ------------------------------------------------------- |\n| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |\n| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |\n| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |\n| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |\n| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |\n| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |\n\nTo ensure compatibility with this change, we recommend updating your application to read rate limit\nheaders using a case-insensitive approach, which will work both before and after this change.\n\n- API Change: Handling timestamps for date fields. Affinity is standardizing how dates are\n  represented across the platform to ensure consistency between the application and the API.\n  Starting January 1st, 2026, the API will change how it handles timestamps for date fields. Today,\n  timestamps sent to date fields over the API are not visible to users in any CRM interface. After\n  this change, the API will ignore any time information included in requests, storing and returning\n  values at midnight Pacific Time (PT) on the submitted date.\n\n  **Example:**\n  - API request includes: `2024-04-01T15:30:00Z`\n  - Affinity will store and return: `2024-04-01T07:00:00.000Z` (equivalent to midnight PT)\n\n  Any existing date field values that currently include timestamps will also be updated to reflect\n  midnight PT on their stored date. No action is required unless your integration depends on time\n  data within date fields.\n\n# Changelog\n\n## September 25th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                 | Summary                      |\n| ------ | ----------------------------------- | ---------------------------- |\n| GET    | `/v2/company-merges`                | Get All Company Merge status |\n| POST   | `/v2/company-merges`                | Initiate Company Merge       |\n| GET    | `/v2/company-merges/{mergeId}`      | Get Company Merge status     |\n| GET    | `/v2/tasks/company-merges`          | Get All Company Merge Tasks  |\n| GET    | `/v2/tasks/company-merges/{taskId}` | Get Company Merge Task       |\n\n## July 30th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                | Summary                     |\n| ------ | ---------------------------------- | --------------------------- |\n| GET    | `/v2/person-merges`                | Get All Person Merge status |\n| POST   | `/v2/person-merges`                | Initiate Person Merge       |\n| GET    | `/v2/person-merges/{mergeId}`      | Get Person Merge status     |\n| GET    | `/v2/tasks/person-merges`          | Get All Person Merge Tasks  |\n| GET    | `/v2/tasks/person-merges/{taskId}` | Get Person Merge Task       |\n\n## May 14th, 2025\n\n- Renamed all path parameters named simply \"id\" to a more descriptive name (eg. \"personId\"). This\n  will not have any effect on the API at runtime, but may impact code relying on the OpenAPI spec\n  doing type generation.\n\n## April 9th, 2025\n\n- The following endpoints are no longer in BETA:\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}`                  | Get a single List Entry on a List                 |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Get field values on a single List Entry           |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Get a single field value                          |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## March 31st, 2025\n\n- The following beta endpoints now support updating association fields.\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## February 28th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}`                  | Get a single List Entry on a List                 |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Get field values on a single List Entry           |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Get a single field value                          |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## January 17th, 2025\n\n- Document `X-Ratelimit` headers in the schema for all endpoints.\n\n## January 15th, 2025\n\n- Add default responses to all endpoints to document all possible error codes that can be returned\n  by the API.\n- Updated 400 error responses to correctly include the `bad-request` error code as a possible error.\n\n## December 3rd, 2024\n\n- Properly document `listId` property on `CompanyListEntry`, `PersonListEntry`, and\n  `OpportunityListEntry` schemas.\n\n## September 25th, 2024\n\n- Upgrade schema to OpenAPI 3.1\n\n## August 5, 2024\n\n- Correct `opp` to `opportunity` to match documentation for the `List` `type` property.\n\n## July 24, 2024\n\n- More accurate documentation for response properties that are enums \u00e2\u0080\u0094 Enums with `null` as a\n  possible value will have it listed as one.\n\n## March 25, 2024\n\n- Added the ability to retrieve the date and other details of your firm's \"First Email\", \"Last\n  Email\", \"First Event\", \"Last Event\", \"Next Event\", \"First Chat Message\", \"Last Chat Message\", and\n  \"Last Contact\" with a given entity. Use these timestamps to add relationship context to your\n  applications, and to identify founders and companies that need investors' attention.\n- Endpoints that previously required a `fieldIds` parameter to return field data, now accept either\n  `fieldIds` or `fieldTypes`, and will return field data accordingly. See the\n  [Specifying Desired Fields (Field Selection)](#section/Data-Model/Working-with-Field-Data) section\n  of these docs for more information. The new `fieldTypes` parameter should make field data\n  retrieval easier for users looking to pull data from many similar Fields at a time.\n\n## January 4, 2023\n\n- Most endpoints that return field data now require the user to use the `fieldIds` parameter to\n  specify which Fields they want data for. Without `fieldIds` specified, these endpoints will return\n  basic entity data but not field data.\n\n## December 12, 2023\n\n- Added the ability to retrieve metadata (e.g. ID, name, type, enrichment source, and data type) on\n  Fields. See the [Retrieving Field Metadata](#section/Data-Model/Working-with-Field-Data) section\n  of these docs for more information.\n",
+    "description": "# Introduction\n\nWelcome to Affinity API v2! This API provides a RESTful interface for building internal apps,\nautomated workflows, 3rd party integrations, and for connecting Affinity to the rest of your tech\nstack.\n\nThe legacy Affinity v1 API can be found at [api-docs.affinity.co](https://api-docs.affinity.co/).\nThe v2 API is not at feature parity with v1 - we are continuing to develop new v2 APIs to support\nall v1 functionality over time.\n\n**The Affinity APIs are only available on select license types.** See\n[this Help Center article](https://support.affinity.co/hc/en-us/articles/5563700459533-Getting-started-with-the-Affinity-API-FAQs)\nor contact your Customer Success Manager for more information.\n\n# Getting Started\n\nAll Affinity API endpoints use the base URL `https://api.affinity.co`. All v2 endpoint paths start\nwith `/v2`. Requests must be sent over HTTPS.\n\nThe first few sections of these docs cover general information on the API. Each subsequent section\ncovers a set of API endpoints.\n\nEach endpoint is documented with its accepted request parameters, expected response shapes, and a\nsample request and response. The shape of a given response can vary depending on what \"type\" of\nobject or data is being returned. When this is the case, the response documentation will include a\ndropdown that can be used to select the \"type\" for which to display the response shape.\n\n## Authentication\n\nAffinity API v2 uses API keys and **bearer authentication**.\n\nTo generate an API key, navigate to the Manage Apps Page in your Affinity Settings. You will need\nthe \"Generate an API key\" role-based permission controlled by your Affinity admin. See\n[this Help Center article](https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key)\nfor full instructions on API key generation, and\n[this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)\nfor more information on role-based permissions in Affinity.\n\nProvide your API key as your bearer authentication token to start making calls to Affinity API v2.\n\nYou can create multiple API keys and provide a name and description for each. Your API key is able\nto read data and perform actions in Affinity on your behalf, so keep it safe as you would a\npassword. To further secure an API key, you can define an IP Allowlist to limit which IP addresses\nor ranges can make API calls using that key.\n\n## Permissions\n\n### Overall Requirements\n\nYou must have the \"Generate an API key\" permission to be able to work with the Affinity API. Most\nusers in Affinity have this by default \u00e2\u0080\u0094 Contact your Affinity admin if you are not able to generate\nan API key, and see\n[this article](https://support.affinity.co/hc/en-us/articles/360015976732-Account-Level-Permissions)\nfor more information on role-based permissions in Affinity.\n\n### Resource-Level Permissions\n\nThe Affinity API respects sharing permissions that are set in-product. For example, if a given user\ndoes not have access to a list, note, or interaction in-product, they will not be able to see or\nmodify it via API.\n\n### Endpoint-Level Permissions\n\nMany API endpoints require endpoint-specific permissions in-product. These permissions, along with\nthe \"Generate an API key\" permission, are managed by your Affinity admin in the Settings page. In\nthe description of each endpoint you will see the required permissions needed.\n\n## Rate Limits\n\nThe Affinity API sets a limit on the number of calls that a user can make per minute, and that all\nthe users on an account can make per month. It also sets a reasonable limit on the number of\nconcurrent requests it will support from an account at one time.\n\nRequests to **both** Affinity API versions will count toward the one pool of requests allowed for a\nuser or account. Once a per-minute, monthly, or concurrent rate limit is hit, subsequent requests\nwill return an error code of 429. **We highly recommend designing your application to handle 429\nerrors.**\n\n### Per-Minute Limits (User-Level)\n\nTo help protect our systems, API requests will be halted at **900 per user, per minute.** We may\nalso lower this limit on a temporary basis to manage API availability.\n\n### Concurrent Request Limits (Account-Level)\n\nTo protect our systems and manage availability across customers, we set a reasonable limit on\nconcurrent requests at the account level. Customers should not expect to hit this limit unless they\nare hitting the API with heavy operations from many concurrent threads at once.\n\n### Monthly Plan Tier Limits (Account-Level)\n\nThe overall number of requests you can make per month will depend on your account's plan tier.\n**This monthly account-level limit resets at the end of each calendar month.** Current rate limits\nby plan tier are:\n\n| Plan Tier  | Calls Per Month |\n| ---------- | --------------- |\n| Essentials | None            |\n| Scale      | 100k            |\n| Advanced   | 100k            |\n| Enterprise | Unlimited\\*     |\n\n\\*Per-Minute and Concurrent Request Limits still apply.\n\n### Rate Limit Headers\n\nAll API calls will return the following response headers with information about per-minute and\nmonthly limits:\n\n| Header                           | Description                                             |\n| -------------------------------- | ------------------------------------------------------- |\n| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |\n| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |\n| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |\n| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |\n| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |\n| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |\n\n## Pagination\n\nWhen an endpoint is expected to return multiple results, we break the results into pages to make\nthem easier to handle. To cycle forward through multiple pages of data, look for the `nextUrl`\nproperty in the `pagination` portion of an API response, and use it for your next request. See\nendpoint documentation for more information.\n\n## Filtering\n\nSome endpoints support a filtering language for flexible and powerful queries. This allows for the\ncreation of complex filter expressions using different operators and boolean logic in a single\nfilter string. The description of each endpoint will contain information on which filter properties\nand operators are supported.\n\n### Rules\n\n- Spaces are insignificant by default. For example, `field = hello` and `field=hello` are both\n  valid.\n- If spaces are significant, they need to be inside double quotes, for example,\n  `field = \"hello world\"`\n- Special characters need to be escaped with a backslash: `field=\"hello\\\" world\"` <br> Full list of\n  special characters: `\\ * ~ ! & = > < $ ^ | \" ' ( ) ] [ /`\n- Use `&` and `|` for boolean operations: `foo = 1 | baz = 2 & bar = 3`. Boolean Algebra Logic is\n  assumed: `&` takes precedence over `|`. When evaluating the condition above, `baz = 2 & bar = 3`\n  will be computed first, and then the result will be `or`'ed with `foo=1`\n- Parentheses can be used to specify the order of operations. In the example above, to make sure\n  that `foo = 1 | baz = 2` is evaluated first, parentheses must be placed\n  `(foo = 1 | baz = 2) & bar = 3`\n\n### Grammar\n\n#### Simple Types\n\n| Definition               | Property Type                                        | Operator | Example                                                                                   |\n| ------------------------ | ---------------------------------------------------- | -------- | ----------------------------------------------------------------------------------------- |\n| exact match              | all                                                  | =        | content = \u00e2\u0080\u009chello world\u00e2\u0080\u009d <br> content=hello                                                |\n| starts with              | text                                                 | =^       | content =^ he                                                                             |\n| ends with                | text                                                 | =$       | content =$ llo                                                                            |\n| contains                 | text                                                 | =~       | content =~ lo                                                                             |\n| greater than             | int32, int64, float, double, decimal, date, datetime | \\>       | count > 1                                                                                 |\n| greater than or equal to | int32, int64, float, double, decimal, date, datetime | \\>=      | content >= 1                                                                              |\n| less than                | int32, int64, float, double, decimal, date, datetime | \\<       | count < 1                                                                                 |\n| less than or equal to    | int32, int64, float, double, decimal, date, datetime | \\<=      | content <= 1                                                                              |\n| is NULL                  | all                                                  | != \\*    | content != \\*                                                                             |\n| is not NULL              | all                                                  | =\\*      | content = \\*                                                                              |\n| is empty                 | text                                                 | =\"\"      | content = \"\"                                                                              |\n| negation                 | all                                                  | !        | content != \u00e2\u0080\u009dhello world\u00e2\u0080\u009d <br> !(content = \u00e2\u0080\u009dhello world\u00e2\u0080\u009d) <br> !(content =^ \u00e2\u0080\u009chello world\u00e2\u0080\u009d) |\n\n#### Collections (all types)\n\n| Definition                | Operator | Example                              |\n| ------------------------- | -------- | ------------------------------------ |\n| exact match with ordering | =        | industries = [Healthcare,Fintech]    |\n| contains all              | =~       | industries =~ [Healthcare,Fintech]   |\n| empty                     | =[]      | industries =[]                       |\n| negation                  | !        | !(industries = [Healthcare,Fintech]) |\n\n## Error Codes\n\nHere is a list of the error codes the API will return if something goes wrong (see endpoint\ndocumentation for endpoint-specific errors):\n\n| Error Code | Meaning                                                                                                                                                                                                     |\n| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| 400        | Bad Request \u00e2\u0080\u0094 See endpoint documentation for more information.                                                                                                                                              |\n| 401        | Unauthorized \u00e2\u0080\u0094 Your API key is invalid.                                                                                                                                                                     |\n| 403        | Forbidden \u00e2\u0080\u0094 Insufficient rights to a resource.                                                                                                                                                              |\n| 404        | Not Found \u00e2\u0080\u0094 Requested resource does not exist. See endpoint documentation for more information.                                                                                                             |\n| 405        | Method Not Allowed \u00e2\u0080\u0094 The method being used is not supported for this resource.                                                                                                                              |\n| 422        | Unprocessable Entity \u00e2\u0080\u0094 Malformed parameters supplied. This can also happen in cases the parameters supplied logically cannot complete the request. In this case, an appropriate error message is delivered. |\n| 429        | Too Many Requests \u00e2\u0080\u0094 You have exceeded the rate limit.                                                                                                                                                       |\n| 500        | Internal Server Error \u00e2\u0080\u0094 We had a problem with our server. Try again later.                                                                                                                                  |\n| 503        | Service Unavailable \u00e2\u0080\u0094 This shouldn't generally happen. Contact us if you encounter this error.                                                                                                              |\n\n## Versioning\n\nVersioning in Affinity\u00e2\u0080\u0099s API ensures that your integrations remain stable as updates are introduced.\nWithin API v2, minor versions identify releases that may include breaking or behavior-changing\nmodifications, and they allow you to target the exact API behavior your integration depends on.\n\nWhen you create an API key in the Settings page, you'll select a **Default API Version** for that\nkey. The current available versions are:\n\n- **2024-01-01** - The current stable version of the v2 API\n\nAs new minor versions of Affinity API v2 are introduced, they will appear in this list. You\u00e2\u0080\u0099ll be\nable to create new keys using those versions or update an existing key to use a newer version.\n\n## Beta Endpoints\n\nYou\u00e2\u0080\u0099ll notice in our documentation that some endpoints will be marked as BETA. These endpoints are\nnewly released and will eventually progress to General Availability (GA). While an endpoint is in\nBETA there are some important things to consider:\n\n- The development of this endpoint may still be in progress. This means new capabilities, request\n  parameters, response data, and performance improvements may be adjusted over time. Because of\n  this, breaking changes may occur to the endpoint WITHOUT notice or versioning.\n- As this is an early release, bug fixes may still be ongoing as well, and we encourage you to\n  report bugs to [support@affinity.co](mailto:support@affinity.co).\n- In addition, your feedback around the capabilities of the endpoint are highly valuable, please\n  reach out to your CSM to provide feedback to our product team.\n\n# Data Model\n\n## The Basics\n\nThe three top-level objects in Affinity are **Persons, Companies, and Opportunities**. (Note:\nCompanies are called Organizations in the Affinity web app.) These have profiles in the Affinity web\napp and can be added to Lists.\n\nA **List** is a spreadsheet-like collection of rows tied to Persons, Companies, or Opportunities.\n\n- Each row on a List is a **List Entry**. A List Entry contains data and metadata about a given\n  Person, Company, or Opportunity in the context of a List. This includes list-specific field data,\n  and information about who added the row to the List and when.\n- A given entity can be added to a List more than once. These List Entries can have different\n  List-specific field data and List Entry-level metadata.\n\nEach column on a List maps to a **Field**. Fields show up within Affinity profile pages, extensions,\nand integrations. There are two categories of fields:\n\n- **List-specific fields** are scoped to a single List. In the API, their data can only be accessed\n  through the List Entry resource.\n- **Global fields** belong to entities directly. These can include default fields, fields created by\n  you, enrichment fields, or relationship intelligence fields. They can be accessed through the\n  Person/Company/Opportunity resources and the List Entry resource.\n\n## Working with Field Data\n\n### Field Types and IDs\n\nHere is a deeper look at the types of Fields in Affinity, differentiated by the scope and source of\ntheir data:\n\n| Field&nbsp;Type             | Description                                                                                                                                                  | Example Fields                                                                                                                                              | Field ID Pattern                                                                                                                             |\n| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| `enriched`                  | Firmographic, funding, and people Fields populated by Affinity. These can be \"Affinity Data\" Fields or come from distinct data partners.                     | \"Affinity Data: Description\", \"Dealroom: Number of Employees\"                                                                                               | A string representing the enrichment source, followed by the field name, e.g. `affinity-data-description` or `dealroom-number-of-employees`. |\n| `list`                      | Fields that are specific to the context of a given list. These can only be accessed through `*/list-entries` endpoints in this version of the API.           | Default \"Status\" and \"Amount\" columns, custom columns that pertain to a given List of deals or founders                                                     | `field-`, followed by a unique integer, e.g. `field-1234`                                                                                    |\n| `global`                    | Fields that persist across an Affinity account and are not list-specific.                                                                                    | \"My Firm's Founder Scoring Column\"                                                                                                                          | `field-`, followed by a unique integer, e.g. `field-1234`                                                                                    |\n| `relationship-intelligence` | Fields populated by Affinity from users' email and calendar data that provide insight into your firm's relationship with a given Person/Company/Opportunity. | \"Source of Introduction\", \"First Email\", \"Last Email\", \"First Event\", \"Last Event\", \"Next Event\", \"First Chat Message\", \"Last Chat Message\", \"Last Contact\" | A string similar to the field's name in-product, e.g. `source-of-introduction`                                                               |\n\n### Field Value Types\n\nField data can take a variety of shapes. These value types are described in the Affinity Help Center\n[creating columns in lists](https://support.affinity.co/hc/en-us/articles/115001608232-How-to-create-a-new-column-in-a-list).\nHere is a list of the same value types, as represented in this API. Notice how array types end with\n`-multi`:\n\n| Single Type         | Array Type                |\n| ------------------- | ------------------------- |\n| `text`              | Not supported in Affinity |\n| `number`            | `number-multi`            |\n| `datetime`          | Not supported in Affinity |\n| `location`          | `location-multi`          |\n| `dropdown`          | `dropdown-multi`          |\n| `ranked-dropdown`   | Not supported in Affinity |\n| `person`            | `person-multi`            |\n| `company`           | `company-multi`           |\n| `filterable-text`\\* | `filterable-text-multi`\\* |\n\n\\*Note that `filterable-text` and `filterable-text-multi` are special types that operate similarly\nto `dropdown` and `dropdown-multi`. They are reserved for Affinity-populated Fields, and users\ncannot create Fields with these types.\n\nWhen an array-typed value has no data in it, the API will return `null` (rather than an empty\narray).\n\n### Retrieving Field Data\n\nTo retrieve field data on companies, persons, or opportunities, call GET `/v2/companies`, GET\n`/v2/persons`, or one of our GET `*/list-entries` endpoints. (Note that Opportunities only have\nlist-specific Fields, so all their field data will live on the `*/list-entries` endpoints.) For most\nof these endpoints, you will need to specify the Fields for which you want data returned via the\n`fieldIds` or `fieldTypes` parameter \u00e2\u0080\u0094 Otherwise, entities will be returned without any field data\nattached.\n\nThe GET `/v2/companies` and `/v2/persons` endpoints can return entities with enriched, global, and\nrelationship intelligence field data attached, but do not support list-specific field data. **To get\ncomprehensive field data including list-specific field data on Companies and Persons, use the GET\n`*/list-entries` endpoints.**\n\n### Specifying Desired Fields (Field Selection)\n\nAs mentioned above, you will need to specify the Fields (either by ID or by Type) for which you want\ndata returned when using the following endpoints:\n\n- GET `/v2/companies`\n- GET `/v2/companies/{id}`\n- GET `/v2/persons`\n- GET `/v2/persons/{id}`\n- GET `/v2/lists/{listId}/list-entries`\n\nEach of these endpoints has a `fieldIds` parameter that accepts an array of Field IDs, and a\n`fieldTypes` parameter that accepts an array of Field Types. Use the GET `*/fields` endpoints to get\nField IDs, Field Types, and other Field-level metadata:\n\n- Call GET `/v2/companies/fields` and `/v2/persons/fields` to get a list of the enriched, global,\n  and relationship intelligence (AKA non-list-specific) Fields that exist on Companies and Persons,\n  respectively. These are the Fields whose values are available to pull via GET `/v2/companies`, GET\n  `/v2/companies/{id}`, GET `/v2/persons`, and `/v2/persons/{id}`.\n- Call GET `/v2/lists/{listId}/fields` to get a list of the enriched, global, relationship\n  intelligence, **and list-specific** Fields for a given List. These are the Fields whose values are\n  available to pull via GET `/v2/lists/{listId}/list-entries`.\n\nThe following endpoints don't require field selection:\n\n- GET `/v2/lists/{listId}/saved-views/{viewId}/list-entries` \u00e2\u0080\u0094 See below. This endpoint returns just\n  the field data that has been pulled into the given Saved View via UI.\n- GET `/v2/companies/{id}/list-entries` and GET `/v2/persons/{id}/list-entries` \u00e2\u0080\u0094 These endpoints\n  return comprehensive field data for the given person or company in the context of each List Entry.\n\n### Saved Views\n\nA Saved View allows a user to configure the Fields they want to see in the UI for a given List, and\nset filters and sorts on the rows on that List. A List can have multiple Saved Views. In the context\nof this API, Saved Views can be useful for specifying the exact Fields for which data is needed. The\n`*/saved-views/{viewId}/list-entries` endpoint also respects the filters that have been set on the\ngiven Saved View in the Affinity web app. (It does not, however, respect sorts just yet.)\n\n### Partner Data Restrictions\n\nThis API supports pulling data from\n[Affinity Data](https://support.affinity.co/hc/en-us/articles/360058255052-Affinity-Data) fields and\nselect\n[Dealroom fields](https://support.affinity.co/hc/en-us/articles/6106558518797-Dealroom-co-data-in-Affinity#h_01G2N22SVH7TJR3DJV3NQDE9HQ).\nDue the agreements we have with some of our data partners, the API does not expose data from the\nfollowing sources:\n\n- Crunchbase, including Crunchbase UUID\n- Pitchbook\n- [Dealroom \"exclusive\" fields](https://support.affinity.co/hc/en-us/articles/6106558518797-Dealroom-co-data-in-Affinity#h_01G2N22YEAZJ5TC1X9ENKZFWF5)\n\n## Nested Associations\n\nSome GET endpoints return \"association\" data under `fields`. For example, the Persons GET endpoints\nreturn data about which Companies a Person is associated with in Affinity. The Opportunities GET\nendpoints return similar data about associated Companies and Persons. The List Entries GET endpoints\nalso return this data for Person and Opportunity List Entries.\n\nThe API truncates these nested arrays of Persons or Companies **at 100 entries**. For example, if an\nOpportunity is associated with 200 Persons in Affinity, only 100 of those Persons will be returned\nby the GET `/opportunities` or `/opportunities/{id}` endpoint.\n\n# Changelog\n\n## January 14th, 2026\n\n- Rate limit response headers have been updated to use lowercase formatting. This change affects all\n  API endpoints. The new lowercase headers are:\n\n| Header                           | Description                                             |\n| -------------------------------- | ------------------------------------------------------- |\n| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |\n| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |\n| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |\n| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |\n| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |\n| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |\n\n## January 1st, 2026\n\n- API Change: Handling timestamps for date fields. Affinity is standardizing how dates are\n  represented across the platform to ensure consistency between the application and the API.\n  Starting January 1st, 2026, the API will change how it handles timestamps for date fields. Today,\n  timestamps sent to date fields over the API are not visible to users in any CRM interface. After\n  this change, the API will ignore any time information included in requests, storing and returning\n  values at midnight Pacific Time (PT) on the submitted date.\n\n  **Example:**\n  - API request includes: `2024-04-01T15:30:00Z`\n  - Affinity will store and return: `2024-04-01T07:00:00.000Z` (equivalent to midnight PT)\n\n  Any existing date field values that currently include timestamps will also be updated to reflect\n  midnight PT on their stored date. No action is required unless your integration depends on time\n  data within date fields.\n\n## September 25th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                 | Summary                      |\n| ------ | ----------------------------------- | ---------------------------- |\n| GET    | `/v2/company-merges`                | Get All Company Merge status |\n| POST   | `/v2/company-merges`                | Initiate Company Merge       |\n| GET    | `/v2/company-merges/{mergeId}`      | Get Company Merge status     |\n| GET    | `/v2/tasks/company-merges`          | Get All Company Merge Tasks  |\n| GET    | `/v2/tasks/company-merges/{taskId}` | Get Company Merge Task       |\n\n## July 30th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                | Summary                     |\n| ------ | ---------------------------------- | --------------------------- |\n| GET    | `/v2/person-merges`                | Get All Person Merge status |\n| POST   | `/v2/person-merges`                | Initiate Person Merge       |\n| GET    | `/v2/person-merges/{mergeId}`      | Get Person Merge status     |\n| GET    | `/v2/tasks/person-merges`          | Get All Person Merge Tasks  |\n| GET    | `/v2/tasks/person-merges/{taskId}` | Get Person Merge Task       |\n\n## May 14th, 2025\n\n- Renamed all path parameters named simply \"id\" to a more descriptive name (eg. \"personId\"). This\n  will not have any effect on the API at runtime, but may impact code relying on the OpenAPI spec\n  doing type generation.\n\n## April 9th, 2025\n\n- The following endpoints are no longer in BETA:\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}`                  | Get a single List Entry on a List                 |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Get field values on a single List Entry           |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Get a single field value                          |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## March 31st, 2025\n\n- The following beta endpoints now support updating association fields.\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## February 28th, 2025\n\n- Added the following endpoints in BETA:\n\n| Method | URL                                                              | Summary                                           |\n| ------ | ---------------------------------------------------------------- | ------------------------------------------------- |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}`                  | Get a single List Entry on a List                 |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Get field values on a single List Entry           |\n| PATCH  | `/v2/lists/{listId}/list-entries/{listEntryId}/fields`           | Perform batch operations on a list entry's fields |\n| GET    | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Get a single field value                          |\n| POST   | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Update a single field value on a List Entry       |\n\n## January 17th, 2025\n\n- Document `X-Ratelimit` headers in the schema for all endpoints.\n\n## January 15th, 2025\n\n- Add default responses to all endpoints to document all possible error codes that can be returned\n  by the API.\n- Updated 400 error responses to correctly include the `bad-request` error code as a possible error.\n\n## December 3rd, 2024\n\n- Properly document `listId` property on `CompanyListEntry`, `PersonListEntry`, and\n  `OpportunityListEntry` schemas.\n\n## September 25th, 2024\n\n- Upgrade schema to OpenAPI 3.1\n\n## August 5, 2024\n\n- Correct `opp` to `opportunity` to match documentation for the `List` `type` property.\n\n## July 24, 2024\n\n- More accurate documentation for response properties that are enums \u00e2\u0080\u0094 Enums with `null` as a\n  possible value will have it listed as one.\n\n## March 25, 2024\n\n- Added the ability to retrieve the date and other details of your firm's \"First Email\", \"Last\n  Email\", \"First Event\", \"Last Event\", \"Next Event\", \"First Chat Message\", \"Last Chat Message\", and\n  \"Last Contact\" with a given entity. Use these timestamps to add relationship context to your\n  applications, and to identify founders and companies that need investors' attention.\n- Endpoints that previously required a `fieldIds` parameter to return field data, now accept either\n  `fieldIds` or `fieldTypes`, and will return field data accordingly. See the\n  [Specifying Desired Fields (Field Selection)](#section/Data-Model/Working-with-Field-Data) section\n  of these docs for more information. The new `fieldTypes` parameter should make field data\n  retrieval easier for users looking to pull data from many similar Fields at a time.\n\n## January 4, 2023\n\n- Most endpoints that return field data now require the user to use the `fieldIds` parameter to\n  specify which Fields they want data for. Without `fieldIds` specified, these endpoints will return\n  basic entity data but not field data.\n\n## December 12, 2023\n\n- Added the ability to retrieve metadata (e.g. ID, name, type, enrichment source, and data type) on\n  Fields. See the [Retrieving Field Metadata](#section/Data-Model/Working-with-Field-Data) section\n  of these docs for more information.\n",
     "license": {
       "name": "Proprietary",
       "url": "https://www.affinity.co/legal/terms-of-use"
@@ -10487,22 +10616,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -10516,8 +10645,9 @@
         },
         "summary": "Get current user",
         "tags": [
-          "auth"
-        ]
+          "Auth"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/calls": {
@@ -10574,22 +10704,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -10603,8 +10733,9 @@
         },
         "summary": "Get metadata on all Calls",
         "tags": [
-          "calls"
-        ]
+          "Calls"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/chat-messages": {
@@ -10661,22 +10792,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -10690,8 +10821,9 @@
         },
         "summary": "Get metadata on all Chat Messages",
         "tags": [
-          "chatMessages"
-        ]
+          "Chat Messages"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/companies": {
@@ -10739,7 +10871,7 @@
             "schema": {
               "items": {
                 "format": "int64",
-                "maximum": 9223372036854776000,
+                "maximum": 9007199254740991,
                 "minimum": 1,
                 "type": "integer"
               },
@@ -10803,22 +10935,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -10835,8 +10967,9 @@
         },
         "summary": "Get all Companies",
         "tags": [
-          "companies"
-        ]
+          "Companies"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/companies/fields": {
@@ -10884,22 +11017,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -10913,8 +11046,9 @@
         },
         "summary": "Get metadata on Company Fields",
         "tags": [
-          "companies"
-        ]
+          "Companies"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/companies/{companyId}": {
@@ -10929,7 +11063,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -10990,22 +11124,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11025,8 +11159,9 @@
         },
         "summary": "Get a single Company",
         "tags": [
-          "companies"
-        ]
+          "Companies"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/companies/{companyId}/list-entries": {
@@ -11041,7 +11176,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -11086,22 +11221,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11121,8 +11256,9 @@
         },
         "summary": "Get a Company's List Entries",
         "tags": [
-          "companies"
-        ]
+          "Companies"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/companies/{companyId}/lists": {
@@ -11137,7 +11273,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -11182,22 +11318,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11214,8 +11350,9 @@
         },
         "summary": "Get a Company's Lists",
         "tags": [
-          "companies"
-        ]
+          "Companies"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/companies/{companyId}/notes": {
@@ -11230,7 +11367,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -11284,22 +11421,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11316,8 +11453,9 @@
         },
         "summary": "Get Notes for a Company",
         "tags": [
-          "companies"
+          "Companies"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -11374,22 +11512,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11406,8 +11544,9 @@
         },
         "summary": "Get All Company Merges",
         "tags": [
-          "companyMerges"
-        ]
+          "Company Merges"
+        ],
+        "x-operation-type": "retrieval-multiple"
       },
       "post": {
         "description": "Initiate a company merge to combine a duplicate company profile into a primary company profile.\n\nThis is an asynchronous process that will merge all data from the duplicate company into the primary company. Once the merge is initiated, you can track its progress using the returned [task URL](#tag/companyMerges/operation/v2_tasks_company-merges_taskId__GET).\n\nRequires the \"Manage duplicates\" [permission](#section/Getting-Started/Permissions) and organization admin role.",
@@ -11443,22 +11582,22 @@
             },
             "description": "Accepted",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11475,8 +11614,9 @@
         },
         "summary": "Initiate Company Merge",
         "tags": [
-          "companyMerges"
-        ]
+          "Company Merges"
+        ],
+        "x-operation-type": "creation-single-async"
       }
     },
     "/v2/company-merges/{mergeId}": {
@@ -11522,22 +11662,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11557,8 +11697,9 @@
         },
         "summary": "Get Company Merge",
         "tags": [
-          "companyMerges"
-        ]
+          "Company Merges"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/emails": {
@@ -11615,22 +11756,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11644,8 +11785,9 @@
         },
         "summary": "Get metadata on all Emails",
         "tags": [
-          "emails"
-        ]
+          "Emails"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/lists": {
@@ -11698,22 +11840,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11727,8 +11869,9 @@
         },
         "summary": "Get metadata on all Lists",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/lists/{listId}": {
@@ -11743,7 +11886,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -11771,22 +11914,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11803,8 +11946,9 @@
         },
         "summary": "Get metadata on a single List",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/lists/{listId}/fields": {
@@ -11819,7 +11963,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -11875,22 +12019,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -11907,8 +12051,9 @@
         },
         "summary": "Get metadata on a single List's Fields",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/lists/{listId}/list-entries": {
@@ -11923,7 +12068,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12024,22 +12169,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12059,8 +12204,9 @@
         },
         "summary": "Get all List Entries on a List",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/lists/{listId}/list-entries/{listEntryId}": {
@@ -12075,7 +12221,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12087,7 +12233,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12160,22 +12306,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12195,8 +12341,9 @@
         },
         "summary": "Get a single List Entry on a List",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/lists/{listId}/list-entries/{listEntryId}/fields": {
@@ -12211,7 +12358,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12223,7 +12370,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12324,22 +12471,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12359,8 +12506,9 @@
         },
         "summary": "Get field values on a single List Entry",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       },
       "patch": {
         "description": "Perform batch operations on a list entry's fields.\n\nCurrently the only operation at the endpoint is `update-fields`, which allows you to update multiple field values with a single request. This is equivalent to calling [the single field update](#operation/v2_lists_listId_list-entries_listEntryId_fields_fieldId__POST) endpoint multiple times.    \n\nRequires the \"Export data from Lists\" [permission](#section/Getting-Started/Permissions).",
@@ -12373,7 +12521,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12385,7 +12533,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12422,22 +12570,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12457,8 +12605,9 @@
         },
         "summary": "Perform batch operations on a list entry's fields",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "batch"
       }
     },
     "/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}": {
@@ -12473,7 +12622,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12485,7 +12634,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12569,22 +12718,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12604,8 +12753,9 @@
         },
         "summary": "Get a single field value",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-single"
       },
       "post": {
         "description": "Update a single field value.\n    \nRequires the \"Export data from Lists\" [permission](#section/Getting-Started/Permissions).",
@@ -12618,7 +12768,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12630,7 +12780,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12706,22 +12856,22 @@
           "204": {
             "description": "No Content",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12741,8 +12891,9 @@
         },
         "summary": "Update a single field value on a List Entry",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "update-single-sync"
       }
     },
     "/v2/lists/{listId}/saved-views": {
@@ -12757,7 +12908,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12802,22 +12953,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12834,8 +12985,9 @@
         },
         "summary": "Get metadata on Saved Views",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/lists/{listId}/saved-views/{viewId}": {
@@ -12850,7 +13002,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12862,7 +13014,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12879,22 +13031,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -12911,8 +13063,9 @@
         },
         "summary": "Get metadata on a single Saved View",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/lists/{listId}/saved-views/{viewId}/list-entries": {
@@ -12927,7 +13080,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12939,7 +13092,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -12984,22 +13137,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13019,8 +13172,9 @@
         },
         "summary": "Get all List Entries on a Saved View",
         "tags": [
-          "lists"
-        ]
+          "Lists"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/meetings": {
@@ -13077,22 +13231,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13106,8 +13260,9 @@
         },
         "summary": "Get metadata on all Meetings",
         "tags": [
-          "meetings"
-        ]
+          "Meetings"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/notes": {
@@ -13180,22 +13335,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13212,8 +13367,9 @@
         },
         "summary": "Get all Notes",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -13266,22 +13422,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13298,8 +13454,9 @@
         },
         "summary": "Get a single Note",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-single",
         "x-stability-level": "beta"
       }
     },
@@ -13363,22 +13520,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13395,8 +13552,9 @@
         },
         "summary": "Get Companies attached to a Note",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -13465,22 +13623,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13497,8 +13655,9 @@
         },
         "summary": "Get Opportunities attached to a Note",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -13562,22 +13721,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13594,8 +13753,9 @@
         },
         "summary": "Get Persons attached to a Note",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -13673,22 +13833,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13705,8 +13865,9 @@
         },
         "summary": "Get replies for a Note",
         "tags": [
-          "notes"
+          "Notes"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -13755,7 +13916,7 @@
             "schema": {
               "items": {
                 "format": "int64",
-                "maximum": 9223372036854776000,
+                "maximum": 9007199254740991,
                 "minimum": 1,
                 "type": "integer"
               },
@@ -13775,22 +13936,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13810,8 +13971,9 @@
         },
         "summary": "Get all Opportunities",
         "tags": [
-          "opportunities"
-        ]
+          "Opportunities"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/opportunities/{opportunityId}": {
@@ -13826,7 +13988,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -13843,22 +14005,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13878,8 +14040,9 @@
         },
         "summary": "Get a single Opportunity",
         "tags": [
-          "opportunities"
-        ]
+          "Opportunities"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/opportunities/{opportunityId}/notes": {
@@ -13894,7 +14057,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -13959,22 +14122,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -13991,8 +14154,9 @@
         },
         "summary": "Get Notes for an Opportunity",
         "tags": [
-          "opportunities"
+          "Opportunities"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -14049,22 +14213,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14081,8 +14245,9 @@
         },
         "summary": "Get All Person Merges",
         "tags": [
-          "personMerges"
-        ]
+          "Person Merges"
+        ],
+        "x-operation-type": "retrieval-multiple"
       },
       "post": {
         "description": "Initiate a person merge to combine a duplicate person profile into a primary person profile.\n\nThis is an asynchronous process that will merge all data from the duplicate person into the primary person. Once the merge is initiated, you can track its progress using the returned [task URL](#tag/personMerges/operation/v2_tasks_person-merges_taskId__GET).\n\nRequires the \"Manage duplicates\" [permission](#section/Getting-Started/Permissions) and organization admin role.",
@@ -14118,22 +14283,22 @@
             },
             "description": "Accepted",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14150,8 +14315,9 @@
         },
         "summary": "Initiate Person Merge",
         "tags": [
-          "personMerges"
-        ]
+          "Person Merges"
+        ],
+        "x-operation-type": "creation-single-async"
       }
     },
     "/v2/person-merges/{mergeId}": {
@@ -14197,22 +14363,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14232,8 +14398,9 @@
         },
         "summary": "Get Person Merge",
         "tags": [
-          "personMerges"
-        ]
+          "Person Merges"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/persons": {
@@ -14281,7 +14448,7 @@
             "schema": {
               "items": {
                 "format": "int64",
-                "maximum": 9223372036854776000,
+                "maximum": 9007199254740991,
                 "minimum": 1,
                 "type": "integer"
               },
@@ -14345,22 +14512,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14377,8 +14544,9 @@
         },
         "summary": "Get all Persons",
         "tags": [
-          "persons"
-        ]
+          "Persons"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/persons/fields": {
@@ -14422,22 +14590,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14451,8 +14619,9 @@
         },
         "summary": "Get metadata on Person Fields",
         "tags": [
-          "persons"
-        ]
+          "Persons"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/persons/{personId}": {
@@ -14467,7 +14636,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -14528,22 +14697,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14563,8 +14732,9 @@
         },
         "summary": "Get a single Person",
         "tags": [
-          "persons"
-        ]
+          "Persons"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/persons/{personId}/list-entries": {
@@ -14579,7 +14749,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -14624,22 +14794,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14659,8 +14829,9 @@
         },
         "summary": "Get a Person's List Entries",
         "tags": [
-          "persons"
-        ]
+          "Persons"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/persons/{personId}/lists": {
@@ -14675,7 +14846,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -14720,22 +14891,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14752,8 +14923,9 @@
         },
         "summary": "Get a Person's Lists",
         "tags": [
-          "persons"
-        ]
+          "Persons"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/persons/{personId}/notes": {
@@ -14768,7 +14940,7 @@
             "required": true,
             "schema": {
               "format": "int64",
-              "maximum": 9223372036854776000,
+              "maximum": 9007199254740991,
               "minimum": 1,
               "type": "integer"
             }
@@ -14833,22 +15005,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14865,8 +15037,9 @@
         },
         "summary": "Get Notes for a Person",
         "tags": [
-          "persons"
+          "Persons"
         ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
@@ -14926,22 +15099,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -14958,8 +15131,9 @@
         },
         "summary": "Get All Company Merge Tasks",
         "tags": [
-          "companyMerges"
-        ]
+          "Company Merges"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/tasks/company-merges/{taskId}": {
@@ -15003,22 +15177,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -15038,8 +15212,9 @@
         },
         "summary": "Get Company Merge Task",
         "tags": [
-          "companyMerges"
-        ]
+          "Company Merges"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/tasks/person-merges": {
@@ -15101,22 +15276,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -15133,8 +15308,9 @@
         },
         "summary": "Get All Person Merge Tasks",
         "tags": [
-          "personMerges"
-        ]
+          "Person Merges"
+        ],
+        "x-operation-type": "retrieval-multiple"
       }
     },
     "/v2/tasks/person-merges/{taskId}": {
@@ -15178,22 +15354,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -15213,13 +15389,14 @@
         },
         "summary": "Get Person Merge Task",
         "tags": [
-          "personMerges"
-        ]
+          "Person Merges"
+        ],
+        "x-operation-type": "retrieval-single"
       }
     },
     "/v2/transcripts": {
       "get": {
-        "description": "Paginate through all transcripts and return basic metadata only. Use the single transcript endpoint to fetch the entire transcript data. \nWill only return transcripts that the current authenticated user has permission to see.\n\nYou can filter transcripts using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.\n| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                    |\n|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|---------------------------------|\n| `id`                        | Filter transcripts by id                                        | `int32`    | `=`                                  | `id=1`                          |\n| `createdAt`                 | Filter transcripts by when it was created                       | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-02-04T10:48:24Z` |\n",
+        "description": "| \u00e2\u009a\u00a0\u00ef\u00b8\u008f  This endpoint is currently in BETA |\n|--|\n\nPaginate through all transcripts and return basic metadata only. Use the single transcript endpoint to fetch the entire transcript data. \nWill only return transcripts that the current authenticated user has permission to see.\n\nYou can filter transcripts using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.\n| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                    |\n|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|---------------------------------|\n| `id`                        | Filter transcripts by id                                        | `int32`    | `=`                                  | `id=1`                          |\n| `createdAt`                 | Filter transcripts by when it was created                       | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-02-04T10:48:24Z` |\n",
         "operationId": "v2_transcripts__GET",
         "parameters": [
           {
@@ -15278,22 +15455,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -15307,13 +15484,15 @@
         },
         "summary": "Get all Transcripts",
         "tags": [
-          "transcripts"
-        ]
+          "Transcripts"
+        ],
+        "x-operation-type": "retrieval-multiple",
+        "x-stability-level": "beta"
       }
     },
     "/v2/transcripts/{transcriptId}": {
       "get": {
-        "description": "Get a transcript with a given id with the first 100 fragments of the transcript. Use the /fragments endpoint to fetch all fragments of the transcript.\n",
+        "description": "| \u00e2\u009a\u00a0\u00ef\u00b8\u008f  This endpoint is currently in BETA |\n|--|\n\nGet a transcript with a given id with the first 100 fragments of the transcript. Use the /fragments endpoint to fetch all fragments of the transcript.\n",
         "operationId": "v2_transcripts_transcriptId__GET",
         "parameters": [
           {
@@ -15345,22 +15524,22 @@
             },
             "description": "OK",
             "headers": {
-              "X-Ratelimit-Limit-Org": {
+              "x-ratelimit-limit-org": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
               },
-              "X-Ratelimit-Limit-Org-Remaining": {
+              "x-ratelimit-limit-org-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
               },
-              "X-Ratelimit-Limit-Org-Reset": {
+              "x-ratelimit-limit-org-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
               },
-              "X-Ratelimit-Limit-User": {
+              "x-ratelimit-limit-user": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User"
               },
-              "X-Ratelimit-Limit-User-Remaining": {
+              "x-ratelimit-limit-user-remaining": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
               },
-              "X-Ratelimit-Limit-User-Reset": {
+              "x-ratelimit-limit-user-reset": {
                 "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
               }
             }
@@ -15377,8 +15556,111 @@
         },
         "summary": "Get a single Transcript",
         "tags": [
-          "transcripts"
-        ]
+          "Transcripts"
+        ],
+        "x-operation-type": "retrieval-single",
+        "x-stability-level": "beta"
+      }
+    },
+    "/v2/transcripts/{transcriptId}/fragments": {
+      "get": {
+        "description": "| \u00e2\u009a\u00a0\u00ef\u00b8\u008f  This endpoint is currently in BETA |\n|--|\n\nGet fragments of a transcript given a transcript id.\n",
+        "operationId": "v2_transcripts_transcriptId_fragments__GET",
+        "parameters": [
+          {
+            "description": "The id of the Transcript",
+            "in": "path",
+            "name": "transcriptId",
+            "required": true,
+            "schema": {
+              "format": "int32",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for the next or previous page",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to include in the page",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 20,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Include total count of the collection in the pagination response",
+            "in": "query",
+            "name": "totalCount",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-5"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/transcripts.FragmentPaged"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "x-ratelimit-limit-org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "x-ratelimit-limit-org-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "x-ratelimit-limit-org-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "x-ratelimit-limit-user": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "x-ratelimit-limit-user-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "x-ratelimit-limit-user-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get fragments of a transcript",
+        "tags": [
+          "Transcripts"
+        ],
+        "x-operation-type": "retrieval-multiple",
+        "x-stability-level": "beta"
       }
     }
   },
@@ -15394,57 +15676,53 @@
   ],
   "tags": [
     {
-      "description": "Operations about auths",
-      "name": "auth"
+      "description": "Operations about Auth",
+      "name": "Auth"
     },
     {
-      "description": "Operations about calls",
-      "name": "calls"
+      "description": "Operations about Calls",
+      "name": "Calls"
     },
     {
       "description": "Operations about chat messages",
-      "name": "chatMessages"
+      "name": "Chat Messages"
     },
     {
       "description": "Operations about companies",
-      "name": "companies"
+      "name": "Companies"
     },
     {
       "description": "Operations about company merges",
-      "name": "companyMerges"
+      "name": "Company Merges"
     },
     {
       "description": "Operations about emails",
-      "name": "emails"
+      "name": "Emails"
     },
     {
       "description": "Operations about lists",
-      "name": "lists"
+      "name": "Lists"
     },
     {
       "description": "Operations about meetings",
-      "name": "meetings"
+      "name": "Meetings"
     },
     {
       "description": "Operations about notes",
-      "name": "notes",
+      "name": "Notes",
       "x-stability-level": "beta"
     },
     {
       "description": "Operations about opportunities",
-      "name": "opportunities"
+      "name": "Opportunities"
     },
     {
       "description": "Operations about person merges",
-      "name": "personMerges"
+      "name": "Person Merges"
     },
     {
       "description": "Operations about persons",
-      "name": "persons"
-    },
-    {
-      "description": "Operations about transcripts",
-      "name": "transcripts"
+      "name": "Persons"
     }
   ]
 }
