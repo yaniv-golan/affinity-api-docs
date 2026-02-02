@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [2.1.2] - 2026-02-03
+
+### Fixed
+
+- v2 sync pipeline now fetches OpenAPI spec directly from `https://developer.affinity.co/api-reference/openapi.json` after Affinity migrated their developer documentation from Redoc to Mintlify.
+
 ## [2.1.1] - 2025-12-18
 
 ### Changed

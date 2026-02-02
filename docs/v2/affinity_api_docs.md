@@ -4,7 +4,7 @@
 >
 > **This is an UNOFFICIAL markdown copy of the Affinity API v2 documentation.** The official and authoritative documentation is maintained by Affinity at:
 >
-> **📚 Official Documentation:** [https://developer.affinity.co/](https://developer.affinity.co/)
+> **📚 Official Documentation:** [https://developer.affinity.co/api-reference/openapi.json](https://developer.affinity.co/api-reference/openapi.json)
 >
 > **Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
 
@@ -20,12 +20,12 @@ This markdown version of the Affinity API v2 documentation was generated automat
 - **Version control**
 - **Direct raw access**
 
-**Source:** Extracted from the live Affinity API documentation at https://developer.affinity.co/
+**Source:** Extracted from the live Affinity API documentation at https://developer.affinity.co/api-reference/openapi.json
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **December 16, 2025 at 18:11:26 UTC** (Last updated: 12/16/2025 18:11:26 UTC).
-**Snapshot:** Captured HTML `developer_affinity_co.html` (archived with the sync artifacts for QA).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **October 07, 2025 at 22:05:01 UTC** (Last updated: 10/07/2025 22:05:01 UTC).
+**Snapshot:** Captured HTML `openapi.json` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
 >
@@ -34,7 +34,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 ## Contact & Support
 
 - **Affinity Support:** [support@affinity.co](mailto:support@affinity.co)
-- **Official v2 Documentation:** [https://developer.affinity.co/](https://developer.affinity.co/)
+- **Official v2 Documentation:** [https://developer.affinity.co/api-reference/openapi.json](https://developer.affinity.co/api-reference/openapi.json)
 - **Official v1 Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
 
 ---
@@ -60,7 +60,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
       - [Simple Types](#simple-types)
       - [Collections (all types)](#collections-all-types)
   - [Error Codes](#error-codes)
-  - [Versioning](#versioning)
   - [Beta Endpoints](#beta-endpoints)
 - [Data Model](#data-model)
   - [The Basics](#the-basics)
@@ -74,11 +73,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
   - [Nested Associations](#nested-associations)
 - [User Guides](#user-guides)
   - [A Tour of Our GET Endpoints](#a-tour-of-our-get-endpoints)
-- [Upcoming Changes](#upcoming-changes)
-  - [January 1st, 2026](#january-1st-2026)
 - [Changelog](#changelog)
-  - [September 25th, 2025](#september-25th-2025)
-  - [July 30th, 2025](#july-30th-2025)
   - [May 14th, 2025](#may-14th-2025)
   - [April 9th, 2025](#april-9th-2025)
   - [March 31st, 2025](#march-31st-2025)
@@ -96,236 +91,217 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [Get current user](#get-current-user)
       - [Example Request](#example-request)
       - [Responses](#responses)
-  - [calls](#calls)
-    - [Get metadata on all Calls](#get-metadata-on-all-calls)
+  - [companies](#companies)
+    - [Get all Companies](#get-all-companies)
       - [Query Parameters](#query-parameters)
       - [Example Request](#example-request-1)
       - [Responses](#responses-1)
-  - [chatMessages](#chatmessages)
-    - [Get metadata on all Chat Messages](#get-metadata-on-all-chat-messages)
+    - [Get metadata on Company Fields](#get-metadata-on-company-fields)
       - [Query Parameters](#query-parameters-1)
       - [Example Request](#example-request-2)
       - [Responses](#responses-2)
-  - [companies](#companies)
-    - [Get all Companies](#get-all-companies)
+    - [Get a single Company](#get-a-single-company)
+      - [Path Parameters](#path-parameters)
       - [Query Parameters](#query-parameters-2)
       - [Example Request](#example-request-3)
       - [Responses](#responses-3)
-    - [Get metadata on Company Fields](#get-metadata-on-company-fields)
+    - [Get a Company's List Entries](#get-a-companys-list-entries)
+      - [Path Parameters](#path-parameters-1)
       - [Query Parameters](#query-parameters-3)
       - [Example Request](#example-request-4)
       - [Responses](#responses-4)
-    - [Get a single Company](#get-a-single-company)
-      - [Path Parameters](#path-parameters)
+    - [Get a Company's Lists](#get-a-companys-lists)
+      - [Path Parameters](#path-parameters-2)
       - [Query Parameters](#query-parameters-4)
       - [Example Request](#example-request-5)
       - [Responses](#responses-5)
-    - [Get a Company's List Entries](#get-a-companys-list-entries)
-      - [Path Parameters](#path-parameters-1)
+    - [Get Notes for a Company](#get-notes-for-a-company)
+      - [Path Parameters](#path-parameters-3)
       - [Query Parameters](#query-parameters-5)
       - [Example Request](#example-request-6)
       - [Responses](#responses-6)
-    - [Get a Company's Lists](#get-a-companys-lists)
-      - [Path Parameters](#path-parameters-2)
+  - [companyMerges](#companymerges)
+    - [Get All Company Merges](#get-all-company-merges)
       - [Query Parameters](#query-parameters-6)
       - [Example Request](#example-request-7)
       - [Responses](#responses-7)
-    - [Get Notes for a Company](#get-notes-for-a-company)
-      - [Path Parameters](#path-parameters-3)
-      - [Query Parameters](#query-parameters-7)
-      - [Example Request](#example-request-8)
-      - [Responses](#responses-8)
-  - [companyMerges](#companymerges)
-    - [Get All Company Merges](#get-all-company-merges)
-      - [Query Parameters](#query-parameters-8)
-      - [Example Request](#example-request-9)
-      - [Responses](#responses-9)
     - [Initiate Company Merge](#initiate-company-merge)
       - [Request Body](#request-body)
-      - [Example Request](#example-request-10)
-      - [Responses](#responses-10)
+      - [Example Request](#example-request-8)
+      - [Responses](#responses-8)
     - [Get Company Merge](#get-company-merge)
       - [Path Parameters](#path-parameters-4)
-      - [Example Request](#example-request-11)
-      - [Responses](#responses-11)
+      - [Example Request](#example-request-9)
+      - [Responses](#responses-9)
     - [Get All Company Merge Tasks](#get-all-company-merge-tasks)
-      - [Query Parameters](#query-parameters-9)
-      - [Example Request](#example-request-12)
-      - [Responses](#responses-12)
+      - [Query Parameters](#query-parameters-7)
+      - [Example Request](#example-request-10)
+      - [Responses](#responses-10)
     - [Get Company Merge Task](#get-company-merge-task)
       - [Path Parameters](#path-parameters-5)
-      - [Example Request](#example-request-13)
-      - [Responses](#responses-13)
+      - [Example Request](#example-request-11)
+      - [Responses](#responses-11)
   - [emails](#emails)
     - [Get metadata on all Emails](#get-metadata-on-all-emails)
-      - [Query Parameters](#query-parameters-10)
-      - [Example Request](#example-request-14)
-      - [Responses](#responses-14)
+      - [Query Parameters](#query-parameters-8)
+      - [Example Request](#example-request-12)
+      - [Responses](#responses-12)
   - [lists](#lists)
     - [Get metadata on all Lists](#get-metadata-on-all-lists)
-      - [Query Parameters](#query-parameters-11)
-      - [Example Request](#example-request-15)
-      - [Responses](#responses-15)
+      - [Query Parameters](#query-parameters-9)
+      - [Example Request](#example-request-13)
+      - [Responses](#responses-13)
     - [Get metadata on a single List](#get-metadata-on-a-single-list)
       - [Path Parameters](#path-parameters-6)
-      - [Example Request](#example-request-16)
-      - [Responses](#responses-16)
+      - [Example Request](#example-request-14)
+      - [Responses](#responses-14)
     - [Get metadata on a single List's Fields](#get-metadata-on-a-single-lists-fields)
       - [Path Parameters](#path-parameters-7)
+      - [Query Parameters](#query-parameters-10)
+      - [Example Request](#example-request-15)
+      - [Responses](#responses-15)
+    - [Get all List Entries on a List](#get-all-list-entries-on-a-list)
+      - [Path Parameters](#path-parameters-8)
+      - [Query Parameters](#query-parameters-11)
+      - [Example Request](#example-request-16)
+      - [Responses](#responses-16)
+    - [Get a single List Entry on a List](#get-a-single-list-entry-on-a-list)
+      - [Path Parameters](#path-parameters-9)
       - [Query Parameters](#query-parameters-12)
       - [Example Request](#example-request-17)
       - [Responses](#responses-17)
-    - [Get all List Entries on a List](#get-all-list-entries-on-a-list)
-      - [Path Parameters](#path-parameters-8)
+    - [Get field values on a single List Entry](#get-field-values-on-a-single-list-entry)
+      - [Path Parameters](#path-parameters-10)
       - [Query Parameters](#query-parameters-13)
       - [Example Request](#example-request-18)
       - [Responses](#responses-18)
-    - [Get a single List Entry on a List](#get-a-single-list-entry-on-a-list)
-      - [Path Parameters](#path-parameters-9)
-      - [Query Parameters](#query-parameters-14)
-      - [Example Request](#example-request-19)
-      - [Responses](#responses-19)
-    - [Get field values on a single List Entry](#get-field-values-on-a-single-list-entry)
-      - [Path Parameters](#path-parameters-10)
-      - [Query Parameters](#query-parameters-15)
-      - [Example Request](#example-request-20)
-      - [Responses](#responses-20)
     - [Perform batch operations on a list entry's fields](#perform-batch-operations-on-a-list-entrys-fields)
       - [Path Parameters](#path-parameters-11)
       - [Request Body](#request-body-1)
-      - [Example Request](#example-request-21)
-      - [Responses](#responses-21)
+      - [Example Request](#example-request-19)
+      - [Responses](#responses-19)
     - [Get a single field value](#get-a-single-field-value)
       - [Path Parameters](#path-parameters-12)
-      - [Example Request](#example-request-22)
-      - [Responses](#responses-22)
+      - [Example Request](#example-request-20)
+      - [Responses](#responses-20)
     - [Update a single field value on a List Entry](#update-a-single-field-value-on-a-list-entry)
       - [Path Parameters](#path-parameters-13)
       - [Request Body](#request-body-2)
-      - [Example Request](#example-request-23)
-      - [Responses](#responses-23)
+      - [Example Request](#example-request-21)
+      - [Responses](#responses-21)
     - [Get metadata on Saved Views](#get-metadata-on-saved-views)
       - [Path Parameters](#path-parameters-14)
-      - [Query Parameters](#query-parameters-16)
-      - [Example Request](#example-request-24)
-      - [Responses](#responses-24)
+      - [Query Parameters](#query-parameters-14)
+      - [Example Request](#example-request-22)
+      - [Responses](#responses-22)
     - [Get metadata on a single Saved View](#get-metadata-on-a-single-saved-view)
       - [Path Parameters](#path-parameters-15)
-      - [Example Request](#example-request-25)
-      - [Responses](#responses-25)
+      - [Example Request](#example-request-23)
+      - [Responses](#responses-23)
     - [Get all List Entries on a Saved View](#get-all-list-entries-on-a-saved-view)
       - [Path Parameters](#path-parameters-16)
+      - [Query Parameters](#query-parameters-15)
+      - [Example Request](#example-request-24)
+      - [Responses](#responses-24)
+  - [meetings](#meetings)
+    - [Get metadata on all Meetings [COMING SOON]](#get-metadata-on-all-meetings-coming-soon)
+      - [Query Parameters](#query-parameters-16)
+      - [Example Request](#example-request-25)
+      - [Responses](#responses-25)
+  - [notes](#notes)
+    - [Get all Notes](#get-all-notes)
       - [Query Parameters](#query-parameters-17)
       - [Example Request](#example-request-26)
       - [Responses](#responses-26)
-  - [meetings](#meetings)
-    - [Get metadata on all Meetings](#get-metadata-on-all-meetings)
+    - [Get a single Note](#get-a-single-note)
+      - [Path Parameters](#path-parameters-17)
       - [Query Parameters](#query-parameters-18)
       - [Example Request](#example-request-27)
       - [Responses](#responses-27)
-  - [notes](#notes)
-    - [Get all Notes](#get-all-notes)
+    - [Get Companies attached to a Note](#get-companies-attached-to-a-note)
+      - [Path Parameters](#path-parameters-18)
       - [Query Parameters](#query-parameters-19)
       - [Example Request](#example-request-28)
       - [Responses](#responses-28)
-    - [Get a single Note](#get-a-single-note)
-      - [Path Parameters](#path-parameters-17)
+    - [Get Opportunities attached to a Note](#get-opportunities-attached-to-a-note)
+      - [Path Parameters](#path-parameters-19)
       - [Query Parameters](#query-parameters-20)
       - [Example Request](#example-request-29)
       - [Responses](#responses-29)
-    - [Get Companies attached to a Note](#get-companies-attached-to-a-note)
-      - [Path Parameters](#path-parameters-18)
+    - [Get Persons attached to a Note](#get-persons-attached-to-a-note)
+      - [Path Parameters](#path-parameters-20)
       - [Query Parameters](#query-parameters-21)
       - [Example Request](#example-request-30)
       - [Responses](#responses-30)
-    - [Get Opportunities attached to a Note](#get-opportunities-attached-to-a-note)
-      - [Path Parameters](#path-parameters-19)
+    - [Get replies for a Note](#get-replies-for-a-note)
+      - [Path Parameters](#path-parameters-21)
       - [Query Parameters](#query-parameters-22)
       - [Example Request](#example-request-31)
       - [Responses](#responses-31)
-    - [Get Persons attached to a Note](#get-persons-attached-to-a-note)
-      - [Path Parameters](#path-parameters-20)
+  - [opportunities](#opportunities)
+    - [Get all Opportunities](#get-all-opportunities)
       - [Query Parameters](#query-parameters-23)
       - [Example Request](#example-request-32)
       - [Responses](#responses-32)
-    - [Get replies for a Note](#get-replies-for-a-note)
-      - [Path Parameters](#path-parameters-21)
-      - [Query Parameters](#query-parameters-24)
-      - [Example Request](#example-request-33)
-      - [Responses](#responses-33)
-  - [opportunities](#opportunities)
-    - [Get all Opportunities](#get-all-opportunities)
-      - [Query Parameters](#query-parameters-25)
-      - [Example Request](#example-request-34)
-      - [Responses](#responses-34)
     - [Get a single Opportunity](#get-a-single-opportunity)
       - [Path Parameters](#path-parameters-22)
-      - [Example Request](#example-request-35)
-      - [Responses](#responses-35)
+      - [Example Request](#example-request-33)
+      - [Responses](#responses-33)
     - [Get Notes for an Opportunity](#get-notes-for-an-opportunity)
       - [Path Parameters](#path-parameters-23)
-      - [Query Parameters](#query-parameters-26)
-      - [Example Request](#example-request-36)
-      - [Responses](#responses-36)
+      - [Query Parameters](#query-parameters-24)
+      - [Example Request](#example-request-34)
+      - [Responses](#responses-34)
   - [personMerges](#personmerges)
     - [Get All Person Merges](#get-all-person-merges)
-      - [Query Parameters](#query-parameters-27)
-      - [Example Request](#example-request-37)
-      - [Responses](#responses-37)
+      - [Query Parameters](#query-parameters-25)
+      - [Example Request](#example-request-35)
+      - [Responses](#responses-35)
     - [Initiate Person Merge](#initiate-person-merge)
       - [Request Body](#request-body-3)
-      - [Example Request](#example-request-38)
-      - [Responses](#responses-38)
+      - [Example Request](#example-request-36)
+      - [Responses](#responses-36)
     - [Get Person Merge](#get-person-merge)
       - [Path Parameters](#path-parameters-24)
-      - [Example Request](#example-request-39)
-      - [Responses](#responses-39)
+      - [Example Request](#example-request-37)
+      - [Responses](#responses-37)
     - [Get All Person Merge Tasks](#get-all-person-merge-tasks)
-      - [Query Parameters](#query-parameters-28)
-      - [Example Request](#example-request-40)
-      - [Responses](#responses-40)
+      - [Query Parameters](#query-parameters-26)
+      - [Example Request](#example-request-38)
+      - [Responses](#responses-38)
     - [Get Person Merge Task](#get-person-merge-task)
       - [Path Parameters](#path-parameters-25)
-      - [Example Request](#example-request-41)
-      - [Responses](#responses-41)
+      - [Example Request](#example-request-39)
+      - [Responses](#responses-39)
   - [persons](#persons)
     - [Get all Persons](#get-all-persons)
+      - [Query Parameters](#query-parameters-27)
+      - [Example Request](#example-request-40)
+      - [Responses](#responses-40)
+    - [Get metadata on Person Fields](#get-metadata-on-person-fields)
+      - [Query Parameters](#query-parameters-28)
+      - [Example Request](#example-request-41)
+      - [Responses](#responses-41)
+    - [Get a single Person](#get-a-single-person)
+      - [Path Parameters](#path-parameters-26)
       - [Query Parameters](#query-parameters-29)
       - [Example Request](#example-request-42)
       - [Responses](#responses-42)
-    - [Get metadata on Person Fields](#get-metadata-on-person-fields)
+    - [Get a Person's List Entries](#get-a-persons-list-entries)
+      - [Path Parameters](#path-parameters-27)
       - [Query Parameters](#query-parameters-30)
       - [Example Request](#example-request-43)
       - [Responses](#responses-43)
-    - [Get a single Person](#get-a-single-person)
-      - [Path Parameters](#path-parameters-26)
+    - [Get a Person's Lists](#get-a-persons-lists)
+      - [Path Parameters](#path-parameters-28)
       - [Query Parameters](#query-parameters-31)
       - [Example Request](#example-request-44)
       - [Responses](#responses-44)
-    - [Get a Person's List Entries](#get-a-persons-list-entries)
-      - [Path Parameters](#path-parameters-27)
+    - [Get Notes for a Person](#get-notes-for-a-person)
+      - [Path Parameters](#path-parameters-29)
       - [Query Parameters](#query-parameters-32)
       - [Example Request](#example-request-45)
       - [Responses](#responses-45)
-    - [Get a Person's Lists](#get-a-persons-lists)
-      - [Path Parameters](#path-parameters-28)
-      - [Query Parameters](#query-parameters-33)
-      - [Example Request](#example-request-46)
-      - [Responses](#responses-46)
-    - [Get Notes for a Person](#get-notes-for-a-person)
-      - [Path Parameters](#path-parameters-29)
-      - [Query Parameters](#query-parameters-34)
-      - [Example Request](#example-request-47)
-      - [Responses](#responses-47)
-  - [transcripts](#transcripts)
-    - [Get all Transcripts](#get-all-transcripts)
-      - [Query Parameters](#query-parameters-35)
-      - [Example Request](#example-request-48)
-      - [Responses](#responses-48)
-    - [Get a single Transcript](#get-a-single-transcript)
-      - [Path Parameters](#path-parameters-30)
-      - [Example Request](#example-request-49)
-      - [Responses](#responses-49)
   - [Schema Reference](#schema-reference)
     - [Attendee](#attendee)
     - [AttendeesPreview](#attendeespreview)
@@ -405,7 +381,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [Person](#person)
     - [PersonData](#persondata)
     - [PersonDataPaged](#persondatapaged)
-    - [PersonDataPreview](#persondatapreview)
     - [PersonListEntry](#personlistentry)
     - [PersonMergeRequest](#personmergerequest)
     - [PersonMergeResponse](#personmergeresponse)
@@ -436,10 +411,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [User](#user)
     - [ValidationError](#validationerror)
     - [WhoAmI](#whoami)
-    - [interactions.Call](#interactionscall)
-    - [interactions.CallPaged](#interactionscallpaged)
-    - [interactions.ChatMessage](#chatmessage)
-    - [interactions.ChatMessagePaged](#interactionschatmessagepaged)
     - [interactions.Email](#email)
     - [interactions.EmailPaged](#interactionsemailpaged)
     - [interactions.Meeting](#meeting)
@@ -468,11 +439,6 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [notes.RepliesPaged](#notesrepliespaged)
     - [notes.Reply](#notesreply)
     - [notes.UserReplyNote](#notesuserreplynote)
-    - [transcripts.BaseTranscript](#transcriptsbasetranscript)
-    - [transcripts.Fragment](#transcriptsfragment)
-    - [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-    - [transcripts.Transcript](#transcriptstranscript)
-    - [transcripts.TranscriptPaged](#transcriptstranscriptpaged)
   - [Error Reference](#error-reference)
 
 # Introduction
@@ -481,9 +447,9 @@ Welcome to Affinity API v2! This API provides a RESTful interface for building i
 automated workflows, 3rd party integrations, and for connecting Affinity to the rest of your tech
 stack.
 
-The legacy Affinity v1 API can be found at [api-docs.affinity.co](https://api-docs.affinity.co/).
-The v2 API is not at feature parity with v1 - we are continuing to develop new v2 APIs to support
-all v1 functionality over time.
+The legacy Affinity v1 API can be found [here](https://api-docs.affinity.co/). The v2 API is not at
+feature parity with v1 - we are continuing to develop new v2 APIs to support all v1 functionality
+over time.
 
 **The Affinity APIs are only available on select license types.** See
 [this Help Center article](https://support.affinity.co/hc/en-us/articles/5563700459533-Getting-started-with-the-Affinity-API-FAQs)
@@ -592,10 +558,6 @@ monthly limits:
 | X-Ratelimit-Limit-Org-Remaining  | Number of requests remaining for the account            |
 | X-Ratelimit-Limit-Org-Reset      | Time in seconds before the limit resets for the account |
 
-**Note:** Starting January 1st, 2026, these header names will be changed to lowercase format (e.g.,
-`x-ratelimit-limit-user` instead of `X-Ratelimit-Limit-User`). See the
-[Upcoming Changes](#upcoming-changes) for more details.
-
 ## Pagination
 
 When an endpoint is expected to return multiple results, we break the results into pages to make
@@ -631,7 +593,7 @@ and operators are supported.
 
 | Definition               | Property Type                                        | Operator | Example                                                                                   |
 | ------------------------ | ---------------------------------------------------- | -------- | ----------------------------------------------------------------------------------------- |
-| exact match              | all                                                  | =        | content = "hello world" <br> content=hello                                                |
+| exact match              | all                                                  | =        | content = “hello world” <br> content=hello                                                |
 | starts with              | text                                                 | =^       | content =^ he                                                                             |
 | ends with                | text                                                 | =$       | content =$ llo                                                                            |
 | contains                 | text                                                 | =~       | content =~ lo                                                                             |
@@ -642,7 +604,7 @@ and operators are supported.
 | is NULL                  | all                                                  | != \*    | content != \*                                                                             |
 | is not NULL              | all                                                  | =\*      | content = \*                                                                              |
 | is empty                 | text                                                 | =""      | content = ""                                                                              |
-| negation                 | all                                                  | !        | content != "hello world" <br> !(content = "hello world") <br> !(content =^ "hello world") |
+| negation                 | all                                                  | !        | content != ”hello world” <br> !(content = ”hello world”) <br> !(content =^ “hello world”) |
 
 #### Collections (all types)
 
@@ -670,23 +632,9 @@ documentation for endpoint-specific errors):
 | 500        | Internal Server Error — We had a problem with our server. Try again later.                                                                                                                                  |
 | 503        | Service Unavailable — This shouldn't generally happen. Contact us if you encounter this error.                                                                                                              |
 
-## Versioning
-
-Versioning in Affinity's API ensures that your integrations remain stable as updates are introduced.
-Within API v2, minor versions identify releases that may include breaking or behavior-changing
-modifications, and they allow you to target the exact API behavior your integration depends on.
-
-When you create an API key in the Settings page, you'll select a **Default API Version** for that
-key. The current available versions are:
-
-- **2024-01-01** - The current stable version of the v2 API
-
-As new minor versions of Affinity API v2 are introduced, they will appear in this list. You'll be
-able to create new keys using those versions or update an existing key to use a newer version.
-
 ## Beta Endpoints
 
-You'll notice in our documentation that some endpoints will be marked as BETA. These endpoints are
+You’ll notice in our documentation that some endpoints will be marked as BETA. These endpoints are
 newly released and will eventually progress to General Availability (GA). While an endpoint is in
 BETA there are some important things to consider:
 
@@ -740,7 +688,7 @@ their data:
 ### Field Value Types
 
 Field data can take a variety of shapes. These value types are described in the Affinity Help Center
-[creating columns in lists](https://support.affinity.co/hc/en-us/articles/115001608232-How-to-create-a-new-column-in-a-list).
+[here](https://support.affinity.co/hc/en-us/articles/115001608232-How-to-create-a-new-column-in-a-list).
 Here is a list of the same value types, as represented in this API. Notice how array types end with
 `-multi`:
 
@@ -845,7 +793,7 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 
 | Desired Data                                                | Relevant Endpoints                                                                                                                                                                                                                                                                                                                                    | Notes                                                                                     |
 | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Company/Person/Opportunity rows from a List                 | Grab the List's ID from its URL in the Affinity web app, then hit GET `/v2/lists/{listId}/list-entries`                                                                                                                                                                                                                                               | Data returned will be restricted to the rows on the requested List                        |
+| Company/Person/Opportunity rows from a List                 | Grab the List’s ID from its URL in the Affinity web app, then hit GET `/v2/lists/{listId}/list-entries`                                                                                                                                                                                                                                               | Data returned will be restricted to the rows on the requested List                        |
 | Company/Person/Opportunity rows from a Saved View           | In the Affinity web app, navigate to a List and [create a Saved View](https://support.affinity.co/hc/en-us/articles/115001508572-How-to-leverage-saved-views-within-a-list) with the desired field data and filters on it. Grab the List and Saved View IDs from the web app URL, then hit GET `/v2/lists/{listId}/saved-views/{viewId}/list-entries` | Data returned will be restricted to the rows and columns on the requested Saved View      |
 | Full rolodex of Companies or Persons in Affinity            | GET `/v2/companies`, GET `/v2/persons`                                                                                                                                                                                                                                                                                                                | Data from list-specific Fields will not be returned                                       |
 | All the rows for a given Company or Person across all Lists | GET `/v2/companies/{id}/list-entries`, GET `/v2/persons/{id}/list-entries`                                                                                                                                                                                                                                                                            |                                                                                           |
@@ -856,65 +804,7 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 Tip: The ID for a List, Saved View, Person, Company, or Opportunity can always be found in its
 Affinity web app URL.
 
-# Upcoming Changes
-
-## January 1st, 2026
-
-- Rate Limit Change: Rate limit response headers will be updated to use lowercase formatting. This
-  change affects all API endpoints. The new lowercase headers are:
-
-| Header                           | Description                                             |
-| -------------------------------- | ------------------------------------------------------- |
-| x-ratelimit-limit-user           | Number of requests allowed per minute for the user      |
-| x-ratelimit-limit-user-remaining | Number of requests remaining for the user               |
-| x-ratelimit-limit-user-reset     | Time in seconds before the limit resets for the user    |
-| x-ratelimit-limit-org            | Number of requests allowed per month for the account    |
-| x-ratelimit-limit-org-remaining  | Number of requests remaining for the account            |
-| x-ratelimit-limit-org-reset      | Time in seconds before the limit resets for the account |
-
-To ensure compatibility with this change, we recommend updating your application to read rate limit
-headers using a case-insensitive approach, which will work both before and after this change.
-
-- API Change: Handling timestamps for date fields. Affinity is standardizing how dates are
-  represented across the platform to ensure consistency between the application and the API.
-  Starting January 1st, 2026, the API will change how it handles timestamps for date fields. Today,
-  timestamps sent to date fields over the API are not visible to users in any CRM interface. After
-  this change, the API will ignore any time information included in requests, storing and returning
-  values at midnight Pacific Time (PT) on the submitted date.
-
-  **Example:**
-  - API request includes: `2024-04-01T15:30:00Z`
-  - Affinity will store and return: `2024-04-01T07:00:00.000Z` (equivalent to midnight PT)
-
-  Any existing date field values that currently include timestamps will also be updated to reflect
-  midnight PT on their stored date. No action is required unless your integration depends on time
-  data within date fields.
-
 # Changelog
-
-## September 25th, 2025
-
-- Added the following endpoints in BETA:
-
-| Method | URL                                 | Summary                      |
-| ------ | ----------------------------------- | ---------------------------- |
-| GET    | `/v2/company-merges`                | Get All Company Merge status |
-| POST   | `/v2/company-merges`                | Initiate Company Merge       |
-| GET    | `/v2/company-merges/{mergeId}`      | Get Company Merge status     |
-| GET    | `/v2/tasks/company-merges`          | Get All Company Merge Tasks  |
-| GET    | `/v2/tasks/company-merges/{taskId}` | Get Company Merge Task       |
-
-## July 30th, 2025
-
-- Added the following endpoints in BETA:
-
-| Method | URL                                | Summary                     |
-| ------ | ---------------------------------- | --------------------------- |
-| GET    | `/v2/person-merges`                | Get All Person Merge status |
-| POST   | `/v2/person-merges`                | Initiate Person Merge       |
-| GET    | `/v2/person-merges/{mergeId}`      | Get Person Merge status     |
-| GET    | `/v2/tasks/person-merges`          | Get All Person Merge Tasks  |
-| GET    | `/v2/tasks/person-merges/{taskId}` | Get Person Merge Task       |
 
 ## May 14th, 2025
 
@@ -1138,529 +1028,15 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
 ```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-## calls
-
-Operations about calls
-
-### Get metadata on all Calls
-`GET /v2/calls`
-
-- **Tag:** calls · **OperationId:** v2_calls__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Paginate through all calls in Affinity. Returns basic information about the call interaction
-and its participants. Will only return calls that the current authenticated user has
-permission to see.
-
-You can filter calls using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
-
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                     |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|----------------------------------|
-| `id`                        | Unique identifier for Calls                                     | `int64`    | `=`                                  | `id=1`                           |
-| `startTime`                 | Start time of when the Call was held                            | `datetime` | `>`, `<`, `>=`, `<=`                 | `sentAt>2025-01-01T01:00:00Z`    |
-| `createdAt`                 | When the Call was created in Affinity                           | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-01-01T01:00:00Z` |
-| `updatedAt`                 | When the Call was updated in Affinity                           | `datetime` | `>`, `<`, `>=`, `<=`                 | `updatedAt>=2025-01-01T01:00:00Z`|
-
-#### Query Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `cursor` | `string` | No | Cursor for the next or previous page |
-| `limit` | `integer<int32>` | No | Number of items to include in the page |
-| `filter` | `string` | No | Filter options |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/calls' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: interactions.CallPaged
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Call results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [interactions.Call](#interactionscall)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, calls can only be logged as 'manual'. |
-| `title` | `string/null` | Yes | The call's title |
-| `startTime` | `string<date-time>` | Yes | The timestamp of when the call starts |
-| `endTime` | `string/null<date-time>` | Yes | The timestamp of when the call ends |
-| `allDay` | `boolean` | Yes | Whether the call is all day |
-| `creator` | `oneOf` | Yes | The person who created the call |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the call was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
-| `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
-
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of Attendees |
-| `totalCount` | `integer<int64>` | Yes | The total count of Attendees (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [Attendee](#attendee)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
-| `person` | `oneOf` | Yes |  |
-
-**`pagination` details** — See [Pagination](#pagination)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-## chatMessages
-
-Operations about chat messages
-
-### Get metadata on all Chat Messages
-`GET /v2/chat-messages`
-
-- **Tag:** chatMessages · **OperationId:** v2_chat-messages__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Paginate through all chat messages in Affinity. Returns basic information about the chat message
-interaction and its participants. Will only return chat messages that the current authenticated
-user has permission to see.
-
-You can filter chat messages using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
-
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                     |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|----------------------------------|
-| `id`                        | Unique identifier for Chat Messages                             | `int64`    | `=`                                  | `id=1`                           |
-| `sentAt`                    | When the Chat Message was sent at                               | `datetime` | `>`, `<`, `>=`, `<=`                 | `sentAt>2025-01-01T01:00:00Z`    |
-| `createdAt`                 | When the Chat Message was created in Affinity                   | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-01-01T01:00:00Z` |
-| `updatedAt`                 | When the Chat Message was updated in Affinity                   | `datetime` | `>`, `<`, `>=`, `<=`                 | `updatedAt>=2025-01-01T01:00:00Z`|
-
-#### Query Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `cursor` | `string` | No | Cursor for the next or previous page |
-| `limit` | `integer<int32>` | No | Number of items to include in the page |
-| `filter` | `string` | No | Filter options |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/chat-messages' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: interactions.ChatMessagePaged
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of ChatMessage results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [interactions.ChatMessage](#chatmessage)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
-| `creator` | `object` | Yes | The creator of the chat message |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
-| `participantsPreview` | `object` | Yes | A preview of the participants who are in the chat message (Constraints: stability `beta`) |
-
-**`creator` details** — See [PersonData](#persondata)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of persons |
-| `totalCount` | `integer<int64>` | Yes | The total count of persons (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [PersonData](#persondata)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-
-**`pagination` details** — See [Pagination](#pagination)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
 
 **Response Headers**
 | Header | Type | Description |
@@ -1858,7 +1234,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2035,11 +1411,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -2208,7 +1584,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2442,7 +1818,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -2566,11 +1942,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -2615,11 +1991,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -2808,7 +2184,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -2991,11 +2367,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -3040,11 +2416,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -3334,11 +2710,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -4160,11 +3536,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -4294,6 +3670,9 @@ Operations about company merges
 `GET /v2/company-merges`
 
 - **Tag:** companyMerges · **OperationId:** v2_company-merges__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve paginated company merges for the organization.
 
@@ -4477,11 +3856,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -4607,6 +3986,9 @@ Errors
 `POST /v2/company-merges`
 
 - **Tag:** companyMerges · **OperationId:** v2_company-merges__POST · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Initiate a company merge to combine a duplicate company profile into a primary company profile.
 
@@ -4743,11 +4125,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -4873,6 +4255,9 @@ Errors
 `GET /v2/company-merges/{mergeId}`
 
 - **Tag:** companyMerges · **OperationId:** v2_company-merges_mergeId__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve the status and details of a specific company merge.
 
@@ -5010,11 +4395,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -5059,11 +4444,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -5189,6 +4574,9 @@ Errors
 `GET /v2/tasks/company-merges`
 
 - **Tag:** companyMerges · **OperationId:** v2_tasks_company-merges__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve paginated company merge tasks for the organization.
 
@@ -5378,11 +4766,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -5508,6 +4896,9 @@ Errors
 `GET /v2/tasks/company-merges/{taskId}`
 
 - **Tag:** companyMerges · **OperationId:** v2_tasks_company-merges_taskId__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve the status and details of a specific task for company merges.
 
@@ -5660,11 +5051,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -5709,11 +5100,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -5844,18 +5235,13 @@ Operations about emails
 
 - **Tag:** emails · **OperationId:** v2_emails__GET · **Stability:** `beta` · **Auth:** bearerAuth
 
+> **⚠️ This endpoint is currently in BETA**
+
+
 Paginate through all emails in Affinity. Returns basic information about the email interaction
 and its participants. Will only return emails or subject lines that the current authenticated
-user has permission to see.
-
-You can filter emails using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
-
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                     |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|----------------------------------|
-| `id`                        | Unique identifier for Emails                                    | `int64`    | `=`                                  | `id=1`                           |
-| `sentAt`                    | When the Email was sent at                                      | `datetime` | `>`, `<`, `>=`, `<=`                 | `sentAt>2025-01-01T01:00:00Z` |
-| `createdAt`                 | When the Email was created in Affinity                          | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-01-01T01:00:00Z` |
-| `updatedAt`                 | When the Email was updated in Affinity                          | `datetime` | `>`, `<`, `>=`, `<=`                 | `updatedAt>=2025-01-01T01:00:00Z`|
+user has permission to see. This endpoint is currently in a Closed Beta; to get access reach
+out to your Affinity CSM.
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -5948,11 +5334,12 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [Pagination](#pagination)
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -6498,11 +5885,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -6676,7 +6063,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -6933,11 +6320,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -7501,11 +6888,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -7550,11 +6937,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -7758,7 +7145,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -7791,7 +7178,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -7831,7 +7218,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company-list-enriched
@@ -8059,11 +7446,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -8108,11 +7495,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -8291,7 +7678,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -8517,11 +7904,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -8566,11 +7953,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -8994,11 +8381,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9043,11 +8430,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9207,7 +8594,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example: company
@@ -9308,11 +8695,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9357,11 +8744,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9613,11 +9000,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9662,11 +9049,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -9857,14 +9244,14 @@ Example
     {
       "createdAt": "2023-01-01T00:00:00Z",
       "id": 28,
-      "name": "Deal List",
+      "name": "my interesting companies",
       "type": "sheet"
     },
     {
-      "createdAt": "2023-06-15T00:00:00Z",
-      "id": 42,
-      "name": "Deal Pipeline Status",
-      "type": "board"
+      "createdAt": "2023-01-01T00:00:00Z",
+      "id": 28,
+      "name": "my interesting companies",
+      "type": "sheet"
     }
   ],
   "pagination": {
@@ -9953,11 +9340,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -10121,10 +9508,10 @@ Example
 
 ```json
 {
-  "createdAt": "2023-06-15T00:00:00Z",
-  "id": 42,
-  "name": "Deal Pipeline Status",
-  "type": "board"
+  "createdAt": "2023-01-01T00:00:00Z",
+  "id": 28,
+  "name": "my interesting companies",
+  "type": "sheet"
 }
 ```
 
@@ -10207,11 +9594,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -10473,11 +9860,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -10522,11 +9909,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -10652,22 +10039,16 @@ Errors
 
 Operations about meetings
 
-### Get metadata on all Meetings
+### Get metadata on all Meetings [COMING SOON]
 `GET /v2/meetings`
 
 - **Tag:** meetings · **OperationId:** v2_meetings__GET · **Stability:** `beta` · **Auth:** bearerAuth
 
-Paginate through all Meetings in Affinity. Returns basic information about past and future meeting interactions
-and its attendees.
+> **⚠️ This endpoint is currently in BETA**
 
-You can filter meetings using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
 
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                     |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|----------------------------------|
-| `id`                        | Unique identifier for Meetings                                  | `int64`    | `=`                                  | `id=1`                           |
-| `startTime`                 | Start time of when Meeting was scheduled                        | `datetime` | `>`, `<`, `>=`, `<=`                 | `startTime>2025-01-01T01:00:00Z` |
-| `createdAt`                 | When the Meeting was created in Affinity                        | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-01-01T01:00:00Z` |
-| `updatedAt`                 | When the Meeting was updated in Affinity                        | `datetime` | `>`, `<`, `>=`, `<=`                 | `updatedAt>=2025-01-01T01:00:00Z`|
+Paginate through all Meetings you have access to view in your organization. Returns information
+about meetings including title, start/end times, organizer, and attendee previews.
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -10735,11 +10116,12 @@ OK
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [Pagination](#pagination)
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
@@ -11646,11 +11028,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -12464,11 +11846,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -12755,11 +12137,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -13046,11 +12428,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -13343,11 +12725,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -13793,11 +13175,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -14086,11 +13468,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -14135,11 +13517,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -14390,11 +13772,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -14439,11 +13821,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -15317,11 +14699,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -15451,6 +14833,9 @@ Operations about person merges
 `GET /v2/person-merges`
 
 - **Tag:** personMerges · **OperationId:** v2_person-merges__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve paginated person merges for the organization.
 
@@ -15634,11 +15019,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -15764,6 +15149,9 @@ Errors
 `POST /v2/person-merges`
 
 - **Tag:** personMerges · **OperationId:** v2_person-merges__POST · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Initiate a person merge to combine a duplicate person profile into a primary person profile.
 
@@ -15900,11 +15288,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -16030,6 +15418,9 @@ Errors
 `GET /v2/person-merges/{mergeId}`
 
 - **Tag:** personMerges · **OperationId:** v2_person-merges_mergeId__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve the status and details of a specific person merge.
 
@@ -16167,11 +15558,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -16216,11 +15607,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -16346,6 +15737,9 @@ Errors
 `GET /v2/tasks/person-merges`
 
 - **Tag:** personMerges · **OperationId:** v2_tasks_person-merges__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve paginated person merge tasks for the organization.
 
@@ -16535,11 +15929,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -16665,6 +16059,9 @@ Errors
 `GET /v2/tasks/person-merges/{taskId}`
 
 - **Tag:** personMerges · **OperationId:** v2_tasks_person-merges_taskId__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
 
 Retrieve the status and details of a specific task for person merges.
 
@@ -16817,11 +16214,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -16866,11 +16263,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -17073,7 +16470,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -17266,11 +16663,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -17439,7 +16836,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -17674,7 +17071,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 Example
@@ -17806,11 +17203,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -17855,11 +17252,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -18048,7 +17445,7 @@ OK
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -18231,11 +17628,11 @@ Example
   "errors": [
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "authorization",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -18280,11 +17677,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -18574,11 +17971,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -19452,613 +18849,11 @@ Example
   "errors": [
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     },
     {
       "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
-    }
-  ]
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-## transcripts
-
-Operations about transcripts
-
-### Get all Transcripts
-`GET /v2/transcripts`
-
-- **Tag:** transcripts · **OperationId:** v2_transcripts__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Paginate through all transcripts and return basic metadata only. Use the single transcript endpoint to fetch the entire transcript data.
-Will only return transcripts that the current authenticated user has permission to see.
-
-You can filter transcripts using the `filter` query parameter. The filter parameter is a string that you can specify conditions based on the following properties.
-
-| **Property Name**           | **Description**                                                 | **Type**   | **Allowed Operators**                | **Examples**                    |
-|-----------------------------|-----------------------------------------------------------------|------------|--------------------------------------|---------------------------------|
-| `id`                        | Filter transcripts by id                                        | `int32`    | `=`                                  | `id=1`                          |
-| `createdAt`                 | Filter transcripts by when it was created                       | `datetime` | `>`, `<`, `>=`, `<=`                 | `createdAt<2025-02-04T10:48:24Z` |
-
-#### Query Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `boolean` | No | Include total count of the collection in the pagination response |
-| `cursor` | `string` | No | Cursor for the next or previous page |
-| `limit` | `integer<int32>` | No | Number of items to include in the page |
-| `filter` | `string` | No | Filter options |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/transcripts' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: transcripts.TranscriptPaged
-*Type:* object
-transcripts.TranscriptPaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Transcript results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [transcripts.BaseTranscript](#transcriptsbasetranscript)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
-
-Example: success
-
-```json
-{
-  "data": [
-    {
-      "createdAt": "2023-01-01T00:00:23Z",
-      "id": 1,
-      "languageCode": "en",
-      "note": {
-        "content": {
-          "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
-        },
-        "createdAt": "2023-01-01T00:00:20Z",
-        "creator": {
-          "firstName": "Lisa",
-          "id": 8,
-          "lastName": "Simpson",
-          "primaryEmailAddress": "lisa.simpson@springfield.com",
-          "type": "internal"
-        },
-        "id": 742,
-        "mentions": [],
-        "type": "ai-notetaker",
-        "updatedAt": "2023-01-21T00:01:00Z"
-      }
-    },
-    {
-      "createdAt": "2023-02-01T00:00:35Z",
-      "id": 2,
-      "languageCode": "en",
-      "note": {
-        "content": {
-          "html": "<p> Bart issues the directive to "take him away," but Chief Wiggum fumbles his words, saying "bake him away." When questioned by Lou, the Chief defers to Bart's original instruction, effectively agreeing to proceed as Bart suggested. </p>"
-        },
-        "createdAt": "2023-02-01T00:00:00Z",
-        "creator": {
-          "firstName": "Bart",
-          "id": 10,
-          "lastName": "Simpson",
-          "primaryEmailAddress": "bart.simpson@springfield.com",
-          "type": "internal"
-        },
-        "id": 844,
-        "mentions": [],
-        "type": "ai-notetaker",
-        "updatedAt": "2023-02-21T00:00:00Z"
-      }
-    }
-  ],
-  "pagination": {
-    "nextUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgIGFmdGVyOjo6NA",
-    "prevUrl": "https://api.affinity.co/v2/transcripts?cursor=ICAgICAgYmVmb3JlOjo6Nw"
-  }
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### DEFAULT — application/json
-
-Errors
-
-**Response schema (`application/json`):**
-###### Schema: Errors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes | Errors |
-
-**`errors` details** — See [Error](#error)
-
-**Items**
-
-**Variant:** AuthenticationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** AuthorizationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ConflictError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** MethodNotAllowedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotAcceptableError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotFoundError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** NotImplementedError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** RateLimitError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ServerError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnprocessableEntityError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** UnsupportedMediaTypeError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-### Get a single Transcript
-`GET /v2/transcripts/{transcriptId}`
-
-- **Tag:** transcripts · **OperationId:** v2_transcripts_transcriptId__GET · **Stability:** `beta` · **Auth:** bearerAuth
-
-Get a transcript with a given id with the first 100 fragments of the transcript. Use the /fragments endpoint to fetch all fragments of the transcript.
-
-#### Path Parameters
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| `transcriptId` | `integer<int32>` | Yes | The id of the Transcript |
-
-#### Example Request
-
-```bash
-curl --request GET 'https://api.affinity.co/v2/transcripts/{transcriptId}' \
-  --header 'Authorization: Bearer YOUR_API_KEY'
-```
-
-#### Responses
-
-##### 200 — application/json
-
-OK
-
-**Response schema (`application/json`):**
-###### Schema: transcripts.Transcript
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `fragmentsPreview` | `object` | Yes | A preview for dialogue fragments on a transcript |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`fragmentsPreview` details** — See [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-
-Example: success
-
-```json
-{
-  "createdAt": "2023-01-01T00:00:00Z",
-  "fragmentsPreview": {
-    "data": [
-      {
-        "content": "I want the most intelligent hamster you've got.",
-        "endTimestamp": "00:00:04",
-        "speaker": "Lisa Simpson",
-        "startTimestamp": "00:00:01"
-      },
-      {
-        "content": "Okay. Uh-- this little guy writes mysteries under the name of J.D. MacGregor.",
-        "endTimestamp": "00:00:11",
-        "speaker": "Sarcastic Clerk",
-        "startTimestamp": "00:00:05"
-      },
-      {
-        "content": "How can a hamster write mysteries?",
-        "endTimestamp": "00:00:13",
-        "speaker": "Lisa Simpson",
-        "startTimestamp": "00:00:12"
-      },
-      {
-        "content": "Well he gets the ending first then he works backward.",
-        "endTimestamp": "00:00:19",
-        "speaker": "Sarcastic Clerk",
-        "startTimestamp": "00:00:15"
-      }
-    ],
-    "totalCount": 4
-  },
-  "id": 1,
-  "languageCode": "en",
-  "note": {
-    "content": {
-      "html": "<p> Lisa requests the most intelligent hamster available. The clerk presents a hamster he claims is a mystery writer. When Lisa questions how that could be possible, the clerk explains the hamster's writing process. </p>"
-    },
-    "createdAt": "2023-01-01T00:00:20Z",
-    "creator": {
-      "firstName": "Lisa",
-      "id": 8,
-      "lastName": "Simpson",
-      "primaryEmailAddress": "lisa.simpson@springfield.com",
-      "type": "internal"
-    },
-    "id": 742,
-    "mentions": [],
-    "type": "ai-notetaker",
-    "updatedAt": "2023-01-21T00:01:00Z"
-  }
-}
-```
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 400 — application/json
-
-Bad Request
-
-**Response schema (`application/json`):**
-###### Schema: responses.400
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<oneOf>` | Yes |  |
-
-**`errors` details**
-
-**Items**
-
-**Variant:** BadRequestError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-**Variant:** ValidationError
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-| `param` | `string` | Yes | Param the error refers to |
-
-**Response Headers**
-| Header | Type | Description |
-| --- | --- | --- |
-| `X-Ratelimit-Limit-User` | `integer` | Number of requests allowed per minute for the user |
-| `X-Ratelimit-Limit-User-Remaining` | `integer` | Number of requests remaining for the user |
-| `X-Ratelimit-Limit-User-Reset` | `integer` | Time in seconds before the limit resets for the user |
-| `X-Ratelimit-Limit-Org` | `integer` | Number of requests allowed per month for the account |
-| `X-Ratelimit-Limit-Org-Remaining` | `integer` | Number of requests remaining for the account |
-| `X-Ratelimit-Limit-Org-Reset` | `integer` | Time in seconds before the limit resets for the account |
-
-##### 404 — application/json
-
-Not Found
-
-**Response schema (`application/json`):**
-###### Schema: NotFoundErrors
-*Type:* object
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `errors` | `array<object>` | Yes | NotFoundError errors |
-
-**`errors` details** — See [NotFoundError](#notfounderror)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `code` | `string` | Yes | Error code |
-| `message` | `string` | Yes | Error message |
-
-Example
-
-```json
-{
-  "errors": [
-    {
-      "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
-    },
-    {
-      "code": "not-found",
-      "message": "ð¨ Error! Sound the alarm! ð¨"
+      "message": "🚨 Error! Sound the alarm! 🚨"
     }
   ]
 }
@@ -20309,7 +19104,7 @@ Company model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyData
 **Properties**
@@ -20381,7 +19176,7 @@ CompanyDataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### CompanyMergeRequest
 Request body for initiating a company merge
@@ -20536,7 +19331,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20825,7 +19620,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### FieldMetadata
 **Properties**
@@ -20834,7 +19629,7 @@ CompanyPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 ### FieldMetadataPaged
 FieldMetadataPaged model
@@ -20854,7 +19649,7 @@ FieldMetadataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `valueType` | `string (enum: `person`, `person-multi`, `company`, `company-multi`, `filterable-text`, …)` | Yes | The type of the data in this Field |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -20882,7 +19677,7 @@ FieldPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -21213,7 +20008,7 @@ FieldPaged model
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of interaction |
-| `id` | `integer<int64>` | Yes | The phone call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
+| `id` | `integer<int64>` | Yes | The phon_call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `startTime` | `string<date-time>` | Yes | The call start time |
 | `attendees` | `array<object>` | Yes | People attending the call |
 
@@ -21261,7 +20056,7 @@ FieldPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryBatchOperationRequest
 **Variant:** ListEntryBatchOperationUpdateFields
@@ -21337,7 +20132,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -21385,7 +20180,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** OpportunityListEntry
 **Properties**
@@ -21418,7 +20213,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 **Variant:** PersonListEntry
 **Properties**
@@ -21458,7 +20253,7 @@ ListEntryPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### ListEntryWithEntityPaged
 ListEntryWithEntityPaged model
@@ -21664,7 +20459,7 @@ Opportunity model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### OpportunityPaged
 OpportunityPaged model
@@ -21711,7 +20506,7 @@ OpportunityPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### Pagination
 **Properties**
@@ -21753,7 +20548,7 @@ Person model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonData
 **Properties**
@@ -21792,25 +20587,6 @@ PersonDataPaged model
 | --- | --- | --- | --- |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
-### PersonDataPreview
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of persons |
-| `totalCount` | `integer<int64>` | Yes | The total count of persons (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [PersonData](#persondata)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
 ### PersonListEntry
 **Properties**
 | Field | Type | Required | Description |
@@ -21849,7 +20625,7 @@ PersonDataPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 ### PersonMergeRequest
 Request body for initiating a person merge
@@ -22005,7 +20781,7 @@ PersonPaged model
 | `id` | `string` | Yes | The field's unique identifier |
 | `name` | `string` | Yes | The field's name |
 | `type` | `string (enum: `enriched`, `global`, `list`, `relationship-intelligence`)` | Yes | The field's type |
-| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `eventbrite`, `mailchimp`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
+| `enrichmentSource` | `string/null (enum: `affinity-data`, `dealroom`, `None`)` | Yes | The source of the data in this Field (if it is enriched) |
 | `value` | `oneOf` | Yes |  |
 
 **`pagination` details** — See [Pagination](#pagination)
@@ -22049,7 +20825,7 @@ PersonPaged model
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `type` | `string` | Yes | The type of interaction |
-| `id` | `integer<int64>` | Yes | The phone call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
+| `id` | `integer<int64>` | Yes | The phon_call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `startTime` | `string<date-time>` | Yes | The call start time |
 | `attendees` | `array<object>` | Yes | People attending the call |
 
@@ -22221,196 +20997,6 @@ WhoAmI model
 **`scopes` details** — The scopes available to the current grant
 
 **Items**
-### interactions.Call
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, calls can only be logged as 'manual'. |
-| `title` | `string/null` | Yes | The call's title |
-| `startTime` | `string<date-time>` | Yes | The timestamp of when the call starts |
-| `endTime` | `string/null<date-time>` | Yes | The timestamp of when the call ends |
-| `allDay` | `boolean` | Yes | Whether the call is all day |
-| `creator` | `oneOf` | Yes | The person who created the call |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the call was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
-| `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
-
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of Attendees |
-| `totalCount` | `integer<int64>` | Yes | The total count of Attendees (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [Attendee](#attendee)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
-| `person` | `oneOf` | Yes |  |
-### interactions.CallPaged
-CallPaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Call results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [interactions.Call](#interactionscall)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The call's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, calls can only be logged as 'manual'. |
-| `title` | `string/null` | Yes | The call's title |
-| `startTime` | `string<date-time>` | Yes | The timestamp of when the call starts |
-| `endTime` | `string/null<date-time>` | Yes | The timestamp of when the call ends |
-| `allDay` | `boolean` | Yes | Whether the call is all day |
-| `creator` | `oneOf` | Yes | The person who created the call |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the call was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the call was updated |
-| `attendeesPreview` | `object` | Yes | A preview of the attendees in the call (Constraints: stability `beta`) |
-
-**`attendeesPreview` details** — See [interactions.AttendeesPreview](#attendeespreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of Attendees |
-| `totalCount` | `integer<int64>` | Yes | The total count of Attendees (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [Attendee](#attendee)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
-| `person` | `oneOf` | Yes |  |
-
-**`pagination` details** — See [Pagination](#pagination)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
-### interactions.ChatMessage
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
-| `creator` | `object` | Yes | The creator of the chat message |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
-| `participantsPreview` | `object` | Yes | A preview of the participants who are in the chat message (Constraints: stability `beta`) |
-
-**`creator` details** — See [PersonData](#persondata)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of persons |
-| `totalCount` | `integer<int64>` | Yes | The total count of persons (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [PersonData](#persondata)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-### interactions.ChatMessagePaged
-ChatMessagePaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of ChatMessage results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [interactions.ChatMessage](#chatmessage)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The chat message's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `sentAt` | `string<date-time>` | Yes | The timestamp of when the chat message was sent |
-| `loggingType` | `string` | Yes | Indicates how the interaction was added to Affinity: either manually by a user ('manual') or automatically through Affinity's capture process ('automated'). Currently, chat messages can only be logged as 'manual'. |
-| `direction` | `string (enum: `sent`, `received`)` | Yes | The direction of the chat message |
-| `creator` | `object` | Yes | The creator of the chat message |
-| `createdAt` | `string<date-time>` | Yes | The timestamp of when the chat message was created |
-| `updatedAt` | `string/null<date-time>` | Yes | The timestamp of when the chat message was updated |
-| `participantsPreview` | `object` | Yes | A preview of the participants who are in the chat message (Constraints: stability `beta`) |
-
-**`creator` details** — See [PersonData](#persondata)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-
-**`participantsPreview` details** — See [interactions.PersonDataPreview](#persondatapreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A preview of persons |
-| `totalCount` | `integer<int64>` | Yes | The total count of persons (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [PersonData](#persondata)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int64>` | Yes | The persons's unique identifier (Constraints: ≥ 1; ≤ 9007199254740991) |
-| `firstName` | `string/null` | Yes | The person's first name |
-| `lastName` | `string/null` | Yes | The person's last name |
-| `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
-| `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-
-**`pagination` details** — See [Pagination](#pagination)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Email
 **Properties**
 | Field | Type | Required | Description |
@@ -22539,11 +21125,12 @@ EmailPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [Pagination](#pagination)
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### interactions.Meeting
@@ -22624,11 +21211,12 @@ MeetingPaged model
 | `emailAddress` | `string/null<email>` | Yes | The email addresses of the attendee |
 | `person` | `oneOf` | Yes |  |
 
-**`pagination` details** — See [Pagination](#pagination)
+**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
 
 **Properties**
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
 | `prevUrl` | `string/null<uri>` | No | URL for the previous page |
 | `nextUrl` | `string/null<uri>` | No | URL for the next page |
 ### notes.AiNotetakerReplyNote
@@ -25055,100 +23643,6 @@ A person mentioned in a note.
 | `lastName` | `string/null` | Yes | The person's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The person's primary email address |
 | `type` | `string (enum: `internal`, `external`, `collaborator`)` | Yes | The person's type |
-### transcripts.BaseTranscript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-### transcripts.Fragment
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.FragmentsPreview
-A preview for dialogue fragments on a transcript
-A preview for dialogue fragments on a transcript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.Transcript
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `fragmentsPreview` | `object` | Yes | A preview for dialogue fragments on a transcript |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`fragmentsPreview` details** — See [transcripts.FragmentsPreview](#transcriptsfragmentspreview)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | No | Preview of dialogue fragments on a transcript |
-| `totalCount` | `integer<int64>` | No | The total count of the collection parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-
-**`data` details** — See [transcripts.Fragment](#transcriptsfragment)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `content` | `string` | Yes | The dialogue fragment of the transcript |
-| `speaker` | `string` | Yes | The speaker of the dialogue fragment |
-| `startTimestamp` | `string` | Yes | The starting timestamp of the dialogue fragment relative to the beginning of the transcript |
-| `endTimestamp` | `string` | Yes | The ending timestamp of the dialogue fragment relative to the beginning of the transcript |
-### transcripts.TranscriptPaged
-transcripts.TranscriptPaged model
-transcripts.TranscriptPaged model
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array<object> (≤ 100 items)` | Yes | A page of Transcript results |
-| `pagination` | `object` | Yes |  |
-
-**`data` details** — See [transcripts.BaseTranscript](#transcriptsbasetranscript)
-
-**Items**
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `integer<int32>` | Yes | The transcript's unique identifier (Constraints: ≥ 1; ≤ 2147483647) |
-| `note` | `oneOf` | Yes | Note associated with the transcript |
-| `createdAt` | `string<date-time>` | Yes | The date and time the transcript was created |
-| `languageCode` | `string (enum: `de`, `en`, `es`, `fr`, `id`, …)` | Yes | The language code of the transcript |
-
-**`pagination` details** — See [PaginationWithTotalCount](#paginationwithtotalcount)
-
-**Properties**
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `totalCount` | `integer<int64>` | No | The total count of the collection. Only included if requested via the totalCount query string parameter. (Constraints: ≥ 0; ≤ 9007199254740991) |
-| `prevUrl` | `string/null<uri>` | No | URL for the previous page |
-| `nextUrl` | `string/null<uri>` | No | URL for the next page |
 
 ## Error Reference
 
