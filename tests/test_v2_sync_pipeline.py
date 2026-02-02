@@ -13,12 +13,6 @@ from tools.v2_sync_pipeline.markdown_renderer import (
  )
 
 
-def test_extract_openapi_from_state_handles_json_payload() -> None:
-    blob = r"""const __redoc_state = JSON.parse("{\"definition\":{\"data\":{\"info\":{\"title\":\"Demo\"}}}}");"""
-    data = openapi_loader.extract_openapi_from_state(blob)
-    assert data["info"]["title"] == "Demo"
-
-
 def test_markdown_renderer_includes_operation_sections() -> None:
     spec = {
         "openapi": "3.1.0",

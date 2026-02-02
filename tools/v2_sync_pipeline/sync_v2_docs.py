@@ -74,11 +74,11 @@ def write_bytes_if_changed(path: Path, payload: bytes) -> bool:
 def main() -> int:
     args = parse_args()
     artifacts = openapi_loader.fetch_site(args.url)
-    spec = openapi_loader.extract_openapi_from_state(artifacts.state_js)
-    saved = openapi_loader.save_artifacts(artifacts, spec, args.snapshot_dir)
+    spec = artifacts.spec
+    saved = openapi_loader.save_artifacts(artifacts, args.snapshot_dir)
     markdown = generate_markdown(
         spec,
-        snapshot_path=saved.html_path,
+        snapshot_path=saved.json_path,
         source_url=args.url,
         fetched_at=artifacts.last_modified or artifacts.date_header or artifacts.fetched_at,
     )
