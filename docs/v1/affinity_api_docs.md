@@ -21,7 +21,7 @@ This markdown version of the Affinity API v1 documentation was generated automat
 - **Direct raw access**
 
 **Source:** Extracted from the live Affinity API documentation at https://api-docs.affinity.co/
-**Documentation Version:** This copy is based on the official documentation as it appeared on **November 06, 2025 at 16:49:04 UTC** (Last updated: 11/06/2025 16:49:04 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **June 19, 2026 at 16:03:56 UTC** (Last updated: 06/19/2026 16:03:56 UTC).
 **Raw Markdown URL:** `https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v1/affinity_api_docs.md`
 
 > **⚠️ Use at Your Own Risk**
@@ -38,7 +38,7 @@ This markdown version of the Affinity API v1 documentation was generated automat
 
 ## Table of Contents
 
-- [Introduction](#introduction)
+- [Introduction to API V1](#introduction-to-api-v1)
 - [Getting Started](#getting-started)
   - [Authentication](#authentication)
   - [Requests & Responses](#requests--responses)
@@ -61,7 +61,6 @@ This markdown version of the Affinity API v1 documentation was generated automat
   - [Getting Field Value Changes for Status Fields](#getting-field-value-changes-for-status-fields)
   - [Getting the Strongest Relationship Strength Connection to an Organization on a List](#getting-the-strongest-relationship-strength-connection-to-an-organization-on-a-list)
   - [Useful Resources](#useful-resources)
-- [Partner With Us](#partner-with-us)
 - [Lists](#lists)
   - [The List Resource](#the-list-resource)
     - [List Types](#list-types)
@@ -191,9 +190,9 @@ This markdown version of the Affinity API v1 documentation was generated automat
   - [The Rate Limit Resource](#the-rate-limit-resource)
   - [Get Rate Limit Information](#get-rate-limit-information)
 - [Changelog](#changelog)
-# Introduction
+# Introduction to API V1
 
-Welcome to the Affinity API! This API provides a RESTful interface for performing operations on the different objects that make up Affinity. If you are trying to accomplish an action through this API and are not sure on what endpoints to use, or if you have ideas on more endpoints we could create to make your workflow easier, please do not hesitate to contact us at [support@affinity.co](mailto:support@affinity.co).
+Welcome to the Affinity V1 API! This API provides a RESTful interface for performing operations on the different objects that make up Affinity. The latest Affinity API (v2) can be found at https://developer.affinity.co. The v2 API is not at feature parity with v1 - we are continuing to develop new v2 APIs to support all v1 functionality over time.
 
 # Getting Started
 
@@ -211,7 +210,7 @@ curl "https://api.affinity.co/api_endpoint" -u :$APIKEY
 curl "https://api.affinity.co/api_endpoint" -H "Authorization: Bearer ${APIKEY}"
 ```
 
-To use the API, you will need to generate an API secret key. This can be done easily through the Settings Panel that is accessible through the left sidebar on the Affinity web app. For more support, visit the [How to obtain your API Key](https://support.affinity.co/hc/en-us/articles/360032633992-How-to-obtain-your-API-Key) article in our Help Center.
+To use the API, you will need to generate an API secret key. This can be done easily through the Manage Apps Page in Affinity Settings. For more support, visit the [How to obtain your API Key](https://support.affinity.co/s/article/How-to-Create-and-Manage-API-Keys) article in our Help Center.
 
 Requests are authenticated using one of the following:
 
@@ -220,7 +219,9 @@ Requests are authenticated using one of the following:
 | [HTTP Basic Auth](http://en.wikipedia.org/wiki/Basic_access_authentication) | Provide your API key as the basic auth password. You do not need to provide a username. |
 | [HTTP Bearer Auth](https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/) | Provide your API key as the bearer token. |
 
-Currently, we support one key per user on your team. Once you have generated a key, you will need to pass in the key with every API request for us to process it successfully. Otherwise, an error with a code of `401` will be returned.
+Once you have generated a key, you will need to pass in the key with every API request for us to process it successfully. Otherwise, an error with a code of `401` will be returned.
+
+To further secure an API key, you can define an IP Allowlist to limit which IP addresses or ranges can make API calls using that key.
 
 #### Note
 
@@ -240,7 +241,7 @@ Here is a list of all the error codes the Affinity API returns in case something
 | 403 | Forbidden -- Insufficient rights to a resource. |
 | 404 | Not Found -- Requested resource does not exist. |
 | 422 | Unprocessable Entity -- Malformed parameters supplied. This can also happen in cases the parameters supplied logically cannot complete the request. In this case, an appropriate error message is delivered. |
-| 429 | Too Many Requests -- You have exceed the rate limit. |
+| 429 | Too Many Requests -- You have exceeded the rate limit. |
 | 500 | Internal Server Error -- We had a problem with our server. Try again later. |
 | 503 | Service Unavailable -- This shouldn't generally happen. Either a deploy is in process, or Affinity services are down. |
 
@@ -276,7 +277,7 @@ Your account plan tier will limit the overall number of requests you can make pe
 
 #### Note
 
-> Professional tier customers who signed up for Affinity before July 5, 2023 are alotted 40,000 calls per month.
+> Professional tier customers who signed up for Affinity before July 5, 2023 are allotted 40,000 calls per month.
 
 This monthly account-level limit resets at the end of each calendar month.
 
@@ -377,10 +378,11 @@ Use the common use cases below to learn how Affinity API endpoints work.
 
 #### Helpful Tips
 
-> - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhooks) to keep data synced. You may want to schedule occasional syncs via the REST API to fixed any inconsistencies
+> - To reduce API calls, create any initial backfills with the REST API then use [Webhooks](#webhooks) to keep data synced. You may want to schedule occasional syncs via the REST API to fix any inconsistencies
 > - Your instance may contain multiple fields with the same name (e.g. Last Funding Date). To confirm the field ID, manually make an edit to the field in question and inspect the request payload for the bulk request. The field ID will be listed as `entityAttributeId` ![](https://api-docs.affinity.co/images/request-payload-1136ff0a.png)
 > - The ID for a list, person, organization and opportunity can be found via the URL in the CRM. For a list `affinity.affinity.co/lists/[list_id]` and for a company profile `affinity.affinity.co/companies/[company_id]`
 > - For large lists, use `page_size` and `page_token` parameters in the [`GET /lists/list_id}/list-entries`](#get-all-list-entries) endpoint to improve performance
+> - Integer values appearing as `entity_type` and `value_type` in response payloads follow the [Field Entity Types](#field-entity-types) and [Field Value Types](#field-value-types) enums.
 
 ## Getting Field Values for All List Entries on a List
 
@@ -701,10 +703,6 @@ GET /relationships-strengths Response:
 - [Affinity Zapier Integrations](https://zapier.com/apps/affinity/integrations)
 - [Affinity Tray Connectors](https://tray.io/documentation/connectors/service/affinity)
 
-# Partner With Us
-
-If you're a developer interested in building an integration with Affinity's relationship intelligence platform for your customers, please [get in touch here](https://53mt2d9of77.typeform.com/to/LhEs2tzU).
-
 # Lists
 
 Lists are the primary data structure that you can interact with in Affinity. Each list manages a collection of either people, organizations or opportunities. We call people, organizations and opportunities "entities".
@@ -737,6 +735,8 @@ This list would have 25 "list entries". Each list entry would be associated with
 | person | 0 | Type specifying a list of people. |
 | organization | 1 | Type specifying a list of organizations. |
 | opportunity | 8 | Type specifying a list of opportunities. |
+
+This enum is shared with the `entity_type` attribute used on fields and in webhook payloads. See [Field Entity Types](#field-entity-types).
 
 ### List-level Roles
 
@@ -1251,7 +1251,7 @@ All the Types listed below can be referred through looking at the Affinity web a
 | --- | --- | --- |
 | 0 | Person | This type enables you to add person objects as a value. Eg: External Source, Owner, Friends |
 | 1 | Organization | This type enables you to add organization objects as a value. Eg: Place of work, Co-Investors |
-| 2 | Dropdown | This type allows you to add text values into a single cell. This is best used when you want to store information that is unique to a person or organization. Eg: Interests, Stage, Industry |
+| 2 | Text or Dropdown | This `value_type` is returned for both single-line text fields and managed dropdown fields. Eg: Interests, Stage, Industry |
 | 3 | Number | This type enables you to add number as a value. Eg: Deal Size, Check Size, Revenue |
 | 4 | Date | This type enables you to add date as a value. Eg: Date of Event, Birthday |
 | 5 | Location | This type enables you to add a smart Google Maps location as a value. Eg: Address |
@@ -1823,7 +1823,7 @@ The action type specified below corresponds to the `action_type` of a field valu
     "primary_email": "jane@gmail.com",
     "emails": ["jane@gmail.com"]
   },
-  "changed_at": "2020-04-11T15:46:50.963-07:00",
+  "changed_at": "2020-04-11T22:46:50.963241Z",
   "value": {
     "id": 1607859,
     "text": "New",
@@ -1836,7 +1836,7 @@ The action type specified below corresponds to the `action_type` of a field valu
 
 `GET /field-value-changes`
 
-Returns all field values changes attached to a specific field. Field value changes can be filtered by `action_type`, `person`, `organization`, `opportunity` or `list_entry` by passing in the appropriate parameter.
+Returns all field values changes attached to a specific field. Field value changes can be filtered by `action_type`, `person`, `organization`, `opportunity`, `list_entry`, `changed_after`, `order_by`, `after_id`, and `limit` by passing in the appropriate parameter.
 
 ### Query Parameters
 
@@ -1844,10 +1844,14 @@ Returns all field values changes attached to a specific field. Field value chang
 | --- | --- | --- | --- |
 | field_id | integer | true | A unique ID that represents a field object whose field values changes are to be retrieved. |
 | action_type | integer | false | An integer that filters field value changes that were created with this specific action type (see above). |
-| person_id | integer | custom* | A unique ID that represents a person object whose field value changes are to be retrieved. |
-| organization_id | integer | custom* | A unique ID that represents an organization object whose field value changes are to be retrieved. |
-| opportunity_id | integer | custom* | A unique ID that represents an opportunity object whose field value changes are to be retrieved. |
-| list_entry_id | integer | custom* | A unique ID that represents a list entry object whose field value changes are to be retrieved. |
+| person_id | integer | false | A unique ID that represents a person object whose field value changes are to be retrieved. |
+| organization_id | integer | false | A unique ID that represents an organization object whose field value changes are to be retrieved. |
+| opportunity_id | integer | false | A unique ID that represents an opportunity object whose field value changes are to be retrieved. |
+| list_entry_id | integer | false | A unique ID that represents a list entry object whose field value changes are to be retrieved. |
+| changed_after | datetime | false | A UTC timestamp that filters field value changes with a `changed_at` greater than or equal to the given value. Non-UTC offsets are accepted and converted to UTC. |
+| order_by | string | false | Sort order for results. Accepted values: `asc` (oldest first) or `desc` (newest first). Defaults to `desc`. |
+| after_id | integer | false | A cursor for keyset pagination. When provided, returns only records that come after the record with this ID in the current sort order. Requires both `changed_after` and `order_by=asc`. Returns a 422 if either is missing. |
+| limit | integer | false | An integer number that restricts the field value changes being returned. |
 
 #### Returns
 
@@ -1855,9 +1859,11 @@ An array of all the field values changes associated with the supplied field and 
 
 #### Notes
 
-> - Exactly one of `person_id`, `organization_id`, `opportunity_id`, or `list_entry_id` must be specified to the endpoint.
-> - If a `person_id`, `organization_id`, or `opportunity_id` is specified, the endpoint returns all field value changes tied to these entities.
+> - Results are sorted by `changed_at` with `id` as a tiebreaker for deterministic ordering. The default sort order is `desc` (newest first). Use `order_by=asc` to sort oldest first, which is required for forward pagination.
+> - The response may be filtered by providing at most one of the following parameters: `person_id`, `organization_id`, `opportunity_id`, or `list_entry_id`. If none are specified, the response encompasses all data for the given `field_id` across the organization. For fields with high volumes of data, organization-wide queries may be subject to timeouts; in these cases, the use of the `changed_after` and `limit` parameters is recommended.
+> - If a `person_id`, `organization_id`, or `opportunity_id` is specified, the endpoint returns all field value changes for the provided `field_id` tied to these entities.
 > - If a `list_entry_id` is specified, the result is filtered by the `person_id`, `organization_id` or `opportunity_id` which is tied to the specified `list_entry_id`.
+> - To paginate through all changes since a given date, use `order_by=asc` and on each subsequent request set `changed_after` to the `changed_at` of the last record and `after_id` to its `id`. Repeat until the response is empty. The `changed_at` field in responses uses microsecond precision to ensure it can be used directly as an exact cursor.
 
 #### Example Request
 
@@ -1883,7 +1889,7 @@ curl "https://api.affinity.co/field-value-changes?field_id=236333" -u :$APIKEY
       "primary_email": "jane@gmail.com",
       "emails": ["jane@gmail.com"]
     },
-    "changed_at": "2020-04-11T15:46:50.963-07:00",
+    "changed_at": "2020-04-11T22:46:50.963241Z",
     "value": {
       "id": 1607859,
       "text": "New",
@@ -1919,13 +1925,13 @@ Dates of the most recent and upcoming interactions with a person are available i
 | first_name | string | The first name of the person. |
 | last_name | string | The last name of the person. |
 | emails | string[] | The email addresses of the person. |
-| primary_email | string | The email (automatically computed) that is most likely to the current active email address of the person. |
+| primary_email | string | The email (automatically computed) that is most likely to be the current active email address of the person. |
 | organization_ids | integer[] | An array of unique identifiers of organizations that the person is associated with. |
 | opportunity_ids | integer[] | An array of unique identifiers of opportunities that the person is associated with. Only returned when `with_opportunities=true`. |
 | current_organization_ids | integer[] | An array of unique identifiers of organizations that the person is currently associated with according to the Affinity Data: Current Organization in-app column. Only returned when `with_current_organizations=true`. |
 |  |  |  |
 | list_entries | ListEntry[] | An array of list entry resources associated with the person, only returned as part of the [Get a Specific Person](#get-a-specific-person) endpoint. |
-| interaction_dates | object | An object with seven string date fields representing the most recent and upcoming interactions with this person: `first_email_date`, `last_email_date`, `last_event_date`, `last_chat_message_date`, `last_interacton_date`, `first_event_date` and `next_event_date`. Only returned when passing `with_interaction_dates=true`. |
+| interaction_dates | object | An object with seven string date fields representing the most recent and upcoming interactions with this person: `first_email_date`, `last_email_date`, `last_event_date`, `last_chat_message_date`, `last_interaction_date`, `first_event_date` and `next_event_date`. Only returned when passing `with_interaction_dates=true`. |
 | interactions | object | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for `date` and `person_ids` which indicates the internal people associated with that event. Only returned when passing `with_interaction_dates=true`. |
 
 ### Person types
@@ -2388,7 +2394,7 @@ Dates of the most recent and upcoming interactions with an organization are avai
 | opportunity_ids | integer[] | An array of unique identifiers of opportunities that are associated with the organization |
 | global | boolean | Returns whether this organization is a part of Affinity's global dataset of organizations. This is always false if the organization was created by you. |
 | list_entries | ListEntry[] | An array of list entry resources associated with the organization, only returned as part of the [Get a specific organization](#get-a-specific-organization) endpoint. |
-| interaction_dates | object | An object with seven string date fields representing the most recent and upcoming interactions with this organization: `first_email_date`, `last_email_date`, `last_event_date`, `last_chat_message_date`, `last_interacton_date`, `first_event_date`, and `next_event_date`. Only returned when passing `with_interaction_dates=true`. |
+| interaction_dates | object | An object with seven string date fields representing the most recent and upcoming interactions with this organization: `first_email_date`, `last_email_date`, `last_event_date`, `last_chat_message_date`, `last_interaction_date`, `first_event_date`, and `next_event_date`. Only returned when passing `with_interaction_dates=true`. |
 | interactions | object | An object with seven fields nested underneath. Each field corresponds to one of the seven interactions, and includes nested fields for `date` and `person_ids` which indicates the internal people associated with that event (people only returned if passing `with_interaction_persons=true`). Only returned when passing `with_interaction_dates=true`. |
 
 #### Example Response
@@ -2811,6 +2817,7 @@ Unlike people and organizations, an opportunity can only belong to a single list
 
 > - If you are looking to remove an opportunity from a list, note that deleting an opportunity is the same as removing an opportunity from a list because an opportunity can only exist on a single list with a single list entry.
 > - If you are looking to modify a field value (one of the cells on Affinity's spreadsheet), please check out the [Field Values](#field-values) section of the API.
+> - `entity_type` values in list entry payloads follow the [Field Entity Types](#field-entity-types) enum.
 
 ## The Opportunity Resource
 
@@ -4274,7 +4281,21 @@ curl -X POST "https://api.affinity.co/entity-files" \
 #### Example Response
 
 ```json
-{ "success": true }
+{
+  "success": true,
+  "entity_files": [
+    {
+      "id": 43213,
+      "name": "file.txt",
+      "size": 994,
+      "person_id": 1,
+      "organization_id": null,
+      "opportunity_id": null,
+      "created_at": "2011-01-25T09:59:35.288-08:00",
+      "uploader_id": 10
+    }
+  ]
+}
 ```
 
 `POST /entity-files`
@@ -4295,7 +4316,22 @@ The file will display on the entity's profile, provided that the entity is not a
 
 #### Returns
 
-`{"success": true}`
+An object with two fields:
+
+- `success`
+  :
+  `true`
+  when the upload succeeded.
+- `entity_files`
+  : an array of the uploaded entity file resources, one per uploaded file. Each has the same shape as the
+  [Get a Specific File](#get-a-specific-file)
+  response; use its
+  `id`
+  to
+  [retrieve](#get-a-specific-file)
+  or
+  [download](#download-file)
+  the file.
 
 #### Notes
 
@@ -4887,6 +4923,8 @@ Each webhook subscription object has a unique `id`. It also has a `webhook_url` 
 > - Examples of our webhook responses can be found in the [Help Center](https://support.affinity.co/s/article/Types-of-webhooks-available-with-Affinity-s-API).
 > - Field webhooks are not fired for Crunchbase fields.
 > - Field value webhooks are fired with `null` values for Crunchbase fields.
+> - `value_type` integers in `field.*` and `field_value.*` webhook payloads use the same enum documented in [Field Value Types](#field-value-types). Some `field.*` events may carry `value_type` integers that are not returned by `GET /fields`.
+> - `entity_type` integers in webhook payloads use the same enum documented in [Field Entity Types](#field-entity-types).
 
 ## Get All Webhook Subscriptions
 
@@ -5242,6 +5280,68 @@ curl "https://api.affinity.co/rate-limit" -u :$API_KEY
 }
 ```
 # Changelog
+
+**2026-06-16**
+
+- [Uploading files](#upload-files)
+  (
+  `POST /entity-files`
+  ) now returns the created files in an
+  `entity_files`
+  array alongside
+  `success`
+  , so each uploaded file's
+  `id`
+  can be used to
+  [retrieve](#get-a-specific-file)
+  or
+  [download](#download-file)
+  it. The
+  `success`
+  field is unchanged.
+
+**2026-04-27**
+
+- Added two new query parameters to
+  `GET /field-value-changes`
+  to support keyset pagination:
+  - `order_by`
+    (string): Specifies sort order for results. Accepted values:
+    `asc`
+    (oldest first) or
+    `desc`
+    (newest first). Defaults to
+    `desc`
+    .
+  - `after_id`
+    (integer): A cursor for keyset pagination. When provided along with
+    `changed_after`
+    and
+    `order_by=asc`
+    , returns records after the record with the given ID. Returns a 422 if
+    `changed_after`
+    or
+    `order_by=asc`
+    is not also specified.
+- Results are now sorted deterministically by
+  `(changed_at, id)`
+  , using
+  `id`
+  as a tiebreaker to ensure stable pagination across records with identical timestamps.
+- The
+  `changed_at`
+  field in responses now uses microsecond precision (e.g.
+  `2024-01-03T08:00:00.000000Z`
+  ), allowing it to be used directly as an exact pagination cursor.
+- The
+  `changed_after`
+  parameter now normalizes non-UTC timestamps to UTC before filtering.
+
+**2026-03-13**
+
+- Added two new query parameters to GET /field-value-changes:
+  - changed_after (datetime): When provided, only field value changes with a changed_at timestamp greater than or equal to the given value are returned.
+  - limit (integer, min: 1): Restricts the number of field value changes returned.
 
 **2025-11-05**
 
