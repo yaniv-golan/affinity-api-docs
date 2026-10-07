@@ -14,7 +14,7 @@
 ### API v2 Documentation (Auto-generated canonical)
 - Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md
 - OpenAPI JSON: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/openapi.json
-- Contents: full Affinity API v2 reference sourced from the Redoc OpenAPI payload (auth, rate limits, endpoint-by-endpoint details, synthesized cURL examples, schema + error references). Generated via `tools/v2_sync_pipeline/sync_v2_docs.py`.
+- Contents: full Affinity API v2 reference (auth, rate limits, endpoint-by-endpoint details, synthesized cURL examples, schema + error references), sourced from Affinity's published OpenAPI spec at https://developer.affinity.co/api-reference/openapi.json. Generated via `tools/v2_sync_pipeline/sync_v2_docs.py`.
 
 ---
 

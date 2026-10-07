@@ -12,7 +12,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 ## Current Status
 
 - ✅ v1 markdown extracted, normalized, and auto-synced from https://api-docs.affinity.co/
-- ✅ v2 markdown extracted from the Redoc OpenAPI payload at https://developer.affinity.co/ with flattened schemas, synthesized cURL examples, and schema appendices
+- ✅ v2 markdown generated from Affinity's published OpenAPI spec (https://developer.affinity.co/api-reference/openapi.json) with flattened schemas, synthesized cURL examples, and schema appendices
 - ✅ Code samples + JSON payloads match the live sites; the parsers auto-detect new fenced code languages when Affinity adds them
 - ✅ Last-updated timestamps injected automatically during sync
 - ✅ Legacy manual doc preserved separately with warning banner
@@ -26,8 +26,8 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 - **v1:** `python tools/v1_sync_pipeline/sync_v1_docs.py [--fail-on-diff]`
   - Reads https://api-docs.affinity.co/, writes `docs/v1/affinity_api_docs.md`, snapshot artifacts under `tmp/`
 - **v2:** `python tools/v2_sync_pipeline/sync_v2_docs.py [--fail-on-diff]`
-  - Reads https://developer.affinity.co/, writes `docs/v2/affinity_api_docs.md` and `docs/v2/openapi.json`, HTML/state JSON/manifest saved under `tmp/v2/`
-  - Automatically extracts the embedded Redoc OpenAPI JSON, dereferences `$ref`s, flattens schemas, and injects schema + error appendices
+  - Downloads https://developer.affinity.co/api-reference/openapi.json, writes `docs/v2/affinity_api_docs.md` and `docs/v2/openapi.json`; the raw spec and artifact hashes are saved under `tmp/v2/`
+  - Dereferences `$ref`s (recursive schemas render as links), flattens schemas, and injects schema + error appendices
   - `--fail-on-diff` mirrors the v1 behavior (exit 1 when the output differs from what is committed)
 
 ### QA Scripts
