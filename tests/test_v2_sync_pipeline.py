@@ -7,6 +7,7 @@ from pathlib import Path
 from tools.v2_sync_pipeline import openapi_loader
 from tools.v2_sync_pipeline import sync_v2_docs
 from tools.v2_sync_pipeline.markdown_renderer import (
+    RefResolver,
     RenderContext,
     V2MarkdownRenderer,
     rewrite_v2_markdown_links,
@@ -128,6 +129,41 @@ def test_renderer_mentions_every_path_from_spec() -> None:
     markdown = V2MarkdownRenderer(ctx).build()
     for path in spec["paths"]:
         assert path in markdown
+
+
+def test_ref_resolver_handles_recursive_schemas() -> None:
+    spec = {
+        "components": {
+            "schemas": {
+                "FilterGroup": {
+                    "title": "FilterGroup",
+                    "type": "object",
+                    "properties": {
+                        "filters": {
+                            "type": "array",
+                            "items": {"oneOf": [{"$ref": "#/components/schemas/FilterGroup"}]},
+                        }
+                    },
+                }
+            }
+        }
+    }
+    resolver = RefResolver(spec)
+    resolved = resolver.deref({"$ref": "#/components/schemas/FilterGroup"}, track_schema=True)
+    assert resolved["title"] == "FilterGroup"
+    nested = resolved["properties"]["filters"]["items"]["oneOf"][0]
+    assert nested == {"title": "FilterGroup", "x-recursive-ref": "#/components/schemas/FilterGroup"}
+    assert resolver.used_schema_names == {"FilterGroup"}
+
+    ctx = RenderContext(
+        source_url="https://example.com",
+        fetched_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        snapshot_path="",
+        info={},
+        spec={"paths": {}, **spec},
+    )
+    rendered = V2MarkdownRenderer(ctx)._render_schema_properties(resolved, heading_level=4)
+    assert "Recursive reference — see [FilterGroup](#filtergroup)" in rendered
 
 
 def test_write_bytes_if_changed_tracks_diffs(tmp_path: Path) -> None:

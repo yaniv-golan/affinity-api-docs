@@ -29,11 +29,16 @@ class RefResolver:
         self.spec = spec
         self.cache: dict[str, Any] = {}
         self.used_schema_names: set[str] = set()
+        self._in_progress: list[str] = []
 
     def deref(self, obj: Any, *, track_schema: bool = False) -> Any:
         if isinstance(obj, dict):
             if "$ref" in obj:
                 ref = obj["$ref"]
+                if ref in self._in_progress:
+                    # Recursive schema (e.g. FilterGroup nesting FilterGroup): stop expanding
+                    # and leave a named marker (not a $ref, so it is never re-expanded).
+                    return {"title": ref.split("/")[-1], "x-recursive-ref": ref}
                 resolved = self._resolve_pointer(ref)
                 if track_schema and ref.startswith("#/components/schemas/"):
                     self.used_schema_names.add(ref.split("/")[-1])
@@ -42,7 +47,11 @@ class RefResolver:
                     for key, value in obj.items()
                     if key != "$ref"
                 }
-                base = self.deref(resolved, track_schema=track_schema)
+                self._in_progress.append(ref)
+                try:
+                    base = self.deref(resolved, track_schema=track_schema)
+                finally:
+                    self._in_progress.pop()
                 if isinstance(base, dict):
                     merged = {**base, **overrides}
                 else:
@@ -368,12 +377,18 @@ class V2MarkdownRenderer:
 
         def clean_text(raw: str | None) -> str:
             return format_description(raw or "").replace("\n", " ").strip()
+        if "x-recursive-ref" in schema:
+            return f"Recursive reference — see {self.helper.schema_link(schema)}"
 
         def clean_text(raw: str | None) -> str:
             return format_description(raw or "").replace("\n", " ").strip()
+        if "x-recursive-ref" in schema:
+            return f"Recursive reference — see {self.helper.schema_link(schema)}"
 
         def clean_text(raw: str | None) -> str:
             return format_description(raw or "").replace("\n", " ").strip()
+        if "x-recursive-ref" in schema:
+            return f"Recursive reference — see {self.helper.schema_link(schema)}"
         if path_rows:
             lines.append("")
             lines.append("#### Path Parameters")
@@ -496,6 +511,8 @@ class V2MarkdownRenderer:
 
         def clean_text(raw: str | None) -> str:
             return format_description(raw or "").replace("\n", " ").strip()
+        if "x-recursive-ref" in schema:
+            return f"Recursive reference — see {self.helper.schema_link(schema)}"
         description = schema.get("description")
         title = schema.get("title", "")
         if description and title:

@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [2.1.3] - 2026-10-07
+
+### Fixed
+
+- v2 sync pipeline no longer crashes with `RecursionError` on self-referential schemas (Affinity's `FilterGroup` nests `FilterGroup`). Recursive references now render as a link to the schema's entry in the Schema Reference.
+
+### Changed
+
+- Sync workflow uses `peter-evans/create-pull-request@v8`.
+
 ## [2.1.2] - 2026-02-03
 
 ### Fixed
