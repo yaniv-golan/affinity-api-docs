@@ -55,10 +55,10 @@ This document explains the repository structure and why files are organized this
 
 ### `tools/v2_sync_pipeline/` - Production v2 Sync Pipeline
 
-- **Purpose**: Fetches the Redocly state payload from https://developer.affinity.co/ and generates the v2 markdown mirror + a stable OpenAPI JSON artifact.
+- **Purpose**: Downloads the OpenAPI spec from https://developer.affinity.co/api-reference/openapi.json and generates the v2 markdown mirror + a stable OpenAPI JSON artifact.
 - **Contents**:
-  - `sync_v2_docs.py` – Fetches Redoc shell HTML + state JS, extracts OpenAPI JSON, renders markdown, writes outputs under `docs/v2/`
-  - `openapi_loader.py` – Discovers the `redocly-state-*.js` asset and extracts the embedded OpenAPI document
+  - `sync_v2_docs.py` – Fetches the OpenAPI JSON, renders markdown, writes outputs under `docs/v2/`
+  - `openapi_loader.py` – Downloads the OpenAPI document and saves it (plus artifact hashes) under `tmp/v2/`
   - `markdown_renderer.py` – Converts the OpenAPI spec into readable markdown sections + appendices
 
 **Why here?**: Keeps v2 automation co-located with v1, using the same “generated outputs, never hand-edit” approach.
