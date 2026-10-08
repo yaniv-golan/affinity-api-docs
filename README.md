@@ -15,6 +15,17 @@ This repository contains markdown versions of the official Affinity API document
 
 **Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
 
+### Using AI agents with API v2? Start with Affinity's official resources
+
+Affinity now publishes AI-ready v2 docs:
+
+- Index of guides and per-endpoint Markdown pages for all three API versions: https://developer.affinity.co/llms.txt (append `.md` to any page URL for raw Markdown; endpoint pages live under `/api-reference/<version>/...`)
+- Docs MCP server (documentation search plus a read-only file view that supports `rg`, `cat` and `jq` over the guides and all three specs): `https://developer.affinity.co/mcp`. This is **not** Affinity's authenticated MCP server for CRM data.
+- OpenAPI specs: current version https://developer.affinity.co/api-reference/openapi.json; locked versions at `https://developer.affinity.co/api-reference/openapi-<version>.json` (2026-07-15, 2024-01-01)
+- Search results from Affinity's docs mix versions; filter by the `/api-reference/<version>/` path.
+
+This repository's v2 copy is mainly a **change history**: the daily sync diffs show exactly what changed in the API and when. For **v1**, this repository is still the only Markdown version.
+
 ## Purpose
 
 The original Affinity API documentation is hosted on dynamic, interactive websites that can be challenging to work with when using AI coding assistants, documentation parsers, or other automated tools. This repository provides:
@@ -97,6 +108,7 @@ cd affinity-api-docs/docs/v1
 - ✅ Example `curl` requests synthesized for every endpoint
 - 📂 Location: `docs/v2/affinity_api_docs.md` (do **not** edit manually)
 - 📂 OpenAPI spec: `docs/v2/openapi.json` (do **not** edit manually)
+- 📂 Older-version specs: `docs/v2/versions/openapi-<version>.json` – the locked 2026-07-15 and 2024-01-01 specs, mirrored daily for change tracking (do **not** edit manually)
 - 📂 Mirrored site pages: `docs/v2/pages/` – Versioning, Previous Changes (changelog) and Version Migration from https://developer.affinity.co/ (do **not** edit manually)
 
 ## Automated Updates & Manual Workflow

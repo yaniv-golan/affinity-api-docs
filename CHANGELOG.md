@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [2.3.0] - 2026-10-08
+
+### Changed
+
+- **The v2 doc is 0.7 MB instead of 2.6 MB, so GitHub displays it again.** Nested component schemas are linked to their Schema Reference entry instead of being repeated inside every operation; error responses are a compact table linking their schemas; the standard rate-limit headers link to the Rate Limit Headers section; the table of contents lists tags, operations and schemas only. Readers of a single operation now follow links for nested types. A test keeps the doc under 1,000,000 bytes.
+- README, `llms.txt` and the v2 doc header point AI agents to Affinity's official AI-ready v2 docs (its `llms.txt`, per-endpoint Markdown and docs MCP server). This repo's v2 copy is now primarily a change history; v1 Markdown is unchanged.
+- The v2 sync's exit code 2 (and the workflow's failure step) now covers any auxiliary source: mirrored site pages or versioned specs.
+
+### Added
+
+- Specs of the older, locked v2 versions (2026-07-15, 2024-01-01) under `docs/v2/versions/`, synced daily for change tracking. The sync warns when Affinity's current version changes.
+- `oneOf` properties show their linked variants (e.g. `Person | null`) instead of a bare `oneOf`.
+
+### Fixed
+
+- Links to the `Pagination` schema (and any schema whose name matches another heading) landed on the guide section with the same name; schema links now resolve to the schema's own heading.
+- Schema Reference entries no longer print their description twice.
+- Removed dead code in the v2 parameter renderer left over from 2.1.3.
+
 ## [2.2.0] - 2026-10-08
 
 ### Added

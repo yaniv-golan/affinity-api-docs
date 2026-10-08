@@ -14,6 +14,7 @@ repos:
       - id: check-json
       - id: check-added-large-files
         args: [--maxkb=1000]  # Warn on files > 1MB
+        exclude: ^docs/v2/versions/  # Generated older-version OpenAPI specs (~1 MB each)
       - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-toml

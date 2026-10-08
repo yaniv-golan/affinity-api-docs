@@ -3,8 +3,11 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+import copy
+import json
 import re
 import sys
+import warnings
 
 import pytest
 import requests
@@ -12,6 +15,7 @@ import requests
 from tools.v2_sync_pipeline import openapi_loader
 from tools.v2_sync_pipeline import site_pages
 from tools.v2_sync_pipeline import sync_v2_docs
+from tools.v2_sync_pipeline import markdown_renderer as mr
 from tools.v2_sync_pipeline.markdown_renderer import (
     RefResolver,
     RenderContext,
@@ -158,7 +162,11 @@ def test_ref_resolver_handles_recursive_schemas() -> None:
     resolved = resolver.deref({"$ref": "#/components/schemas/FilterGroup"}, track_schema=True)
     assert resolved["title"] == "FilterGroup"
     nested = resolved["properties"]["filters"]["items"]["oneOf"][0]
-    assert nested == {"title": "FilterGroup", "x-recursive-ref": "#/components/schemas/FilterGroup"}
+    assert nested == {
+        "title": "FilterGroup",
+        "x-recursive-ref": "#/components/schemas/FilterGroup",
+        "x-schema-name": "FilterGroup",
+    }
     assert resolver.used_schema_names == {"FilterGroup"}
 
     ctx = RenderContext(
@@ -169,7 +177,12 @@ def test_ref_resolver_handles_recursive_schemas() -> None:
         spec={"paths": {}, **spec},
     )
     rendered = V2MarkdownRenderer(ctx)._render_schema_properties(resolved, heading_level=4)
-    assert "Recursive reference — see [FilterGroup](#filtergroup)" in rendered
+    # The nested FilterGroup (a recursive marker) is linked, not expanded.
+    assert "**Variant:** [FilterGroup](#schema:FilterGroup)" in rendered
+    assert rendered.count("`filters`") == 2  # its row and its details heading, no re-expansion
+    assert "Recursive reference — see [FilterGroup](#schema:FilterGroup)" in V2MarkdownRenderer(
+        ctx
+    )._render_schema_properties(nested, heading_level=4)
 
 
 def test_write_bytes_if_changed_tracks_diffs(tmp_path: Path) -> None:
@@ -392,6 +405,11 @@ def test_sync_keeps_old_page_and_exits_2_when_a_page_fails(
         return f"# {page.title}\n\nFresh.\n"
 
     monkeypatch.setattr(sync_v2_docs.site_pages, "fetch_page", fake_fetch)
+    monkeypatch.setattr(
+        sync_v2_docs.openapi_loader,
+        "fetch_versioned_spec",
+        lambda version: {"info": {"x-affinity-api-version": version}, "paths": {"/v2/x": {}}},
+    )
     pages_dir = tmp_path / "pages"
     pages_dir.mkdir()
     (pages_dir / "previous-changes.md").write_text("old copy\n")
@@ -401,14 +419,233 @@ def test_sync_keeps_old_page_and_exits_2_when_a_page_fails(
         "--spec-output", str(tmp_path / "openapi.json"),
         "--pages-dir", str(pages_dir),
         "--snapshot-dir", str(tmp_path / "snap"),
+        "--versions-dir", str(tmp_path / "versions"),
     ]
     monkeypatch.setattr(sys, "argv", argv)
-    assert sync_v2_docs.main() == sync_v2_docs.PAGES_FAILED_EXIT_CODE
+    assert sync_v2_docs.main() == sync_v2_docs.AUX_FAILED_EXIT_CODE
     assert (tmp_path / "doc.md").exists() and (tmp_path / "openapi.json").exists()
     assert (pages_dir / "previous-changes.md").read_text() == "old copy\n"
     assert "Fresh." in (pages_dir / "versioning.md").read_text()
+    assert (tmp_path / "versions" / "openapi-2024-01-01.json").exists()
 
     monkeypatch.setattr(sys, "argv", [*argv, "--fail-on-diff"])
     monkeypatch.setattr(sync_v2_docs.site_pages, "fetch_page", lambda page: f"# {page.title}\n\nChanged.\n")
     with pytest.raises(SystemExit):
         sync_v2_docs.main()
+
+
+def test_sync_keeps_old_versioned_spec_and_exits_2(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    spec = {"openapi": "3.1.0", "info": {"x-affinity-api-version": "2026-09-17"}, "paths": {}}
+    artifacts = openapi_loader.FetchArtifacts(
+        spec=spec,
+        fetched_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        last_modified=None,
+        date_header=None,
+        source_url="https://example.com/openapi.json",
+    )
+    monkeypatch.setattr(sync_v2_docs.openapi_loader, "fetch_site", lambda url: artifacts)
+    monkeypatch.setattr(sync_v2_docs.site_pages, "fetch_page", lambda page: f"# {page.title}\n")
+
+    def fake_version(version: str) -> dict:
+        if version == "2024-01-01":
+            raise openapi_loader.SpecFetchError("down")
+        return {"info": {"x-affinity-api-version": version}, "paths": {"/v2/x": {}}}
+
+    monkeypatch.setattr(sync_v2_docs.openapi_loader, "fetch_versioned_spec", fake_version)
+    versions = tmp_path / "versions"
+    versions.mkdir()
+    (versions / "openapi-2024-01-01.json").write_text("old\n")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "sync_v2_docs.py",
+            "--output", str(tmp_path / "doc.md"),
+            "--spec-output", str(tmp_path / "openapi.json"),
+            "--pages-dir", str(tmp_path / "pages"),
+            "--versions-dir", str(versions),
+            "--snapshot-dir", str(tmp_path / "snap"),
+        ],
+    )
+    assert sync_v2_docs.main() == sync_v2_docs.AUX_FAILED_EXIT_CODE
+    assert (versions / "openapi-2024-01-01.json").read_text() == "old\n"
+    written = json.loads((versions / "openapi-2026-07-15.json").read_text())
+    assert written["info"]["x-affinity-api-version"] == "2026-07-15"
+
+
+@pytest.mark.parametrize(
+    "response",
+    [
+        _FakeResponse('{"info": {"x-affinity-api-version": "2026-07-15"}, "paths": {"/a": {}}}'),
+        _FakeResponse('{"info": {"x-affinity-api-version": "2024-01-01"}, "paths": {}}'),
+        _FakeResponse("<!DOCTYPE html>", content_type="text/html"),
+        _FakeResponse("{}", status=404),
+    ],
+)
+def test_fetch_versioned_spec_rejects_wrong_or_broken_specs(
+    monkeypatch: pytest.MonkeyPatch, response: _FakeResponse
+) -> None:
+    response.json = lambda: json.loads(response.text)  # type: ignore[attr-defined]
+    monkeypatch.setattr(openapi_loader.requests, "get", lambda *a, **k: response)
+    with pytest.raises(openapi_loader.SpecFetchError):
+        openapi_loader.fetch_versioned_spec("2024-01-01")
+
+
+def _render_spec(spec: dict) -> str:
+    ctx = RenderContext(
+        source_url="https://example.com",
+        fetched_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        snapshot_path="",
+        info=spec.get("info", {}),
+        spec=spec,
+    )
+    return V2MarkdownRenderer(ctx).build()
+
+
+RATE_HEADERS = {
+    "x-ratelimit-limit-user": {"description": "Per-minute limit", "schema": {"type": "integer"}},
+    "x-ratelimit-limit-user-remaining": {"description": "Remaining", "schema": {"type": "integer"}},
+}
+
+DEDUP_SPEC = {
+    "openapi": "3.1.0",
+    "info": {"description": "# Getting Started\n\n## Pagination\n\nGuide.\n\n### Rate Limit Headers\n\nHeaders."},
+    "paths": {
+        "/v2/things/{id}": {
+            "get": {
+                "summary": "Get a Thing",
+                "operationId": "getThing",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": RATE_HEADERS,
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Thing"}}},
+                    },
+                    "400": {"$ref": "#/components/responses/400"},
+                    "404": {
+                        "description": "Not Found",
+                        "headers": RATE_HEADERS,
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/NotFoundErrors"}}},
+                    },
+                    "default": {
+                        "description": "Errors",
+                        "headers": {"x-other": {"description": "Other", "schema": {"type": "string"}}},
+                        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/NotFoundErrors"}}},
+                    },
+                },
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "400": {
+                "description": "Bad Request",
+                "headers": RATE_HEADERS,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "title": "responses.400",
+                            "type": "object",
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "oneOf": [
+                                            {"$ref": "#/components/schemas/BadRequestError"},
+                                            {"$ref": "#/components/schemas/ValidationError"},
+                                        ]
+                                    },
+                                }
+                            },
+                        }
+                    }
+                },
+            }
+        },
+        "schemas": {
+            "Thing": {
+                "title": "Thing",
+                "type": "object",
+                "properties": {
+                    "owner": {"$ref": "#/components/schemas/Person"},
+                    "tags": {"type": "array", "items": {"$ref": "#/components/schemas/Tag"}},
+                    "parent": {"oneOf": [{"$ref": "#/components/schemas/Person"}, {"type": "null"}]},
+                    "inline": {"type": "object", "properties": {"note": {"type": "string"}}},
+                    "page": {"$ref": "#/components/schemas/Pagination"},
+                    "child": {
+                        "allOf": [{"$ref": "#/components/schemas/Person"}],
+                        "properties": {"extra": {"type": "string"}},
+                    },
+                },
+            },
+            "Person": {"title": "Person", "type": "object", "properties": {"name": {"type": "string"}}},
+            "Tag": {"title": "Tag", "type": "object", "properties": {"label": {"type": "string"}}},
+            "Pagination": {"title": "Pagination", "type": "object", "properties": {"next": {"type": "string"}}},
+            "NotFoundErrors": {"title": "NotFoundErrors", "type": "object", "properties": {"code": {"type": "string"}}},
+            "BadRequestError": {"title": "BadRequestError", "type": "object", "properties": {"code": {"type": "string"}}},
+            "ValidationError": {"title": "ValidationError", "type": "object", "properties": {"code": {"type": "string"}}},
+        },
+    },
+}
+
+
+def test_nested_component_schemas_are_linked_not_repeated() -> None:
+    markdown = _render_spec(DEDUP_SPEC)
+    operation = markdown.split("### Get a Thing", 1)[1].split("## Schema Reference", 1)[0]
+    assert "| `owner` | `object` ([Person](#person)) |" in operation
+    assert "| `tags` | `array<object>` ([Tag](#tag)) |" in operation
+    assert "| `parent` | [Person](#person) \\| `null` |" in operation
+    # Inline objects are still expanded; linked schemas are not repeated in the operation.
+    assert "**`inline` details**" in operation
+    assert "**`owner` details**" not in operation and "**`tags` details**" not in operation
+    assert "**`page` details**" not in operation and "`next`" not in operation
+    # An inline allOf built on Person is not mistaken for Person itself: expanded, not linked.
+    assert "| `child` | `object` |" in operation
+    assert "**`child` details**" in operation and "| `extra` | `string` |" in operation
+
+
+def test_schema_links_land_on_the_schema_heading_not_a_same_named_section() -> None:
+    markdown = _render_spec(DEDUP_SPEC)
+    # "## Pagination" (guide) takes #pagination, so the schema heading is #pagination-1.
+    assert "[Pagination](#pagination-1)" in markdown
+    assert "#schema:" not in markdown
+    anchors_by_line = mr._collect_heading_anchors(markdown)
+    lines = markdown.splitlines()
+    heading_for = {anchor: lines[idx] for idx, anchor in anchors_by_line.items()}
+    for name, anchor in re.findall(r"\[([A-Za-z.]+)\]\(#([a-z0-9-]+)\)", markdown):
+        if heading_for.get(anchor, "").startswith("### ") and name in DEDUP_SPEC["components"]["schemas"]:
+            assert heading_for[anchor] == f"### {name}", (name, anchor)
+
+
+def test_error_responses_and_rate_limit_headers_are_collapsed() -> None:
+    markdown = _render_spec(DEDUP_SPEC)
+    operation = markdown.split("### Get a Thing", 1)[1].split("## Schema Reference", 1)[0]
+    assert "##### Error responses" in operation
+    assert "| `400` | Bad Request | `errors`: [BadRequestError](#badrequesterror) \\| [ValidationError](#validationerror) |" in operation
+    assert "| `404` | Not Found | [NotFoundErrors](#notfounderrors) |" in operation
+    assert "##### 404" not in operation
+    # 200 has the standard set; default has a non-standard set, so it is rendered in full.
+    assert "**Response Headers:** the standard rate-limit headers; see [Rate Limit Headers](#rate-limit-headers)." in operation
+    assert "`x-other`" in operation
+    assert "Each carries the standard rate-limit headers" not in operation
+
+
+def test_rate_limit_headers_render_in_full_without_the_intro_section() -> None:
+    spec = copy.deepcopy(DEDUP_SPEC)
+    spec["info"]["description"] = "# Getting Started\n\nNo headers section."
+    markdown = _render_spec(spec)
+    assert "#rate-limit-headers" not in markdown
+    assert "`x-ratelimit-limit-user-remaining`" in markdown
+
+
+def test_committed_v2_doc_budget_and_anchors() -> None:
+    doc = Path(__file__).resolve().parents[1] / "docs" / "v2" / "affinity_api_docs.md"
+    payload = doc.read_bytes()
+    # GitHub stops displaying files somewhere above ~1 MB (980 KB rendered fine, 2.6 MB did not).
+    assert len(payload) < 1_000_000, f"v2 doc is {len(payload)} bytes; GitHub will not display it"
+    if len(payload) > 850_000:
+        warnings.warn(f"v2 doc is {len(payload)} bytes, approaching GitHub's ~1 MB display limit")
+    markdown = payload.decode("utf-8")
+    anchors = set(mr._collect_heading_anchors(markdown).values())
+    missing = sorted({a for a in re.findall(r"\]\(#([^)\s]+)\)", markdown)} - anchors)
+    assert not missing, f"broken internal anchors: {missing[:10]}"

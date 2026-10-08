@@ -40,6 +40,12 @@ def parse_args() -> argparse.Namespace:
         help="Directory for mirrored developer-site pages (versioning, changelogs).",
     )
     parser.add_argument(
+        "--versions-dir",
+        default=Path("docs/v2/versions"),
+        type=Path,
+        help="Directory for the OpenAPI specs of older (locked) API versions.",
+    )
+    parser.add_argument(
         "--snapshot-dir",
         default=Path("tmp/v2"),
         type=Path,
@@ -79,7 +85,9 @@ def write_bytes_if_changed(path: Path, payload: bytes) -> bool:
     return content_changed
 
 
-PAGES_FAILED_EXIT_CODE = 2
+# Spec and doc were written, but an auxiliary source (site page or versioned spec) failed; the
+# previous copy of each failed file was kept.
+AUX_FAILED_EXIT_CODE = 2
 
 
 def fetch_site_pages() -> tuple[dict[str, bytes], list[str]]:
@@ -97,6 +105,20 @@ def fetch_site_pages() -> tuple[dict[str, bytes], list[str]]:
     return payloads, failures
 
 
+def fetch_versioned_specs() -> tuple[dict[str, bytes], list[str]]:
+    """Fetch every locked version's spec. Returns (output_name -> payload, failure messages)."""
+    payloads: dict[str, bytes] = {}
+    failures: list[str] = []
+    for version in openapi_loader.VERSIONED_SPECS:
+        try:
+            spec = openapi_loader.fetch_versioned_spec(version)
+        except openapi_loader.SpecFetchError as exc:
+            failures.append(str(exc))
+            continue
+        payloads[f"openapi-{version}.json"] = openapi_loader.serialize_spec(spec)
+    return payloads, failures
+
+
 def _pages_link_prefix(output: Path, pages_dir: Path) -> str:
     return Path(os.path.relpath(pages_dir.resolve(), output.resolve().parent)).as_posix()
 
@@ -107,6 +129,9 @@ def main() -> int:
     spec = artifacts.spec
     # Fetch pages before writing anything; a page failure must not block the spec/doc update.
     page_payloads, page_failures = fetch_site_pages()
+    version_payloads, version_failures = fetch_versioned_specs()
+    aux_failures = page_failures + version_failures
+    current_version = (spec.get("info") or {}).get("x-affinity-api-version")
     saved = openapi_loader.save_artifacts(artifacts, args.snapshot_dir)
     markdown = generate_markdown(
         spec,
@@ -124,22 +149,29 @@ def main() -> int:
     if write_bytes_if_changed(args.spec_output, spec_payload):
         changed_files.append(str(args.spec_output))
     written = [str(args.output), str(args.spec_output)]
-    for name, payload in page_payloads.items():
-        page_path = args.pages_dir / name
-        written.append(str(page_path))
-        if write_bytes_if_changed(page_path, payload):
-            changed_files.append(str(page_path))
+    for directory, payloads in ((args.pages_dir, page_payloads), (args.versions_dir, version_payloads)):
+        for name, payload in payloads.items():
+            path = directory / name
+            written.append(str(path))
+            if write_bytes_if_changed(path, payload):
+                changed_files.append(str(path))
 
     if args.fail_on_diff and changed_files:
         changed_list = ", ".join(changed_files)
         raise SystemExit(f"Generated outputs differ from existing output: {changed_list}")
 
     print(json.dumps({"wrote": written}))
-    if page_failures:
-        # Kept the previous copy of each failed page; fail visibly after writing everything else.
-        for message in page_failures:
-            print(f"::warning::Could not mirror Affinity site page: {message}")
-        return PAGES_FAILED_EXIT_CODE
+    if current_version != openapi_loader.CURRENT_API_VERSION:
+        print(
+            f"::warning::Affinity's current API version is {current_version!r}, expected "
+            f"{openapi_loader.CURRENT_API_VERSION!r}. Add the previous version to VERSIONED_SPECS and "
+            "update CURRENT_API_VERSION in tools/v2_sync_pipeline/openapi_loader.py."
+        )
+    if aux_failures:
+        # Kept the previous copy of each failed file; fail visibly after writing everything else.
+        for message in aux_failures:
+            print(f"::warning::Could not mirror an auxiliary Affinity source (site page or versioned spec): {message}")
+        return AUX_FAILED_EXIT_CODE
     return 0
 
 

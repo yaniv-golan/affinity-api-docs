@@ -35,11 +35,11 @@ jobs:
         run: |
           set -euo pipefail
           python tools/v1_sync_pipeline/sync_v1_docs.py --summary-file "$GITHUB_STEP_SUMMARY"
-          # Exit 2 = spec/doc written but a mirrored site page failed (old copy kept); fail at the end.
+          # Exit 2 = spec/doc written but a mirrored site page or versioned spec failed (old copy kept); fail at the end.
           v2_status=0
           python tools/v2_sync_pipeline/sync_v2_docs.py --snapshot-dir tmp/v2 || v2_status=$?
           if [ "$v2_status" -eq 2 ]; then
-            echo "pages_failed=true" >> "$GITHUB_OUTPUT"
+            echo "aux_failed=true" >> "$GITHUB_OUTPUT"
           elif [ "$v2_status" -ne 0 ]; then
             exit "$v2_status"
           fi
@@ -75,14 +75,14 @@ jobs:
           commit-message: "chore: sync Affinity API docs"
           title: "chore: sync Affinity API docs"
           body: |
-            Automated sync of Affinity API v1 and v2 documentation (including the mirrored v2 site pages under docs/v2/pages/).
+            Automated sync of Affinity API v1 and v2 documentation (including the mirrored v2 site pages under docs/v2/pages/ and the older-version specs under docs/v2/versions/).
           branch: chore/sync-affinity-docs
           delete-branch: true
 
-      - name: Fail if a mirrored site page could not be fetched
-        if: steps.sync_docs.outputs.pages_failed == 'true'
+      - name: Fail if an auxiliary Affinity source could not be fetched
+        if: steps.sync_docs.outputs.aux_failed == 'true'
         run: |
-          echo "::error::One or more Affinity site pages could not be mirrored; see the sync step warnings."
+          echo "::error::One or more Affinity site pages or versioned specs could not be mirrored; see the sync step warnings."
           exit 1
 
       - name: Summary

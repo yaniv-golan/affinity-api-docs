@@ -15,6 +15,39 @@ import requests
 # The OpenAPI spec is now served directly as JSON.
 DEFAULT_URL = "https://developer.affinity.co/api-reference/openapi.json"
 
+# The current API version is served only as openapi.json. Older (locked) versions are served at
+# openapi-<version>.json and mirrored for change tracking. When Affinity ships a new version, add the
+# previous current version here and bump CURRENT_API_VERSION (the sync warns when they drift).
+CURRENT_API_VERSION = "2026-09-17"
+VERSIONED_SPECS: tuple[str, ...] = ("2026-07-15", "2024-01-01")
+VERSIONED_SPEC_URL = "https://developer.affinity.co/api-reference/openapi-{version}.json"
+
+
+class SpecFetchError(RuntimeError):
+    """Raised when a versioned spec cannot be fetched or is not the expected version."""
+
+
+def fetch_versioned_spec(version: str, timeout: int = 60) -> dict[str, Any]:
+    """Fetch a locked API version's OpenAPI spec and check it is what we asked for."""
+    url = VERSIONED_SPEC_URL.format(version=version)
+    try:
+        response = requests.get(url, timeout=timeout)
+        response.raise_for_status()
+        spec = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        raise SpecFetchError(f"{url}: {exc}") from exc
+    found = (spec.get("info") or {}).get("x-affinity-api-version") if isinstance(spec, dict) else None
+    if found != version:
+        raise SpecFetchError(f"{url}: expected x-affinity-api-version {version!r}, got {found!r}")
+    if not spec.get("paths"):
+        raise SpecFetchError(f"{url}: spec has no paths")
+    return spec
+
+
+def serialize_spec(spec: dict[str, Any]) -> bytes:
+    """Stable serialization shared by every committed spec (sorted keys, 2-space indent)."""
+    return (json.dumps(spec, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
 
 @dataclass
 class FetchArtifacts:
@@ -52,7 +85,7 @@ def save_artifacts(artifacts: FetchArtifacts, snapshot_dir: Path) -> SavedArtifa
     """Persist OpenAPI JSON for auditing."""
     snapshot_dir.mkdir(parents=True, exist_ok=True)
     json_path = snapshot_dir / "openapi.json"
-    json_path.write_text(json.dumps(artifacts.spec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    json_path.write_bytes(serialize_spec(artifacts.spec))
     manifest_path = snapshot_dir / "artifact_hashes.json"
     hashes = {
         "openapi_sha256": _hash_file(json_path),
