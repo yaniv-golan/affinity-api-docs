@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [2.2.0] - 2026-10-08
+
+### Added
+
+- Mirrored Affinity developer-site pages under `docs/v2/pages/`: Versioning, Previous Changes (the full v2 changelog) and Version Migration (per-version breaking changes). They are synced daily with the rest of v2, with Mintlify boilerplate stripped and site links rewritten.
+- The v2 doc header states which API version it documents (`x-affinity-api-version`, currently 2026-09-17) and explains that an app's Default API Version or the `X-Affinity-Api-Version` header can select an older one.
+- Notes on the spec-embedded Versioning and Changelog sections, which are out of date, pointing to the mirrored pages. The Versioning note disappears automatically once the embedded list includes the current version.
+
+### Fixed
+
+- Site-relative links in the v2 doc (e.g. `/pages/external-api-v2/permissions`) now point to developer.affinity.co, and operation links whose upstream URLs return 404 point to the matching section of the doc.
+
+### Changed
+
+- If a mirrored page can't be fetched, the v2 sync keeps the previous copy, still writes the spec and doc, and exits 2. The daily workflow still opens its PR and then fails, so the problem stays visible.
+- markdownlint skips the generated `docs/v2/pages/` files.
+
 ## [2.1.3] - 2026-10-07
 
 ### Fixed
