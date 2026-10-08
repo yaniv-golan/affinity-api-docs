@@ -8,6 +8,8 @@
 >
 > **Always refer to the official Affinity documentation for the most up-to-date and accurate information.**
 
+> **API version:** This copy documents Affinity API v2 version **2026-09-17**. Each app (API key) has a Default API Version, set in Settings > Manage Apps, and a request can override it with the `X-Affinity-Api-Version` header. If your app defaults to an older version, some fields and endpoints described here will differ. See [Versioning](pages/versioning.md) and [Version Migration](pages/version-migration.md).
+
 ---
 
 ## About This Document
@@ -36,6 +38,9 @@ This markdown version of the Affinity API v2 documentation was generated automat
 - **Affinity Support:** [support@affinity.co](mailto:support@affinity.co)
 - **Official v2 Documentation:** [https://developer.affinity.co/api-reference/openapi.json](https://developer.affinity.co/api-reference/openapi.json)
 - **Official v1 Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)
+- **Versioning (mirrored):** [pages/versioning.md](pages/versioning.md)
+- **Changelog (mirrored):** [pages/previous-changes.md](pages/previous-changes.md)
+- **Version Migration (mirrored):** [pages/version-migration.md](pages/version-migration.md)
 
 ---
 
@@ -1218,6 +1223,8 @@ documentation for endpoint-specific errors):
 
 ## Versioning
 
+> **Note (added by this mirror):** The version list below is embedded in the OpenAPI spec and is out of date: it does not list the current version, 2026-09-17. See [Versioning](pages/versioning.md) for the current list.
+
 Versioning in Affinity’s API ensures that your integrations remain stable as updates are introduced.
 Within API v2, minor versions identify releases that may include breaking or behavior-changing
 modifications, and they allow you to target the exact API behavior your integration depends on.
@@ -1387,6 +1394,8 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 
 # Changelog
 
+> **Note (added by this mirror):** This changelog is embedded in the OpenAPI spec and may lag Affinity's site. See the [full changelog](pages/previous-changes.md).
+
 ## January 30th, 2026
 
 - The following endpoints are no longer in BETA:
@@ -1546,7 +1555,7 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
   applications, and to identify founders and companies that need investors' attention.
 - Endpoints that previously required a `fieldIds` parameter to return field data, now accept either
   `fieldIds` or `fieldTypes`, and will return field data accordingly. See the
-  [Specifying Desired Fields (Field Selection)](/pages/data-model/working-with-field-data) section
+  [Specifying Desired Fields (Field Selection)](https://developer.affinity.co/pages/data-model/working-with-field-data) section
   of these docs for more information. The new `fieldTypes` parameter should make field data
   retrieval easier for users looking to pull data from many similar Fields at a time.
 
@@ -1559,7 +1568,7 @@ by the GET `/opportunities` or `/opportunities/{id}` endpoint.
 ## December 12, 2023
 
 - Added the ability to retrieve metadata (e.g. ID, name, type, enrichment source, and data type) on
-  Fields. See the [Retrieving Field Metadata](/pages/data-model/working-with-field-data) section of
+  Fields. See the [Retrieving Field Metadata](https://developer.affinity.co/pages/data-model/working-with-field-data) section of
   these docs for more information.
 
 ## Auth
@@ -2353,7 +2362,7 @@ When no `fieldIds` or `fieldTypes` are provided, Companies will be returned with
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All Organizations directory" [permission](/pages/external-api-v2/permissions).
+Requires the "Export All Organizations directory" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -3324,11 +3333,11 @@ Search for Companies matching the given criteria.
 
 Accepts an optional combination of filters, sorts, and a search term. Omitting the body is equivalent to `GET /v2/companies` with default pagination.
 
-Requires the "Export All Organizations directory" [permission](/pages/external-api-v2/permissions).
+Requires the "Export All Organizations directory" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 ### Field IDs
 
-Field IDs used in `filters`, `sorts`, and `search.fieldIds` follow the formats described in [Working with Field Data](/pages/data-model/working-with-field-data). Use `GET /v2/companies/fields` to discover the available fields and their `valueType`.
+Field IDs used in `filters`, `sorts`, and `search.fieldIds` follow the formats described in [Working with Field Data](https://developer.affinity.co/pages/data-model/working-with-field-data). Use `GET /v2/companies/fields` to discover the available fields and their `valueType`.
 
 ### `attributeId`
 
@@ -4534,7 +4543,7 @@ Enriched, global, and relationship-intelligence fields will be included by defau
 the collection. These parameters are mutually exclusive.
 
 List fields are not returned by this endpoint. To retrieve or update list field values, use the
-[list entry fields](/api-reference/lists/get-field-values-on-a-single-list-entry) endpoints.
+[list entry fields](#get-field-values-on-a-single-list-entry) endpoints.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -4963,7 +4972,7 @@ Perform batch operations on a company's fields.
 
 Currently the only operation at the endpoint is `update-fields`, which allows you to update
 multiple field values with a single request. This is equivalent to calling [the single field
-update](/api-reference/companies/update-a-single-field-value-on-a-company) endpoint multiple times. You can
+update](#update-a-single-field-value-on-a-company) endpoint multiple times. You can
 update up to 100 fields per request.
 
 #### Path Parameters
@@ -8142,7 +8151,7 @@ suggestion from the user who skipped it for two weeks, after which the suggestio
 again. It does not change what other users see, and it does not apply to the other match
 criteria.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions), which is
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), which is
 granted to organization admins.
 
 #### Query Parameters
@@ -8449,7 +8458,7 @@ status, the companies involved, and merge details. You can filter company merges
 
 Company merges are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -8742,7 +8751,7 @@ Initiate a company merge to combine a duplicate company profile into a primary c
 
 This is an asynchronous process that will merge all data from the duplicate company into the primary company. Once the merge is initiated, you can track its progress using the returned task URL.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and organization admin role.
 
 #### Request Body
 
@@ -8997,9 +9006,9 @@ Retrieve the status and details of a specific company merge.
 
 Returns information about the company merge including its current status, the companies involved, timestamps, and any error information if the merge failed.
 
-The `mergeId` can be obtained from the response of the [Get All Company Merges](/api-reference/company-merges/get-all-company-merges) endpoint, or by filtering company merges by task ID using `/v2/company-merges?filter=taskId={taskId}` after initiating a merge.
+The `mergeId` can be obtained from the response of the [Get All Company Merges](#get-all-company-merges) endpoint, or by filtering company merges by task ID using `/v2/company-merges?filter=taskId={taskId}` after initiating a merge.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and organization admin role.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -9295,7 +9304,7 @@ You can filter tasks using the `filter` query parameter. The filter parameter is
 
 Tasks are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -9596,7 +9605,7 @@ number of merges in-progress, completed, and failed.
 
 Detailed information about individual merges for this task can be found by querying:
 `/v2/company-merges?filter=taskId={taskId}` See
-[Company Merges](/api-reference/company-merges/get-all-company-merges) for more details.
+[Company Merges](#get-all-company-merges) for more details.
 
 Task statuses:
 
@@ -9604,7 +9613,7 @@ Task statuses:
 - `success`: The merge task completed successfully.
 - `failed`: The merge task failed.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Path Parameters
@@ -10395,7 +10404,7 @@ Operations about field value changes
 
 Retrieve field value changes across all entities and fields in your Affinity workspace.
 
-For an overview of field value changes, including which fields support change tracking and how the action types behave, see [Field Value Changes](/pages/data-model/working-with-field-data#field-value-changes).
+For an overview of field value changes, including which fields support change tracking and how the action types behave, see [Field Value Changes](https://developer.affinity.co/pages/data-model/working-with-field-data#field-value-changes).
 
 This endpoint is built for delta-sync. Within a single sync, follow `pagination.nextUrl` to page through results until it becomes `null`, which means you have reached the most recent change. To run the next incremental sync, record the `changedAt` of the last change you processed and, on your next sync, filter for changes newer than that timestamp (for example, `filter=changedAt>2024-06-01T12:00:00Z`). Do not persist `nextUrl` between syncs, since it is `null` once you are caught up. Changes are returned in ascending order of `changedAt`, then by internal change ID. Only fields with change tracking enabled are included.
 
@@ -15550,7 +15559,7 @@ When no `fieldIds` or `fieldTypes` are provided, List Entries will be returned w
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -16573,12 +16582,12 @@ Accepts an optional combination of filters, sorts, and a search term. All fields
 body are optional. Omitting the body entirely is equivalent to `GET
 /v2/lists/{listId}/list-entries` with default pagination.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 ### Field IDs
 
 Field IDs used in `filters`, `sorts`, and `search.fieldIds` follow the formats described in
-[Working with Field Data](/pages/data-model/working-with-field-data). Use `GET
+[Working with Field Data](https://developer.affinity.co/pages/data-model/working-with-field-data). Use `GET
 /v2/lists/{listId}/fields?includes=filterability` to discover which fields are filterable and
 what operators each supports. Use `GET /v2/lists/{listId}/fields?includes=sortability` for
 sortable fields.
@@ -17994,7 +18003,7 @@ Errors
 
 Paginate through the historical value changes on the fields of a List Entry.
 
-For an overview of field value changes, including which fields support change tracking and how the action types behave, see [Field Value Changes](/pages/data-model/working-with-field-data#field-value-changes).
+For an overview of field value changes, including which fields support change tracking and how the action types behave, see [Field Value Changes](https://developer.affinity.co/pages/data-model/working-with-field-data#field-value-changes).
 
 Each change includes who made the change, when it occurred, the action that was performed, and
 the value that was set. Changes are sorted by `changedAt` in ascending order (oldest first).
@@ -19193,9 +19202,9 @@ Errors
 
 Perform batch operations on a list entry's fields.
 
-Currently the only operation at the endpoint is `update-fields`, which allows you to update multiple field values with a single request. This is equivalent to calling [the single field update](/api-reference/lists/update-a-single-field-value-on-a-list-entry) endpoint multiple times. You can update up to 100 fields per request.
+Currently the only operation at the endpoint is `update-fields`, which allows you to update multiple field values with a single request. This is equivalent to calling [the single field update](#update-a-single-field-value-on-a-list-entry) endpoint multiple times. You can update up to 100 fields per request.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -19926,7 +19935,7 @@ Errors
 
 Update a single field value.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -21131,9 +21140,9 @@ Though this endpoint respects the Saved View's filters and column/Field selectio
 it does not yet preserve sort order. This endpoint also only supports **sheet-type
 Saved Views**, and not board- or dashboard-type Saved Views.
 
-See the [Data Model](/pages/data-model/the-basics) section for more information about Saved Views.
+See the [Data Model](https://developer.affinity.co/pages/data-model/the-basics) section for more information about Saved Views.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -26616,7 +26625,7 @@ Returns basic information but **not** field data on each Opportunity.
 To access field data on Opportunities, use the `/lists/{list_id}/list-entries`
 or the `/v2/lists/{list_id}/saved-views/{view_id}/list-entries` GET endpoint.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions).
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -26903,7 +26912,7 @@ Errors
 > **⚠️ This endpoint is currently in BETA**
 
 
-Deletes an Opportunity. Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions) and manage access to the opportunity.
+Deletes an Opportunity. Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and manage access to the opportunity.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -27427,7 +27436,7 @@ Errors
 
 Updates an Opportunity. Only provided properties are updated; properties omitted from the request keep their current value.
 
-Requires the "Export data from Lists" [permission](/pages/external-api-v2/permissions) and manage access to the opportunity.
+Requires the "Export data from Lists" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and manage access to the opportunity.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -28581,7 +28590,7 @@ suggestion from the user who skipped it for two weeks, after which the suggestio
 again. It does not change what other users see, and it does not apply to the other match
 criteria.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions), which is
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), which is
 granted to organization admins.
 
 #### Query Parameters
@@ -28916,7 +28925,7 @@ status, the persons involved, and merge details. You can filter person merges us
 
 Person merges are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -29209,7 +29218,7 @@ Initiate a person merge to combine a duplicate person profile into a primary per
 
 This is an asynchronous process that will merge all data from the duplicate person into the primary person. Once the merge is initiated, you can track its progress using the returned task URL.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and organization admin role.
 
 #### Request Body
 
@@ -29464,9 +29473,9 @@ Retrieve the status and details of a specific person merge.
 
 Returns information about the person merge including its current status, the persons involved, timestamps, and any error information if the merge failed.
 
-The `mergeId` can be obtained from the response of the [Get All Person Merges](/api-reference/person-merges/get-all-person-merges) endpoint, or by filtering person merges by task ID using `/v2/person-merges?filter=taskId={taskId}` after initiating a merge.
+The `mergeId` can be obtained from the response of the [Get All Person Merges](#get-all-person-merges) endpoint, or by filtering person merges by task ID using `/v2/person-merges?filter=taskId={taskId}` after initiating a merge.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and organization admin role.
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and organization admin role.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -29762,7 +29771,7 @@ You can filter tasks using the `filter` query parameter. The filter parameter is
 
 Tasks are returned in reverse chronological order (most recent first).
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Query Parameters
@@ -30063,7 +30072,7 @@ number of merges in-progress, completed, and failed.
 
 Detailed information about individual merges for this task can be found by querying:
 `/v2/person-merges?filter=taskId={taskId}` See
-[Person Merges](/api-reference/person-merges/get-all-person-merges) for more details.
+[Person Merges](#get-all-person-merges) for more details.
 
 Task statuses:
 
@@ -30071,7 +30080,7 @@ Task statuses:
 - `success`: The merge task completed successfully.
 - `failed`: The merge task failed.
 
-Requires the "Manage duplicates" [permission](/pages/external-api-v2/permissions) and
+Requires the "Manage duplicates" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and
 organization admin role.
 
 #### Path Parameters
@@ -30373,7 +30382,7 @@ When no `fieldIds` or `fieldTypes` are provided, Persons will be returned withou
 To supply multiple `fieldIds` or `fieldTypes` parameters, generate a query string that looks like this:
 `?fieldIds=field-1234&fieldIds=affinity-data-location` or `?fieldTypes=enriched&fieldTypes=global`.
 
-Requires the "Export All People directory" [permission](/pages/external-api-v2/permissions).
+Requires the "Export All People directory" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Query Parameters
 | Name | Type | Required | Description |
@@ -31644,11 +31653,11 @@ Search for Persons matching the given criteria.
 
 Accepts an optional combination of filters, sorts, and a search term. Omitting the body is equivalent to `GET /v2/persons` with default pagination.
 
-Requires the "Export All People directory" [permission](/pages/external-api-v2/permissions).
+Requires the "Export All People directory" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 ### Field IDs
 
-Field IDs used in `filters`, `sorts`, and `search.fieldIds` follow the formats described in [Working with Field Data](/pages/data-model/working-with-field-data). Use `GET /v2/persons/fields` to discover the available fields and their `valueType`.
+Field IDs used in `filters`, `sorts`, and `search.fieldIds` follow the formats described in [Working with Field Data](https://developer.affinity.co/pages/data-model/working-with-field-data). Use `GET /v2/persons/fields` to discover the available fields and their `valueType`.
 
 ### `attributeId`
 
@@ -33112,7 +33121,7 @@ Enriched, global, and relationship-intelligence fields will be included by defau
 the collection. These parameters are mutually exclusive.
 
 List fields are not returned by this endpoint. To retrieve or update list field values, use the
-[list entry fields](/api-reference/lists/get-field-values-on-a-single-list-entry) endpoints.
+[list entry fields](#get-field-values-on-a-single-list-entry) endpoints.
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -33444,7 +33453,7 @@ Perform batch operations on a person's fields.
 
 Currently the only operation at the endpoint is `update-fields`, which allows you to update
 multiple field values with a single request. This is equivalent to calling [the single field
-update](/api-reference/persons/update-a-single-field-value-on-a-person) endpoint multiple times. You can
+update](#update-a-single-field-value-on-a-person) endpoint multiple times. You can
 update up to 100 fields per request.
 
 #### Path Parameters
@@ -38755,7 +38764,7 @@ Operations about teams
 
 Paginate through all Teams in your organization that you have access to view.
 
-Use the `includes` query parameter to add `membersPreview` and `accessibleListsPreview` to each team. Each preview carries a `totalCount` and a short `data` sample; the full collections are available at `GET /v2/teams/{teamId}/members` and `GET /v2/teams/{teamId}/accessible-lists`. The team's `privacyType` is gated and only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; it is omitted from every team in the response otherwise.
+Use the `includes` query parameter to add `membersPreview` and `accessibleListsPreview` to each team. Each preview carries a `totalCount` and a short `data` sample; the full collections are available at `GET /v2/teams/{teamId}/members` and `GET /v2/teams/{teamId}/accessible-lists`. The team's `privacyType` is gated and only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; it is omitted from every team in the response otherwise.
 
 You can filter Teams using the `filter` query parameter:
 
@@ -38808,7 +38817,7 @@ A page of Teams
 | `accessibleListsPreview` | `object` | No | Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`. |
 | `id` | `integer<int64>` | Yes | The unique identifier for the team (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The name of the team |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
 
@@ -38829,7 +38838,7 @@ A page of Teams
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -39106,7 +39115,7 @@ A Team. Opt-in properties are controlled by the `includes` query parameter.
 | `accessibleListsPreview` | `object` | No | Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`. |
 | `id` | `integer<int64>` | Yes | The unique identifier for the team (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The name of the team |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
 
@@ -39127,7 +39136,7 @@ A Team. Opt-in properties are controlled by the `includes` query parameter.
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -40536,7 +40545,7 @@ Returns information about each User, including name, primary email address, all 
 addresses, photo URL, account status, and account role.
 
 The `emailAddresses` and `role` properties are only returned to callers with the "Manage
-Users" [permission](/pages/external-api-v2/permissions).
+Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 Use the optional `term` parameter to filter by first name, last name, or primary email address.
 
@@ -40590,12 +40599,12 @@ A paginated list of Users
 | `firstName` | `string` | Yes | The user's first name |
 | `lastName` | `string/null` | Yes | The user's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The user's primary email address |
-| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 | `photoUrl` | `string/null<uri>` | Yes | URL of the user's profile photo |
 | `status` | `string (enum: `active`, `invited`, `deactivated`)` | Yes | The user's account status. - `active`: the user can sign in and use Affinity. - `invited`: the user has been invited to the product but has not yet accepted   the invitation and thus cannot have taken any actions. - `deactivated`: the user was once active but has been deactivated and can no   longer use the product. |
-| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 
-**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions).
+**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 **Items**
 
@@ -40817,7 +40826,7 @@ every internal User has a matching Person record, and they share the same numeri
 use a Person ID returned from any Persons endpoint here, and vice versa.
 
 The `emailAddresses` and `role` properties are only returned to callers with the "Manage
-Users" [permission](/pages/external-api-v2/permissions).
+Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 #### Path Parameters
 | Name | Type | Required | Description |
@@ -40848,12 +40857,12 @@ An internal user in your organization, including their name, primary email addre
 | `firstName` | `string` | Yes | The user's first name |
 | `lastName` | `string/null` | Yes | The user's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The user's primary email address |
-| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 | `photoUrl` | `string/null<uri>` | Yes | URL of the user's profile photo |
 | `status` | `string (enum: `active`, `invited`, `deactivated`)` | Yes | The user's account status. - `active`: the user can sign in and use Affinity. - `invited`: the user has been invited to the product but has not yet accepted   the invitation and thus cannot have taken any actions. - `deactivated`: the user was once active but has been deactivated and can no   longer use the product. |
-| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 
-**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions).
+**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 **Items**
 
@@ -48966,7 +48975,7 @@ A Team. Opt-in properties are controlled by the `includes` query parameter.
 | `accessibleListsPreview` | `object` | No | Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`. |
 | `id` | `integer<int64>` | Yes | The unique identifier for the team (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The name of the team |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
 
@@ -48987,7 +48996,7 @@ A Team. Opt-in properties are controlled by the `includes` query parameter.
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -49053,7 +49062,7 @@ Base properties shared by all Team representations.
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for the team (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The name of the team |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
 ### TeamMember
@@ -49064,7 +49073,7 @@ A single member of a team
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -49094,7 +49103,7 @@ Preview of the team's members. Only included when `membersPreview` is requested 
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -49126,7 +49135,7 @@ A page of Teams
 | `accessibleListsPreview` | `object` | No | Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`. |
 | `id` | `integer<int64>` | Yes | The unique identifier for the team (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `name` | `string` | Yes | The name of the team |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
 
@@ -49147,7 +49156,7 @@ A page of Teams
 | --- | --- | --- | --- |
 | `id` | `integer<int64>` | Yes | The unique identifier for this team membership (Constraints: ≥ 1; ≤ 9007199254740991) |
 | `user` | `object` | Yes |  |
-| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
+| `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
 
 **`user` details** — See [User](#user)
@@ -49309,12 +49318,12 @@ An internal user in your organization, including their name, primary email addre
 | `firstName` | `string` | Yes | The user's first name |
 | `lastName` | `string/null` | Yes | The user's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The user's primary email address |
-| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 | `photoUrl` | `string/null<uri>` | Yes | URL of the user's profile photo |
 | `status` | `string (enum: `active`, `invited`, `deactivated`)` | Yes | The user's account status. - `active`: the user can sign in and use Affinity. - `invited`: the user has been invited to the product but has not yet accepted   the invitation and thus cannot have taken any actions. - `deactivated`: the user was once active but has been deactivated and can no   longer use the product. |
-| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 
-**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions).
+**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 **Items**
 ### UserDataPaged
@@ -49337,12 +49346,12 @@ A paginated list of Users
 | `firstName` | `string` | Yes | The user's first name |
 | `lastName` | `string/null` | Yes | The user's last name |
 | `primaryEmailAddress` | `string/null<email>` | Yes | The user's primary email address |
-| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `emailAddresses` | `array<string<email>> (≤ 100 items)` | No | All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 | `photoUrl` | `string/null<uri>` | Yes | URL of the user's profile photo |
 | `status` | `string (enum: `active`, `invited`, `deactivated`)` | Yes | The user's account status. - `active`: the user can sign in and use Affinity. - `invited`: the user has been invited to the product but has not yet accepted   the invitation and thus cannot have taken any actions. - `deactivated`: the user was once active but has been deactivated and can no   longer use the product. |
-| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions). |
+| `role` | `string` | No | The user's account role. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions). |
 
-**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](/pages/external-api-v2/permissions).
+**`emailAddresses` details** — All of the user's email addresses. Only returned when the authenticated user has the "Manage Users" [permission](https://developer.affinity.co/pages/external-api-v2/permissions).
 
 **Items**
 
