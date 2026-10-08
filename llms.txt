@@ -15,12 +15,17 @@
 - Raw markdown: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md
 - OpenAPI JSON: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/openapi.json
 - Contents: full Affinity API v2 reference (auth, rate limits, endpoint-by-endpoint details, synthesized cURL examples, schema + error references), sourced from Affinity's published OpenAPI spec at https://developer.affinity.co/api-reference/openapi.json. Generated via `tools/v2_sync_pipeline/sync_v2_docs.py`.
+- **API version:** documents v2 version 2026-09-17 (the spec's `x-affinity-api-version`). Each Affinity app/API key has a Default API Version and requests can override it with the `X-Affinity-Api-Version` header; older versions differ. The versioning and changelog text embedded in the spec is out of date, so use the mirrored pages below.
+- Mirrored site pages (auto-generated from https://developer.affinity.co/):
+  - Versioning: https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/pages/versioning.md
+  - Changelog (Previous Changes): https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/pages/previous-changes.md
+  - Version Migration (per-version breaking changes): https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/pages/version-migration.md
 
 ---
 
 ## LLM Guardrails
 
-1. **Do NOT edit** `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md`, or `docs/v2/openapi.json` manually. Regenerate them by running:
+1. **Do NOT edit** `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md`, `docs/v2/openapi.json`, or `docs/v2/pages/*.md` manually. Regenerate them by running:
    ```
    python tools/v1_sync_pipeline/sync_v1_docs.py
    python tools/v2_sync_pipeline/sync_v2_docs.py
@@ -39,7 +44,7 @@
 - Repository: https://github.com/yaniv-golan/affinity-api-docs
 - Official v1 Docs: https://api-docs.affinity.co/
 - Official v2 Docs: https://developer.affinity.co/
-- Last Updated: 2025-11-10
+- Last Updated: 2026-10-08
 
 ---
 

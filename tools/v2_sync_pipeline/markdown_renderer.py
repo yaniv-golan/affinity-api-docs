@@ -228,18 +228,40 @@ class SpecHelper:
         return "\n".join(table)
 
 
+def _heading_positions(lines: list[str]) -> list[tuple[int, int, str]]:
+    """Return (line index, level, title) for markdown headings outside fenced code."""
+    positions: list[tuple[int, int, str]] = []
+    in_code = False
+    for idx, line in enumerate(lines):
+        if line.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        match = re.match(r"^(#{1,6})\s+(.*?)\s*$", line)
+        if match:
+            positions.append((idx, len(match.group(1)), match.group(2)))
+    return positions
+
+
 class V2MarkdownRenderer:
     """Render markdown output from the v2 OpenAPI document."""
 
-    def __init__(self, context: RenderContext):
+    def __init__(self, context: RenderContext, pages_link_prefix: str | None = None):
         self.ctx = context
         self.helper = SpecHelper(context.spec)
+        # Relative path from the generated doc to the mirrored site pages (None: no pages mirrored).
+        self.pages_link_prefix = pages_link_prefix
+        self.api_version = str(context.info.get("x-affinity-api-version") or "").strip()
+
+    def _page_link(self, name: str) -> str:
+        return f"{self.pages_link_prefix}/{name}"
 
     def build(self) -> str:
         sections: list[str] = []
         intro = self.ctx.info.get("description")
         if intro:
-            sections.append(intro.strip())
+            sections.append(self._annotate_embedded_intro(intro.strip()))
         sections.append(self._render_tag_sections())
         sections.append(self._render_schema_reference())
         sections.append(self._render_error_reference())
@@ -266,6 +288,7 @@ class V2MarkdownRenderer:
             ">",
             "> **Always refer to the official Affinity documentation for the most up-to-date and accurate information.**",
             "",
+            *self._render_version_notice(),
             "---",
             "",
             "## About This Document",
@@ -294,6 +317,7 @@ class V2MarkdownRenderer:
             "- **Affinity Support:** [support@affinity.co](mailto:support@affinity.co)",
             f"- **Official v2 Documentation:** [{self.ctx.source_url}]({self.ctx.source_url})",
             "- **Official v1 Documentation:** [https://api-docs.affinity.co/](https://api-docs.affinity.co/)",
+            *self._render_mirrored_page_bullets(),
             "",
             "---",
             "",
@@ -302,6 +326,63 @@ class V2MarkdownRenderer:
             toc,
         ]
         return "\n".join(lines).strip()
+
+    def _render_version_notice(self) -> list[str]:
+        if self.api_version:
+            opening = f"> **API version:** This copy documents Affinity API v2 version **{self.api_version}**."
+        else:
+            opening = "> **API version:** This copy documents the current Affinity API v2 version."
+        notice = (
+            f"{opening} Each app (API key) has a Default API Version, set in Settings > Manage Apps, and a "
+            "request can override it with the `X-Affinity-Api-Version` header. If your app defaults to an "
+            "older version, some fields and endpoints described here will differ."
+        )
+        if self.pages_link_prefix:
+            notice += (
+                f" See [Versioning]({self._page_link('versioning.md')}) and "
+                f"[Version Migration]({self._page_link('version-migration.md')})."
+            )
+        return [notice, ""]
+
+    def _render_mirrored_page_bullets(self) -> list[str]:
+        if not self.pages_link_prefix:
+            return []
+        return [
+            f"- **Versioning (mirrored):** [{self._page_link('versioning.md')}]({self._page_link('versioning.md')})",
+            f"- **Changelog (mirrored):** [{self._page_link('previous-changes.md')}]({self._page_link('previous-changes.md')})",
+            f"- **Version Migration (mirrored):** [{self._page_link('version-migration.md')}]({self._page_link('version-migration.md')})",
+        ]
+
+    def _annotate_embedded_intro(self, intro: str) -> str:
+        """Flag the spec-embedded versioning/changelog sections, which Affinity has let go stale."""
+        if not self.pages_link_prefix:
+            return intro
+        lines = intro.split("\n")
+        headings = _heading_positions(lines)
+        notes: dict[int, str] = {}
+        for idx, (pos, level, title) in enumerate(headings):
+            if title == "Versioning" and self.api_version:
+                end = next((p for p, lvl, _ in headings[idx + 1 :] if lvl <= level), len(lines))
+                section = "\n".join(lines[pos + 1 : end])
+                if self.api_version not in section:
+                    notes[pos] = (
+                        "> **Note (added by this mirror):** The version list below is embedded in the OpenAPI "
+                        f"spec and is out of date: it does not list the current version, {self.api_version}. "
+                        f"See [Versioning]({self._page_link('versioning.md')}) for the current list."
+                    )
+            elif title == "Changelog":
+                notes[pos] = (
+                    "> **Note (added by this mirror):** This changelog is embedded in the OpenAPI spec and may lag "
+                    f"Affinity's site. See the [full changelog]({self._page_link('previous-changes.md')})."
+                )
+        if not notes:
+            return intro
+        out: list[str] = []
+        for pos, line in enumerate(lines):
+            out.append(line)
+            if pos in notes:
+                out.extend(["", notes[pos]])
+        return "\n".join(out)
 
     def _render_tag_sections(self) -> str:
         sections: list[str] = []
@@ -716,6 +797,9 @@ def _collect_operation_anchors(markdown: str, anchors_by_line: dict[int, str]) -
     return opid_to_anchor
 
 
+DEVELOPER_SITE_BASE = "https://developer.affinity.co"
+
+
 def rewrite_v2_markdown_links(markdown: str) -> str:
     """Rewrite Redoc-style anchors into GitHub heading anchors and fix known broken URLs."""
     for old, new in BROKEN_SUPPORT_URL_MAP.items():
@@ -726,6 +810,15 @@ def rewrite_v2_markdown_links(markdown: str) -> str:
     operation_anchors = _collect_operation_anchors(markdown, anchors_by_line)
 
     def rewrite_target(target: str) -> str:
+        if target.startswith("/") and not target.startswith("//"):
+            # Operation links ("/api-reference/<tag>/<summary-slug>") point at this document's own
+            # heading when there is one; other site-relative links only resolve on developer.affinity.co.
+            path = target.split("#", 1)[0]
+            if path.startswith("/api-reference/"):
+                slug = path.rstrip("/").rsplit("/", 1)[-1]
+                if slug in anchor_set:
+                    return f"#{slug}"
+            return f"{DEVELOPER_SITE_BASE}{target}"
         if not target.startswith("#"):
             return target
         if target.startswith("#section/"):

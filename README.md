@@ -47,6 +47,9 @@ The original Affinity API documentation is hosted on dynamic, interactive websit
 - 📄 [View on GitHub](https://github.com/yaniv-golan/affinity-api-docs/blob/main/docs/v2/affinity_api_docs.md)
 - 🔗 [Raw Markdown](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/affinity_api_docs.md)
 - 🔗 [OpenAPI JSON](https://raw.githubusercontent.com/yaniv-golan/affinity-api-docs/main/docs/v2/openapi.json)
+- 📄 Mirrored site pages: [Versioning](docs/v2/pages/versioning.md), [Changelog](docs/v2/pages/previous-changes.md), [Version Migration](docs/v2/pages/version-migration.md)
+
+> The v2 docs describe API version **2026-09-17**. Your Affinity app (API key) may default to an older version; see the mirrored Versioning page.
 
 ### Accessing Raw Markdown
 
@@ -94,6 +97,7 @@ cd affinity-api-docs/docs/v1
 - ✅ Example `curl` requests synthesized for every endpoint
 - 📂 Location: `docs/v2/affinity_api_docs.md` (do **not** edit manually)
 - 📂 OpenAPI spec: `docs/v2/openapi.json` (do **not** edit manually)
+- 📂 Mirrored site pages: `docs/v2/pages/` – Versioning, Previous Changes (changelog) and Version Migration from https://developer.affinity.co/ (do **not** edit manually)
 
 ## Automated Updates & Manual Workflow
 

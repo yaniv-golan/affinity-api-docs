@@ -7,6 +7,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 - **Primary doc (v1):** `docs/v1/affinity_api_docs.md` (auto-generated)
 - **Primary doc (v2):** `docs/v2/affinity_api_docs.md` (auto-generated)
 - **OpenAPI spec (v2):** `docs/v2/openapi.json` (auto-generated)
+- **Mirrored site pages (v2):** `docs/v2/pages/*.md` (auto-generated: Versioning, Previous Changes, Version Migration)
 - **Automation:** `tools/v1_sync_pipeline/` and `tools/v2_sync_pipeline/` (sync + QA tooling)
 
 ## Current Status
@@ -27,6 +28,8 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
   - Reads https://api-docs.affinity.co/, writes `docs/v1/affinity_api_docs.md`, snapshot artifacts under `tmp/`
 - **v2:** `python tools/v2_sync_pipeline/sync_v2_docs.py [--fail-on-diff]`
   - Downloads https://developer.affinity.co/api-reference/openapi.json, writes `docs/v2/affinity_api_docs.md` and `docs/v2/openapi.json`; the raw spec and artifact hashes are saved under `tmp/v2/`
+  - Also mirrors the Versioning, Previous Changes and Version Migration pages from https://developer.affinity.co/ into `docs/v2/pages/` (via their `.md` endpoints; Mintlify boilerplate stripped, site links rewritten). If a page can't be fetched, the old copy is kept, everything else is still written, and the script exits 2
+  - The v2 doc documents the spec's `x-affinity-api-version` (currently 2026-09-17) and says so in its header; the spec's embedded versioning/changelog text is stale and gets a pointer to the mirrored pages
   - Dereferences `$ref`s (recursive schemas render as links), flattens schemas, and injects schema + error appendices
   - `--fail-on-diff` mirrors the v1 behavior (exit 1 when the output differs from what is committed)
 
@@ -42,7 +45,7 @@ This repository hosts the automatically generated **Affinity API v1** and **API 
 
 ## Maintenance & Ownership
 
-1. **Never edit** `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md`, or `docs/v2/openapi.json` manually. Regenerate via the sync scripts whenever updates are needed.
+1. **Never edit** `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md`, `docs/v2/openapi.json`, or `docs/v2/pages/*.md` manually. Regenerate via the sync scripts whenever updates are needed.
 2. **Quarterly BROKEN_ANCHOR_MAP review:** revisit `BROKEN_ANCHOR_MAP` inside `sync_v1_docs.py`, confirm the live site still requires the overrides, and track the reminder in the quarterly review issue (label `quarterly-review`).
 3. **Manual validation checklist (when investigating diffs):**
    - Run `python tools/v1_sync_pipeline/sync_v1_docs.py` and `python tools/v2_sync_pipeline/sync_v2_docs.py`
