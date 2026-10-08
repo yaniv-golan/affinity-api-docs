@@ -5,6 +5,7 @@ sync-v1:
 
 link-check:
 	python tools/v1_sync_pipeline/qa/check_links.py docs/v1/affinity_api_docs.md
+	python tools/v1_sync_pipeline/qa/check_links.py docs/v2/affinity_api_docs.md
 
 qa: sync-v1 link-check
 
