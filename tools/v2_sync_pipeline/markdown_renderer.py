@@ -5,6 +5,7 @@ import copy
 import json
 import re
 import textwrap
+from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -20,6 +21,13 @@ class RenderContext:
     snapshot_path: str
     info: dict[str, Any]
     spec: dict[str, Any]
+
+
+SCHEMA_REF_PREFIX = "#/components/schemas/"
+SCHEMA_NAME_KEY = "x-schema-name"
+# Placeholder link target for schemas; resolved to the Schema Reference heading's real anchor
+# in rewrite_v2_markdown_links (heading slugs can collide, e.g. "Pagination").
+SCHEMA_ANCHOR_PREFIX = "#schema:"
 
 
 class RefResolver:
@@ -38,7 +46,10 @@ class RefResolver:
                 if ref in self._in_progress:
                     # Recursive schema (e.g. FilterGroup nesting FilterGroup): stop expanding
                     # and leave a named marker (not a $ref, so it is never re-expanded).
-                    return {"title": ref.split("/")[-1], "x-recursive-ref": ref}
+                    marker = {"title": ref.split("/")[-1], "x-recursive-ref": ref}
+                    if ref.startswith(SCHEMA_REF_PREFIX):
+                        marker[SCHEMA_NAME_KEY] = ref[len(SCHEMA_REF_PREFIX) :]
+                    return marker
                 resolved = self._resolve_pointer(ref)
                 if track_schema and ref.startswith("#/components/schemas/"):
                     self.used_schema_names.add(ref.split("/")[-1])
@@ -54,6 +65,9 @@ class RefResolver:
                     self._in_progress.pop()
                 if isinstance(base, dict):
                     merged = {**base, **overrides}
+                    if ref.startswith(SCHEMA_REF_PREFIX):
+                        # Remember which component this came from, so it can be linked by name.
+                        merged[SCHEMA_NAME_KEY] = ref[len(SCHEMA_REF_PREFIX) :]
                 else:
                     merged = overrides or base
                 return merged
@@ -129,7 +143,7 @@ class SpecHelper:
             required.update(part_schema.get("required", []))
             properties.update(part_schema.get("properties", {}))
             for key, value in part_schema.items():
-                if key in {"required", "properties"}:
+                if key in {"required", "properties", SCHEMA_NAME_KEY}:
                     continue
                 merged[key] = value
         if required:
@@ -175,11 +189,28 @@ class SpecHelper:
         return schema.get("title", "value")
 
     def schema_link(self, schema: dict[str, Any]) -> str | None:
-        title = schema.get("title")
-        if not title:
+        """Link to a component schema's Schema Reference entry (None for inline schemas)."""
+        name = schema.get(SCHEMA_NAME_KEY)
+        if not name:
             return None
-        anchor = slugify(title)
-        return f"[{title}](#{anchor})"
+        return f"[{name}]({SCHEMA_ANCHOR_PREFIX}{name})"
+
+    def type_cell(self, schema: dict[str, Any]) -> str:
+        """Markdown for a table's Type column, linking named schemas instead of expanding them."""
+        variants = schema.get("oneOf") or schema.get("anyOf")
+        if variants and not schema.get("type"):
+            parts = []
+            for variant in variants:
+                variant = self.flatten_all_of(variant) if isinstance(variant, dict) else {}
+                link = self.schema_link(variant)
+                parts.append(link or f"`{self.describe_schema_type(variant)}`")
+            return " \\| ".join(parts)
+        cell = f"`{self.describe_schema_type(schema)}`"
+        link = self.schema_link(schema)
+        items = schema.get("items")
+        if not link and isinstance(items, dict):
+            link = self.schema_link(items)
+        return f"{cell} ({link})" if link else cell
 
     def describe_constraints(self, schema: dict[str, Any]) -> str:
         constraints: list[str] = []
@@ -253,6 +284,7 @@ class V2MarkdownRenderer:
         # Relative path from the generated doc to the mirrored site pages (None: no pages mirrored).
         self.pages_link_prefix = pages_link_prefix
         self.api_version = str(context.info.get("x-affinity-api-version") or "").strip()
+        self._standard_header_names = self._find_standard_header_names()
 
     def _page_link(self, name: str) -> str:
         return f"{self.pages_link_prefix}/{name}"
@@ -266,7 +298,7 @@ class V2MarkdownRenderer:
         sections.append(self._render_schema_reference())
         sections.append(self._render_error_reference())
         markdown_body = "\n\n".join([section for section in sections if section]).strip()
-        toc = build_toc(markdown_body)
+        toc = build_toc(markdown_body, max_level=3)
         header = self._render_header(toc)
         combined = f"{header}\n\n{markdown_body}".strip()
         combined = fix_mojibake(combined)
@@ -342,7 +374,14 @@ class V2MarkdownRenderer:
                 f" See [Versioning]({self._page_link('versioning.md')}) and "
                 f"[Version Migration]({self._page_link('version-migration.md')})."
             )
-        return [notice, ""]
+        ai_notice = (
+            "> **For AI agents:** Affinity publishes AI-ready v2 docs for every API version: an index at "
+            "[developer.affinity.co/llms.txt](https://developer.affinity.co/llms.txt) with per-endpoint "
+            "Markdown pages, and a docs MCP server at `https://developer.affinity.co/mcp` (documentation "
+            "search only; not the authenticated Affinity MCP server for CRM data). This copy links nested "
+            "schemas to the Schema Reference instead of repeating them."
+        )
+        return [notice, "", ai_notice, ""]
 
     def _render_mirrored_page_bullets(self) -> list[str]:
         if not self.pages_link_prefix:
@@ -455,21 +494,6 @@ class V2MarkdownRenderer:
             elif location == "header":
                 header_rows.append(row)
         lines: list[str] = []
-
-        def clean_text(raw: str | None) -> str:
-            return format_description(raw or "").replace("\n", " ").strip()
-        if "x-recursive-ref" in schema:
-            return f"Recursive reference — see {self.helper.schema_link(schema)}"
-
-        def clean_text(raw: str | None) -> str:
-            return format_description(raw or "").replace("\n", " ").strip()
-        if "x-recursive-ref" in schema:
-            return f"Recursive reference — see {self.helper.schema_link(schema)}"
-
-        def clean_text(raw: str | None) -> str:
-            return format_description(raw or "").replace("\n", " ").strip()
-        if "x-recursive-ref" in schema:
-            return f"Recursive reference — see {self.helper.schema_link(schema)}"
         if path_rows:
             lines.append("")
             lines.append("#### Path Parameters")
@@ -536,12 +560,35 @@ class V2MarkdownRenderer:
         if not responses:
             return []
         lines = ["", "#### Responses"]
+        error_rows: list[List[str]] = []
+        error_header_lines: list[str] = []
+        error_headers_standard = True
         for status, response in sorted(responses.items(), key=_response_sort_key):
             resolved_resp = self.helper.resolver.deref(response, track_schema=True)
             description = resolved_resp.get("description", "").strip()
+            media_content = resolved_resp.get("content", {})
+            if _is_error_status(status):
+                # Error bodies are shared across all operations; list them compactly with links.
+                schema_cells = [
+                    self._error_schema_cell(self.helper.normalize_schema(media.get("schema")))
+                    for media in media_content.values()
+                ]
+                error_rows.append(
+                    [
+                        f"`{status}`",
+                        description.replace("|", "\\|").replace("\n", " "),
+                        "; ".join(cell for cell in schema_cells if cell),
+                    ]
+                )
+                headers = resolved_resp.get("headers")
+                if not self._is_standard_headers(headers):
+                    error_headers_standard = False
+                    if headers:
+                        error_header_lines.extend(["", f"**`{status}` response headers**"])
+                        error_header_lines.extend(self._render_response_headers(headers)[2:])
+                continue
             lines.append("")
             heading = f"##### {status.upper()}"
-            media_content = resolved_resp.get("content", {})
             if media_content:
                 media_label = ", ".join(media_content.keys())
                 heading += f" — {media_label}"
@@ -553,9 +600,8 @@ class V2MarkdownRenderer:
                 schema = self.helper.normalize_schema(media.get("schema"))
                 lines.append("")
                 lines.append(f"**Response schema (`{media_type}`):**")
-                schema_heading = schema.get("title")
                 schema_type = self.helper.describe_schema_type(schema)
-                heading_title = schema_heading or schema_type
+                heading_title = schema.get(SCHEMA_NAME_KEY) or schema.get("title") or schema_type
                 lines.append(f"###### Schema: {heading_title}")
                 lines.append(f"*Type:* {schema_type}")
                 rendered = self._render_schema_properties(schema, heading_level=6)
@@ -570,30 +616,108 @@ class V2MarkdownRenderer:
                     lines.append("```json")
                     lines.append(json.dumps(example, indent=2, sort_keys=True, ensure_ascii=False))
                     lines.append("```")
-            headers = resolved_resp.get("headers")
-            if headers:
-                header_rows = []
-                for header_name, header in headers.items():
-                    header_schema = self.helper.normalize_schema(header.get("schema"))
-                    header_rows.append(
-                        [
-                            f"`{header_name}`",
-                            f"`{self.helper.describe_schema_type(header_schema)}`",
-                            _stringify(header.get("description")).replace("|", "\\|").strip(),
-                        ]
-                    )
-                lines.append("")
-                lines.append("**Response Headers**")
-                lines.append(self.helper.format_markdown_table(header_rows, ["Header", "Type", "Description"]))
+            lines.extend(self._render_response_headers(resolved_resp.get("headers")))
+        if error_rows:
+            lines.append("")
+            lines.append("##### Error responses")
+            lines.append("")
+            note = "See the [Error Reference](#error-reference) for every error code."
+            if error_headers_standard:
+                note = (
+                    "Each carries the standard rate-limit headers "
+                    "([Rate Limit Headers](#rate-limit-headers)). " + note
+                )
+            lines.append(note)
+            lines.append("")
+            lines.append(self.helper.format_markdown_table(error_rows, ["Status", "Description", "Schema"]))
+            lines.extend(error_header_lines)
         return lines
 
-    def _render_schema_properties(self, schema: dict[str, Any], heading_level: int = 4) -> str:
+    def _error_schema_cell(self, schema: dict[str, Any]) -> str:
+        """Link an error body schema, or the error variants inside an inline `errors` wrapper."""
+        link = self.helper.schema_link(schema)
+        if link:
+            return link
+        errors_prop = schema.get("properties", {}).get("errors")
+        if isinstance(errors_prop, dict):
+            items = self.helper.normalize_schema(errors_prop.get("items", {}))
+            return f"`errors`: {self.helper.type_cell(items)}"
+        return f"`{self.helper.describe_schema_type(schema)}`"
+
+    def _render_response_headers(self, headers: dict[str, Any] | None) -> list[str]:
+        if not headers:
+            return []
+        if self._is_standard_headers(headers):
+            return [
+                "",
+                "**Response Headers:** the standard rate-limit headers; see "
+                "[Rate Limit Headers](#rate-limit-headers).",
+            ]
+        header_rows = []
+        for header_name, header in headers.items():
+            header_schema = self.helper.normalize_schema(header.get("schema"))
+            header_rows.append(
+                [
+                    f"`{header_name}`",
+                    f"`{self.helper.describe_schema_type(header_schema)}`",
+                    _stringify(header.get("description")).replace("|", "\\|").strip(),
+                ]
+            )
+        return [
+            "",
+            "**Response Headers**",
+            self.helper.format_markdown_table(header_rows, ["Header", "Type", "Description"]),
+        ]
+
+    def _is_standard_headers(self, headers: dict[str, Any] | None) -> bool:
+        return bool(headers) and bool(self._standard_header_names) and frozenset(headers) == self._standard_header_names
+
+    def _find_standard_header_names(self) -> frozenset[str] | None:
+        """The rate-limit header set repeated on most responses, if the intro documents it."""
+        intro = self.ctx.info.get("description") or ""
+        if not any(slugify(title) == "rate-limit-headers" for _, _, title in _heading_positions(intro.split("\n"))):
+            return None
+        counts: Counter[frozenset[str]] = Counter()
+        for path_item in self.ctx.spec.get("paths", {}).values():
+            for op in path_item.values():
+                if not isinstance(op, dict):
+                    continue
+                for response in op.get("responses", {}).values():
+                    headers = self.helper.resolver.deref(response).get("headers")
+                    if headers:
+                        counts[frozenset(headers)] += 1
+        if not counts:
+            return None
+        names, _ = min(counts.items(), key=lambda item: (-item[1], sorted(item[0])))
+        if not all(name.lower().startswith("x-ratelimit-") for name in names):
+            return None
+        return names
+
+    def _render_schema_properties(
+        self,
+        schema: dict[str, Any],
+        heading_level: int = 4,
+        depth: int = 0,
+        link_named_variants: bool = False,
+    ) -> str:
+        """Render a schema's properties.
+
+        Depth 0 is the schema being documented (an operation's request/response body, or a Schema
+        Reference entry) and is always expanded. Nested component schemas are linked to their Schema
+        Reference entry instead of being repeated inline; inline nested objects are still expanded.
+        With ``link_named_variants`` (Schema Reference entries), oneOf/anyOf variants that have their
+        own entry are linked even at depth 0.
+        """
         lines: list[str] = []
 
         def clean_text(raw: str | None) -> str:
             return format_description(raw or "").replace("\n", " ").strip()
+
+        def linked_only(child: dict[str, Any]) -> bool:
+            return bool(self.helper.schema_link(child))
+
         if "x-recursive-ref" in schema:
-            return f"Recursive reference — see {self.helper.schema_link(schema)}"
+            return f"Recursive reference — see {self.helper.schema_link(schema) or schema.get('title', '')}"
         description = schema.get("description")
         title = schema.get("title", "")
         if description and title:
@@ -618,13 +742,16 @@ class V2MarkdownRenderer:
                 rows.append(
                     [
                         f"`{prop}`",
-                        f"`{self.helper.describe_schema_type(prop_schema)}`",
+                        self.helper.type_cell(prop_schema),
                         "Yes" if prop in required else "No",
                         desc_text.replace("|", "\\|"),
                     ]
                 )
                 child_schema_type = prop_schema.get("type")
                 child_types = set(child_schema_type) if isinstance(child_schema_type, list) else {child_schema_type}
+                items_schema = prop_schema.get("items") if isinstance(prop_schema.get("items"), dict) else None
+                if linked_only(prop_schema) or (items_schema is not None and linked_only(items_schema)):
+                    continue  # the Type column links to the Schema Reference entry
                 if (
                     bool(child_types & {"object", "array"})
                     or "properties" in prop_schema
@@ -634,17 +761,13 @@ class V2MarkdownRenderer:
                     if prop_schema.get("description"):
                         nested_schema = dict(prop_schema)
                         nested_schema.pop("description", None)
-                    nested = self._render_schema_properties(nested_schema, heading_level=heading_level + 1)
+                    nested = self._render_schema_properties(
+                        nested_schema, heading_level=heading_level + 1, depth=depth + 1
+                    )
                     if nested:
                         detail_parts: list[str] = []
-                        link = self.helper.schema_link(prop_schema)
-                        if not link and prop_schema.get("type") == "array" and prop_schema.get("items"):
-                            items_schema = prop_schema["items"]
-                            link = self.helper.schema_link(items_schema)
-                            if not detail_parts and items_schema.get("description"):
-                                detail_parts.append(clean_text(items_schema.get("description")))
-                        if link:
-                            detail_parts.append(f"See {link}")
+                        if items_schema is not None and items_schema.get("description"):
+                            detail_parts.append(clean_text(items_schema.get("description")))
                         elif prop_schema.get("description"):
                             detail_parts.append(clean_text(prop_schema.get("description")))
                         preface = f"**`{prop}` details**"
@@ -655,30 +778,37 @@ class V2MarkdownRenderer:
             lines.append("**Properties**")
             lines.append(self.helper.format_markdown_table(rows, ["Field", "Type", "Required", "Description"]))
         if schema_type == "array" and schema.get("items"):
-            item_schema = self.helper.normalize_schema(schema["items"])
-            item_schema = dict(item_schema)
+            item_schema = dict(self.helper.normalize_schema(schema["items"]))
             item_schema.pop("description", None)
-            nested_sections.append(
-                f"**Items**\n\n{self._render_schema_properties(item_schema, heading_level=heading_level + 1)}"
-            )
+            link = self.helper.schema_link(item_schema)
+            if link and depth > 0:
+                nested_sections.append(f"**Items:** {link}")
+            else:
+                # Items of the documented schema itself count as depth 0.
+                rendered_items = self._render_schema_properties(
+                    item_schema, heading_level=heading_level + 1, depth=depth
+                )
+                if rendered_items:
+                    nested_sections.append(f"**Items**\n\n{rendered_items}")
         if "enum" in schema:
             enum_values = ", ".join(f"`{value}`" for value in schema["enum"])
             lines.append("")
             lines.append(f"Allowed values: {enum_values}")
-        if "oneOf" in schema:
-            for idx, option in enumerate(schema["oneOf"], start=1):
+        for keyword in ("oneOf", "anyOf"):
+            for idx, option in enumerate(schema.get(keyword, []), start=1):
                 variant = self.helper.normalize_schema(option)
-                title = variant.get("title") or f"Option {idx}"
+                variant_title = variant.get(SCHEMA_NAME_KEY) or variant.get("title") or f"Option {idx}"
+                link = self.helper.schema_link(variant)
                 lines.append("")
-                lines.append(f"**Variant:** {title}")
-                lines.append(self._render_schema_properties(variant, heading_level=heading_level + 1))
-        if "anyOf" in schema:
-            for idx, option in enumerate(schema["anyOf"], start=1):
-                variant = self.helper.normalize_schema(option)
-                title = variant.get("title") or f"Option {idx}"
-                lines.append("")
-                lines.append(f"{'#' * heading_level} Variant: {title}")
-                lines.append(self._render_schema_properties(variant, heading_level=heading_level + 1))
+                if link and (depth > 0 or link_named_variants):
+                    lines.append(f"**Variant:** {link}")
+                    continue
+                if variant.get("type") == "null" and not variant.get("properties"):
+                    lines.append("**Variant:** `null`")
+                    continue
+                # Variants of the documented schema itself count as depth 0.
+                lines.append(f"**Variant:** {link or variant_title}")
+                lines.append(self._render_schema_properties(variant, heading_level=heading_level + 1, depth=depth))
         block = "\n".join(line for line in lines if line).strip()
         if nested_sections:
             block = "\n\n".join([block] + nested_sections)
@@ -697,11 +827,8 @@ class V2MarkdownRenderer:
             normalized = self.helper.normalize_schema(schema)
             sections.append("")
             sections.append(f"### {name}")
-            description = normalized.get("description")
-            if description:
-                sections.append("")
-                sections.append(format_description(description))
-            rendered = self._render_schema_properties(normalized, heading_level=4)
+            # _render_schema_properties renders the description itself.
+            rendered = self._render_schema_properties(normalized, heading_level=4, link_named_variants=True)
             if rendered:
                 sections.append("")
                 sections.append(rendered)
@@ -723,9 +850,14 @@ class V2MarkdownRenderer:
         lines = ["## Error Reference", "", "The API returns structured errors with a `code` discriminator."]
         rows = []
         for code, ref in sorted(mapping.items()):
-            rows.append([f"`{code}`", ref.split("/")[-1]])
+            name = ref.split("/")[-1]
+            rows.append([f"`{code}`", f"[{name}]({SCHEMA_ANCHOR_PREFIX}{name})"])
         lines.append(self.helper.format_markdown_table(rows, ["Error Code", "Schema"]))
         return "\n".join(lines)
+
+
+def _is_error_status(status: str) -> bool:
+    return str(status).lower() == "default" or str(status)[:1] in {"4", "5"}
 
 
 def _response_sort_key(item: Tuple[str, Any]) -> Tuple[int, str]:
@@ -800,10 +932,38 @@ def _collect_operation_anchors(markdown: str, anchors_by_line: dict[int, str]) -
 DEVELOPER_SITE_BASE = "https://developer.affinity.co"
 
 
+def _resolve_schema_links(markdown: str) -> str:
+    """Point `#schema:<Name>` placeholders at the real anchor of `### <Name>` in the Schema Reference.
+
+    Heading slugs collide (the guide's "Pagination" section vs. the Pagination schema), so the anchor
+    is taken from the de-duplicated heading inside the Schema Reference, never from slugify(name).
+    Links to schemas without an entry are reduced to their label.
+    """
+    anchors_by_line = _collect_heading_anchors(markdown)
+    lines = markdown.splitlines()
+    schema_anchors: dict[str, str] = {}
+    in_reference = False
+    for idx in sorted(anchors_by_line):
+        line = lines[idx]
+        if line.startswith("## "):
+            in_reference = line.strip() == "## Schema Reference"
+            continue
+        if in_reference and line.startswith("### "):
+            schema_anchors.setdefault(line[4:].strip(), anchors_by_line[idx])
+
+    def replace(match: re.Match[str]) -> str:
+        label, name = match.group(1), match.group(2)
+        anchor = schema_anchors.get(name)
+        return f"[{label}](#{anchor})" if anchor else label
+
+    return re.sub(r"\[([^\]]+)\]\(" + re.escape(SCHEMA_ANCHOR_PREFIX) + r"([^)]+)\)", replace, markdown)
+
+
 def rewrite_v2_markdown_links(markdown: str) -> str:
     """Rewrite Redoc-style anchors into GitHub heading anchors and fix known broken URLs."""
     for old, new in BROKEN_SUPPORT_URL_MAP.items():
         markdown = markdown.replace(old, new)
+    markdown = _resolve_schema_links(markdown)
 
     anchors_by_line = _collect_heading_anchors(markdown)
     anchor_set = set(anchors_by_line.values())
