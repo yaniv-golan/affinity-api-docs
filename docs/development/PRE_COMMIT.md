@@ -10,7 +10,7 @@ This repository uses [pre-commit](https://pre-commit.com/) hooks to ensure code 
 - **End of file** - Ensures files end with newline
 - **YAML validation** - Validates YAML syntax
 - **JSON validation** - Validates JSON syntax
-- **Large files** - Warns on files > 1MB
+- **Large files** - Warns on files > 1MB (except the generated older-version specs in `docs/v2/versions/`)
 - **Merge conflicts** - Detects merge conflict markers
 - **Case conflicts** - Detects case-sensitive filename conflicts
 - **TOML validation** - Validates TOML files
@@ -26,6 +26,7 @@ This repository uses [pre-commit](https://pre-commit.com/) hooks to ensure code 
 
 - **markdownlint** - Validates markdown syntax
 - Checks heading hierarchy, list formatting, code blocks, etc.
+- Skips generated docs: `docs/v1/affinity_api_docs.md`, `docs/v2/affinity_api_docs.md` and the mirrored `docs/v2/pages/*.md` (their structure comes from upstream)
 
 ### YAML Linting
 

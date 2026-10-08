@@ -28,12 +28,11 @@ This repository's v2 copy is mainly a **change history**: the daily sync diffs s
 
 ## Purpose
 
-The original Affinity API documentation is hosted on dynamic, interactive websites that can be challenging to work with when using AI coding assistants, documentation parsers, or other automated tools. This repository provides:
+Affinity's v1 documentation is a single interactive HTML page with no Markdown or `llms.txt` version, which is hard to use from AI coding assistants, parsers and other tools. For v2, Affinity now publishes AI-ready docs itself (see above), so this repository's v2 copy focuses on tracking changes. This repository provides:
 
-- **Static markdown format** that's easier to search, parse, and reference
-- **Better compatibility** with AI coding assistants and language models
-- **Offline access** to API documentation
-- **Version control** to track changes and updates over time
+- **v1 as static Markdown** that's easy to search, parse and reference, and works with AI coding assistants
+- **A daily change history of both APIs:** every upstream change arrives as a sync PR, and git history shows what changed and when (including the locked v2 versions)
+- **GitHub-viewable v2 copies:** the rendered reference, the OpenAPI specs for all three versions, and Affinity's versioning and changelog pages
 - **Direct raw access** via GitHub raw URLs for programmatic use
 - **llms.txt format** - Standardized index format for LLM/IDE integration
 
@@ -180,25 +179,33 @@ affinity-api-docs/
 │   │   └── affinity_api_docs.md        # Auto-generated canonical doc
 │   ├── v2/               # API v2 documentation
 │   │   ├── affinity_api_docs.md        # Auto-generated canonical doc
-│   │   └── openapi.json                # Auto-generated OpenAPI spec
+│   │   ├── openapi.json                # Auto-generated OpenAPI spec (current version)
+│   │   ├── versions/                   # Auto-generated specs of the older, locked versions
+│   │   └── pages/                      # Auto-generated Versioning, Previous Changes, Version Migration
 │   └── development/      # Development documentation
+│       ├── PRE_COMMIT.md # Pre-commit guide
 │       ├── TESTING.md    # Testing guide
 │       └── TEST_RESULTS.md  # Test results
 │   └── (local only) docs/internal/     # Gitignored planning notes (kept outside repo)
 ├── tools/
-│   └── v1_sync_pipeline/
-│       ├── sync_v1_docs.py
-│       └── qa/
-│           ├── check_links.py
-│           └── compare_to_live.py
+│   ├── v1_sync_pipeline/
+│   │   ├── sync_v1_docs.py
+│   │   └── qa/
+│   │       ├── check_links.py
+│   │       └── compare_to_live.py
+│   └── v2_sync_pipeline/
+│       ├── sync_v2_docs.py      # v2 sync entry point
+│       ├── openapi_loader.py    # Current + locked-version spec downloads
+│       ├── markdown_renderer.py # OpenAPI → markdown
+│       └── site_pages.py        # Versioning/changelog page mirroring
 ├── tests/                # Test suite (pytest)
 │   ├── README.md         # Test documentation
 │   ├── conftest.py      # Pytest fixtures
-│   ├── test_documentation_updates.py  # Main test suite
+│   ├── test_documentation_updates.py  # v1 + repository tests
+│   ├── test_v2_sync_pipeline.py       # v2 pipeline tests
 │   ├── test-local.sh    # Legacy test script
 │   ├── test-edge-cases.sh  # Legacy test script
-│   ├── test-production-scenarios.sh  # Legacy test script
-│   └── test-realistic-scenarios.py  # Legacy test script
+│   └── test-production-scenarios.sh  # Legacy test script
 ├── pytest.ini           # Pytest configuration
 ├── .pre-commit-config.yaml  # Pre-commit hooks configuration
 ├── .markdownlint.json    # Markdown linting rules
@@ -206,7 +213,6 @@ affinity-api-docs/
 ├── pyproject.toml        # Python tooling configuration
 ├── LICENSE               # MIT License
 ├── CONTRIBUTING.md       # Contribution guidelines
-├── internal_docs/        # Planning + reports
 └── tmp/                  # Gitignored snapshots/artifacts
 ```
 

@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_No changes yet._
+### Changed
+
+- README "Purpose", repository trees (README, AGENTS.md) and the pre-commit guide reflect the v2 change-tracking role, `docs/v2/versions/`, `docs/v2/pages/` and the v2 pipeline modules; removed entries for files that no longer exist.
 
 ## [2.3.0] - 2026-10-08
 

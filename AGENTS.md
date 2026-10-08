@@ -70,8 +70,10 @@ affinity-api-docs/
 │   ├── v1/
 │   │   └── affinity_api_docs.md          # auto-generated canonical doc
 │   ├── v2/
-│   │   └── affinity_api_docs.md          # auto-generated canonical doc
-│   │   └── openapi.json                  # auto-generated OpenAPI spec
+│   │   ├── affinity_api_docs.md          # auto-generated canonical doc
+│   │   ├── openapi.json                  # auto-generated OpenAPI spec (current version)
+│   │   ├── versions/                     # auto-generated specs of older, locked versions
+│   │   └── pages/                        # auto-generated versioning/changelog pages
 │   └── development/
 ├── tools/
 │   └── v1_sync_pipeline/
@@ -82,7 +84,8 @@ affinity-api-docs/
 │   └── v2_sync_pipeline/
 │       ├── sync_v2_docs.py               # v2 production sync pipeline
 │       ├── openapi_loader.py
-│       └── markdown_renderer.py
+│       ├── markdown_renderer.py
+│       └── site_pages.py
 ├── .github/
 │   ├── workflows/
 │   │   ├── check-docs-updates.yml        # daily sync + auto-PR
@@ -94,13 +97,13 @@ affinity-api-docs/
 │   ├── test_documentation_updates.py
 │   └── test_v2_sync_pipeline.py
 ├── tmp/ (gitignored artifacts: snapshots, extracted blocks, comparisons)
-└── internal_docs/ … (project reports & planning)
+└── docs/internal/ (gitignored, local-only planning notes)
 ```
 
 ## Important Notes
 
 - `docs/v1/affinity_api_docs.md` and `docs/v2/affinity_api_docs.md` are generated—**editing them manually will be reverted** the next time the pipelines run.
-- `docs/v2/openapi.json` is generated—**editing it manually will be reverted** the next time the v2 pipeline runs.
+- `docs/v2/openapi.json`, `docs/v2/versions/*.json` and `docs/v2/pages/*.md` are generated—**editing them manually will be reverted** the next time the v2 pipeline runs.
 - `docs/internal/` is gitignored on purpose—keep planning/rollout notes there locally without committing them.
 - The sync header clearly states the unofficial nature of this copy; always cross-check with https://api-docs.affinity.co/.
 - `llms.txt` spells out the guardrails for AI assistants—review it before delegating tasks to LLMs.
