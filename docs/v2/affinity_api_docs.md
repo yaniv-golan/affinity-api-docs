@@ -28,7 +28,7 @@ This markdown version of the Affinity API v2 documentation was generated automat
 
 > **Note:** The live site renders dynamic multi-language request/response samples in-browser. Because those snippets are generated at runtime and are not embedded in the OpenAPI payload, they cannot be mirrored here. Refer to https://developer.affinity.co/ for the full interactive samples.
 
-**Documentation Version:** This copy is based on the official documentation as it appeared on **October 06, 2026 at 17:12:39 UTC** (Last updated: 10/06/2026 17:12:39 UTC).
+**Documentation Version:** This copy is based on the official documentation as it appeared on **October 08, 2026 at 17:10:11 UTC** (Last updated: 10/08/2026 17:10:11 UTC).
 **Snapshot:** Captured HTML `openapi.json` (archived with the sync artifacts for QA).
 
 > **⚠️ Use at Your Own Risk**
@@ -245,6 +245,8 @@ This markdown version of the Affinity API v2 documentation was generated automat
   - [Teams](#teams)
     - [Get metadata on all Teams](#get-metadata-on-all-teams)
     - [Get metadata on a single Team](#get-metadata-on-a-single-team)
+    - [Get all Lists a Team has access to](#get-all-lists-a-team-has-access-to)
+    - [Get all members of a Team](#get-all-members-of-a-team)
   - [Transcripts](#transcripts)
     - [Get all Transcripts](#get-all-transcripts)
     - [Delete a single Transcript](#delete-a-single-transcript)
@@ -481,9 +483,11 @@ This markdown version of the Affinity API v2 documentation was generated automat
     - [SemanticSearchResult](#semanticsearchresult)
     - [ServerError](#servererror)
     - [Team](#team)
+    - [TeamAccessibleListsPaged](#teamaccessiblelistspaged)
     - [TeamAccessibleListsPreview](#teamaccessiblelistspreview)
     - [TeamBase](#teambase)
     - [TeamMember](#teammember)
+    - [TeamMemberPaged](#teammemberpaged)
     - [TeamMembersPreview](#teammemberspreview)
     - [TeamPaged](#teampaged)
     - [Tenant](#tenant)
@@ -11288,6 +11292,197 @@ Each carries the standard rate-limit headers ([Rate Limit Headers](#rate-limit-h
 | `404` | Not Found | [NotFoundErrors](#notfounderrors) |
 | `default` | Errors | [Errors](#errors) |
 
+### Get all Lists a Team has access to
+`GET /v2/teams/{teamId}/accessible-lists`
+
+- **Tag:** Teams · **OperationId:** v2_teams_teamId_accessible-lists__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
+
+Paginate through all Lists this Team has been granted access to.
+
+This endpoint backs the `accessibleListsPreview` returned by `GET /v2/teams/{teamId}?includes=accessibleListsPreview`.
+
+#### Path Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `teamId` | `integer<int64>` | Yes | Team ID |
+
+#### Query Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `cursor` | `string` | No | Cursor for the next or previous page |
+| `limit` | `integer<int32>` | No | Number of items to include in the page |
+| `totalCount` | `boolean` | No | Include total count of the collection in the pagination response |
+
+#### Example Request
+
+```bash
+curl --request GET 'https://api.affinity.co/v2/teams/{teamId}/accessible-lists' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+#### Responses
+
+##### 200 — application/json
+
+OK
+
+**Response schema (`application/json`):**
+###### Schema: TeamAccessibleListsPaged
+*Type:* object
+A page of Lists a Team has access to
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` ([ListWithType](#listwithtype)) | Yes | A page of ListWithType results |
+| `pagination` | `object` ([PaginationWithTotalCount](#paginationwithtotalcount)) | Yes |  |
+
+Example: success
+
+```json
+{
+  "data": [
+    {
+      "createdAt": "2024-02-10T11:00:00Z",
+      "creatorId": 1,
+      "id": 9,
+      "isPublic": false,
+      "name": "2026 Pipeline",
+      "ownerId": 1,
+      "type": "company"
+    },
+    {
+      "createdAt": "2024-02-14T16:30:00Z",
+      "creatorId": 1,
+      "id": 14,
+      "isPublic": true,
+      "name": "Strategic Partners",
+      "ownerId": 1,
+      "type": "company"
+    },
+    {
+      "createdAt": "2024-03-01T09:15:00Z",
+      "creatorId": 1,
+      "id": 27,
+      "isPublic": false,
+      "name": "Active Founders",
+      "ownerId": 1,
+      "type": "person"
+    }
+  ],
+  "pagination": {
+    "nextUrl": "https://api.affinity.co/v2/teams/42/accessible-lists?cursor=YWZ0ZXI6OjoyNw",
+    "prevUrl": null
+  }
+}
+```
+
+**Response Headers:** the standard rate-limit headers; see [Rate Limit Headers](#rate-limit-headers).
+
+##### Error responses
+
+Each carries the standard rate-limit headers ([Rate Limit Headers](#rate-limit-headers)). See the [Error Reference](#error-reference) for every error code.
+
+| Status | Description | Schema |
+| --- | --- | --- |
+| `400` | Bad Request | `errors`: [BadRequestError](#badrequesterror) \| [ValidationError](#validationerror) |
+| `404` | Not Found | [NotFoundErrors](#notfounderrors) |
+| `default` | Errors | [Errors](#errors) |
+
+### Get all members of a Team
+`GET /v2/teams/{teamId}/members`
+
+- **Tag:** Teams · **OperationId:** v2_teams_teamId_members__GET · **Stability:** `beta` · **Auth:** bearerAuth
+
+> **⚠️ This endpoint is currently in BETA**
+
+
+Paginate through all members of a specific Team.
+
+This endpoint backs the `membersPreview` returned by `GET /v2/teams/{teamId}?includes=membersPreview`.
+
+#### Path Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `teamId` | `integer<int64>` | Yes | Team ID |
+
+#### Query Parameters
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| `cursor` | `string` | No | Cursor for the next or previous page |
+| `limit` | `integer<int32>` | No | Number of items to include in the page |
+| `totalCount` | `boolean` | No | Include total count of the collection in the pagination response |
+
+#### Example Request
+
+```bash
+curl --request GET 'https://api.affinity.co/v2/teams/{teamId}/members' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+#### Responses
+
+##### 200 — application/json
+
+OK
+
+**Response schema (`application/json`):**
+###### Schema: TeamMemberPaged
+*Type:* object
+A page of TeamMembers
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` ([TeamMember](#teammember)) | Yes | A page of TeamMember results |
+| `pagination` | `object` ([PaginationWithTotalCount](#paginationwithtotalcount)) | Yes |  |
+
+Example: success
+
+```json
+{
+  "data": [
+    {
+      "addedAt": "2024-03-02T09:00:00Z",
+      "id": 1001,
+      "user": {
+        "emailAddress": "allie@acme.co",
+        "firstName": "Allie",
+        "id": 88,
+        "lastName": "Cho"
+      }
+    },
+    {
+      "addedAt": "2024-03-15T14:32:00Z",
+      "id": 1002,
+      "user": {
+        "emailAddress": "bao@acme.co",
+        "firstName": "Bao",
+        "id": 91,
+        "lastName": "Nguyen"
+      }
+    }
+  ],
+  "pagination": {
+    "nextUrl": "https://api.affinity.co/v2/teams/42/members?cursor=YWZ0ZXI6OjoxMDAy",
+    "prevUrl": null
+  }
+}
+```
+
+**Response Headers:** the standard rate-limit headers; see [Rate Limit Headers](#rate-limit-headers).
+
+##### Error responses
+
+Each carries the standard rate-limit headers ([Rate Limit Headers](#rate-limit-headers)). See the [Error Reference](#error-reference) for every error code.
+
+| Status | Description | Schema |
+| --- | --- | --- |
+| `400` | Bad Request | `errors`: [BadRequestError](#badrequesterror) \| [ValidationError](#validationerror) |
+| `404` | Not Found | [NotFoundErrors](#notfounderrors) |
+| `default` | Errors | [Errors](#errors) |
+
 ## Transcripts
 
 Operations about transcripts
@@ -13734,6 +13929,13 @@ A Team. Opt-in properties are controlled by the `includes` query parameter.
 | `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`, `no-access`)` | No | Visibility policy applied to interactions belonging to this team's members. `share-subjects-bodies` exposes all interactions; `share-subjects` exposes a selective subset; `hide-subjects-bodies` hides interaction content but exposes metadata; `no-access` exposes no interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization; omitted from the response otherwise. |
 | `createdAt` | `string<date-time>` | Yes | Timestamp when the team was created |
 | `updatedAt` | `string/null<date-time>` | Yes | Timestamp when the team was last updated, or null if never updated |
+### TeamAccessibleListsPaged
+A page of Lists a Team has access to
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` ([ListWithType](#listwithtype)) | Yes | A page of ListWithType results |
+| `pagination` | `object` ([PaginationWithTotalCount](#paginationwithtotalcount)) | Yes |  |
 ### TeamAccessibleListsPreview
 Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`.
 **Properties**
@@ -13760,6 +13962,13 @@ A single member of a team
 | `user` | `object` ([User](#user)) | Yes |  |
 | `privacyType` | `string (enum: `share-subjects-bodies`, `share-subjects`, `hide-subjects-bodies`)` | No | Per-member privacy override controlling visibility of this member's interactions. Only returned when the caller has the "Manage Teams" [permission](https://developer.affinity.co/pages/external-api-v2/permissions) and the organization has team-based privacy controls enabled; omitted from the response otherwise. |
 | `addedAt` | `string<date-time>` | Yes | Timestamp when the user was added to the team |
+### TeamMemberPaged
+A page of TeamMembers
+**Properties**
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `array<object> (≤ 100 items)` ([TeamMember](#teammember)) | Yes | A page of TeamMember results |
+| `pagination` | `object` ([PaginationWithTotalCount](#paginationwithtotalcount)) | Yes |  |
 ### TeamMembersPreview
 Preview of the team's members. Only included when `membersPreview` is requested via the `includes` query parameter. `totalCount` is the total number of members on the team; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/members`.
 **Properties**
