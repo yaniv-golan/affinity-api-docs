@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Daily sync crashed in the v1 pipeline (`SelectorSyntaxError: Invalid character 'd'` on `div.content`) after soupsieve 3.0 was released; `requirements-ci.txt` now pins `soupsieve<3`, since soupsieve 3.0/3.0.1 break BeautifulSoup selectors on the pinned Python 3.11.4 and 3.0.2 needs Python 3.11.5+.
+
 ### Changed
 
 - README "Purpose", repository trees (README, AGENTS.md) and the pre-commit guide reflect the v2 change-tracking role, `docs/v2/versions/`, `docs/v2/pages/` and the v2 pipeline modules; removed entries for files that no longer exist.
