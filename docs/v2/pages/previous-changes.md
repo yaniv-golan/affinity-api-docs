@@ -4,6 +4,17 @@
 
 # Previous Changes
 
+## October 7th, 2026
+
+* Added the following endpoints in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| GET | `/v2/teams` | Get metadata on all Teams |
+| GET | `/v2/teams/{teamId}` | Get metadata on a single Team |
+| GET | `/v2/teams/{teamId}/members` | Get all members of a Team |
+| GET | `/v2/teams/{teamId}/accessible-lists` | Get all Lists a Team has access to |
+
 ## October 2nd, 2026
 
 * The following endpoints now return `400` for a malformed or non-dropdown `fieldId`. They return
