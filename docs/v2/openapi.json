@@ -10468,6 +10468,75 @@
           }
         }
       },
+      "success-4": {
+        "value": {
+          "data": [
+            {
+              "createdAt": "2024-02-10T11:00:00Z",
+              "creatorId": 1,
+              "id": 9,
+              "isPublic": false,
+              "name": "2026 Pipeline",
+              "ownerId": 1,
+              "type": "company"
+            },
+            {
+              "createdAt": "2024-02-14T16:30:00Z",
+              "creatorId": 1,
+              "id": 14,
+              "isPublic": true,
+              "name": "Strategic Partners",
+              "ownerId": 1,
+              "type": "company"
+            },
+            {
+              "createdAt": "2024-03-01T09:15:00Z",
+              "creatorId": 1,
+              "id": 27,
+              "isPublic": false,
+              "name": "Active Founders",
+              "ownerId": 1,
+              "type": "person"
+            }
+          ],
+          "pagination": {
+            "nextUrl": "https://api.affinity.co/v2/teams/42/accessible-lists?cursor=YWZ0ZXI6OjoyNw",
+            "prevUrl": null
+          }
+        }
+      },
+      "success-5": {
+        "description": "Typical response when the caller's role or organization does not satisfy the per-member `privacyType` gate. `privacyType` is omitted from each member. When the caller has the \"Manage Teams\" [permission](/pages/external-api-v2/permissions), the organization has team-based privacy controls enabled, and cross-team visibility is enabled for the organization, each member gains a `privacyType` enum value.",
+        "summary": "Default response (caller without the privacy-type gate)",
+        "value": {
+          "data": [
+            {
+              "addedAt": "2024-03-02T09:00:00Z",
+              "id": 1001,
+              "user": {
+                "emailAddress": "allie@acme.co",
+                "firstName": "Allie",
+                "id": 88,
+                "lastName": "Cho"
+              }
+            },
+            {
+              "addedAt": "2024-03-15T14:32:00Z",
+              "id": 1002,
+              "user": {
+                "emailAddress": "bao@acme.co",
+                "firstName": "Bao",
+                "id": 91,
+                "lastName": "Nguyen"
+              }
+            }
+          ],
+          "pagination": {
+            "nextUrl": "https://api.affinity.co/v2/teams/42/members?cursor=YWZ0ZXI6OjoxMDAy",
+            "prevUrl": null
+          }
+        }
+      },
       "success-6": {
         "description": "Example response for transcripts.",
         "value": {
@@ -19510,6 +19579,29 @@
         "type": "object",
         "unevaluatedProperties": false
       },
+      "TeamAccessibleListsPaged": {
+        "additionalProperties": false,
+        "description": "A page of Lists a Team has access to",
+        "properties": {
+          "data": {
+            "description": "A page of ListWithType results",
+            "items": {
+              "$ref": "#/components/schemas/ListWithType"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationWithTotalCount"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "TeamAccessibleListsPaged",
+        "type": "object"
+      },
       "TeamAccessibleListsPreview": {
         "additionalProperties": false,
         "description": "Preview of the Lists this team has access to. Only included when `accessibleListsPreview` is requested via the `includes` query parameter. `totalCount` is the total number of Lists this team can access; full data is available via the paginated endpoint `GET /v2/teams/{teamId}/accessible-lists`.",
@@ -19646,6 +19738,29 @@
           "user"
         ],
         "title": "TeamMember",
+        "type": "object"
+      },
+      "TeamMemberPaged": {
+        "additionalProperties": false,
+        "description": "A page of TeamMembers",
+        "properties": {
+          "data": {
+            "description": "A page of TeamMember results",
+            "items": {
+              "$ref": "#/components/schemas/TeamMember"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationWithTotalCount"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "TeamMemberPaged",
         "type": "object"
       },
       "TeamMembersPreview": {
@@ -35195,6 +35310,208 @@
           "Teams"
         ],
         "x-operation-type": "retrieval-single",
+        "x-stability-level": "beta"
+      }
+    },
+    "/v2/teams/{teamId}/accessible-lists": {
+      "get": {
+        "description": "| \u26a0\ufe0f  This endpoint is currently in BETA |\n|--|\n\nPaginate through all Lists this Team has been granted access to.\n\nThis endpoint backs the `accessibleListsPreview` returned by `GET /v2/teams/{teamId}?includes=accessibleListsPreview`.\n",
+        "operationId": "v2_teams_teamId_accessible-lists__GET",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "teamId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "maximum": 9007199254740991,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for the next or previous page",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to include in the page",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Include total count of the collection in the pagination response",
+            "in": "query",
+            "name": "totalCount",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-4"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/TeamAccessibleListsPaged"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "x-ratelimit-limit-org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "x-ratelimit-limit-org-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "x-ratelimit-limit-org-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "x-ratelimit-limit-user": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "x-ratelimit-limit-user-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "x-ratelimit-limit-user-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get all Lists a Team has access to",
+        "tags": [
+          "Teams"
+        ],
+        "x-operation-type": "retrieval-multiple",
+        "x-stability-level": "beta"
+      }
+    },
+    "/v2/teams/{teamId}/members": {
+      "get": {
+        "description": "| \u26a0\ufe0f  This endpoint is currently in BETA |\n|--|\n\nPaginate through all members of a specific Team.\n\nThis endpoint backs the `membersPreview` returned by `GET /v2/teams/{teamId}?includes=membersPreview`.\n",
+        "operationId": "v2_teams_teamId_members__GET",
+        "parameters": [
+          {
+            "description": "Team ID",
+            "in": "path",
+            "name": "teamId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "maximum": 9007199254740991,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for the next or previous page",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to include in the page",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Include total count of the collection in the pagination response",
+            "in": "query",
+            "name": "totalCount",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "$ref": "#/components/examples/success-5"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMemberPaged"
+                }
+              }
+            },
+            "description": "OK",
+            "headers": {
+              "x-ratelimit-limit-org": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org"
+              },
+              "x-ratelimit-limit-org-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Remaining"
+              },
+              "x-ratelimit-limit-org-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-Org-Reset"
+              },
+              "x-ratelimit-limit-user": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User"
+              },
+              "x-ratelimit-limit-user-remaining": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Remaining"
+              },
+              "x-ratelimit-limit-user-reset": {
+                "$ref": "#/components/headers/X-Ratelimit-Limit-User-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "default": {
+            "$ref": "#/components/responses/default"
+          }
+        },
+        "summary": "Get all members of a Team",
+        "tags": [
+          "Teams"
+        ],
+        "x-operation-type": "retrieval-multiple",
         "x-stability-level": "beta"
       }
     },
