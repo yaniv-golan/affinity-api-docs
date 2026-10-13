@@ -11,5 +11,5 @@ pre-commit>=3.5.0
 black>=25.9.0
 isort>=5.13.0
 ruff>=0.1.9
-yamllint>=1.33.0
+yamllint>=1.38.0
 # Note: markdownlint-cli is installed via pre-commit hooks (Node.js tool)
