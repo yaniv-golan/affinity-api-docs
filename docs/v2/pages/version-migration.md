@@ -6,15 +6,15 @@
 
 Affinity API v2 uses date-based versioning: breaking changes are introduced only in new versions,
 so your existing integrations remain stable on the version they were created against. Beta endpoints
-are an exception — see [Beta Endpoints](https://developer.affinity.co/pages/external-api-v2/beta-endpoints), where breaking
+are an exception — see [Beta Endpoints](https://developer.affinity.co/pages/external-api-v2/beta-endpoints.md), where breaking
 changes may occur without notice or versioning.
 
 For how an app's default version is set and overridden per request, see
-[Versioning](versioning.md). This page lists the migration steps, if any,
+[Versioning](https://developer.affinity.co/pages/external-api-v2/versioning.md). This page lists the migration steps, if any,
 required to adopt each version.
 
 For additive, non-breaking changes (new endpoints, new response properties, and other improvements
-within a version), see [Previous Changes](previous-changes.md).
+within a version), see [Previous Changes](https://developer.affinity.co/pages/changelog/previous-changes.md).
 
 ## 2024-01-01
 

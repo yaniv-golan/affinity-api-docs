@@ -15,6 +15,15 @@
 | GET | `/v2/teams/{teamId}/members` | Get all members of a Team |
 | GET | `/v2/teams/{teamId}/accessible-lists` | Get all Lists a Team has access to |
 
+## October 5th, 2026
+
+* Added the following endpoints in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| GET | `/v2/files` | Get all Files |
+| GET | `/v2/files/{fileId}` | Get a single File |
+
 ## October 2nd, 2026
 
 * The following endpoints now return `400` for a malformed or non-dropdown `fieldId`. They return
@@ -24,6 +33,23 @@
 | - | - | - |
 | GET | `/v2/companies/fields/{fieldId}/dropdown-options` | Get dropdown options for a Company Field |
 | GET | `/v2/persons/fields/{fieldId}/dropdown-options` | Get dropdown options for a Person Field |
+
+## September 29th, 2026
+
+* Added the following endpoint in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| DELETE | `/v2/transcripts/{transcriptId}` | Delete a single Transcript |
+
+## September 28th, 2026
+
+* Added the following endpoints in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| POST | `/v2/opportunities/{opportunityId}` | Update an Opportunity |
+| DELETE | `/v2/opportunities/{opportunityId}` | Delete an Opportunity |
 
 ## September 23rd, 2026
 
@@ -37,6 +63,14 @@
 | GET | `/v2/persons/{personId}/fields/{fieldId}` | Get a single field on a Person |
 | GET | `/v2/lists/{listId}/list-entries/{listEntryId}/fields` | Get field values on a single List Entry |
 | GET | `/v2/lists/{listId}/list-entries/{listEntryId}/fields/{fieldId}` | Get a single field value on a List Entry |
+
+## September 22nd, 2026
+
+* Added the following endpoint in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| POST | `/v2/lists/{listId}/list-entries` | Add a List Entry to a List |
 
 ## September 18th, 2026
 
@@ -55,7 +89,7 @@ To use this version, set the `X-Affinity-Api-Version: 2026-09-17` header on your
 update the Default API Version on your API key in **Settings > Manage Apps**. You can also update
 existing keys to use the new version when you're ready to switch.
 
-[Learn more about Versioning](versioning.md)
+[Learn more about Versioning](https://developer.affinity.co/pages/external-api-v2/versioning.md)
 
 ### Breaking changes
 
@@ -128,6 +162,16 @@ Added the following endpoints in Beta, for paginating through all values of a mu
 | - | - | - |
 | GET | `/v2/duplicates/company-suggestions` | Get All Company Duplicate Suggestions |
 | GET | `/v2/duplicates/person-suggestions` | Get All Person Duplicate Suggestions |
+| POST | `/v2/persons` | Create a Person |
+| DELETE | `/v2/persons/{personId}` | Delete a Person |
+
+## September 14th, 2026
+
+* Added the following endpoint in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| GET | `/v2/rate-limit` | Get rate limit usage |
 
 ## September 11th, 2026
 
@@ -148,6 +192,14 @@ Added the following endpoints in Beta, for paginating through all values of a mu
 | POST | `/v2/webhooks/{webhookId}` | Update a Webhook |
 | DELETE | `/v2/webhooks/{webhookId}` | Delete a Webhook |
 
+## September 1st, 2026
+
+* Added the following endpoint in Beta:
+
+| Method | URL | Summary |
+| - | - | - |
+| GET | `/v2/meetings/{meetingId}` | Get a single Meeting |
+
 ## August 5th, 2026
 
 * Added the following endpoints in Beta:
@@ -166,7 +218,7 @@ To use this version, set the `X-Affinity-Api-Version: 2026-07-15` header on your
 update the Default API Version on your API key in **Settings > Manage Apps**. You can also update
 existing keys to use the new version when you're ready to switch.
 
-[Learn more about Versioning](versioning.md)
+[Learn more about Versioning](https://developer.affinity.co/pages/external-api-v2/versioning.md)
 
 ### Breaking changes
 
@@ -503,7 +555,7 @@ data within date fields.
   applications, and to identify founders and companies that need investors' attention.
 * Endpoints that previously required a `fieldIds` parameter to return field data, now accept either
   `fieldIds` or `fieldTypes`, and will return field data accordingly. See the
-  [Specifying Desired Fields (Field Selection)](https://developer.affinity.co/pages/data-model/working-with-field-data) section
+  [Specifying Desired Fields (Field Selection)](https://developer.affinity.co/pages/data-model/working-with-field-data.md) section
   of these docs for more information. The new `fieldTypes` parameter should make field data
   retrieval easier for users looking to pull data from many similar Fields at a time.
 
@@ -516,5 +568,5 @@ data within date fields.
 ## December 12, 2023
 
 * Added the ability to retrieve metadata (e.g. ID, name, type, enrichment source, and data type) on
-  Fields. See the [Retrieving Field Metadata](https://developer.affinity.co/pages/data-model/working-with-field-data) section
+  Fields. See the [Retrieving Field Metadata](https://developer.affinity.co/pages/data-model/working-with-field-data.md) section
   of these docs for more information.

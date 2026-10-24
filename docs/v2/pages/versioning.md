@@ -12,7 +12,7 @@ The current available versions are:
 
 * **2026-09-17** - The new current stable version of the v2 API. Introduces breaking changes around
   relative date filters, `is-between` bounds validation, new field types, and AI Notetaker
-  transcript IDs. See the [changelog](version-migration.md) for full details.
+  transcript IDs. See the [changelog](https://developer.affinity.co/pages/changelog/version-migration.md) for full details.
 * **2026-07-15** - A previous stable version of the v2 API. This version is now locked and will not
   receive further changes.
 * **2024-01-01** - A previous stable version of the v2 API. This version is now locked and will not

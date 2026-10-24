@@ -4433,7 +4433,7 @@
           }
         }
       },
-      "default-6": {
+      "default-10": {
         "description": "Example response for GET /v2/persons/fields.",
         "value": {
           "data": [
@@ -32663,7 +32663,7 @@
               "application/json": {
                 "examples": {
                   "default": {
-                    "$ref": "#/components/examples/default-6"
+                    "$ref": "#/components/examples/default-10"
                   },
                   "filterability-sortability": {
                     "$ref": "#/components/examples/filterability-sortability-2"
